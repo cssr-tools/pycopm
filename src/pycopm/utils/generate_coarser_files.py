@@ -17,7 +17,7 @@ import pandas as pd
 def create_deck(dic):
     """Dry run to generate the files"""
     dic["flags"] = "--parsing-strictness=low --enable-dry-run=true"
-    os.system(f"{dic['flow']} {dic['deck']}.DATA {dic["flags"]} & wait\n")
+    os.system(f"{dic['flow']} {dic['deck']}.DATA {dic['flags']} & wait\n")
 
     # Read the data
     dic["field"] = "generic"
@@ -64,7 +64,7 @@ def create_deck(dic):
     write_props(dic)
     process_the_deck(dic)
     with open(
-        f"{dic['exe']}/{dic['fol']}/{dic["deck"].upper()}_pycopm.DATA",
+        f"{dic['exe']}/{dic['fol']}/{dic['deck'].upper()}_PYCOPM.DATA",
         "w",
         encoding="utf8",
     ) as file:
