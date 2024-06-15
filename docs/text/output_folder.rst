@@ -2,8 +2,7 @@
 Output folder
 =============
 
-The following screenshot shows the generated ERT configuration file and folders in the selected output folder after executing **pycopm**
-in the .
+The following screenshot shows the generated ERT configuration file and folders in the selected output folder after executing **pycopm**.
 
 .. figure:: figs/output.png
 
