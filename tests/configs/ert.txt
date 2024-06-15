@@ -1,0 +1,68 @@
+"""Set the full path to the flow executable"""
+flow
+
+"""Delete files with this suffix to save storage"""
+
+
+"""Set the model parameters"""
+norne  #Geological model (norne or drogon)
+ert #Type of study to run (single-run or ert)
+[0 2 1 2 2 0 2 0 2 0 2 0 2 2 0 2 0 2 2 0 2 1 2 2
+ 0 2 1 2 2 0 2 1 2 0 2 1 2 2 0 2 2 0 2 2 2 2 0] #Vector of x-coersing
+[0 2 1 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2
+ 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1
+ 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2 0 2 1 2 2 0 2 1
+ 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2 0 2 0 2 0 2 0 2
+ 0 2 0 2 0 2 0 2 2 2 2 2 2 2 2 2 0] #Vector of y-coersing
+[0 0 2 0 0 2 2 2 2 2 1 2 2 2 2 2 0 0 2 1 2 2 0 0 0 0 0 0 0 0 0 0] #Vector of z-coersing
+2 #Number of ensembles
+2 #Maximum number of ensembles running in parallel
+1 #Number of mpi processes to run flow
+600 #Maximum runtime in seconds of a realization. A value of 0 means unlimited runtime. 
+2 #Minimum number of realizations that must have succeeded for the simulation to be regarded as a success.
+7 #Set a specific seed for reproducibility. A value of 0 means no seed.  
+observations_training #Name of the observation file for the hm ('observations_training', 'observations_test', or 'observations_complete')
+0 #Select which coarser deck to use: 0 -> default one or 1 -> LET sat functions
+1 #For norne: for the LET coarser deck, select: 0 -> SATNUM=1, 1 -> SATNUM is computed from Sandve et al 2022, 2 -> #SATNUM=#Cells.  
+0 #0 -> no corrections for lost PV, 1 -> correct it on the cell boundaries, 2 -> account it on the porosity on all cells
+0 #Initialization 0 -> Equil 1->INIT from fine-scale
+0.1 0.1 0.1 #Error WWPR, WOPR, and WGPR
+100 100 100000 #Minimum error of WWPR, WOPR, and WGPR
+2005-03-01 #Last date to HM
+
+"""Set the command lines for the ert executable (gui, test_run, ensemble_experiment, ensemble_smoother, iterative_ensemble_smoother, and es_mda)"""
+"""Command, value"""
+es_mda
+weights 1
+
+"""Set the flags for the flow executable"""
+"""Parameter flag, value"""
+enable-opm-rst-file true
+newton-min-iterations 1
+
+"""Properties LET saturation functions"""
+"""name, value, use dist in hm?, dist, distpara, distpara"""
+lw    3.  1 UNIFORM 1.1 5.
+ew    1.  1 UNIFORM -1. 2. 
+tw    3.  1 UNIFORM 1.1 5. 
+lo    3.  1 UNIFORM 1.1 5. 
+eo    1.  1 UNIFORM -1. 2. 
+to    3.  1 UNIFORM 1.1 5. 
+lg    3.  1 UNIFORM 1.1 5. 
+eg    1.  1 UNIFORM -1. 2. 
+tg    3.  1 UNIFORM 1.1 5. 
+log   3.  1 UNIFORM 1.1 5. 
+eog   1.  1 UNIFORM -1. 2. 
+tog   1.  1 UNIFORM 1.1 5. 
+lmlto 1.5 1 UNIFORM 1.  2. 
+emlto 1.  1 UNIFORM 0.9 2.1 
+tmlto 1.5 1 UNIFORM 1.  2. 
+lmltg 1.5 1 UNIFORM 1.  2. 
+emltg 1.  1 UNIFORM 0.9 2.1 
+tmltg 1.5 1 UNIFORM 1.  2. 
+
+"""Coarser rock properties"""
+"""name, use dist in hm?, coarsing approach (max or mean)"""
+PERMX 1 max
+PERMY 0 max
+PERMZ 0 max

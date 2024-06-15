@@ -1,0 +1,12 @@
+HISTORY_OBSERVATION WOPR:A1 { ERROR = ${dic['error'][0]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][0]}; };
+HISTORY_OBSERVATION WOPR:A2 { ERROR = ${dic['error'][0]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][0]}; };
+HISTORY_OBSERVATION WOPR:A3 { ERROR = ${dic['error'][0]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][0]}; };
+HISTORY_OBSERVATION WOPR:A4 { ERROR = ${dic['error'][0]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][0]}; };
+HISTORY_OBSERVATION WGPR:A1 { ERROR = ${dic['error'][1]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][1]}; };
+HISTORY_OBSERVATION WGPR:A2 { ERROR = ${dic['error'][1]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][1]}; };
+HISTORY_OBSERVATION WGPR:A3 { ERROR = ${dic['error'][1]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][1]}; };
+HISTORY_OBSERVATION WGPR:A4 { ERROR = ${dic['error'][1]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][1]}; };
+HISTORY_OBSERVATION WWPR:A1 { ERROR = ${dic['error'][2]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][2]}; };
+HISTORY_OBSERVATION WWPR:A2 { ERROR = ${dic['error'][2]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][2]}; };
+HISTORY_OBSERVATION WWPR:A3 { ERROR = ${dic['error'][2]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][2]}; };
+HISTORY_OBSERVATION WWPR:A4 { ERROR = ${dic['error'][2]}; ERROR_MODE = RELMIN; ERROR_MIN = ${dic['minerror'][2]}; };

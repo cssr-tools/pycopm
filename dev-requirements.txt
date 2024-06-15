@@ -1,0 +1,7 @@
+black
+pylint
+mypy
+pytest-cov
+sphinx
+sphinx-rtd-theme
+pytest
