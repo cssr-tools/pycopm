@@ -20,7 +20,7 @@ def pycopm():
     """Main function"""
     start_time = time.monotonic()
     parser = argparse.ArgumentParser(
-        description="Main script to coarser the geological model and run "
+        description="Main script to coarse the geological model and run "
         "simulations using OPM Flow."
     )
     parser.add_argument(
@@ -48,21 +48,71 @@ def pycopm():
         default="2,2,2",
         help="Level of coarsening in the x, y, and z dir ('2,2,2' by default)",
     )
+    parser.add_argument(
+        "-a",
+        "--approach",
+        default="max",
+        help="Use min, max, or mode to scale the actnum ('min' by default)",
+    )
+    parser.add_argument(
+        "-j",
+        "--jump",
+        default=2.0,
+        help="Tunning parameter to avoid creation of nnc on the structural faults "
+        "('2.' by default)",
+    )
+    parser.add_argument(
+        "-x",
+        "--xcoar",
+        default="",
+        help="Vector of x-coarsing ('' by default)",
+    )
+    parser.add_argument(
+        "-y",
+        "--ycoar",
+        default="",
+        help="Vector of y-coarsing ('' by default)",
+    )
+    parser.add_argument(
+        "-z",
+        "--zcoar",
+        default="",
+        help="Vector of z-coarsing ('' by default)",
+    )
+    parser.add_argument(
+        "-e",
+        "--encoding",
+        default="ISO-8859-1",
+        help="Use 'utf8' or 'geometric' encoding to read the deck ('ISO-8859-1' by default)",
+    )
+
     cmdargs = vars(parser.parse_known_args()[0])
     file = cmdargs["input"].strip()  # Name of the input file
     dic = {"fol": cmdargs["output"]}  # Name for the output folder
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
     dic["exe"] = os.getcwd()  # Path to the folder of the input.txt file
     dic["flow"] = cmdargs["flow"].strip()  # Path to flow
-    dic["cijk"] = np.genfromtxt(
-        StringIO(cmdargs["coarsening"]), delimiter=",", dtype=int
-    )  # Coarsening level
+    dic["how"] = cmdargs["approach"].strip()  # Max, min, or mode
+    dic["jump"] = float(cmdargs["jump"])  # Tunning parameter
+    dic["encoding"] = cmdargs["encoding"].strip()
+    dic["cijk"] = "yes"
+    for i in ["x", "y", "z"]:
+        dic[f"{i}coar"] = []
+        if cmdargs[f"{i}coar"]:
+            dic[f"{i}coar"] = list(
+                np.genfromtxt(StringIO(cmdargs[f"{i}coar"]), delimiter=",", dtype=int)
+            )
+            dic["cijk"] = "no"
+    if dic["cijk"] != "no":
+        dic["cijk"] = np.genfromtxt(
+            StringIO(cmdargs["coarsening"]), delimiter=",", dtype=int
+        )  # Coarsening level
 
     # Make the output folder
     if not os.path.exists(f"{dic['exe']}/{dic['fol']}"):
         os.system(f"mkdir {dic['exe']}/{dic['fol']}")
 
-    # When an deck is given, then we only generate the coarser files
+    # When a deck is given, then we only generate the coarser files
     if "DATA" in file:
         dic["deck"] = file.upper()[:-5]
         create_deck(dic)
