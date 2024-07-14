@@ -50,8 +50,15 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#configuration-file">Configuration file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#input-deck">Input deck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#via-configuration-files">Via configuration files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#drogon">Drogon</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#via-opm-flow-decks">Via OPM Flow decks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spe10">SPE10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smeaheia">Smeaheia</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">pycopm Python API</a></li>
@@ -86,8 +93,10 @@
              
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
-<section id="configuration-file">
-<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Link to this heading"></a></h2>
+<section id="via-configuration-files">
+<h2>Via configuration files<a class="headerlink" href="#via-configuration-files" title="Link to this heading"></a></h2>
+<section id="drogon">
+<h3>Drogon<a class="headerlink" href="#drogon" title="Link to this heading"></a></h3>
 <p>The <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/examples">examples</a> folder contains configuration files
 to perform HM studies in drogon and norne. For example, by executing inside the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/examples/drogon">example folder for drogon</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>coarser.txt<span class="w"> </span>-o<span class="w"> </span>drogon_coarser
@@ -98,17 +107,59 @@ to perform HM studies in drogon and norne. For example, by executing inside the 
 <img alt="_images/drogon_coarser.png" src="_images/drogon_coarser.png" />
 </figure>
 </section>
-<section id="input-deck">
-<h2>Input deck<a class="headerlink" href="#input-deck" title="Link to this heading"></a></h2>
+</section>
+<section id="via-opm-flow-decks">
+<h2>Via OPM Flow decks<a class="headerlink" href="#via-opm-flow-decks" title="Link to this heading"></a></h2>
+<section id="spe10">
+<h3>SPE10<a class="headerlink" href="#spe10" title="Link to this heading"></a></h3>
 <p>See/run the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/tests/test_generic_deck.py">test_generic_deck.py</a>
 for an example where <strong>pycopm</strong> is used to coarse the
-<a class="reference external" href="https://github.com/OPM/opm-data/tree/master/spe10model2">SPE10_MODEL2 model</a> by downloading the files and running:</p>
+<a class="reference external" href="https://github.com/OPM/opm-data/tree/master/spe10model2">SPE10_MODEL2 model</a> by downloading the OPM files and running:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>SPE10_MODEL2.DATA<span class="w"> </span>-o<span class="w"> </span>coarser<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span>,8,2
 </pre></div>
 </div>
-<figure class="align-default">
+<figure class="align-default" id="id2">
 <img alt="_images/spe10_model2_coarser.png" src="_images/spe10_model2_coarser.png" />
+<figcaption>
+<p><span class="caption-text">Porosity values for the (left) original and (right) coarsed SPE10 model.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
 </figure>
+</section>
+<section id="smeaheia">
+<h3>Smeaheia<a class="headerlink" href="#smeaheia" title="Link to this heading"></a></h3>
+<p>By downloading the <a class="reference external" href="https://co2datashare.org/dataset/smeaheia-dataset">Smeaheia simulation model</a>,
+then:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA<span class="w"> </span>-o<span class="w"> </span>.<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>,4,3<span class="w"> </span>-a<span class="w"> </span>mode<span class="w"> </span>-j<span class="w"> </span><span class="m">1000</span>
+</pre></div>
+</div>
+<p>will generate a coarser model 5 times in the x direction, 4 in the y direction, and 3 in the z direction, where the mode is
+used to decide if a coarser cell should be active or inactive. The jump (-j) is set to a higher value (1000) to avoid removal
+of grid connections (this is a tunning value to remove generated connections between neighbours in the coarse model).</p>
+<p>We can execute a dry run of OPM Flow to generate the grid and static variables of the coarser model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>flow<span class="w"> </span>STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM.DATA<span class="w"> </span>--enable-dry-run<span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+<p>We use our <a class="reference external" href="https://github.com/cssr-tools/plopm">plopm</a> friend to generate PNG figures:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>plopm<span class="w"> </span>-i<span class="w"> </span>STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM<span class="w"> </span>-s<span class="w"> </span>,,0
+</pre></div>
+</div>
+<figure class="align-default" id="id3">
+<img alt="_images/smeia.png" src="_images/smeia.png" />
+<figcaption>
+<p><span class="caption-text">Porosity values for the (left) original and (right) coarsed model.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can install plopm by executing in the terminal: pip install git+https://github.com/cssr-tools/plopm.git.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the current implementation of the <strong>pycopm</strong> tool, the handling of properties that require definitions of i,j,k indices
+(e.g., FAULTS, WELLSPECS) are assumed to be define in the main .DATA deck. Then, in order to use <strong>pycopm</strong> for simulation models
+where these properties are define via include files, replace those includes in the .DATA deck with the actual content of the include files.</p>
+</div>
+</section>
 </section>
 </section>
 

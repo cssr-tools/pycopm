@@ -85,41 +85,89 @@
              
   <section id="module-pycopm.utils.grid_builder">
 <span id="pycopm-utils-grid-builder-module"></span><h1>pycopm.utils.grid_builder module<a class="headerlink" href="#module-pycopm.utils.grid_builder" title="Link to this heading"></a></h1>
-<p>Utiliy functions for the generation of the grids.</p>
+<p>Utiliy functions for the generation of coarse corner-point grids.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.grid_builder.coarser_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.grid_builder.</span></span><span class="sig-name descname"><span class="pre">coarser_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.grid_builder.coarser_grid" title="Link to this definition"></a></dt>
-<dd><p>Function to coarse the grid</p>
+<dd><p>Method to coarse the grid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.grid_builder.handle_face_dir_im">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.grid_builder.</span></span><span class="sig-name descname"><span class="pre">handle_face_dir_im</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.grid_builder.handle_face_dir_im" title="Link to this definition"></a></dt>
 <dd><p>Method for the face I- dir</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>cell_index (int): Global index of the cell position</p>
+<p>i (int): i index of the cell position</p>
+<p>j (int): j index of the cell position</p>
+<p>k (int): k index of the cell position</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.grid_builder.handle_face_dir_ip">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.grid_builder.</span></span><span class="sig-name descname"><span class="pre">handle_face_dir_ip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.grid_builder.handle_face_dir_ip" title="Link to this definition"></a></dt>
 <dd><p>Method for the face I+ dir</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>cell_index (int): Global index of the cell position</p>
+<p>i (int): i index of the cell position</p>
+<p>j (int): j index of the cell position</p>
+<p>k (int): k index of the cell position</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.grid_builder.handle_face_dir_jm">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.grid_builder.</span></span><span class="sig-name descname"><span class="pre">handle_face_dir_jm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.grid_builder.handle_face_dir_jm" title="Link to this definition"></a></dt>
 <dd><p>Method for the face J- dir</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>cell_index (int): Global index of the cell position</p>
+<p>j (int): j index of the cell position</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.grid_builder.handle_face_dir_jp">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.grid_builder.</span></span><span class="sig-name descname"><span class="pre">handle_face_dir_jp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.grid_builder.handle_face_dir_jp" title="Link to this definition"></a></dt>
 <dd><p>Method for the face J+ dir</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>cell_index (int): Global index of the cell position</p>
+<p>j (int): j index of the cell position</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.grid_builder.handle_faults">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.grid_builder.</span></span><span class="sig-name descname"><span class="pre">handle_faults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.grid_builder.handle_faults" title="Link to this definition"></a></dt>
-<dd><p>Method for the fault approach</p>
+<dd><p>Method for the fault i,j,k mapping from reference to coarse positions</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

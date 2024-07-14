@@ -15,7 +15,16 @@ import pandas as pd
 
 
 def create_deck(dic):
-    """Dry run to generate the files"""
+    """
+    Main scrip to call the diffeent methods to generate the coarser files
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["flags"] = "--parsing-strictness=low --enable-dry-run=true"
     os.system(f"{dic['flow']} {dic['deck'].upper()}.DATA {dic['flags']} & wait\n")
 
@@ -75,7 +84,19 @@ def create_deck(dic):
 
 
 def map_properties(dic, actnum, d_z, z_z):
-    """Mapping to the coarse properties"""
+    """
+    Mapping to the coarse properties
+
+    Args:
+        dic (dict): Global dictionary\n
+        actnum (array): Integers with the active cells\n
+        d_z (array): Floats with the corresponding grid DZ\n
+        z_z (array): Floats with the cell z-center position
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     clusmax = pd.Series(actnum).groupby(dic["con"]).max()
     freq = pd.Series(actnum).groupby(dic["con"]).sum()
     dz_c = pd.Series(d_z).groupby(dic["con"]).mean()
@@ -115,7 +136,19 @@ def map_properties(dic, actnum, d_z, z_z):
 
 
 def handle_pv(dic, clusmin, clusmax, rmv):
-    """Make sure pv is not created nor destroyed, only distributed"""
+    """
+    Make sure the pore volume is not created nor destroyed, only distributed
+
+    Args:
+        dic (dict): Global dictionary\n
+        clusmin (pandas dataFrame): Mask with all active cells in cluster\n
+        clusmax (pandas dataFrame): Mask with at least one active cell in cluster\n
+        rmv (pandas dataFrame): Mask to remove cells by the argument flag jump
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     porv = pd.Series(dic["porv"]).groupby(dic["con"]).sum()
     maxn = max(dic["nx"], dic["ny"], dic["nz"])
     for i_d in porv[clusmax - clusmin > 0].keys().union(rmv[rmv == 0].keys()):
@@ -138,7 +171,21 @@ def handle_pv(dic, clusmin, clusmax, rmv):
 
 
 def find_neighbors(dic, ind, i_d, n, s):
-    """Find the neighbouring cells to distribute the removed pore volume"""
+    """
+    Find the neighbouring cells to distribute the removed pore volume
+
+    Args:
+        dic (dict): Global dictionary\n
+        ind (list): Indices os cells to distribute the pore volume\n
+        i_d (int): Index of the removed cell to distribute its pore volume\n
+        n (int): Current increased index for the neighbours search\n
+        s (int): Shift to neighbours cells
+
+    Returns:
+        ind (list): Indices os cells to distribute the pore volume\n
+        dic (dict): Modified global dictionary
+
+    """
     if dic["i"] + 1 + n < dic["nx"] and i_d + n + s < dic["nx"] * dic["ny"] * dic["nz"]:
         if dic["actnum_c"][i_d + n + s] == 1:
             ind.append(i_d + n + s)
@@ -175,7 +222,17 @@ def find_neighbors(dic, ind, i_d, n, s):
 
 
 def get_ijk(dic, i_d):
-    """Return the i,j, and k index from the global index"""
+    """
+    Return the i,j, and k index from the global index
+
+    Args:
+        dic (dict): Global dictionary\n
+        i_d (int): Index of the removed cell to distribute its pore volume
+
+    Returns:
+        i,j,k (int): i,j, and k cell indices
+
+    """
     k = int(i_d / (dic["nx"] * dic["ny"]))
     j = int((i_d - k * dic["nx"] * dic["ny"]) / dic["nx"])
     i = i_d - j * dic["nx"] - k * dic["nx"] * dic["ny"]
@@ -183,7 +240,16 @@ def get_ijk(dic, i_d):
 
 
 def write_grid(dic):
-    """Write the corner-point grid"""
+    """
+    Write the corner-point grid
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        None
+
+    """
     if dic["fol"] != ".":
         dic["files"] = [f for f in os.listdir(f"{dic['exe']}") if f.endswith(".INC")]
         for file in dic["files"]:
@@ -211,7 +277,16 @@ def write_grid(dic):
 
 
 def write_props(dic):
-    """Write the coarser properties"""
+    """
+    Write the coarser properties
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        None
+
+    """
     for name in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
         dic[f"{name}_c"].insert(0, f"{name.upper()}")
         dic[f"{name}_c"].insert(
@@ -228,7 +303,16 @@ def write_props(dic):
 
 
 def handle_clusters(dic):
-    """Create the coarser clusters"""
+    """
+    Create the coarser clusters
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["X"] = np.zeros(dic["grid"].nx + 1)
     dic["Y"] = np.zeros(dic["grid"].ny + 1)
     dic["Z"] = np.zeros(dic["grid"].nz + 1)
@@ -266,7 +350,16 @@ def handle_clusters(dic):
 
 
 def map_ijk(dic):
-    """Create the mappings to the new i,j,k indices"""
+    """
+    Create the mappings to the new i,j,k indices
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["ic"] = np.array([0 for _ in range(dic["grid"].nx + 1)])
     dic["jc"] = np.array([0 for _ in range(dic["grid"].ny + 1)])
     dic["kc"] = np.array([0 for _ in range(dic["grid"].nz + 1)])
@@ -300,7 +393,16 @@ def map_ijk(dic):
 
 
 def handle_cp_grid(dic):
-    """Handle the pillars and zcord for the coarser grid"""
+    """
+    Handle the pillars and zcord for the coarser grid
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     ir = []
     mr = []
     zc = dic["grid"].export_zcorn()
@@ -339,7 +441,17 @@ def handle_cp_grid(dic):
 
 
 def handle_zcorn(dic, ir):
-    """Process the zcorn"""
+    """
+    Process the zcorn
+
+    Args:
+        dic (dict): Global dictionary\n
+        ir (list): Z coordinates from the corners
+
+    Returns:
+        ir (list): Modified z coordinates
+
+    """
     for k in range(dic["grid"].nz + 1):
         if (dic["Z"][k]) > 1:
             for n in range(
@@ -351,7 +463,16 @@ def handle_zcorn(dic, ir):
 
 
 def process_the_deck(dic):
-    """Identify and modified the required keywords"""
+    """
+    Identify and modified the required keywords
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["lol"] = []
     dic["dimens"] = False
     dic["removeg"] = False
@@ -385,7 +506,17 @@ def process_the_deck(dic):
 
 
 def handle_regions(dic, nrwo):
-    """Handle the regions sections"""
+    """
+    Handle the regions sections
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if nrwo == "REGIONS" and not dic["region"]:
         dic["region"] = True
         dic["lol"].append(nrwo + "\n")
@@ -402,7 +533,17 @@ def handle_regions(dic, nrwo):
 
 
 def handle_grid_props(dic, nrwo):
-    """Handle the  grid and props sections"""
+    """
+    Handle the grid and props sections
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if nrwo == "GRID" and not dic["removeg"]:
         dic["removeg"] = True
         dic["lol"].append(nrwo + "\n")
@@ -428,7 +569,17 @@ def handle_grid_props(dic, nrwo):
 
 
 def handle_mapaxes(dic, nrwo):
-    """Keep the mapping so the grids have the same view"""
+    """
+    Keep the mapping so the grids have the same view
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if nrwo == "MAPAXES":
         dic["mapaxes"] = True
         dic["lol"].append(nrwo)
@@ -444,7 +595,17 @@ def handle_mapaxes(dic, nrwo):
 
 
 def handle_fault(dic, nrwo):
-    """Handle the  i,j,k coarser fault indices"""
+    """
+    Handle the  i,j,k coarser fault indices
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if nrwo == "FAULTS":
         dic["fault"] = True
         dic["lol"].append(nrwo)
@@ -469,7 +630,17 @@ def handle_fault(dic, nrwo):
 
 
 def handle_segmented_wells(dic, nrwo):
-    """We also support segmented wells"""
+    """
+    We also support segmented wells
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if nrwo == "COMPSEGS":
         dic["compsegs"] = True
         dic["lol"].append(nrwo)
@@ -504,7 +675,17 @@ def handle_segmented_wells(dic, nrwo):
 
 
 def handle_wells(dic, nrwo):
-    """Add the necessary keywords and right i,j,k coarser well indices"""
+    """
+    Add the necessary keywords and right i,j,k coarser well indices
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if nrwo == "WELSPECS":
         dic["welspecs"] = True
         dic["lol"].append(nrwo)

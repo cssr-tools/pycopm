@@ -2,12 +2,21 @@
 # SPDX-License-Identifier: GPL-3.0
 
 """
-Utiliy functions for the generation of the grids.
+Utiliy functions for the generation of coarse corner-point grids.
 """
 
 
 def coarser_grid(dic):
-    """Function to coarse the grid"""
+    """
+    Method to coarse the grid
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     num, num_c = 0, 1
     for k in range(dic["grid"].nz):
         for j in range(dic["grid"].ny):
@@ -42,12 +51,24 @@ def coarser_grid(dic):
             if (dic[axis][i + 1]) > 1:
                 dic[name][num + 1] = dic[name][num]
             num += 1
-    dic = handle_faults(dic)
-    return dic
+    handle_faults(dic)
 
 
 def handle_face_dir_ip(dic, cell_index, i, j, k):
-    """Method for the face I+ dir"""
+    """
+    Method for the face I+ dir
+
+    Args:
+        dic (dict): Global dictionary\n
+        cell_index (int): Global index of the cell position\n
+        i (int): i index of the cell position\n
+        j (int): j index of the cell position\n
+        k (int): k index of the cell position
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     i1 = i
     i2 = i + 1
     while dic["i_f_c"][i1 + 1] == dic["i_f_c"][i2 + 1]:
@@ -99,7 +120,20 @@ def handle_face_dir_ip(dic, cell_index, i, j, k):
 
 
 def handle_face_dir_im(dic, cell_index, i, j, k):
-    """Method for the face I- dir"""
+    """
+    Method for the face I- dir
+
+    Args:
+        dic (dict): Global dictionary\n
+        cell_index (int): Global index of the cell position\n
+        i (int): i index of the cell position\n
+        j (int): j index of the cell position\n
+        k (int): k index of the cell position
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     i1 = i
     i2 = i - 1
     while dic["i_f_c"][i1 + 1] == dic["i_f_c"][i2 + 1]:
@@ -153,7 +187,18 @@ def handle_face_dir_im(dic, cell_index, i, j, k):
 
 
 def handle_face_dir_jp(dic, cell_index, j):
-    """Method for the face J+ dir"""
+    """
+    Method for the face J+ dir
+
+    Args:
+        dic (dict): Global dictionary\n
+        cell_index (int): Global index of the cell position\n
+        j (int): j index of the cell position
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     j1 = j
     j2 = j + 1
     while dic["j_f_c"][j1 + 1] == dic["j_f_c"][j2 + 1]:
@@ -176,7 +221,18 @@ def handle_face_dir_jp(dic, cell_index, j):
 
 
 def handle_face_dir_jm(dic, cell_index, j):
-    """Method for the face J- dir"""
+    """
+    Method for the face J- dir
+
+    Args:
+        dic (dict): Global dictionary\n
+        cell_index (int): Global index of the cell position\n
+        j (int): j index of the cell position
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     j1 = j
     j2 = j - 1
     while dic["j_f_c"][j1 + 1] == dic["j_f_c"][j2 + 1]:
@@ -199,7 +255,16 @@ def handle_face_dir_jm(dic, cell_index, j):
 
 
 def handle_faults(dic):
-    """Method for the fault approach"""
+    """
+    Method for the fault i,j,k mapping from reference to coarse positions
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     for f in dic["fault"]:
         if len(f) == 0:
             continue
@@ -219,4 +284,3 @@ def handle_faults(dic):
                         handle_face_dir_jp(dic, cell_index, j)
                     if f[6] == "J-":
                         handle_face_dir_jm(dic, cell_index, j)
-    return dic

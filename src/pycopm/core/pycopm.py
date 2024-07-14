@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
 
-"""Main script"""
+"""Main script for pycopm"""
 
 import os
 import time
@@ -17,76 +17,9 @@ from pycopm.utils.generate_coarser_files import create_deck
 
 
 def pycopm():
-    """Main function"""
+    """Main function for the pycopm executable"""
     start_time = time.monotonic()
-    parser = argparse.ArgumentParser(
-        description="Main script to coarse the geological model and run "
-        "simulations using OPM Flow."
-    )
-    parser.add_argument(
-        "-i",
-        "--input",
-        default="input.txt",
-        help="The base name of the input file or the name of the deck "
-        "('input.txt' by default).",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        default="output",
-        help="The base name of the output folder ('fol' by default).",
-    )
-    parser.add_argument(
-        "-f",
-        "--flow",
-        default="flow",
-        help="Path to flow ('flow' by default)",
-    )
-    parser.add_argument(
-        "-c",
-        "--coarsening",
-        default="2,2,2",
-        help="Level of coarsening in the x, y, and z dir ('2,2,2' by default)",
-    )
-    parser.add_argument(
-        "-a",
-        "--approach",
-        default="max",
-        help="Use min, max, or mode to scale the actnum ('min' by default)",
-    )
-    parser.add_argument(
-        "-j",
-        "--jump",
-        default=2.0,
-        help="Tunning parameter to avoid creation of nnc on the structural faults "
-        "('2.' by default)",
-    )
-    parser.add_argument(
-        "-x",
-        "--xcoar",
-        default="",
-        help="Vector of x-coarsing ('' by default)",
-    )
-    parser.add_argument(
-        "-y",
-        "--ycoar",
-        default="",
-        help="Vector of y-coarsing ('' by default)",
-    )
-    parser.add_argument(
-        "-z",
-        "--zcoar",
-        default="",
-        help="Vector of z-coarsing ('' by default)",
-    )
-    parser.add_argument(
-        "-e",
-        "--encoding",
-        default="ISO-8859-1",
-        help="Use 'utf8' or 'geometric' encoding to read the deck ('ISO-8859-1' by default)",
-    )
-
-    cmdargs = vars(parser.parse_known_args()[0])
+    cmdargs = load_parser()
     file = cmdargs["input"].strip()  # Name of the input file
     dic = {"fol": cmdargs["output"]}  # Name for the output folder
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
@@ -119,7 +52,7 @@ def pycopm():
         return
 
     # Open pycopm.utils.inputvalues to see the dic name abbreviations meaning
-    dic = process_input(dic, file)
+    process_input(dic, file)
 
     for folder in ["preprocessing", "parameters", "jobs", "observations"]:
         if not os.path.exists(f"{dic['exe']}/{dic['fol']}/{folder}"):
@@ -132,16 +65,16 @@ def pycopm():
         dic["fert"][0] += " --" + dic["ert"][i + 1][0] + " " + dic["ert"][i + 1][1]
 
     # Read the data from the uncoarsed output files
-    dic = read_reference(dic)
+    read_reference(dic)
 
     # Coarse the grid
-    dic = coarser_grid(dic)
+    coarser_grid(dic)
 
     # Coarse the properties defined in the deck
-    dic = coarser_properties(dic)
+    coarser_properties(dic)
 
     # Write the files using the templates
-    dic = coarser_files(dic)
+    coarser_files(dic)
 
     # Copy the requeried INCLUDE files
     if dic["field"] == "drogon":
@@ -160,6 +93,77 @@ def pycopm():
 
     # Make some useful plots after the studies
     plotting(dic, time.monotonic() - start_time)
+
+
+def load_parser():
+    """Argument options"""
+    parser = argparse.ArgumentParser(
+        description="Main script to coarse the geological model and run "
+        "simulations using OPM Flow."
+    )
+    parser.add_argument(
+        "-i",
+        "--input",
+        default="input.txt",
+        help="The base name of the input file or the name of the deck "
+        "('input.txt' by default).",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="output",
+        help="The base name of the output folder ('output' by default).",
+    )
+    parser.add_argument(
+        "-f",
+        "--flow",
+        default="flow",
+        help="OPM Flow full path to executable or just ('flow' by default)",
+    )
+    parser.add_argument(
+        "-c",
+        "--coarsening",
+        default="2,2,2",
+        help="Level of coarsening in the x, y, and z dir ('2,2,2' by default)",
+    )
+    parser.add_argument(
+        "-a",
+        "--approach",
+        default="max",
+        help="Use min, max, or mode to scale the actnum ('min' by default)",
+    )
+    parser.add_argument(
+        "-j",
+        "--jump",
+        default=2.0,
+        help="Tunning parameter to avoid creation of nnc on the structural faults "
+        "('2.' by default)",
+    )
+    parser.add_argument(
+        "-x",
+        "--xcoar",
+        default="",
+        help="Vector of x-coarsening ('' by default)",
+    )
+    parser.add_argument(
+        "-y",
+        "--ycoar",
+        default="",
+        help="Vector of y-coarsening ('' by default)",
+    )
+    parser.add_argument(
+        "-z",
+        "--zcoar",
+        default="",
+        help="Vector of z-coarsening ('' by default)",
+    )
+    parser.add_argument(
+        "-e",
+        "--encoding",
+        default="ISO-8859-1",
+        help="Use 'utf8' or 'ISO-8859-1' encoding to read the deck ('ISO-8859-1' by default)",
+    )
+    return vars(parser.parse_known_args()[0])
 
 
 def main():

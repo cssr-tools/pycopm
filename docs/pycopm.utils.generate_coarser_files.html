@@ -89,55 +89,236 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.create_deck">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">create_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.create_deck" title="Link to this definition"></a></dt>
-<dd><p>Dry run to generate the files</p>
+<dd><p>Main scrip to call the diffeent methods to generate the coarser files</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.find_neighbors">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">find_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.find_neighbors" title="Link to this definition"></a></dt>
+<dd><p>Find the neighbouring cells to distribute the removed pore volume</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>ind (list): Indices os cells to distribute the pore volume</p>
+<p>i_d (int): Index of the removed cell to distribute its pore volume</p>
+<p>n (int): Current increased index for the neighbours search</p>
+<p>s (int): Shift to neighbours cells</p>
+</dd>
+<dt>Returns:</dt><dd><p>ind (list): Indices os cells to distribute the pore volume</p>
+<p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.get_ijk">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">get_ijk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.get_ijk" title="Link to this definition"></a></dt>
+<dd><p>Return the i,j, and k index from the global index</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>i_d (int): Index of the removed cell to distribute its pore volume</p>
+</dd>
+<dt>Returns:</dt><dd><p>i,j,k (int): i,j, and k cell indices</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_clusters">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_clusters" title="Link to this definition"></a></dt>
 <dd><p>Create the coarser clusters</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_cp_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_cp_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_cp_grid" title="Link to this definition"></a></dt>
 <dd><p>Handle the pillars and zcord for the coarser grid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_fault">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_fault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_fault" title="Link to this definition"></a></dt>
+<dd><p>Handle the  i,j,k coarser fault indices</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>nrwo (list): Splited row from the input deck</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_grid_props">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_grid_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_grid_props" title="Link to this definition"></a></dt>
+<dd><p>Handle the grid and props sections</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>nrwo (list): Splited row from the input deck</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_mapaxes">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_mapaxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_mapaxes" title="Link to this definition"></a></dt>
+<dd><p>Keep the mapping so the grids have the same view</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>nrwo (list): Splited row from the input deck</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_pv">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_pv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_pv" title="Link to this definition"></a></dt>
+<dd><p>Make sure the pore volume is not created nor destroyed, only distributed</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>clusmin (pandas dataFrame): Mask with all active cells in cluster</p>
+<p>clusmax (pandas dataFrame): Mask with at least one active cell in cluster</p>
+<p>rmv (pandas dataFrame): Mask to remove cells by the argument flag jump</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_regions">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_regions" title="Link to this definition"></a></dt>
+<dd><p>Handle the regions sections</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>nrwo (list): Splited row from the input deck</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_segmented_wells">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_segmented_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_segmented_wells" title="Link to this definition"></a></dt>
+<dd><p>We also support segmented wells</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>nrwo (list): Splited row from the input deck</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_wells">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_wells" title="Link to this definition"></a></dt>
 <dd><p>Add the necessary keywords and right i,j,k coarser well indices</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>nrwo (list): Splited row from the input deck</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.handle_zcorn">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">handle_zcorn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.handle_zcorn" title="Link to this definition"></a></dt>
 <dd><p>Process the zcorn</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>ir (list): Z coordinates from the corners</p>
+</dd>
+<dt>Returns:</dt><dd><p>ir (list): Modified z coordinates</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.map_ijk">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">map_ijk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.map_ijk" title="Link to this definition"></a></dt>
 <dd><p>Create the mappings to the new i,j,k indices</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.map_properties">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">map_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.map_properties" title="Link to this definition"></a></dt>
+<dd><p>Mapping to the coarse properties</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>actnum (array): Integers with the active cells</p>
+<p>d_z (array): Floats with the corresponding grid DZ</p>
+<p>z_z (array): Floats with the cell z-center position</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.process_the_deck">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">process_the_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.process_the_deck" title="Link to this definition"></a></dt>
 <dd><p>Identify and modified the required keywords</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.write_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">write_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.write_grid" title="Link to this definition"></a></dt>
 <dd><p>Write the corner-point grid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.generate_coarser_files.write_props">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_coarser_files.</span></span><span class="sig-name descname"><span class="pre">write_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_coarser_files.write_props" title="Link to this definition"></a></dt>
 <dd><p>Write the coarser properties</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

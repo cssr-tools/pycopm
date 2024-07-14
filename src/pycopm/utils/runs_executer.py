@@ -11,7 +11,16 @@ from mako.template import Template
 
 
 def simulations(dic):
-    """Function to run OPM Flow or selected ERT functionality"""
+    """
+    Run OPM Flow or selected ERT functionality
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        None
+
+    """
     os.system(f"cp -a {dic['pat']}/jobs/. {dic['exe']}/{dic['fol']}/jobs/.")
     os.chdir(f"{dic['exe']}/{dic['fol']}")
     for fil in [
@@ -48,7 +57,17 @@ def simulations(dic):
 
 
 def plotting(dic, time):
-    """Function to generate and run the plotting.py file"""
+    """
+    Generate and run the plotting.py file
+
+    Args:
+        dic (dict): Global dictionary
+        time (float): Current execution time
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["Ne"] = len(next(os.walk(f"{dic['exe']}/{dic['fol']}/output/simulations"))[1])
     dic["Ni"] = 1
     for i in range(dic["Ne"]):

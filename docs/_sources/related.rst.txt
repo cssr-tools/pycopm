@@ -2,8 +2,7 @@
 Related
 =======
 
-Below are some packages following the same configuration-file-to-postprocessing-folder approach; 
-check them out 🙂.
+Below are some tools that might be of interest; check them out 🙂.
 
 **********
 pyopmspe11
@@ -22,6 +21,14 @@ pyopmnearwell
     :scale: 50%
 
 `A framework to simulate near well dynamics using OPM Flow <https://github.com/cssr-tools/pyopmnearwell>`_.
+
+*****
+plopm
+*****
+
+.. image:: ./figs/plopm.png
+
+`Quick generation of PNG figures from a simulation model given any 2D slide <https://github.com/cssr-tools/plopm>`_.
 
 ********
 expreccs

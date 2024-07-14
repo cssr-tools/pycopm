@@ -18,21 +18,20 @@ def process_input(dic, in_file):
     Function to process the input file
 
     Args:
-        dic (dict): Global dictionary with required parameters
+        dic (dict): Global dictionary with required parameters\n
         in_file (str): Name of the input text file
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
+        dic (dict): Modified global dictionary
     """
     lol = []
     with open(in_file, "r", encoding="utf8") as file:
         for row in csv.reader(file, delimiter="#"):
             lol.append(row)
-    dic, inc = read_the_first_part(lol, dic)
+    inc = read_the_first_part(lol, dic)
     num_lin = get_number_of_lines(lol, inc)
-    dic, ind = assign_standard_values(lol, dic, inc, num_lin)
-    dic = assign_hm_parameters(lol, dic, ind)
-    return dic
+    ind = assign_standard_values(lol, dic, inc, num_lin)
+    assign_hm_parameters(lol, dic, ind)
 
 
 def read_the_first_part(lol, dic):
@@ -40,11 +39,10 @@ def read_the_first_part(lol, dic):
     Function to process the first 29 lines of the input file
 
     Args:
-        lol (list): List of lines read from the input file
+        lol (list): List of lines read from the input file\n
         dic (dict): Global dictionary with required parameters
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
         inc (int): Number of line in the input file before the first injection value
     """
     dic["flow"] = str(lol[1])[2:-2]  # Path to the flow executable
@@ -92,15 +90,15 @@ def read_the_first_part(lol, dic):
     )  # Minimum error of WOPR, WGPR, and WWPR
     dic["date"] = str(lol[30][0]).replace(" ", "")  # Last date to HM
     inc = 34  # Increase this if more rows are added to the input text file
-    return dic, inc
+    return inc
 
 
 def get_number_of_lines(lol, inc):
     """
-    Function to obtain the number of opm and ert flags
+    Function to obtain the number of OPM and ERT flags
 
     Args:
-        lol (list): List of lines read from the input file
+        lol (list): List of lines read from the input file\n
         inc (int): Number of line in the input file before the first injection value
 
     Returns:
@@ -126,13 +124,12 @@ def assign_standard_values(lol, dic, inc, num_lin):
     Function to process the ert and opm flags
 
     Args:
-        lol (list): List of lines read from the input file
-        dic (dict): Global dictionary with required parameters
-        inc (int): Number of line in the input file before the first injection value
+        lol (list): List of lines read from the input file\n
+        dic (dict): Global dictionary with required parameters\n
+        inc (int): Number of line in input file before the first injection value\n
         num_lin (list): List with the number of opm  and ert flags
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
         ind (int): Number of line of the last opm flags in the input file
     """
     column = []
@@ -164,7 +161,7 @@ def assign_standard_values(lol, dic, inc, num_lin):
         )
     dic["flag"] = column
     ind += num_lin[1] + 3
-    return dic, ind
+    return ind
 
 
 def assign_hm_parameters(lol, dic, ind):
@@ -172,12 +169,12 @@ def assign_hm_parameters(lol, dic, ind):
     Function to process the saturation functions
 
     Args:
-        lol (list): List of lines read from the input file
-        dic (dict): Global dictionary with required parameters
+        lol (list): List of lines read from the input file\n
+        dic (dict): Global dictionary with required parameters\n
         ind (int): Number of line of the last opm flags in the input file
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
+        dic (dict): Modified global dictionary
 
     """
     column = []
@@ -207,7 +204,6 @@ def assign_hm_parameters(lol, dic, ind):
             ]
         )
     dic["rock"] = column
-    return dic
 
 
 def read_reference(dic):
@@ -218,10 +214,10 @@ def read_reference(dic):
         dic (dict): Global dictionary with required parameters
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
+        dic (dict): Modified global dictionary
 
     """
-    dic, dic1 = initialize_values(dic)
+    dic1 = initialize_values(dic)
     j = 0
     for cell in dic["grid"].cells():
         dic["vol"][cell.global_index] = cell.volume + 1e-10
@@ -275,7 +271,6 @@ def read_reference(dic):
             ):
                 faults.append(row[1:8])
     dic["fault"] = faults
-    return dic
 
 
 def initialize_values(dic):
@@ -286,7 +281,7 @@ def initialize_values(dic):
         dic (dict): Global dictionary with required parameters
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
+        dic1 (dict): Local dictionary
 
     """
     dic["case"] = dic["pat"] + f"/reference_simulation/{dic['field']}/{dic['name']}"
@@ -338,4 +333,4 @@ def initialize_values(dic):
     dic["pvtnum"] = np.array([1 for _ in range(dic["nc"])])
     dic["fipzon"] = np.array([1 for _ in range(dic["nc"])])
     dic["zc"], dic["cr"] = dic["grid"].export_zcorn(), dic["grid"].export_coord()
-    return dic, dic1
+    return dic1
