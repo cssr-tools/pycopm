@@ -1,6 +1,14 @@
 ==================
 Configuration file
 ==================
+.. Note::
+    The configuration files allow to set the integrated studies (coarsening and history matching)
+    only for the drogon and norne model. To use **pycopm** in any given OPM Flow geological model
+    to generate the coarser files, this can be achieve without a configuration file, but setting
+    the parameters via command lines (see the :ref:`overview` or run `pycopm -h` for the definition 
+    of the argument options, and the :doc:`examples <./examples>`.)
+
+
 Here we use as an example one of the configuration files used in the tests
 (see `ert.txt <https://github.com/crrs-tools/pycopm/blob/main/tests/configs/ert.txt>`_).
 The first input parameter is:

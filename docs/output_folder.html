@@ -51,7 +51,11 @@
 <li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">pycopm Python API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Output folder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output folder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#via-configuration-files">Via configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#via-an-opm-flow-input-deck">Via an OPM Flow input deck</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="related.html">Related</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About pycopm</a></li>
 </ul>
@@ -82,17 +86,34 @@
              
   <section id="output-folder">
 <h1>Output folder<a class="headerlink" href="#output-folder" title="Link to this heading"></a></h1>
-<p>The following screenshot shows the generated ERT configuration file and folders in the selected output folder after executing <strong>pycopm</strong>.</p>
-<figure class="align-default" id="id1">
+<section id="via-configuration-files">
+<h2>Via configuration files<a class="headerlink" href="#via-configuration-files" title="Link to this heading"></a></h2>
+<p>As described in the <a class="reference internal" href="introduction.html"><span class="doc">introduction</span></a>, in the early development of <strong>pycopm</strong>
+the focus was on history matching studies using <a class="reference external" href="https://ert.readthedocs.io/en/latest/">ERT</a> for the
+<a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/norne">norne</a>  and <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">drogon</a> geological models
+via a <a class="reference internal" href="configuration_file.html"><span class="doc">configuration file</span></a>.</p>
+<p>The following screenshot shows the generated ERT configuration file and folders in the selected output folder after executing <strong>pycopm</strong>
+on the drogon model.</p>
+<figure class="align-default" id="id2">
 <img alt="_images/output.png" src="_images/output.png" />
 <figcaption>
-<p><span class="caption-text">(Left) example of generated files after executing <strong>pycopm</strong> and (right) some of the figures in the postprocessing folder.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text">(Left) example of generated files after executing <strong>pycopm</strong> and (right) some of the figures in the postprocessing folder.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>The generate ert.ert file can be run directly calling ERT for further studies, and some useful plots and files
-are generated in the postprocessing folder. The OPM simulation results can be visualized using <a class="reference external" href="https://resinsight.org">ResInsight</a> .
-Then after running <strong>pycopm</strong>, one could modify the generated OPM coarser related files in the preprocessing folder to adapt to
-further existing frameworks (e.g., <a class="reference external" href="https://python-ensemble-toolbox.github.io/PET/">PET</a>, <a class="reference external" href="https://github.com/equinor/everest">everest</a>).</p>
+are generated in the postprocessing folder. The OPM simulation results can be visualized using <a class="reference external" href="https://resinsight.org">ResInsight</a>.</p>
+</section>
+<section id="via-an-opm-flow-input-deck">
+<h2>Via an OPM Flow input deck<a class="headerlink" href="#via-an-opm-flow-input-deck" title="Link to this heading"></a></h2>
+<p>The current development of <strong>pycopm</strong> focuces on only creating coarser models (i.e., all needed input files to run OPM Flow) by only giving the OPM Flow input files.</p>
+<p>The following screenshot shows the input deck and generated files in the selected output folder (coarser for this example) after executing <strong>pycopm</strong> on the SPE10 model (see the
+<a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/tests/test_generic_deck.py">test_generic_deck.py</a>) file.</p>
+<figure class="align-default">
+<img alt="_images/output_generic.png" src="_images/output_generic.png" />
+</figure>
+<p>Then, after running <strong>pycopm</strong>, one could adapt the generated files with the coarser geological model in your
+favourite history matching/optimization tool (e.g., <a class="reference external" href="https://ert.readthedocs.io/en/latest/">ERT</a>, <a class="reference external" href="https://python-ensemble-toolbox.github.io/PET/">PET</a>, <a class="reference external" href="https://github.com/equinor/everest">everest</a>).</p>
+</section>
 </section>
 
 

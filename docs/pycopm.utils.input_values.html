@@ -90,12 +90,12 @@
 <dt class="sig sig-object py" id="pycopm.utils.input_values.assign_hm_parameters">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">assign_hm_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.assign_hm_parameters" title="Link to this definition"></a></dt>
 <dd><p>Function to process the saturation functions</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file
-dic (dict): Global dictionary with required parameters
-ind (int): Number of line of the last opm flags in the input file</p>
+<dl>
+<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file</p>
+<p>dic (dict): Global dictionary with required parameters</p>
+<p>ind (int): Number of line of the last opm flags in the input file</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Global dictionary with new added parameters</p>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
 </dd>
 </dl>
 </dd></dl>
@@ -104,14 +104,13 @@ ind (int): Number of line of the last opm flags in the input file</p>
 <dt class="sig sig-object py" id="pycopm.utils.input_values.assign_standard_values">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">assign_standard_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_lin</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.assign_standard_values" title="Link to this definition"></a></dt>
 <dd><p>Function to process the ert and opm flags</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file
-dic (dict): Global dictionary with required parameters
-inc (int): Number of line in the input file before the first injection value
-num_lin (list): List with the number of opm  and ert flags</p>
+<dl>
+<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file</p>
+<p>dic (dict): Global dictionary with required parameters</p>
+<p>inc (int): Number of line in input file before the first injection value</p>
+<p>num_lin (list): List with the number of opm  and ert flags</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Global dictionary with new added parameters
-ind (int): Number of line of the last opm flags in the input file</p>
+<dt>Returns:</dt><dd><p>ind (int): Number of line of the last opm flags in the input file</p>
 </dd>
 </dl>
 </dd></dl>
@@ -119,10 +118,10 @@ ind (int): Number of line of the last opm flags in the input file</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.input_values.get_number_of_lines">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">get_number_of_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.get_number_of_lines" title="Link to this definition"></a></dt>
-<dd><p>Function to obtain the number of opm and ert flags</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file
-inc (int): Number of line in the input file before the first injection value</p>
+<dd><p>Function to obtain the number of OPM and ERT flags</p>
+<dl>
+<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file</p>
+<p>inc (int): Number of line in the input file before the first injection value</p>
 </dd>
 <dt>Returns:</dt><dd><p>num_lin (list): List with the number of opm flags, and ert flags</p>
 </dd>
@@ -136,7 +135,7 @@ inc (int): Number of line in the input file before the first injection value</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>dic (dict): Global dictionary with required parameters</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Global dictionary with new added parameters</p>
+<dt>Returns:</dt><dd><p>dic1 (dict): Local dictionary</p>
 </dd>
 </dl>
 </dd></dl>
@@ -145,11 +144,11 @@ inc (int): Number of line in the input file before the first injection value</p>
 <dt class="sig sig-object py" id="pycopm.utils.input_values.process_input">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">process_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.process_input" title="Link to this definition"></a></dt>
 <dd><p>Function to process the input file</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary with required parameters
-in_file (str): Name of the input text file</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary with required parameters</p>
+<p>in_file (str): Name of the input text file</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Global dictionary with new added parameters</p>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
 </dd>
 </dl>
 </dd></dl>
@@ -161,7 +160,7 @@ in_file (str): Name of the input text file</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>dic (dict): Global dictionary with required parameters</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Global dictionary with new added parameters</p>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
 </dd>
 </dl>
 </dd></dl>
@@ -170,12 +169,11 @@ in_file (str): Name of the input text file</p>
 <dt class="sig sig-object py" id="pycopm.utils.input_values.read_the_first_part">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">read_the_first_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.read_the_first_part" title="Link to this definition"></a></dt>
 <dd><p>Function to process the first 29 lines of the input file</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file
-dic (dict): Global dictionary with required parameters</p>
+<dl>
+<dt>Args:</dt><dd><p>lol (list): List of lines read from the input file</p>
+<p>dic (dict): Global dictionary with required parameters</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Global dictionary with new added parameters
-inc (int): Number of line in the input file before the first injection value</p>
+<dt>Returns:</dt><dd><p>inc (int): Number of line in the input file before the first injection value</p>
 </dd>
 </dl>
 </dd></dl>

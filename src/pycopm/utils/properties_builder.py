@@ -9,7 +9,16 @@ import numpy as np
 
 
 def initialize_properties(dic):
-    """Function to initialize the coarser properties"""
+    """
+    Method to initialize the coarser properties
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["actnum_c"] = [0 for _ in range(dic["num_cells"])]
     dic["index"] = [[] for _ in range(dic["num_cells"])]
     dic["poro_c"] = [0.0 for _ in range(dic["num_cells"])]
@@ -37,12 +46,20 @@ def initialize_properties(dic):
     dic["fipzon_c"] = [0.0 for _ in range(dic["num_cells"])]
     for name in ["permx", "permy", "permz"]:
         dic[name + "_c_min_max"] = [[0.0, 0.0] for _ in range(dic["num_cells"])]
-    return dic
 
 
 def coarser_properties(dic):
-    """Function to coarse the properties defined in the input deck"""
-    dic = initialize_properties(dic)
+    """
+    Method to coarse the properties defined in the input deck
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    initialize_properties(dic)
     actnum_m = [0 for _ in range(dic["num_cells"])]
     for num in range(dic["num_cells"]):
         inx = np.where(dic["con"] == num + 1)
@@ -103,13 +120,12 @@ def coarser_properties(dic):
                 1.1 * max(dic[name][inx]),
             ]
         if (actnum_m[num] - dic["actnum_c"][num]) > 0 and dic["PV"] == 1:
-            dic = add_lost_pv_to_boundary_cells(dic, inx, num)
+            add_lost_pv_to_boundary_cells(dic, inx, num)
 
-    dic = add_lost_pv_to_all_cells(dic)
-    dic = add_lost_pv_to_all_eq_cells(dic)
-    dic = add_lost_pv_to_all_fip_cells(dic)
-    dic = identify_removed_pilars(dic)
-    return dic
+    add_lost_pv_to_all_cells(dic)
+    add_lost_pv_to_all_eq_cells(dic)
+    add_lost_pv_to_all_fip_cells(dic)
+    identify_removed_pilars(dic)
 
 
 def add_lost_pv_to_boundary_cells(dic, inx, num):
@@ -117,12 +133,12 @@ def add_lost_pv_to_boundary_cells(dic, inx, num):
     Function to correct the lost pore volume on the cell boundaries
 
     Args:
-        dic (dict): Global dictionary with required parameters
-        inx (array): Index of the reference cells in the coarser block
+        dic (dict): Global dictionary with required parameters\n
+        inx (array): Index of the reference cells in the coarser block\n
         num (int): Global index of the reference cell
 
     Returns:
-        dic (dict): Global dictionary with new added parameters
+        dic (dict): Modified global dictionary
 
     """
     for i in range(dic["nz"]):
@@ -226,13 +242,21 @@ def add_lost_pv_to_boundary_cells(dic, inx, num):
                     / (dic["vol_c"][indic] * dic["actnum_c"][indic]),
                 )
             break
-    return dic
 
 
 def add_lost_pv_to_all_cells(dic):
-    """Function to correct the lost pore volume on all active cells"""
+    """
+    Method to correct the lost pore volume on all active cells
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if dic["PV"] != 2:
-        return dic
+        return
     pv_c = sum(
         np.array(dic["poro_c"])
         * np.array(dic["vol_c"])
@@ -242,13 +266,22 @@ def add_lost_pv_to_all_cells(dic):
     corr = sum(dic["poro"] * dic["vol"] * dic["ntg"] * dic["actnum"]) / pv_c
     for i in range(dic["num_cells"]):
         dic["porv_c"][i] *= corr
-    return dic
 
 
 def add_lost_pv_to_all_eq_cells(dic):
-    """Correct the lost pore volume by distributing it to the same eqlnum"""
+    """
+    Method to correct the lost pore volume by distributing it to the
+    same eqlnum
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if dic["PV"] != 3:
-        return dic
+        return
 
     for i in range(1, 8):
         pv_c = sum(
@@ -271,13 +304,22 @@ def add_lost_pv_to_all_eq_cells(dic):
         for j in range(dic["num_cells"]):
             if dic["eqlnum_c"][j] == i:
                 dic["porv_c"][j] *= corr
-    return dic
 
 
 def add_lost_pv_to_all_fip_cells(dic):
-    """Correct the lost pore volume by distributing it to the same fipnum"""
+    """
+    Method to correct the lost pore volume by distributing it to the
+    same fipnum
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     if dic["PV"] != 4:
-        return dic
+        return
 
     for i in range(1, 22):
         pv_c = sum(
@@ -300,11 +342,19 @@ def add_lost_pv_to_all_fip_cells(dic):
         for j in range(dic["num_cells"]):
             if dic["fipnum_c"][j] == i:
                 dic["porv_c"][j] *= corr
-    return dic
 
 
 def identify_removed_pilars(dic):
-    """Identify the removed pilars to be used to write the coarser grid"""
+    """
+    Identify the removed pilars to be used to write the coarser grid
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     dic["mr"] = []
     dic["ir"] = []
     for i in range(dic["grid"].nx + 1):
@@ -334,12 +384,20 @@ def identify_removed_pilars(dic):
             ):
                 for i in range(4 * dic["grid"].nx):
                     dic["ir"].append(num + i)
-    dic = identify_removed_pilars_zdir(dic)
-    return dic
+    identify_removed_pilars_zdir(dic)
 
 
 def identify_removed_pilars_zdir(dic):
-    """Function to identify the removed pilars in the z direction"""
+    """
+    Identify the removed pilars in the z direction
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
     for k in range(dic["grid"].nz + 1):
         if (dic["Z"][k]) > 1:
             for num in range(
@@ -347,4 +405,3 @@ def identify_removed_pilars_zdir(dic):
                 (2 * k + 1) * 4 * dic["grid"].nx * dic["grid"].ny,
             ):
                 dic["ir"].append(num)
-    return dic
