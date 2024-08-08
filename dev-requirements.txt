@@ -1,7 +1,7 @@
 black
-pylint
+numpydoc
 mypy
+pylint
 pytest-cov
 sphinx
 sphinx-rtd-theme
-pytest
