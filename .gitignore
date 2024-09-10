@@ -164,8 +164,17 @@ cython_debug/
 
 # Tests
 tests/configs/ert/
-tests/configs/output/
 tests/generic_deck
+tests/configs/ert
+tests/configs/jobs
+tests/configs/logs
+tests/configs/observations
+tests/configs/parameters
+tests/configs/output
+tests/configs/postprocessing
+tests/configs/preprocessing
+tests/configs/.ert_runpath_list
+tests/configs/ert.ert
 
 # Python environment
 vpycopm/

@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
@@ -89,7 +89,7 @@
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
 <img alt="_images/pycopm.gif" src="_images/pycopm.gif" />
-<p>This documentation describes the content of the <strong>pycopm</strong> package.</p>
+<p>This documentation describes the <strong>pycopm</strong> tool hosted in <a class="reference external" href="https://github.com/cssr-tools/pycopm">https://github.com/cssr-tools/pycopm</a>.</p>
 <section id="concept">
 <h2>Concept<a class="headerlink" href="#concept" title="Link to this heading"></a></h2>
 <p>Simplified and flexible framework to create coarser OPM Flow geological models.</p>
@@ -106,22 +106,51 @@ favourite history matching/optimization tool (e.g., <a class="reference external
 <section id="overview">
 <span id="id2"></span><h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>The current implementation supports the following executable with the argument options:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>some_input<span class="w"> </span>-o<span class="w"> </span>some_output_folder
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>name_of_input_file
 </pre></div>
 </div>
 <p>where</p>
-<ul class="simple">
-<li><p>-i: The base name of the <a class="reference internal" href="configuration_file.html"><span class="doc">configuration file</span></a> or the name of the deck (<cite>input.txt</cite> by default).</p></li>
-<li><p>-o: The base name of the <a class="reference internal" href="output_folder.html"><span class="doc">output folder</span></a> (<cite>output</cite> by default).</p></li>
-<li><p>-f: OPM Flow full path to executable or just <cite>flow</cite> (<cite>flow</cite> by default).</p></li>
-<li><p>-c: Level of coarsening in the x, y, and z dir (<cite>2,2,2</cite> by default).</p></li>
-<li><p>-a: Use min, max, or mode to scale the actnum (<cite>min</cite> by default).</p></li>
-<li><p>-j: Tunning parameter to avoid creation of nnc on the structural faults (<cite>2.</cite> by default).</p></li>
-<li><p>-x: Vector of x-coarsening (`` by default).</p></li>
-<li><p>-y: Vector of y-coarsening (`` by default).</p></li>
-<li><p>-z: Vector of z-coarsening (`` by default).</p></li>
-<li><p>-e: Use <cite>utf8</cite> or <cite>ISO-8859-1</cite> encoding to read the deck (<cite>ISO-8859-1</cite> by default).</p></li>
-</ul>
+<dl class="option-list">
+<dt><kbd><span class="option">-i</span></kbd></dt>
+<dd><p>The base name of the <a class="reference internal" href="configuration_file.html"><span class="doc">configuration file</span></a> or the name of the deck, e.g., <cite>DROGON.DATA</cite>, (<cite>input.txt</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-o</span></kbd></dt>
+<dd><p>The base name of the <a class="reference internal" href="output_folder.html"><span class="doc">output folder</span></a> (‘.’’ by default, i.e., the folder where pycopm is executed).</p>
+</dd>
+<dt><kbd><span class="option">-f</span></kbd></dt>
+<dd><p>OPM Flow full path to executable or just <cite>flow</cite> (<cite>flow</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-c</span></kbd></dt>
+<dd><p>Level of coarsening in the x, y, and z dir (<cite>2,2,2</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-a</span></kbd></dt>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale the actnum, e.g., min makes the new coarser cell inactive it at least one cell is inactive, while max makes it active it at least one cell is active (<cite>max</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-j</span></kbd></dt>
+<dd><p>Tuning parameter to avoid creation of neighbouring connections in the coarser model where there are discontinuities between cells along the z direction, e.g., around faults (’’ by default, i.e., nothing corrected; if need it, try with values of the order of 1).</p>
+</dd>
+<dt><kbd><span class="option">-x</span></kbd></dt>
+<dd><p>Vector of x-coarsening, e.g., if the grid has 6 cells in the x direction, then <cite>0,2,0,2,0,2,0</cite> would generate a coarser model with 3 cells, while <cite>0,2,2,2,2,2,0</cite> would generate a coarser model with 1 cell, i.e., 0 keeps the pilars while 2 removes them (’’ by default),</p>
+</dd>
+<dt><kbd><span class="option">-y</span></kbd></dt>
+<dd><p>Vector of y-coarsening, see the description for -x (’’ by default).</p>
+</dd>
+<dt><kbd><span class="option">-z</span></kbd></dt>
+<dd><p>Vector of z-coarsening, see the description for -x (’’ by default).</p>
+</dd>
+<dt><kbd><span class="option">-e</span></kbd></dt>
+<dd><p>Use <cite>utf8</cite> or <cite>ISO-8859-1</cite> encoding to read the deck (<cite>ISO-8859-1</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-p</span></kbd></dt>
+<dd><p>Add the removed pore volume to the closest coarser cells (<cite>0</cite> by default, <cite>1</cite> to enable).</p>
+</dd>
+<dt><kbd><span class="option">-n</span></kbd></dt>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale satnum, fipnum, pvtnum, eqlnum, imbnum, and multnum (<cite>mode</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-s</span></kbd></dt>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mean</cite> to scale permx, permy, permz, and poro (’’ by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, and the mean for the porosity).</p>
+</dd>
+</dl>
 </section>
 </section>
 

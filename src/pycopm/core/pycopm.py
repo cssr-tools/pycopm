@@ -25,9 +25,12 @@ def pycopm():
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
     dic["exe"] = os.getcwd()  # Path to the folder of the input.txt file
     dic["flow"] = cmdargs["flow"].strip()  # Path to flow
-    dic["how"] = cmdargs["approach"].strip()  # Max, min, or mode
-    dic["jump"] = float(cmdargs["jump"])  # Tunning parameter
+    dic["how"] = cmdargs["how"].strip()  # Max, min, or mode for satnum
+    dic["nhow"] = cmdargs["nhow"].strip()  # Max, min, or mode for other nums
+    dic["show"] = cmdargs["show"].strip()  # Max, min, or mean for static props
+    dic["jump"] = cmdargs["jump"].strip()  # Tuning parameter to remove nnc
     dic["encoding"] = cmdargs["encoding"].strip()
+    dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["cijk"] = "yes"
     for i in ["x", "y", "z"]:
         dic[f"{i}coar"] = []
@@ -105,20 +108,21 @@ def load_parser():
         "-i",
         "--input",
         default="input.txt",
-        help="The base name of the input file or the name of the deck "
-        "('input.txt' by default).",
+        help="The base name of the input file or the name of the deck, "
+        "e.g., DROGON.DATA ('input.txt' by default).",
     )
     parser.add_argument(
         "-o",
         "--output",
-        default="output",
-        help="The base name of the output folder ('output' by default).",
+        default=".",
+        help="The base name of the output folder ('.' by "
+        "default, i.e., the folder where pycopm is executed).",
     )
     parser.add_argument(
         "-f",
         "--flow",
         default="flow",
-        help="OPM Flow full path to executable or just ('flow' by default)",
+        help="OPM Flow path to executable or just 'flow' ('flow' by default)",
     )
     parser.add_argument(
         "-c",
@@ -128,40 +132,68 @@ def load_parser():
     )
     parser.add_argument(
         "-a",
-        "--approach",
+        "--how",
         default="max",
-        help="Use min, max, or mode to scale the actnum ('min' by default)",
+        help="Use 'min', 'max', or 'mode' to scale the actnum, e.g., min makes "
+        "the new coarser cell inactive it at least one cell is inactive, while "
+        " max makes it active it at least one cell is active ('max' by default)",
     )
     parser.add_argument(
         "-j",
         "--jump",
-        default=2.0,
-        help="Tunning parameter to avoid creation of nnc on the structural faults "
-        "('2.' by default)",
+        default="",
+        help="Tuning parameter to avoid creation of neighbouring connections in "
+        "the coarser model where there are discontinuities between cells along "
+        "the z direction, e.g., around faults ('' by default, i.e., nothing "
+        "corrected; if need it, try with values of the order of 1)",
     )
     parser.add_argument(
         "-x",
         "--xcoar",
         default="",
-        help="Vector of x-coarsening ('' by default)",
+        help="Vector of x-coarsening, e.g., if the grid has 6 cells in the x "
+        "direction, then 0,2,0,2,0,2,0 would generate a coarser model with 3 "
+        "cells, while 0,2,2,2,2,2,0 would generate a coarser model with 1 cell, "
+        "i.e., 0 keeps the pilars while 2 removes them ('' by default)",
     )
     parser.add_argument(
         "-y",
         "--ycoar",
         default="",
-        help="Vector of y-coarsening ('' by default)",
+        help="Vector of y-coarsening, see the description for -x ('' by default)",
     )
     parser.add_argument(
         "-z",
         "--zcoar",
         default="",
-        help="Vector of z-coarsening ('' by default)",
+        help="Vector of z-coarsening, see the description for -x ('' by default)",
     )
     parser.add_argument(
         "-e",
         "--encoding",
         default="ISO-8859-1",
         help="Use 'utf8' or 'ISO-8859-1' encoding to read the deck ('ISO-8859-1' by default)",
+    )
+    parser.add_argument(
+        "-p",
+        "--pvcorr",
+        default=0,
+        help="Add the removed pore volume to the closest coarser cells ('0' by default)",
+    )
+    parser.add_argument(
+        "-n",
+        "--nhow",
+        default="mode",
+        help="Use 'min', 'max', or 'mode' to scale satnum, fipnum, pvtnum, eqlnum, imbnum, and "
+        "multnum ('mode' by default)",
+    )
+    parser.add_argument(
+        "-s",
+        "--show",
+        default="",
+        help="Use 'min', 'max', or 'mean' to scale permx, permy, permz, and poro ('' by default,"
+        " i.e., using the arithmetic average for permx/permy, harmonic average for permz, and "
+        "the mean for the porosity).",
     )
     return vars(parser.parse_known_args()[0])
 

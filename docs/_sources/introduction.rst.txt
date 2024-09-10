@@ -4,7 +4,7 @@ Introduction
 
 .. image:: ./figs/pycopm.gif
 
-This documentation describes the content of the **pycopm** package.
+This documentation describes the **pycopm** tool hosted in `https://github.com/cssr-tools/pycopm <https://github.com/cssr-tools/pycopm>`_.
 
 Concept
 -------
@@ -28,17 +28,20 @@ The current implementation supports the following executable with the argument o
 
 .. code-block:: bash
 
-    pycopm -i some_input -o some_output_folder
+    pycopm -i name_of_input_file
 
 where 
 
-- \-i: The base name of the :doc:`configuration file <./configuration_file>` or the name of the deck (`input.txt` by default).
-- \-o: The base name of the :doc:`output folder <./output_folder>` (`output` by default).
-- \-f: OPM Flow full path to executable or just `flow` (`flow` by default).
-- \-c: Level of coarsening in the x, y, and z dir (`2,2,2` by default).
-- \-a: Use min, max, or mode to scale the actnum (`min` by default).
-- \-j: Tunning parameter to avoid creation of nnc on the structural faults (`2.` by default).
-- \-x: Vector of x-coarsening (`` by default).
-- \-y: Vector of y-coarsening (`` by default).
-- \-z: Vector of z-coarsening (`` by default).
-- \-e: Use `utf8` or `ISO-8859-1` encoding to read the deck (`ISO-8859-1` by default).
+-i  The base name of the :doc:`configuration file <./configuration_file>` or the name of the deck, e.g., `DROGON.DATA`, (`input.txt` by default).
+-o  The base name of the :doc:`output folder <./output_folder>` ('.'' by default, i.e., the folder where pycopm is executed).
+-f  OPM Flow full path to executable or just `flow` (`flow` by default).
+-c  Level of coarsening in the x, y, and z dir (`2,2,2` by default).
+-a  Use `min`, `max`, or `mode` to scale the actnum, e.g., min makes the new coarser cell inactive it at least one cell is inactive, while max makes it active it at least one cell is active (`max` by default).
+-j  Tuning parameter to avoid creation of neighbouring connections in the coarser model where there are discontinuities between cells along the z direction, e.g., around faults ('' by default, i.e., nothing corrected; if need it, try with values of the order of 1).
+-x  Vector of x-coarsening, e.g., if the grid has 6 cells in the x direction, then `0,2,0,2,0,2,0` would generate a coarser model with 3 cells, while `0,2,2,2,2,2,0` would generate a coarser model with 1 cell, i.e., 0 keeps the pilars while 2 removes them ('' by default),
+-y  Vector of y-coarsening, see the description for -x ('' by default).
+-z  Vector of z-coarsening, see the description for -x ('' by default).
+-e  Use `utf8` or `ISO-8859-1` encoding to read the deck (`ISO-8859-1` by default).
+-p  Add the removed pore volume to the closest coarser cells (`0` by default, `1` to enable).
+-n  Use `min`, `max`, or `mode` to scale satnum, fipnum, pvtnum, eqlnum, imbnum, and multnum (`mode` by default).
+-s  Use `min`, `max`, or `mean` to scale permx, permy, permz, and poro ('' by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, and the mean for the porosity).
