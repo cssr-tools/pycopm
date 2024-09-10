@@ -16,7 +16,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
@@ -58,6 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#via-opm-flow-decks">Via OPM Flow decks</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#spe10">SPE10</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#smeaheia">Smeaheia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generic-drogon">Generic Drogon</a></li>
 </ul>
 </li>
 </ul>
@@ -130,12 +131,11 @@ for an example where <strong>pycopm</strong> is used to coarse the
 <h3>Smeaheia<a class="headerlink" href="#smeaheia" title="Link to this heading"></a></h3>
 <p>By downloading the <a class="reference external" href="https://co2datashare.org/dataset/smeaheia-dataset">Smeaheia simulation model</a>,
 then:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA<span class="w"> </span>-o<span class="w"> </span>.<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>,4,3<span class="w"> </span>-a<span class="w"> </span>mode<span class="w"> </span>-j<span class="w"> </span><span class="m">1000</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA<span class="w"> </span>-o<span class="w"> </span>.<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>,4,3<span class="w"> </span>-a<span class="w"> </span>mode
 </pre></div>
 </div>
 <p>will generate a coarser model 5 times in the x direction, 4 in the y direction, and 3 in the z direction, where the mode is
-used to decide if a coarser cell should be active or inactive. The jump (-j) is set to a higher value (1000) to avoid removal
-of grid connections (this is a tunning value to remove generated connections between neighbours in the coarse model).</p>
+used to decide if a coarser cell should be active or inactive.</p>
 <p>We can execute a dry run of OPM Flow to generate the grid and static variables of the coarser model:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>flow<span class="w"> </span>STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM.DATA<span class="w"> </span>--enable-dry-run<span class="o">=</span><span class="nb">true</span>
 </pre></div>
@@ -159,6 +159,30 @@ of grid connections (this is a tunning value to remove generated connections bet
 <p>In the current implementation of the <strong>pycopm</strong> tool, the handling of properties that require definitions of i,j,k indices
 (e.g., FAULTS, WELLSPECS) are assumed to be define in the main .DATA deck. Then, in order to use <strong>pycopm</strong> for simulation models
 where these properties are define via include files, replace those includes in the .DATA deck with the actual content of the include files.</p>
+</div>
+</section>
+<section id="generic-drogon">
+<h3>Generic Drogon<a class="headerlink" href="#generic-drogon" title="Link to this heading"></a></h3>
+<p>Following the note above, then by downloading the <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">DROGON model</a>, replacing the lines in
+<a class="reference external" href="https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA">DROGON_HIST.DATA</a> for the FAULTS (L127-128) and SCHEDULE (L242-243) with
+the actual content of those include files, then by executing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST.DATA<span class="w"> </span>-o<span class="w"> </span>.<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,1,3<span class="w"> </span>-a<span class="w"> </span>min<span class="w"> </span>-n<span class="w"> </span>max<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span>
+pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST_PYCOPM.DATA<span class="w"> </span>-o<span class="w"> </span>.<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,3,1<span class="w"> </span>-a<span class="w"> </span>mode<span class="w"> </span>-n<span class="w"> </span>mode<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-j<span class="w"> </span><span class="m">1</span>.9
+</pre></div>
+</div>
+<p>this would generate the following coarse model:</p>
+<figure class="align-default" id="id4">
+<img alt="_images/drogon_generic.png" src="_images/drogon_generic.png" />
+<figcaption>
+<p><span class="caption-text">Note that the total pore volume is conserved for the coarse model.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
+After trial and error, the jump (-j) is set to 1.9 to avoid generated connections across the faults.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>After genereting the first coarser deck (DROGON_HIST_PYCOPM.DATA), change the path ‘../include/props/drogon.swatinit’ to ‘SWATINIT.INC’,
+which contains the right number of values for the coarse model.</p>
 </div>
 </section>
 </section>

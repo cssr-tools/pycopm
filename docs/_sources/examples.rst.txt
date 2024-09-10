@@ -48,11 +48,10 @@ then:
 
 .. code-block:: bash
 
-    pycopm -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o . -c 5,4,3 -a mode -j 1000
+    pycopm -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o . -c 5,4,3 -a mode
 
 will generate a coarser model 5 times in the x direction, 4 in the y direction, and 3 in the z direction, where the mode is 
-used to decide if a coarser cell should be active or inactive. The jump (-j) is set to a higher value (1000) to avoid removal
-of grid connections (this is a tunning value to remove generated connections between neighbours in the coarse model).
+used to decide if a coarser cell should be active or inactive.
 
 We can execute a dry run of OPM Flow to generate the grid and static variables of the coarser model:
 
@@ -77,3 +76,27 @@ We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG
     In the current implementation of the **pycopm** tool, the handling of properties that require definitions of i,j,k indices 
     (e.g., FAULTS, WELLSPECS) are assumed to be define in the main .DATA deck. Then, in order to use **pycopm** for simulation models 
     where these properties are define via include files, replace those includes in the .DATA deck with the actual content of the include files.
+
+Generic Drogon
+--------------
+Following the note above, then by downloading the `DROGON model <https://github.com/OPM/opm-tests/tree/master/drogon>`_, replacing the lines in
+`DROGON_HIST.DATA <https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA>`_ for the FAULTS (L127-128) and SCHEDULE (L242-243) with
+the actual content of those include files, then by executing:
+
+.. code-block:: bash
+
+    pycopm -i DROGON_HIST.DATA -o . -c 1,1,3 -a min -n max -p 1
+    pycopm -i DROGON_HIST_PYCOPM.DATA -o . -c 1,3,1 -a mode -n mode -p 1 -j 1.9
+
+this would generate the following coarse model:
+
+.. figure:: figs/drogon_generic.png
+
+    Note that the total pore volume is conserved for the coarse model.
+
+Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
+After trial and error, the jump (-j) is set to 1.9 to avoid generated connections across the faults.
+
+.. note::
+    After genereting the first coarser deck (DROGON_HIST_PYCOPM.DATA), change the path '../include/props/drogon.swatinit' to 'SWATINIT.INC',
+    which contains the right number of values for the coarse model.

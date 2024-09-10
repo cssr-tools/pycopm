@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
+# pylint: disable=R0912,R0913,R0914,R0915
 
 """
 Utiliy methods to only create the coarser files by pycopm.
@@ -39,34 +40,53 @@ def create_deck(dic):
         dic["props"] += ["swatinit"]
     if dic["ini"].has_kw("MULTNUM"):
         dic["grids"] += ["multnum"]
-    for name in ["satnum", "eqlnum", "fipnum", "pvtnum"]:
-        if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
-            dic["regions"] += [name]
+    for name in ["satnum", "eqlnum", "fipnum", "pvtnum", "imbnum"]:
+        if dic["ini"].has_kw(name.upper()):
+            if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
+                dic["regions"] += [name]
     nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
     dic["con"] = np.array([0 for _ in range(nc)])
     dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
     actnum = np.array([0 for _ in range(nc)])
-    d_z = np.array([0.0 for _ in range(nc)])
-    z_z = np.array([0.0 for _ in range(nc)])
-    for name in dic["props"]:
-        dic[name] = np.array([0.0 for _ in range(nc)])
-    for name in dic["regions"] + dic["grids"]:
-        dic[name] = np.ones(nc)
+    d_z = np.array([np.nan for _ in range(nc)])
+    z_t = np.array([np.nan for _ in range(nc)])
+    z_b = np.array([np.nan for _ in range(nc)])
+    z_b_t = np.array([np.nan for _ in range(nc)])
+    for name in dic["props"] + dic["regions"] + dic["grids"]:
+        dic[name] = 1.0 * np.ones(nc) * np.nan
     n = 0
+    zti = [2, 5, 8, 11]
+    zbi = [14, 17, 20, 23]
+    cxyz = dic["grid"].export_corners(dic["grid"].export_index())
     for cell in dic["grid"].cells():
         actnum[cell.global_index] = cell.active
-        d_z[cell.global_index] = dic["grid"].cell_dz(ijk=(cell.i, cell.j, 0))
-        z_z[cell.global_index] = dic["grid"].get_xyz(ijk=(cell.i, cell.j, 0))[2]
+        z_t[cell.global_index] = min(cxyz[cell.global_index][i] for i in zti)
+        z_b[cell.global_index] = max(cxyz[cell.global_index][i] for i in zti)
+        tmp = max(cxyz[cell.global_index][i] for i in zbi)
+        z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
         if cell.active == 1:
+            d_z[cell.global_index] = dic["grid"].cell_dz(ijk=(cell.i, cell.j, cell.k))
             for name in dic["props"] + dic["regions"] + dic["grids"]:
                 dic[name][cell.global_index] = dic["ini"].iget_kw(name.upper())[0][n]
+            if not dic["show"]:
+                dic["permx"][cell.global_index] = (
+                    dic["ini"].iget_kw("PERMX")[0][n] * d_z[cell.global_index]
+                )
+                dic["permy"][cell.global_index] = (
+                    dic["ini"].iget_kw("PERMY")[0][n] * d_z[cell.global_index]
+                )
+                if dic["ini"].iget_kw("PERMZ")[0][n] != 0:
+                    dic["permz"][cell.global_index] = (
+                        d_z[cell.global_index] / dic["ini"].iget_kw("PERMZ")[0][n]
+                    )
             n += 1
 
     # Coarsening
     handle_clusters(dic)
     map_ijk(dic)
-    clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_z)
-    handle_pv(dic, clusmin, clusmax, rmv)
+    clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_t, z_b, z_b_t)
+    if dic["pvcorr"] == 1:
+        handle_pv(dic, clusmin, clusmax, rmv)
     handle_cp_grid(dic)
     write_grid(dic)
     write_props(dic)
@@ -78,12 +98,13 @@ def create_deck(dic):
     ) as file:
         for row in dic["lol"]:
             file.write(row + "\n")
-    # os.system(
-    #     f"{dic['flow']} {dic['deck'].upper()}_PYCOPM.DATA {dic['flags']} & wait\n"
-    # )
+    os.chdir(dic["fol"])
+    os.system(
+        f"{dic['flow']} {dic['deck'].upper()}_PYCOPM.DATA --enable-dry-run=1 & wait\n"
+    )
 
 
-def map_properties(dic, actnum, d_z, z_z):
+def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
     """
     Mapping to the coarse properties
 
@@ -91,7 +112,8 @@ def map_properties(dic, actnum, d_z, z_z):
         dic (dict): Global dictionary\n
         actnum (array): Integers with the active cells\n
         d_z (array): Floats with the corresponding grid DZ\n
-        z_z (array): Floats with the cell z-center position
+        z_t (array): Floats with the top cell z-center position\n
+        z_b (array): Floats with the bottom cell z-center position
 
     Returns:
         dic (dict): Modified global dictionary
@@ -99,39 +121,84 @@ def map_properties(dic, actnum, d_z, z_z):
     """
     clusmax = pd.Series(actnum).groupby(dic["con"]).max()
     freq = pd.Series(actnum).groupby(dic["con"]).sum()
-    dz_c = pd.Series(d_z).groupby(dic["con"]).mean()
+    dz_c = pd.Series(z_b_t).groupby(dic["con"]).max()
+    h_tot = pd.Series(d_z).groupby(dic["con"]).sum()
     if dic["how"] == "min":
         clusmin = pd.Series(actnum).groupby(dic["con"]).min()
         clust = clusmin
     elif dic["how"] == "mode":
-        clusmin = pd.Series(actnum).groupby(dic["con"]).agg(pd.Series.mode)
-        for i, val in enumerate(clusmin):
-            if not np.isscalar(val):
-                clusmin[i + 1] = clusmin[i + 1][0]
+        clusmin = (
+            pd.Series(actnum)
+            .groupby(dic["con"])
+            .agg(lambda x: pd.Series.mode(x).iat[0])
+        )
         clust = clusmin
     else:
         clusmin = clusmax
         clust = clusmax
-    rmv = 1 * (
-        (
-            pd.Series(z_z).groupby(dic["con"]).max()
-            - pd.Series(z_z).groupby(dic["con"]).min()
+    if dic["jump"]:
+        rmv = 1 * (
+            (
+                pd.Series(z_b).groupby(dic["con"]).max()
+                - pd.Series(z_t).groupby(dic["con"]).min()
+            )
+            < float(dic["jump"]) * dz_c
         )
-        < dic["jump"] * dz_c
-    )
-    dic["actnum_c"] = [int(val * r_m) for val, r_m in zip(clust, rmv)]
+        dic["actnum_c"] = [int(val * r_m) for val, r_m in zip(clust, rmv)]
+    else:
+        rmv = 0 * dz_c + 1
+        dic["actnum_c"] = [int(val) for val in clust]
     c_c = pd.Series(dic["porv"]).groupby(dic["con"]).sum()
     dic["porv_c"] = [f"{val}" for val in c_c]
     for name in dic["props"]:
-        c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
-        dic[f"{name}_c"] = [
-            f"{val/fre}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
-        ]
+        if not dic["show"]:
+            if name in ["permx", "permy"]:
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
+                dic[f"{name}_c"] = [
+                    f"{val/h_t}" if h_t * val > 0 else "0"
+                    for val, h_t in zip(c_c, h_tot)
+                ]
+            elif name == "permz":
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
+                dic["permz_c"] = [
+                    f"{h_t/val}" if h_t * val > 0 else "0"
+                    for val, h_t in zip(c_c, h_tot)
+                ]
+            else:
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
+                dic[f"{name}_c"] = [
+                    f"{val/fre}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
+                ]
+        else:
+            if dic["show"] == "min":
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).min()
+                dic[f"{name}_c"] = [f"{val}" for val in c_c]
+            elif dic["show"] == "max":
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).max()
+                dic[f"{name}_c"] = [f"{val}" for val in c_c]
+            else:
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
+                dic[f"{name}_c"] = [
+                    f"{val/fre}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
+                ]
     for name in dic["regions"] + dic["grids"]:
-        c_c = pd.Series(dic[name]).groupby(dic["con"]).agg(pd.Series.mode)
-        dic[f"{name}_c"] = [
-            f"{int(val)}" if np.isscalar(val) else f"{int(val[-1])}" for val in c_c
-        ]
+        if dic["nhow"] == "min":
+            c_c = pd.Series(dic[name]).groupby(dic["con"]).min()
+        elif dic["nhow"] == "max":
+            c_c = pd.Series(dic[name]).groupby(dic["con"]).max()
+        else:
+            c_c = (
+                pd.Series(dic[name])
+                .groupby(dic["con"])
+                .agg(
+                    lambda x: (
+                        pd.Series.mode(x).iat[0]
+                        if len(pd.Series.mode(x)) > 1
+                        else pd.Series.mode(x)
+                    )
+                )
+            )
+        dic[f"{name}_c"] = [f"{int(val)}" if np.isscalar(val) else "0" for val in c_c]
     return clusmin, clusmax, rmv
 
 

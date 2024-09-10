@@ -45,7 +45,7 @@ See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) 
 ## Running pycopm
 You can run _pycopm_ as a single command line:
 ```
-pycopm -i some_input -o some_output_folder
+pycopm -i name_of_input_file
 ```
 Run `pycopm --help` to see all possible command line argument options.
 

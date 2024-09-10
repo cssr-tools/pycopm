@@ -13,6 +13,6 @@ def test_single_run():
     os.chdir(f"{cwd}/tests/configs")
     main()
     assert os.path.exists(
-        f"{cwd}/tests/configs/output/postprocessing/wells/HISTO_DATA_WWPR_A4.png"
+        f"{cwd}/tests/configs/postprocessing/wells/HISTO_DATA_WWPR_A4.png"
     )
     os.chdir(cwd)
