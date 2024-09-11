@@ -98,10 +98,10 @@ def create_deck(dic):
     ) as file:
         for row in dic["lol"]:
             file.write(row + "\n")
-    os.chdir(dic["fol"])
-    os.system(
-        f"{dic['flow']} {dic['deck'].upper()}_PYCOPM.DATA --enable-dry-run=1 & wait\n"
-    )
+    # os.chdir(dic["fol"])
+    # os.system(
+    #     f"{dic['flow']} {dic['deck'].upper()}_PYCOPM.DATA --enable-dry-run=1 & wait\n"
+    # )
 
 
 def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
@@ -735,7 +735,6 @@ def handle_segmented_wells(dic, nrwo):
                 edit[0] = str(dic["ic"][int(edit[0])])
                 edit[1] = str(dic["jc"][int(edit[1])])
                 edit[2] = str(dic["kc"][int(edit[2])])
-                edit[3] = str(dic["kc"][int(edit[3])])
                 dic["lol"].append(" ".join(edit))
                 return True
     return False
