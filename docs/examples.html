@@ -186,8 +186,8 @@ where these properties are define via include files, replace those includes in t
 <p>Following the note above, then by downloading the <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">DROGON model</a>, replacing the lines in
 <a class="reference external" href="https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA">DROGON_HIST.DATA</a> for the FAULTS (L127-128) and SCHEDULE (L242-243) with
 the actual content of those include files, then by executing:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,1,3<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span>
-pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST_PYCOPM.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,3,1<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-j<span class="w"> </span><span class="m">2</span>.5
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,1,3<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-l<span class="w"> </span>C1
+pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST_PYCOPM.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,3,1<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-j<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>-l<span class="w"> </span>C2
 </pre></div>
 </div>
 <p>this would generate the following coarse model:</p>
@@ -200,7 +200,7 @@ pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST_PYCOPM.DATA<
 <p>Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
 After trial and error, the jump (-j) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
 inactive cells and faults, this divide and conquer apporach is recommended, i.e., coarsening first in the z directon and after coarsening
-in the x and y directions.</p>
+in the x and y directions. In addition, we add labels (-l) C1 and C2 to differentiate between the coarse include files.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Add to the generated coarse deck the missing include files in the grid section related to the region operations (e.g.,

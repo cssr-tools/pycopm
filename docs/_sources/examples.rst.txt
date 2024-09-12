@@ -109,8 +109,8 @@ the actual content of those include files, then by executing:
 
 .. code-block:: bash
 
-    pycopm -i DROGON_HIST.DATA -c 1,1,3 -p 1
-    pycopm -i DROGON_HIST_PYCOPM.DATA -c 1,3,1 -p 1 -j 2.5
+    pycopm -i DROGON_HIST.DATA -c 1,1,3 -p 1 -l C1
+    pycopm -i DROGON_HIST_PYCOPM.DATA -c 1,3,1 -p 1 -j 2.5 -l C2
 
 this would generate the following coarse model:
 
@@ -121,7 +121,7 @@ this would generate the following coarse model:
 Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
 After trial and error, the jump (-j) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
 inactive cells and faults, this divide and conquer apporach is recommended, i.e., coarsening first in the z directon and after coarsening
-in the x and y directions.
+in the x and y directions. In addition, we add labels (-l) C1 and C2 to differentiate between the coarse include files.
 
 .. note::
     Add to the generated coarse deck the missing include files in the grid section related to the region operations (e.g.,
