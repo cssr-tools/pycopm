@@ -23,15 +23,6 @@ ${f"{dic['zc'][i] : .3f}"}
 /
 
 % if dic['field']=='generic': 
-INIT 
-INCLUDE                                
-'PORO.INC' /
-INCLUDE                                
-'PERMX.INC' /
-INCLUDE                                
-'PERMY.INC' /
-INCLUDE                                
-'PERMZ.INC' /
 ACTNUM
 % for i in range(len(dic['actnum_c'])):
 ${f"{dic['actnum_c'][i]}"}

@@ -8,6 +8,7 @@ Utiliy methods to only create the coarser files by pycopm.
 
 import os
 import csv
+import sys
 import numpy as np
 from resdata.grid import Grid
 from resdata.resfile import ResdataFile
@@ -26,82 +27,162 @@ def create_deck(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["flags"] = "--parsing-strictness=low --enable-dry-run=true"
-    os.system(f"{dic['flow']} {dic['deck'].upper()}.DATA {dic['flags']} & wait\n")
-
-    # Read the data
-    dic["field"] = "generic"
-    dic["props"] = ["poro", "permx", "permy", "permz"]
-    dic["regions"] = []
-    dic["grids"] = []
-    dic["grid"] = Grid(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
-    dic["ini"] = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".INIT")
-    if dic["ini"].has_kw("SWATINIT"):
-        dic["props"] += ["swatinit"]
-    if dic["ini"].has_kw("MULTNUM"):
-        dic["grids"] += ["multnum"]
-    for name in ["satnum", "eqlnum", "fipnum", "pvtnum", "imbnum"]:
-        if dic["ini"].has_kw(name.upper()):
-            if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
-                dic["regions"] += [name]
-    nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
-    dic["con"] = np.array([0 for _ in range(nc)])
-    dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
-    actnum = np.array([0 for _ in range(nc)])
-    d_z = np.array([np.nan for _ in range(nc)])
-    z_t = np.array([np.nan for _ in range(nc)])
-    z_b = np.array([np.nan for _ in range(nc)])
-    z_b_t = np.array([np.nan for _ in range(nc)])
-    for name in dic["props"] + dic["regions"] + dic["grids"]:
-        dic[name] = 1.0 * np.ones(nc) * np.nan
-    n = 0
-    zti = [2, 5, 8, 11]
-    zbi = [14, 17, 20, 23]
-    cxyz = dic["grid"].export_corners(dic["grid"].export_index())
-    for cell in dic["grid"].cells():
-        actnum[cell.global_index] = cell.active
-        z_t[cell.global_index] = min(cxyz[cell.global_index][i] for i in zti)
-        z_b[cell.global_index] = max(cxyz[cell.global_index][i] for i in zti)
-        tmp = max(cxyz[cell.global_index][i] for i in zbi)
-        z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
-        if cell.active == 1:
-            d_z[cell.global_index] = dic["grid"].cell_dz(ijk=(cell.i, cell.j, cell.k))
-            for name in dic["props"] + dic["regions"] + dic["grids"]:
-                dic[name][cell.global_index] = dic["ini"].iget_kw(name.upper())[0][n]
-            if not dic["show"]:
-                dic["permx"][cell.global_index] = (
-                    dic["ini"].iget_kw("PERMX")[0][n] * d_z[cell.global_index]
-                )
-                dic["permy"][cell.global_index] = (
-                    dic["ini"].iget_kw("PERMY")[0][n] * d_z[cell.global_index]
-                )
-                if dic["ini"].iget_kw("PERMZ")[0][n] != 0:
-                    dic["permz"][cell.global_index] = (
-                        d_z[cell.global_index] / dic["ini"].iget_kw("PERMZ")[0][n]
+    if dic["ijk"]:
+        dic["ijk"] = [int(val) for val in dic["ijk"].split(",")]
+        dic["mode"] = "deck"
+    if not dic["write"]:
+        dic["write"] = dic["deck"] + "_PYCOPM"
+    dic["flags"] = "--parsing-strictness=low --enable-dry-run=true --output-mode=none"
+    if dic["mode"] in ["prep", "prep_deck", "all"]:
+        os.system(f"cp {dic['deck']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
+        print(
+            f"\nCloning {dic['deck']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA for"
+            " the intial dry run to generate the grid (.EGRID) and static (.INIT) "
+            "properties\n"
+        )
+        os.system(
+            f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA {dic['flags']} "
+            f"--output-dir={dic['fol']}"
+        )
+        os.system(f"mv {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA " + f"{dic['fol']}")
+        for name in [".INIT", ".EGRID"]:
+            files = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN" + name
+            if not os.path.isfile(files):
+                if name == ".INIT":
+                    print(
+                        f"\nThe {files} is not found, try adding the keyword INIT in"
+                        f" the GRID section in the original deck {dic['deck']}.DATA\n"
                     )
-            n += 1
+                else:
+                    print(
+                        f"\nThe {files} is not found, try removing the keyword GRIDFILE in"
+                        f" the GRID section in the original deck {dic['deck']}.DATA\n"
+                    )
+                sys.exit()
+        print("\nThe dry run succeeded")
 
-    # Coarsening
-    handle_clusters(dic)
-    map_ijk(dic)
-    clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_t, z_b, z_b_t)
-    if dic["pvcorr"] == 1:
-        handle_pv(dic, clusmin, clusmax, rmv)
-    handle_cp_grid(dic)
-    write_grid(dic)
-    write_props(dic)
-    process_the_deck(dic)
-    with open(
-        f"{dic['exe']}/{dic['fol']}/{dic['deck'].upper()}_PYCOPM.DATA",
-        "w",
-        encoding="utf8",
-    ) as file:
-        for row in dic["lol"]:
-            file.write(row + "\n")
-    # os.chdir(dic["fol"])
-    # os.system(
-    #     f"{dic['flow']} {dic['deck'].upper()}_PYCOPM.DATA --enable-dry-run=1 & wait\n"
-    # )
+    if dic["mode"] in ["prep_deck", "deck", "deck_dry", "all"]:
+        dic["deck"] = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN"
+        for name in [".INIT", ".EGRID"]:
+            files = dic["deck"] + name
+            if not os.path.isfile(files):
+                print(
+                    f"\nThe {files} is not found, try running pycopm with -m prep_deck "
+                    "and without -ijk"
+                )
+                sys.exit()
+        dic["field"] = "generic"
+        dic["props"] = ["poro", "permx", "permy", "permz"]
+        dic["base"] = dic["props"] + ["grid"]
+        dic["regions"] = []
+        dic["grids"] = []
+        dic["mults"] = []
+        dic["special"] = []
+        dic["grid"] = Grid(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
+        dic["ini"] = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".INIT")
+        if not dic["ijk"]:
+            print("\nInitializing pycopm to generate the coarse files, please wait")
+        if dic["ini"].has_kw("SWATINIT"):
+            dic["props"] += ["swatinit"]
+            dic["special"] += ["swatinit"]
+        for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
+            if dic["ini"].has_kw(name.upper()):
+                tmp = np.array(dic["ini"].iget_kw(name.upper())[0])
+                if 0 < sum(tmp != 1):
+                    dic["props"] += [name]
+                    dic["mults"] += [name]
+        for name in ["multnum", "fluxnum"]:
+            if dic["ini"].has_kw(name.upper()):
+                if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
+                    dic["grids"] += [name]
+        for name in [
+            "endnum",
+            "eqlnum",
+            "fipnum",
+            "imbnum",
+            "miscnum",
+            "pvtnum",
+            "rocknum",
+            "satnum",
+        ]:
+            if dic["ini"].has_kw(name.upper()):
+                if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
+                    dic["regions"] += [name]
+        nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
+        dic["con"] = np.array([0 for _ in range(nc)])
+        dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
+        actnum = np.array([0 for _ in range(nc)])
+        d_z = np.array([np.nan for _ in range(nc)])
+        z_t = np.array([np.nan for _ in range(nc)])
+        z_b = np.array([np.nan for _ in range(nc)])
+        z_b_t = np.array([np.nan for _ in range(nc)])
+        for name in dic["props"] + dic["regions"] + dic["grids"]:
+            dic[name] = 1.0 * np.ones(nc) * np.nan
+        n = 0
+        zti = [2, 5, 8, 11]
+        zbi = [14, 17, 20, 23]
+        cxyz = dic["grid"].export_corners(dic["grid"].export_index())
+        for cell in dic["grid"].cells():
+            actnum[cell.global_index] = cell.active
+            z_t[cell.global_index] = min(cxyz[cell.global_index][i] for i in zti)
+            z_b[cell.global_index] = max(cxyz[cell.global_index][i] for i in zti)
+            tmp = max(cxyz[cell.global_index][i] for i in zbi)
+            z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
+            if cell.active == 1:
+                d_z[cell.global_index] = dic["grid"].cell_dz(
+                    ijk=(cell.i, cell.j, cell.k)
+                )
+                for name in dic["props"] + dic["regions"] + dic["grids"]:
+                    dic[name][cell.global_index] = dic["ini"].iget_kw(name.upper())[0][
+                        n
+                    ]
+                if not dic["show"]:
+                    dic["permx"][cell.global_index] = (
+                        dic["ini"].iget_kw("PERMX")[0][n] * d_z[cell.global_index]
+                    )
+                    dic["permy"][cell.global_index] = (
+                        dic["ini"].iget_kw("PERMY")[0][n] * d_z[cell.global_index]
+                    )
+                    if dic["ini"].iget_kw("PERMZ")[0][n] != 0:
+                        dic["permz"][cell.global_index] = (
+                            d_z[cell.global_index] / dic["ini"].iget_kw("PERMZ")[0][n]
+                        )
+                n += 1
+
+        # Coarsening
+        handle_clusters(dic)
+        map_ijk(dic)
+        if dic["ijk"]:
+            print(
+                dic["ic"][dic["ijk"][0]],
+                dic["jc"][dic["ijk"][1]],
+                dic["kc"][dic["ijk"][2]],
+            )
+            sys.exit()
+        clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_t, z_b, z_b_t)
+        if dic["pvcorr"] == 1:
+            handle_pv(dic, clusmin, clusmax, rmv)
+        handle_cp_grid(dic)
+        write_grid(dic)
+        write_props(dic)
+        process_the_deck(dic)
+        with open(
+            f"{dic['exe']}/{dic['fol']}/{dic['write']}.DATA",
+            "w",
+            encoding="utf8",
+        ) as file:
+            for row in dic["lol"]:
+                file.write(row + "\n")
+        print(
+            f"\nThe generation of coarse files succeeded, see {dic['fol']}/"
+            f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC"
+        )
+
+    if dic["mode"] in ["deck_dry", "dry", "all"]:
+        print("\nCall OPM Flow for a dry run of the coarse model\n")
+        os.chdir(dic["fol"])
+        os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
+        print("\nThe dry run of the coarse model succeeded\n")
 
 
 def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
@@ -121,7 +202,7 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
     """
     clusmax = pd.Series(actnum).groupby(dic["con"]).max()
     freq = pd.Series(actnum).groupby(dic["con"]).sum()
-    dz_c = pd.Series(z_b_t).groupby(dic["con"]).max()
+    dz_c = pd.Series(z_b_t).groupby(dic["con"]).mean()
     h_tot = pd.Series(d_z).groupby(dic["con"]).sum()
     if dic["how"] == "min":
         clusmin = pd.Series(actnum).groupby(dic["con"]).min()
@@ -184,21 +265,23 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
     for name in dic["regions"] + dic["grids"]:
         if dic["nhow"] == "min":
             c_c = pd.Series(dic[name]).groupby(dic["con"]).min()
+            dic[f"{name}_c"] = [
+                f"{int(val)}" if not np.isnan(val) else "0" for val in c_c
+            ]
         elif dic["nhow"] == "max":
             c_c = pd.Series(dic[name]).groupby(dic["con"]).max()
+            dic[f"{name}_c"] = [
+                f"{int(val)}" if not np.isnan(val) else "0" for val in c_c
+            ]
         else:
             c_c = (
                 pd.Series(dic[name])
                 .groupby(dic["con"])
-                .agg(
-                    lambda x: (
-                        pd.Series.mode(x).iat[0]
-                        if len(pd.Series.mode(x)) > 1
-                        else pd.Series.mode(x)
-                    )
-                )
+                .agg(lambda x: list(pd.Series.mode(x)))
             )
-        dic[f"{name}_c"] = [f"{int(val)}" if np.isscalar(val) else "0" for val in c_c]
+            dic[f"{name}_c"] = [
+                f"{int(val[0])}" if len(val) > 0 else "0" for val in c_c
+            ]
     return clusmin, clusmax, rmv
 
 
@@ -321,17 +404,7 @@ def write_grid(dic):
         dic["files"] = [f for f in os.listdir(f"{dic['exe']}") if f.endswith(".INC")]
         for file in dic["files"]:
             copy = True
-            for prop in [
-                "PORO",
-                "PERM",
-                "TOPS",
-                "PHI",
-                "FIPNUM",
-                "SATNUM",
-                "NTG",
-                "GRID",
-                "PORV",
-            ]:
+            for prop in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
                 if prop in file:
                     copy = False
             if copy:
@@ -339,7 +412,9 @@ def write_grid(dic):
     var = {"dic": dic}
     mytemplate = Template(filename=f"{dic['pat']}/template_scripts/common/grid.mako")
     filledtemplate = mytemplate.render(**var)
-    with open(f"{dic['exe']}/{dic['fol']}/GRID.INC", "w", encoding="utf8") as f:
+    with open(
+        f"{dic['exe']}/{dic['fol']}/{dic['label']}GRID.INC", "w", encoding="utf8"
+    ) as f:
         f.write(filledtemplate)
 
 
@@ -362,7 +437,7 @@ def write_props(dic):
         )
         dic[f"{name}_c"].append("/")
         with open(
-            f"{dic['exe']}/{dic['fol']}/{name.upper()}.INC",
+            f"{dic['exe']}/{dic['fol']}/{dic['label']}{name.upper()}.INC",
             "w",
             encoding="utf8",
         ) as file:
@@ -547,6 +622,8 @@ def process_the_deck(dic):
     dic["compdat"] = False
     dic["compsegs"] = False
     dic["mapaxes"] = False
+    dic["props"] = False
+    dic["oper"] = False
     dic["region"] = False
     dic["fault"] = False
     with open(dic["deck"] + ".DATA", "r", encoding=dic["encoding"]) as file:
@@ -563,13 +640,86 @@ def process_the_deck(dic):
                 continue
             if handle_grid_props(dic, nrwo):
                 continue
+            if handle_props(dic, nrwo):
+                continue
             if handle_regions(dic, nrwo):
                 continue
             if handle_wells(dic, nrwo):
                 continue
             if handle_segmented_wells(dic, nrwo):
                 continue
+            for case in dic["special"]:
+                if (
+                    case + "." in nrwo.lower()
+                    or "." + case in nrwo.lower()
+                    or "swinitial." in nrwo.lower()
+                ):
+                    nrwo = f"{dic['label']}{case.upper()}.INC/"
             dic["lol"].append(nrwo)
+
+
+def handle_props(dic, nrwo):
+    """
+    Handle the props sections
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if nrwo == "PROPS" and not dic["props"]:
+        dic["props"] = True
+        dic["lol"].append(nrwo + "\n")
+        return True
+    if dic["props"]:
+        if handle_oper(dic, nrwo):
+            return True
+        if nrwo in ["REGIONS", "SOLUTION"]:
+            dic["props"] = False
+    return False
+
+
+def handle_oper(dic, nrwo):
+    """
+    We also support operations
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if nrwo in ["EQUALS", "COPY", "ADD", "MULTIPLY"]:
+        if not dic["props"] and nrwo == "COPY":
+            return False
+        dic["oper"] = True
+        dic["lol"].append(nrwo)
+        return True
+    if dic["oper"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0] == "/":
+                dic["oper"] = False
+        if len(edit) > 7:
+            if edit[0][:2] != "--":
+                if "PERM" in edit[0]:
+                    edit[1] = "1"
+                edit[2] = str(dic["ic"][int(edit[2])])
+                edit[3] = str(dic["ic"][int(edit[3])])
+                edit[4] = str(dic["jc"][int(edit[4])])
+                edit[5] = str(dic["jc"][int(edit[5])])
+                edit[6] = str(dic["kc"][int(edit[6])])
+                edit[7] = str(dic["kc"][int(edit[7])])
+                dic["lol"].append(" ".join(edit))
+                return True
+        if not dic["props"]:
+            dic["lol"].append(nrwo)
+    return False
 
 
 def handle_regions(dic, nrwo):
@@ -593,7 +743,7 @@ def handle_regions(dic, nrwo):
             dic["region"] = False
             for name in dic["regions"]:
                 dic["lol"].append("INCLUDE")
-                dic["lol"].append(f"'{name.upper()}.INC' /\n")
+                dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
         else:
             return True
     return False
@@ -614,22 +764,23 @@ def handle_grid_props(dic, nrwo):
     if nrwo == "GRID" and not dic["removeg"]:
         dic["removeg"] = True
         dic["lol"].append(nrwo + "\n")
-        dic["lol"].append("INCLUDE")
-        dic["lol"].append("'GRID.INC' /\n")
-        for name in dic["grids"]:
+        dic["lol"].append("INIT")
+        for name in dic["base"] + dic["grids"] + dic["mults"]:
             dic["lol"].append("INCLUDE")
-            dic["lol"].append(f"'{name.upper()}.INC' /\n")
+            dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
         return True
     if dic["removeg"]:
         if handle_fault(dic, nrwo):
             return True
         if handle_mapaxes(dic, nrwo):
             return True
+        # if handle_oper(dic, nrwo):
+        #    return True
         if nrwo == "PROPS":
             dic["removeg"] = False
             dic["lol"].append("EDIT\n")
             dic["lol"].append("INCLUDE")
-            dic["lol"].append("'PORV.INC' /\n")
+            dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
         else:
             return True
     return False
@@ -647,9 +798,12 @@ def handle_mapaxes(dic, nrwo):
         dic (dict): Modified global dictionary
 
     """
-    if nrwo == "MAPAXES":
+    if "MAPAXES" in nrwo:
+        edit = nrwo.split()
+        if edit[0] != "MAPAXES":
+            return False
         dic["mapaxes"] = True
-        dic["lol"].append(nrwo)
+        dic["lol"].append(edit[0])
         return True
     if dic["mapaxes"]:
         edit = nrwo.split()

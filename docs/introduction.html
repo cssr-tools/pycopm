@@ -96,8 +96,8 @@
 </section>
 <section id="roadmap">
 <h2>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading"></a></h2>
-<p>In the initial development of the framework, the focus was two available models in <a class="reference external" href="https://github.com/OPM/opm-tests">opm-tests</a>: <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/norne">norne</a>
-and <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">drogon</a>, where the coarser models are used to perform history matching studies using
+<p>In the initial development of the framework, the focus were two available models in <a class="reference external" href="https://github.com/OPM/opm-tests">opm-tests</a>: <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/norne">norne</a>
+and <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">drogon</a>, where the coarser models were used to perform history matching studies using
 the Ensemble based reservoir tool <a class="reference external" href="https://ert.readthedocs.io/en/latest/">ERT</a>, via a <a class="reference internal" href="configuration_file.html"><span class="doc">configuration file</span></a>.</p>
 <p>The current development of <strong>pycopm</strong> focuses on only creating coarser models (i.e., all needed input files to run OPM Flow) by only giving the OPM Flow input files
 (i.e., avoiding the manual work to create templates as it was done for drogon and norne). This allows for flexibility to adapt the generated coarser decks in your
@@ -121,13 +121,7 @@ favourite history matching/optimization tool (e.g., <a class="reference external
 <dd><p>OPM Flow full path to executable or just <cite>flow</cite> (<cite>flow</cite> by default).</p>
 </dd>
 <dt><kbd><span class="option">-c</span></kbd></dt>
-<dd><p>Level of coarsening in the x, y, and z dir (<cite>2,2,2</cite> by default).</p>
-</dd>
-<dt><kbd><span class="option">-a</span></kbd></dt>
-<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale the actnum, e.g., min makes the new coarser cell inactive it at least one cell is inactive, while max makes it active it at least one cell is active (<cite>max</cite> by default).</p>
-</dd>
-<dt><kbd><span class="option">-j</span></kbd></dt>
-<dd><p>Tuning parameter to avoid creation of neighbouring connections in the coarser model where there are discontinuities between cells along the z direction, e.g., around faults (’’ by default, i.e., nothing corrected; if need it, try with values of the order of 1).</p>
+<dd><p>Level of coarsening in the x, y, and z dir (<cite>2,2,2</cite> by default; either use this flag or the -x, -y, and -z ones).</p>
 </dd>
 <dt><kbd><span class="option">-x</span></kbd></dt>
 <dd><p>Vector of x-coarsening, e.g., if the grid has 6 cells in the x direction, then <cite>0,2,0,2,0,2,0</cite> would generate a coarser model with 3 cells, while <cite>0,2,2,2,2,2,0</cite> would generate a coarser model with 1 cell, i.e., 0 keeps the pilars while 2 removes them (’’ by default),</p>
@@ -138,17 +132,35 @@ favourite history matching/optimization tool (e.g., <a class="reference external
 <dt><kbd><span class="option">-z</span></kbd></dt>
 <dd><p>Vector of z-coarsening, see the description for -x (’’ by default).</p>
 </dd>
-<dt><kbd><span class="option">-e</span></kbd></dt>
-<dd><p>Use <cite>utf8</cite> or <cite>ISO-8859-1</cite> encoding to read the deck (<cite>ISO-8859-1</cite> by default).</p>
+<dt><kbd><span class="option">-a</span></kbd></dt>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale the actnum, e.g., min makes the new coarser cell inactive if at least one cell is inactive, while max makes it active it at least one cell is active (<cite>mode</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-n</span></kbd></dt>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale endnum, eqlnum, fipnum, fluxnum, imbnum, miscnum, multnum, pvtnum, rocknum, and satnum (<cite>mode</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-s</span></kbd></dt>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mean</cite> to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz (’’ by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, and the mean for the rest).</p>
 </dd>
 <dt><kbd><span class="option">-p</span></kbd></dt>
 <dd><p>Add the removed pore volume to the closest coarser cells (<cite>0</cite> by default, <cite>1</cite> to enable).</p>
 </dd>
-<dt><kbd><span class="option">-n</span></kbd></dt>
-<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale satnum, fipnum, pvtnum, eqlnum, imbnum, and multnum (<cite>mode</cite> by default).</p>
+<dt><kbd><span class="option">-j</span></kbd></dt>
+<dd><p>Tuning parameter to avoid creation of neighbouring connections in the coarser model where there are discontinuities between cells along the z direction, e.g., around faults (’’ by default, i.e., nothing corrected; if need it, try with values of the order of 1).</p>
 </dd>
-<dt><kbd><span class="option">-s</span></kbd></dt>
-<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mean</cite> to scale permx, permy, permz, and poro (’’ by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, and the mean for the porosity).</p>
+<dt><kbd><span class="option">-m</span></kbd></dt>
+<dd><p>Execute a dry run on the input deck to generate the static properties (‘prep’), generate only the coarse files (‘deck’), only exectute a dry run on the generated coarse model (‘dry’), ‘prep_deck’, ‘deck_dry’, or do all (‘all’) (<cite>prep_deck</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-w</span></kbd></dt>
+<dd><p>Name of the generated deck (’’ by default, i.e., the name of the input deck plus _PYCOPM.DATA).</p>
+</dd>
+<dt><kbd><span class="option">-l</span></kbd></dt>
+<dd><p>Added text before each generated .INC (<cite>PYCOPM_</cite> by default, i.e., the coarse porv is saved in PYCOPM_PORV.INC; set to ‘’ to generate PORV.INC, PERMX.INC, etc).</p>
+</dd>
+<dt><kbd><span class="option">-e</span></kbd></dt>
+<dd><p>Use <cite>utf8</cite> or <cite>ISO-8859-1</cite> encoding to read the deck (<cite>ISO-8859-1</cite> by default).</p>
+</dd>
+<dt><kbd><span class="option">-i<var>jk</var></span></kbd></dt>
+<dd><p>Given i,j,k indices in the input model, return the coarse i,j,k corresponding positions (’’ by default; if not empty, e.g., 1,2,3 then the -m is set to deck and there will not be generation of coarse files, only the i,j,k coarse indices in the terminal).</p>
 </dd>
 </dl>
 </section>

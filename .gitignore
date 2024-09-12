@@ -163,8 +163,8 @@ cython_debug/
 .DS_Store
 
 # Tests
-tests/configs/ert/
-tests/generic_deck
+tests/configs/ert
+tests/decks/coarser
 tests/configs/ert
 tests/configs/jobs
 tests/configs/logs

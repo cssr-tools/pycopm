@@ -10,35 +10,74 @@ import subprocess
 def test_generic_deck():
     """pycopm application to coarser a geological model given an input deck"""
     cwd = os.getcwd()
-    os.chdir(f"{cwd}/tests")
-    os.system("mkdir generic_deck")
-    os.chdir(f"{cwd}/tests/generic_deck")
-    for name in ["PERM", "PHI", "TOPS"]:
-        subprocess.run(
-            [
-                "curl",
-                "-o",
-                f"./SPE10MODEL2_{name}.INC",
-                "https://raw.githubusercontent.com/OPM/opm-data/master/spe10model2/"
-                + f"SPE10MODEL2_{name}.INC",
-            ],
-            check=True,
-        )
+    os.chdir(f"{os.getcwd()}/tests/decks")
     subprocess.run(
         [
-            "curl",
+            "pycopm",
+            "-i",
+            "HELLO_WORLD.DATA",
             "-o",
-            "./SPE10_MODEL2.DATA",
-            "https://raw.githubusercontent.com/OPM/opm-data/master/spe10model2/"
-            + "SPE10_MODEL2.DATA",
+            "coarser",
+            "-c",
+            "5,1,5",
+            "-m",
+            "prep",
         ],
         check=True,
     )
+    assert os.path.exists(
+        f"{cwd}/tests/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT"
+    )
+    assert os.path.exists(
+        f"{cwd}/tests/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID"
+    )
+    for ahow in ["max", "min", "mode"]:
+        for nhow in ["max", "min", "mode"]:
+            for show in ["max", "min", "mean"]:
+                subprocess.run(
+                    [
+                        "pycopm",
+                        "-i",
+                        "HELLO_WORLD.DATA",
+                        "-o",
+                        "coarser",
+                        "-c",
+                        "5,1,5",
+                        "-m",
+                        "deck",
+                        "-a",
+                        ahow,
+                        "-n",
+                        nhow,
+                        "-s",
+                        show,
+                    ],
+                    check=True,
+                )
+                assert os.path.exists(
+                    f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.DATA"
+                )
+                os.system(f"rm {cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.DATA")
     subprocess.run(
-        ["pycopm", "-i", "SPE10_MODEL2.DATA", "-o", "coarser", "-c", "4,8,2"],
+        [
+            "pycopm",
+            "-i",
+            "HELLO_WORLD.DATA",
+            "-o",
+            "coarser",
+            "-m",
+            "deck_dry",
+            "p",
+            "1",
+            "-n",
+            "mode",
+            "-x",
+            "0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0",
+            "-z",
+            "0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0",
+        ],
         check=True,
     )
-    os.chdir(f"{cwd}/tests/generic_deck/coarser")
-    os.system("flow SPE10_MODEL2_PYCOPM.DATA --parsing-strictness=low & wait\n")
-    assert os.path.exists(f"{cwd}/tests/generic_deck/coarser/SPE10_MODEL2_PYCOPM.UNRST")
+    assert os.path.exists(f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.INIT")
+    assert os.path.exists(f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.EGRID")
     os.chdir(cwd)
