@@ -106,7 +106,7 @@ are generated in the postprocessing folder. The OPM simulation results can be vi
 </section>
 <section id="via-an-opm-flow-input-deck">
 <h2>Via an OPM Flow input deck<a class="headerlink" href="#via-an-opm-flow-input-deck" title="Link to this heading"></a></h2>
-<p>The current development of <strong>pycopm</strong> focuces on only creating coarser models (i.e., all needed input files to run OPM Flow) by only giving the OPM Flow input files.</p>
+<p>The current development of <strong>pycopm</strong> focuces on only creating coarser models (i.e., all needed input files to run OPM Flow) by using the input deck.</p>
 <p>The following screenshot shows the input deck and generated files in the selected output folder (coarser for this example) after executing <strong>pycopm</strong> on the SPE10 model (see the
 <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/tests/test_generic_deck.py">test_generic_deck.py</a>) file.</p>
 <figure class="align-default">
@@ -114,6 +114,13 @@ are generated in the postprocessing folder. The OPM simulation results can be vi
 </figure>
 <p>Then, after running <strong>pycopm</strong>, one could adapt the generated files with the coarser geological model in your
 favourite history matching/optimization tool (e.g., <a class="reference external" href="https://ert.readthedocs.io/en/latest/">ERT</a>, <a class="reference external" href="https://python-ensemble-toolbox.github.io/PET/">PET</a>, <a class="reference external" href="https://github.com/equinor/everest">everest</a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For input decks that include other files without giving the full path (e.g., ‘./include/summary…’), then we recommend
+to use the default output folder (-o .), i.e., the generated deck and coarse files would be generated in the same location as
+the input deck and no errors would appear for not finding the include files; otherwise, you might need to copy all needed folders
+with the include files to the output folder or setting the correct path to the include files in the generated coarse deck.</p>
+</div>
 </section>
 </section>
 

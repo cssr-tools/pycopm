@@ -21,7 +21,7 @@ are generated in the postprocessing folder. The OPM simulation results can be vi
 
 Via an OPM Flow input deck
 --------------------------
-The current development of **pycopm** focuces on only creating coarser models (i.e., all needed input files to run OPM Flow) by only giving the OPM Flow input files.
+The current development of **pycopm** focuces on only creating coarser models (i.e., all needed input files to run OPM Flow) by using the input deck.
 
 The following screenshot shows the input deck and generated files in the selected output folder (coarser for this example) after executing **pycopm** on the SPE10 model (see the 
 `test_generic_deck.py <https://github.com/cssr-tools/pycopm/blob/main/tests/test_generic_deck.py>`_) file.
@@ -30,3 +30,9 @@ The following screenshot shows the input deck and generated files in the selecte
 
 Then, after running **pycopm**, one could adapt the generated files with the coarser geological model in your
 favourite history matching/optimization tool (e.g., `ERT <https://ert.readthedocs.io/en/latest/>`_, `PET <https://python-ensemble-toolbox.github.io/PET/>`_, `everest <https://github.com/equinor/everest>`_).
+
+.. Note::
+    For input decks that include other files without giving the full path (e.g., './include/summary...'), then we recommend
+    to use the default output folder (-o .), i.e., the generated deck and coarse files would be generated in the same location as
+    the input deck and no errors would appear for not finding the include files; otherwise, you might need to copy all needed folders
+    with the include files to the output folder or setting the correct path to the include files in the generated coarse deck. 

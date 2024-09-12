@@ -29,6 +29,10 @@ def pycopm():
     dic["nhow"] = cmdargs["nhow"].strip()  # Max, min, or mode for other nums
     dic["show"] = cmdargs["show"].strip()  # Max, min, or mean for static props
     dic["jump"] = cmdargs["jump"].strip()  # Tuning parameter to remove nnc
+    dic["write"] = cmdargs["write"].strip()  # Name of the generated deck
+    dic["mode"] = cmdargs["mode"].strip()  # What to run
+    dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
+    dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the coarse model
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["cijk"] = "yes"
@@ -122,30 +126,14 @@ def load_parser():
         "-f",
         "--flow",
         default="flow",
-        help="OPM Flow path to executable or just 'flow' ('flow' by default)",
+        help="OPM Flow path to executable or just 'flow' ('flow' by default).",
     )
     parser.add_argument(
         "-c",
         "--coarsening",
         default="2,2,2",
-        help="Level of coarsening in the x, y, and z dir ('2,2,2' by default)",
-    )
-    parser.add_argument(
-        "-a",
-        "--how",
-        default="max",
-        help="Use 'min', 'max', or 'mode' to scale the actnum, e.g., min makes "
-        "the new coarser cell inactive it at least one cell is inactive, while "
-        " max makes it active it at least one cell is active ('max' by default)",
-    )
-    parser.add_argument(
-        "-j",
-        "--jump",
-        default="",
-        help="Tuning parameter to avoid creation of neighbouring connections in "
-        "the coarser model where there are discontinuities between cells along "
-        "the z direction, e.g., around faults ('' by default, i.e., nothing "
-        "corrected; if need it, try with values of the order of 1)",
+        help="Level of coarsening in the x, y, and z dir ('2,2,2' by default; "
+        "either use this flag or the -x, -y, and -z ones).",
     )
     parser.add_argument(
         "-x",
@@ -154,46 +142,95 @@ def load_parser():
         help="Vector of x-coarsening, e.g., if the grid has 6 cells in the x "
         "direction, then 0,2,0,2,0,2,0 would generate a coarser model with 3 "
         "cells, while 0,2,2,2,2,2,0 would generate a coarser model with 1 cell, "
-        "i.e., 0 keeps the pilars while 2 removes them ('' by default)",
+        "i.e., 0 keeps the pilars while 2 removes them ('' by default).",
     )
     parser.add_argument(
         "-y",
         "--ycoar",
         default="",
-        help="Vector of y-coarsening, see the description for -x ('' by default)",
+        help="Vector of y-coarsening, see the description for -x ('' by default).",
     )
     parser.add_argument(
         "-z",
         "--zcoar",
         default="",
-        help="Vector of z-coarsening, see the description for -x ('' by default)",
+        help="Vector of z-coarsening, see the description for -x ('' by default).",
     )
     parser.add_argument(
-        "-e",
-        "--encoding",
-        default="ISO-8859-1",
-        help="Use 'utf8' or 'ISO-8859-1' encoding to read the deck ('ISO-8859-1' by default)",
-    )
-    parser.add_argument(
-        "-p",
-        "--pvcorr",
-        default=0,
-        help="Add the removed pore volume to the closest coarser cells ('0' by default)",
+        "-a",
+        "--how",
+        default="mode",
+        help="Use 'min', 'max', or 'mode' to scale the actnum, e.g., min makes "
+        "the new coarser cell inactive if at least one cell is inactive, while "
+        " max makes it active it at least one cell is active ('mode' by default).",
     )
     parser.add_argument(
         "-n",
         "--nhow",
         default="mode",
-        help="Use 'min', 'max', or 'mode' to scale satnum, fipnum, pvtnum, eqlnum, imbnum, and "
-        "multnum ('mode' by default)",
+        help="Use 'min', 'max', or 'mode' to scale endnum, eqlnum, fipnum, fluxnum, imbnum, "
+        "miscnum, multnum, pvtnum, rocknum, and satnum ('mode' by default).",
     )
     parser.add_argument(
         "-s",
         "--show",
         default="",
-        help="Use 'min', 'max', or 'mean' to scale permx, permy, permz, and poro ('' by default,"
-        " i.e., using the arithmetic average for permx/permy, harmonic average for permz, and "
-        "the mean for the porosity).",
+        help="Use 'min', 'max', or 'mean' to scale permx, permy, permz, poro, swatinit, and all "
+        "mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic"
+        " average for permz, and the mean for the rest).",
+    )
+    parser.add_argument(
+        "-p",
+        "--pvcorr",
+        default=0,
+        help="Add the removed pore volume to the closest coarser cells ('0' by default).",
+    )
+    parser.add_argument(
+        "-j",
+        "--jump",
+        default="",
+        help="Tuning parameter to avoid creation of neighbouring connections in "
+        "the coarser model where there are discontinuities between cells along "
+        "the z direction, e.g., around faults ('' by default, i.e., nothing "
+        "corrected; if need it, try with values of the order of 1).",
+    )
+    parser.add_argument(
+        "-m",
+        "--mode",
+        default="prep_deck",
+        help="Execute a dry run on the input deck to generate the static properties ('prep'), "
+        "generate only the coarse files ('deck'), only exectute a dry run on the generated "
+        "coarse model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') ('prep_deck' by "
+        "default).",
+    )
+    parser.add_argument(
+        "-w",
+        "--write",
+        default="",
+        help="Name of the generated deck ('' by default, i.e., the name of the input deck plus "
+        "_PYCOPM.DATA).",
+    )
+    parser.add_argument(
+        "-l",
+        "--label",
+        default="PYCOPM_",
+        help="Added text before each generated .INC ('PYCOPM_' by default, i.e., the coarse porv "
+        "is saved in PYCOPM_PORV.INC; set to '' to generate PORV.INC, PERMX.INC, etc).",
+    )
+    parser.add_argument(
+        "-e",
+        "--encoding",
+        default="ISO-8859-1",
+        help="Use 'utf8' or 'ISO-8859-1' encoding to read the deck ('ISO-8859-1' by default).",
+    )
+    parser.add_argument(
+        "-ijk",
+        "--ijk",
+        default="",
+        help="Given i,j,k indices in the input model, return the coarse i,j,k corresponding "
+        "positions ('' by default; if not empty, e.g., 1,2,3 then the -mode is set to deck and "
+        "there will not be generation of coarse files, only the i,j,k coarse indices in the "
+        "terminal).",
     )
     return vars(parser.parse_known_args()[0])
 
