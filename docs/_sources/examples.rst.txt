@@ -100,6 +100,17 @@ We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG
     In the current implementation of the **pycopm** tool, the handling of properties that require definitions of i,j,k indices 
     (e.g., FAULTS, WELLSPECS) are assumed to be define in the main .DATA deck. Then, in order to use **pycopm** for simulation models 
     where these properties are define via include files, replace those includes in the .DATA deck with the actual content of the include files.
+    Here are some relevant keywords per deck section that need to be in the main input deck to coarse and not via include files:
+
+    SECTION GRID: MAPAXES, FAULTS, MULTREGT (other keywords like MULTZ, NTG, or definitions/operations for perms and poro can be in included files since 
+    permx, permy, permz, poro, porv, multx, multy, multz are read from the .INIT file)
+
+    SECTION PROPS: EQUALS, COPY, ADD, and MULTIPLY since this involve i,j,k indices and are apply to properties such as saturation functions parameters that
+    are still given in the same input format in the coarse deck. In addition, SWATINIT if used in the deck, is read from the .INIT file and output for the 
+    coarse model in a new file, then one might need to give the right include path to this special case. 
+
+    SECTION SCHEDULE: All keywords in this section must be in the input deck and no via include viles. 
+
 
 Drogon
 ------
