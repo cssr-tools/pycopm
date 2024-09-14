@@ -72,7 +72,7 @@ def create_deck(dic):
                 )
                 sys.exit()
         dic["field"] = "generic"
-        dic["props"] = ["poro", "permx", "permy", "permz"]
+        dic["props"] = ["permx", "permy", "permz", "poro"]
         dic["base"] = dic["props"] + ["grid"]
         dic["regions"] = []
         dic["grids"] = []
@@ -137,16 +137,17 @@ def create_deck(dic):
                         n
                     ]
                 if not dic["show"]:
-                    dic["permx"][cell.global_index] = (
-                        dic["ini"].iget_kw("PERMX")[0][n] * d_z[cell.global_index]
-                    )
-                    dic["permy"][cell.global_index] = (
-                        dic["ini"].iget_kw("PERMY")[0][n] * d_z[cell.global_index]
-                    )
-                    if dic["ini"].iget_kw("PERMZ")[0][n] != 0:
+                    dic["permx"][cell.global_index] *= d_z[cell.global_index]
+                    dic["permy"][cell.global_index] *= d_z[cell.global_index]
+                    if dic["permz"][cell.global_index] != 0:
                         dic["permz"][cell.global_index] = (
-                            d_z[cell.global_index] / dic["ini"].iget_kw("PERMZ")[0][n]
+                            d_z[cell.global_index] / dic["permz"][cell.global_index]
                         )
+                    dic["poro"][cell.global_index] *= dic["porv"][cell.global_index]
+                    if "swatinit" in dic["props"]:
+                        dic["swatinit"][cell.global_index] *= dic["porv"][
+                            cell.global_index
+                        ]
                 n += 1
 
         # Coarsening
@@ -229,24 +230,26 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
     else:
         rmv = 0 * dz_c + 1
         dic["actnum_c"] = [int(val) for val in clust]
-    c_c = pd.Series(dic["porv"]).groupby(dic["con"]).sum()
-    dic["porv_c"] = [f"{val}" for val in c_c]
+    p_vs = pd.Series(dic["porv"]).groupby(dic["con"]).sum()
+    dic["porv_c"] = [f"{val}" for val in p_vs]
     for name in dic["props"]:
         if not dic["show"]:
+            c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
             if name in ["permx", "permy"]:
-                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
                 dic[f"{name}_c"] = [
                     f"{val/h_t}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, h_tot)
                 ]
             elif name == "permz":
-                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
                 dic["permz_c"] = [
                     f"{h_t/val}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, h_tot)
                 ]
+            elif name in ["poro", "swatinit"]:
+                dic[f"{name}_c"] = [
+                    f"{val/p_v}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
+                ]
             else:
-                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
                 dic[f"{name}_c"] = [
                     f"{val/fre}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
                 ]
@@ -877,6 +880,12 @@ def handle_segmented_wells(dic, nrwo):
                 edit[2] = str(dic["jc"][int(edit[2])])
                 edit[3] = str(dic["kc"][int(edit[3])])
                 edit[4] = str(dic["kc"][int(edit[4])])
+                if dic["remove"] > 0 and len(edit) > 7:
+                    edit[7] = "1*"
+                if dic["remove"] > 0 and len(edit) > 9:
+                    edit[9] = "1*"
+                if dic["remove"] > 1 and len(edit) > 12:
+                    edit[-2] = ""
                 dic["lol"].append(" ".join(edit))
                 return True
     if dic["compsegs"]:
