@@ -139,10 +139,13 @@ favourite history matching/optimization tool (e.g., <a class="reference external
 <dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mode</cite> to scale endnum, eqlnum, fipnum, fluxnum, imbnum, miscnum, multnum, pvtnum, rocknum, and satnum (<cite>mode</cite> by default).</p>
 </dd>
 <dt><kbd><span class="option">-s</span></kbd></dt>
-<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mean</cite> to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz (’’ by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, and the mean for the rest).</p>
+<dd><p>Use <cite>min</cite>, <cite>max</cite>, or <cite>mean</cite> to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz (’’ by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, mean for mult(-)xyz, and the pore volume weighted mean for the rest).</p>
 </dd>
 <dt><kbd><span class="option">-p</span></kbd></dt>
 <dd><p>Add the removed pore volume to the closest coarser cells (<cite>0</cite> by default, <cite>1</cite> to enable).</p>
+</dd>
+<dt><kbd><span class="option">-r</span></kbd></dt>
+<dd><p>Remove CONFACT and KH from COMPDAT (<cite>1</cite>) and also remove PEQVR (<cite>2</cite>) (ITEM 13, the last entry) to compute the well transmisibility connections internally in OPM Flow using the grid properties (<cite>2</cite> by default; <cite>0</cite> to not remove).</p>
 </dd>
 <dt><kbd><span class="option">-j</span></kbd></dt>
 <dd><p>Tuning parameter to avoid creation of neighbouring connections in the coarser model where there are discontinuities between cells along the z direction, e.g., around faults (’’ by default, i.e., nothing corrected; if need it, try with values of the order of 1).</p>

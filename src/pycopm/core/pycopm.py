@@ -33,6 +33,7 @@ def pycopm():
     dic["mode"] = cmdargs["mode"].strip()  # What to run
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
     dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the coarse model
+    dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["cijk"] = "yes"
@@ -177,13 +178,22 @@ def load_parser():
         default="",
         help="Use 'min', 'max', or 'mean' to scale permx, permy, permz, poro, swatinit, and all "
         "mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic"
-        " average for permz, and the mean for the rest).",
+        " average for permz, mean for mult(-)xyz, and the pore volume weighted mean for the "
+        "rest).",
     )
     parser.add_argument(
         "-p",
         "--pvcorr",
         default=0,
         help="Add the removed pore volume to the closest coarser cells ('0' by default).",
+    )
+    parser.add_argument(
+        "-r",
+        "--remove",
+        default="2",
+        help="Remove CONFACT and KH from COMPDAT (1) and also remove PEQVR (2) (ITEM 13, the "
+        "last entry) to compute the well transmisibility connections internally in OPM Flow "
+        "using the grid properties ('2' by default; '0' to not remove).",
     )
     parser.add_argument(
         "-j",
