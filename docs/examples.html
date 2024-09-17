@@ -120,21 +120,21 @@ to perform HM studies in drogon and norne using <a class="reference external" hr
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>HELLO_WORLD.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>,1,5<span class="w"> </span>-m<span class="w"> </span>all
 </pre></div>
 </div>
-<p>This would generated the following:</p>
-<figure class="align-default" id="id2">
+<p>This would generate the following:</p>
+<figure class="align-default" id="id3">
 <img alt="_images/hello_world_1.png" src="_images/hello_world_1.png" />
 <figcaption>
-<p><span class="caption-text">Dry run from the input cloned deck (left) and (right) coarsed model. Adding the flag -p 1 adds the remove pore volume to the neighbouring cells.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text">Dry run from the input cloned deck (left) and (right) coarsed model. Adding the flag <strong>-p 1</strong> adds the remove pore volume to the neighbouring cells.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>To make active the coarse cell where there is only one active cell, this can be achieve by:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>HELLO_WORLD.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>,1,5<span class="w"> </span>-m<span class="w"> </span>all<span class="w"> </span>-a<span class="w"> </span>max
 </pre></div>
 </div>
-<figure class="align-default" id="id3">
+<figure class="align-default" id="id4">
 <img alt="_images/hello_world_2.png" src="_images/hello_world_2.png" />
 <figcaption>
-<p><span class="caption-text">Dry run from the input cloned deck (left) and (right) coarsed model. The region numbers by default are given by the mode, e.g., use the flag -n max to keep the maximum integer.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-text">Dry run from the input cloned deck (left) and (right) coarsed model. The region numbers by default are given by the mode, e.g., use the flag <strong>-n max</strong> to keep the maximum integer.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -144,10 +144,10 @@ to perform HM studies in drogon and norne using <a class="reference external" hr
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>SPE10_MODEL2.DATA<span class="w"> </span>-o<span class="w"> </span>coarser<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span>,8,2
 </pre></div>
 </div>
-<figure class="align-default" id="id4">
+<figure class="align-default" id="id5">
 <img alt="_images/spe10_model2_coarser.png" src="_images/spe10_model2_coarser.png" />
 <figcaption>
-<p><span class="caption-text">Porosity values for the (left) original and (right) coarsed SPE10 model.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+<p><span class="caption-text">Porosity values for the (left) original and (right) coarsed SPE10 model.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -159,21 +159,24 @@ then:</p>
 </pre></div>
 </div>
 <p>will generate a coarser model 5 times in the x direction, 4 in the y direction, and 3 in the z direction, where the coarse cell is
-made inactive if at least one cell is inactive (-a min).</p>
+made inactive if at least one cell is inactive (<strong>-a min</strong>).</p>
 <p>We use our <a class="reference external" href="https://github.com/cssr-tools/plopm">plopm</a> friend to generate PNG figures:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>plopm<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39; STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PREP_PYCOPM_DRYRUN STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM&#39;</span><span class="w"> </span>-s<span class="w"> </span>,,0<span class="w"> </span>-v<span class="w"> </span>poro<span class="w"> </span>-subfigs<span class="w"> </span><span class="m">1</span>,2<span class="w"> </span>-save<span class="w"> </span>smeaheia<span class="w"> </span>-t<span class="w"> </span><span class="s1">&#39;Smeaheia  Coarsed smeaheia&#39;</span><span class="w"> </span>-xunits<span class="w"> </span>km<span class="w"> </span>-xformat<span class="w"> </span>.0f<span class="w"> </span>-yunits<span class="w"> </span>km<span class="w"> </span>-yformat<span class="w"> </span>.0f<span class="w"> </span>-d<span class="w"> </span><span class="m">5</span>,5.2<span class="w"> </span>-suptitle<span class="w"> </span><span class="m">0</span><span class="w"> </span>-c<span class="w"> </span>cet_rainbow_bgyrm_35_85_c69<span class="w"> </span>-cbsfax<span class="w"> </span><span class="m">0</span>.30,0.01,0.4,0.02<span class="w"> </span>-cformat<span class="w"> </span>.2f
 </pre></div>
 </div>
-<figure class="align-default" id="id5">
+<figure class="align-default" id="id6">
 <img alt="_images/smeia.png" src="_images/smeia.png" />
 <figcaption>
-<p><span class="caption-text">Top view of porosity values for the (left) original and (right) coarsed model (note that we also coarse on the z direction).</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+<p><span class="caption-text">Top view of porosity values for the (left) original and (right) coarsed model (note that we also coarse on the z direction).</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can install plopm by executing in the terminal: pip install git+https://github.com/cssr-tools/plopm.git.</p>
 </div>
+</section>
+<section id="drogon">
+<h3>Drogon<a class="headerlink" href="#drogon" title="Link to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In the current implementation of the <strong>pycopm</strong> tool, the handling of properties that require definitions of i,j,k indices
@@ -187,38 +190,65 @@ are still given in the same input format in the coarse deck. In addition, SWATIN
 coarse model in a new file, then one might need to give the right include path to this special case.</p>
 <p>SECTION SCHEDULE: All keywords in this section must be in the input deck and no via include viles.</p>
 </div>
-</section>
-<section id="drogon">
-<h3>Drogon<a class="headerlink" href="#drogon" title="Link to this heading"></a></h3>
-<p>Following the note above, then by downloading the <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">DROGON model</a>, replacing the lines in
-<a class="reference external" href="https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA">DROGON_HIST.DATA</a> for the FAULTS (L127-128) and SCHEDULE (L242-243) with
-the actual content of those include files, then by executing:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,1,3<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-l<span class="w"> </span>C1
-pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST_PYCOPM.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,3,1<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-j<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>-l<span class="w"> </span>C2
+<p>Following the note above, then by downloading the <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">DROGON model</a>, adding the <a class="reference external" href="https://raw.githubusercontent.com/OPM/opm-tests/master/drogon/include/grid/drogon.grid">MAPAXES</a>
+to the deck, replacing the lines in <a class="reference external" href="https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA">DROGON_HIST.DATA</a> for the FAULTS (L127-128) and SCHEDULE (L242-243) with the actual content of those include files, then by executing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,1,3<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-q<span class="w"> </span><span class="m">1</span><span class="w"> </span>-l<span class="w"> </span>C1
+pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST_PYCOPM.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span>,3,1<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-q<span class="w"> </span><span class="m">1</span><span class="w"> </span>-j<span class="w"> </span><span class="m">2</span>.5<span class="w"> </span>-l<span class="w"> </span>C2
 </pre></div>
 </div>
 <p>this would generate the following coarse model:</p>
-<figure class="align-default" id="id6">
+<figure class="align-default" id="id7">
 <img alt="_images/drogon_generic.png" src="_images/drogon_generic.png" />
 <figcaption>
-<p><span class="caption-text">Note that the total pore volume is conserved for the coarse model.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+<p><span class="caption-text">Note that the total pore volume is conserved for the coarse model.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
-After trial and error, the jump (-j) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
-inactive cells and faults, this divide and conquer apporach is recommended, i.e., coarsening first in the z directon and after coarsening
-in the x and y directions. In addition, we add labels (-l) C1 and C2 to differentiate between the coarse include files.</p>
+After trial and error, the jump (<strong>-j</strong>) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
+inactive cells and faults, this divide and conquer apporach is recommended, i.e., coarsening first in the z direction and after coarsening
+in the x and y directions. Also, we add labels (<strong>-l</strong>) C1 and C2 to differentiate between the coarse include files. In addition, we use the
+flags <strong>-p 1 -q 1</strong> to add the remove pore volume to the closest coarser cells and to redistribute the pore volume in the locations with
+gas and oil, this results in the coarse model having the same total pore volume, field gas in place, and practically same oil and water in
+place as the input model.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Add to the generated coarse deck the missing include files in the grid section related to the region operations (e.g.,
+<p>Add to the generated coarse deck the removed include files in the grid section related to the region operations (e.g.,
 ../include/grid/drogon.multregt for this case).</p>
 </div>
+<p>Now, we also show a 2 times coarser model in all directions (referring to the previous comment about divide and conquer, for the Drogon model
+it seems still ok to do a 2 times coarsening in one go):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>DROGON_HIST.DATA<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span>,2,2<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-q<span class="w"> </span><span class="m">1</span><span class="w"> </span>-j<span class="w"> </span><span class="m">4</span><span class="w"> </span>-w<span class="w"> </span>DROGON_2TIMES_COARSER
+</pre></div>
+</div>
+<p>Here, we use the <strong>-w</strong> flag to give a specific name to the generated coarser deck, as well as using a higher value of <strong>-j</strong> to avoid generated connections across the faults.
+If we run these three models using OPM Flow, then we can compare the summary vectors. To this end, we use our good old friend <a class="reference external" href="https://github.com/cssr-tools/plopm">plopm</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>plopm<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER&#39;</span><span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;FOIP,FOPR,TCPU&#39;</span><span class="w"> </span>-tunits<span class="w"> </span>y<span class="w"> </span>-f<span class="w"> </span><span class="m">14</span><span class="w"> </span>-subfigs<span class="w"> </span><span class="m">2</span>,2<span class="w"> </span>-delax<span class="w"> </span><span class="m">1</span><span class="w"> </span>-loc<span class="w"> </span>empty,empty,empty,center<span class="w"> </span>-d<span class="w"> </span><span class="m">10</span>,5<span class="w"> </span>-xformat<span class="w"> </span><span class="s1">&#39;.1f&#39;</span><span class="w"> </span>-xlnum<span class="w"> </span><span class="m">6</span><span class="w"> </span>-ylabel<span class="w"> </span><span class="s1">&#39;sm$^3$ sm$^3$/day seconds&#39;</span><span class="w"> </span>-t<span class="w"> </span><span class="s1">&#39;Field oil in place  Field oil production rate  Simulation time&#39;</span><span class="w"> </span>-labels<span class="w"> </span><span class="s1">&#39;DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER&#39;</span><span class="w"> </span>-save<span class="w"> </span>drogon_pycopm_comparison<span class="w"> </span>-yformat<span class="w"> </span><span class="s1">&#39;.2e,.0f,.0f&#39;</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id8">
+<img alt="_images/drogon_pycopm_comparison.png" src="_images/drogon_pycopm_comparison.png" />
+<figcaption>
+<p><span class="caption-text">Note that the coarse models have the same initial field oil in place as the input model. It seems the coarse properties (e.g., permeabilities)
+are good initial inputs to use in a history matching framework (e.g., to history match saturation function parameters), and the lower simulation
+time for the coarse models allow for more ensemble members and more iterations.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>We can also make a nice GIF by executing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>plopm<span class="w"> </span>-v<span class="w"> </span>sgas<span class="w"> </span>-subfigs<span class="w"> </span><span class="m">1</span>,3<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="m">16</span>,10.5<span class="w"> </span>-r<span class="w"> </span><span class="m">0</span>,3<span class="w"> </span>-m<span class="w"> </span>gif<span class="w"> </span>-dpi<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">16</span><span class="w"> </span>-interval<span class="w"> </span><span class="m">2000</span><span class="w"> </span>-loop<span class="w"> </span><span class="m">1</span><span class="w"> </span>-cformat<span class="w"> </span>.2f<span class="w"> </span>-cbsfax<span class="w"> </span><span class="m">0</span>.30,0.01,0.4,0.02<span class="w"> </span>-s<span class="w"> </span>,,1<span class="w"> </span>-rotate<span class="w"> </span>-30<span class="w"> </span>-xunits<span class="w"> </span>km<span class="w"> </span>-yunits<span class="w"> </span>km<span class="w"> </span>-xformat<span class="w"> </span>.0f<span class="w"> </span>-yformat<span class="w"> </span>.0f<span class="w"> </span>-c<span class="w"> </span>cet_rainbow_bgyrm_35_85_c69
+</pre></div>
+</div>
+<figure class="align-default" id="id9">
+<img alt="_images/sgas.gif" src="_images/sgas.gif" />
+<figcaption>
+<p><span class="caption-text">Top view of the Drogon and the two coarse models</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 <section id="norne">
 <h3>Norne<a class="headerlink" href="#norne" title="Link to this heading"></a></h3>
 <p>By downloading the <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/norne">Norne model</a> (and replacing the needed include files as described in the previous
 example), then here we create a coarser model by removing certain pilars in order to keep the main features of the geological model:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>NORNE_ATW2013.DATA<span class="w"> </span>-x<span class="w"> </span><span class="m">0</span>,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0<span class="w"> </span>-y<span class="w"> </span><span class="m">0</span>,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0<span class="w"> </span>-z<span class="w"> </span><span class="m">0</span>,0,2,0,0,2,2,2,2,2,02,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0<span class="w"> </span>-a<span class="w"> </span>min<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>NORNE_ATW2013.DATA<span class="w"> </span>-x<span class="w"> </span><span class="m">0</span>,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0<span class="w"> </span>-y<span class="w"> </span><span class="m">0</span>,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0<span class="w"> </span>-z<span class="w"> </span><span class="m">0</span>,0,2,0,0,2,2,2,2,2,02,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0<span class="w"> </span>-a<span class="w"> </span>min<span class="w"> </span>-p<span class="w"> </span><span class="m">1</span><span class="w"> </span>-q<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 <p>this would generate the following coarse model:</p>

@@ -36,6 +36,7 @@ def pycopm():
     dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
+    dic["fipcorr"] = int(cmdargs["fipcorr"])
     dic["cijk"] = "yes"
     for i in ["x", "y", "z"]:
         dic[f"{i}coar"] = []
@@ -178,14 +179,20 @@ def load_parser():
         default="",
         help="Use 'min', 'max', or 'mean' to scale permx, permy, permz, poro, swatinit, and all "
         "mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic"
-        " average for permz, mean for mult(-)xyz, and the pore volume weighted mean for the "
-        "rest).",
+        " average for permz, volume weighted mean for mult(-)xyz, and the pore volume weighted"
+        " mean for the rest).",
     )
     parser.add_argument(
         "-p",
         "--pvcorr",
         default=0,
         help="Add the removed pore volume to the closest coarser cells ('0' by default).",
+    )
+    parser.add_argument(
+        "-q",
+        "--fipcorr",
+        default=0,
+        help="Adjust the pv to the initial FGIP and FOIP from the input deck ('0' by default).",
     )
     parser.add_argument(
         "-r",

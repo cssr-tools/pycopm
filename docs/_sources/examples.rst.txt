@@ -41,11 +41,11 @@ For the `HELLO_WORLD.DATA <https://github.com/cssr-tools/pycopm/blob/main/tests/
 
     pycopm -i HELLO_WORLD.DATA -c 5,1,5 -m all
 
-This would generated the following:
+This would generate the following:
 
 .. figure:: figs/hello_world_1.png
 
-    Dry run from the input cloned deck (left) and (right) coarsed model. Adding the flag -p 1 adds the remove pore volume to the neighbouring cells.
+    Dry run from the input cloned deck (left) and (right) coarsed model. Adding the flag **-p 1** adds the remove pore volume to the neighbouring cells.
 
 To make active the coarse cell where there is only one active cell, this can be achieve by:
 
@@ -55,7 +55,7 @@ To make active the coarse cell where there is only one active cell, this can be 
 
 .. figure:: figs/hello_world_2.png
 
-    Dry run from the input cloned deck (left) and (right) coarsed model. The region numbers by default are given by the mode, e.g., use the flag -n max to keep the maximum integer.
+    Dry run from the input cloned deck (left) and (right) coarsed model. The region numbers by default are given by the mode, e.g., use the flag **-n max** to keep the maximum integer.
 
 SPE10
 -----
@@ -81,7 +81,7 @@ then:
     pycopm -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o . -c 5,4,3 -a min -m all
 
 will generate a coarser model 5 times in the x direction, 4 in the y direction, and 3 in the z direction, where the coarse cell is
-made inactive if at least one cell is inactive (-a min).
+made inactive if at least one cell is inactive (**-a min**).
 
 We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG figures:
 
@@ -96,6 +96,9 @@ We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG
 .. tip::
     You can install plopm by executing in the terminal: pip install git+https://github.com/cssr-tools/plopm.git.
 
+Drogon
+------
+
 .. note::
     In the current implementation of the **pycopm** tool, the handling of properties that require definitions of i,j,k indices 
     (e.g., FAULTS, WELLSPECS) are assumed to be define in the main .DATA deck. Then, in order to use **pycopm** for simulation models 
@@ -109,19 +112,15 @@ We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG
     are still given in the same input format in the coarse deck. In addition, SWATINIT if used in the deck, is read from the .INIT file and output for the 
     coarse model in a new file, then one might need to give the right include path to this special case. 
 
-    SECTION SCHEDULE: All keywords in this section must be in the input deck and no via include viles. 
+    SECTION SCHEDULE: All keywords in this section must be in the input deck and no via include viles.
 
-
-Drogon
-------
-Following the note above, then by downloading the `DROGON model <https://github.com/OPM/opm-tests/tree/master/drogon>`_, replacing the lines in
-`DROGON_HIST.DATA <https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA>`_ for the FAULTS (L127-128) and SCHEDULE (L242-243) with
-the actual content of those include files, then by executing:
+Following the note above, then by downloading the `DROGON model <https://github.com/OPM/opm-tests/tree/master/drogon>`_, adding the `MAPAXES <https://raw.githubusercontent.com/OPM/opm-tests/master/drogon/include/grid/drogon.grid>`_ 
+to the deck, replacing the lines in `DROGON_HIST.DATA <https://github.com/OPM/opm-tests/blob/master/drogon/model/DROGON_HIST.DATA>`_ for the FAULTS (L127-128) and SCHEDULE (L242-243) with the actual content of those include files, then by executing:
 
 .. code-block:: bash
 
-    pycopm -i DROGON_HIST.DATA -c 1,1,3 -p 1 -l C1
-    pycopm -i DROGON_HIST_PYCOPM.DATA -c 1,3,1 -p 1 -j 2.5 -l C2
+    pycopm -i DROGON_HIST.DATA -c 1,1,3 -p 1 -q 1 -l C1
+    pycopm -i DROGON_HIST_PYCOPM.DATA -c 1,3,1 -p 1 -q 1 -j 2.5 -l C2
 
 this would generate the following coarse model:
 
@@ -130,13 +129,46 @@ this would generate the following coarse model:
     Note that the total pore volume is conserved for the coarse model.
 
 Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
-After trial and error, the jump (-j) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
-inactive cells and faults, this divide and conquer apporach is recommended, i.e., coarsening first in the z directon and after coarsening
-in the x and y directions. In addition, we add labels (-l) C1 and C2 to differentiate between the coarse include files.
+After trial and error, the jump (**-j**) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
+inactive cells and faults, this divide and conquer apporach is recommended, i.e., coarsening first in the z direction and after coarsening
+in the x and y directions. Also, we add labels (**-l**) C1 and C2 to differentiate between the coarse include files. In addition, we use the 
+flags **-p 1 -q 1** to add the remove pore volume to the closest coarser cells and to redistribute the pore volume in the locations with 
+gas and oil, this results in the coarse model having the same total pore volume, field gas in place, and practically same oil and water in 
+place as the input model.
 
 .. note::
-    Add to the generated coarse deck the missing include files in the grid section related to the region operations (e.g.,
+    Add to the generated coarse deck the removed include files in the grid section related to the region operations (e.g.,
     ../include/grid/drogon.multregt for this case).
+
+Now, we also show a 2 times coarser model in all directions (referring to the previous comment about divide and conquer, for the Drogon model
+it seems still ok to do a 2 times coarsening in one go):
+
+.. code-block:: bash
+
+    pycopm -i DROGON_HIST.DATA -c 2,2,2 -p 1 -q 1 -j 4 -w DROGON_2TIMES_COARSER
+
+Here, we use the **-w** flag to give a specific name to the generated coarser deck, as well as using a higher value of **-j** to avoid generated connections across the faults.
+If we run these three models using OPM Flow, then we can compare the summary vectors. To this end, we use our good old friend `plopm <https://github.com/cssr-tools/plopm>`_:
+
+.. code-block:: bash
+
+    plopm -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -v 'FOIP,FOPR,TCPU' -tunits y -f 14 -subfigs 2,2 -delax 1 -loc empty,empty,empty,center -d 10,5 -xformat '.1f' -xlnum 6 -ylabel 'sm$^3$ sm$^3$/day seconds' -t 'Field oil in place  Field oil production rate  Simulation time' -labels 'DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER' -save drogon_pycopm_comparison -yformat '.2e,.0f,.0f'
+
+.. figure:: figs/drogon_pycopm_comparison.png
+
+    Note that the coarse models have the same initial field oil in place as the input model. It seems the coarse properties (e.g., permeabilities)
+    are good initial inputs to use in a history matching framework (e.g., to history match saturation function parameters), and the lower simulation 
+    time for the coarse models allow for more ensemble members and more iterations.
+
+We can also make a nice GIF by executing:
+
+.. code-block:: bash
+
+    plopm -v sgas -subfigs 1,3 -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -d 16,10.5 -r 0,3 -m gif -dpi 1000 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.30,0.01,0.4,0.02 -s ,,1 -rotate -30 -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69
+
+.. figure:: figs/sgas.gif
+
+    Top view of the Drogon and the two coarse models
 
 Norne
 -----
@@ -145,7 +177,7 @@ example), then here we create a coarser model by removing certain pilars in orde
 
 .. code-block:: bash
 
-    pycopm -i NORNE_ATW2013.DATA -x 0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0 -y 0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0 -z 0,0,2,0,0,2,2,2,2,2,02,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0 -a min -p 1
+    pycopm -i NORNE_ATW2013.DATA -x 0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0 -y 0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0 -z 0,0,2,0,0,2,2,2,2,2,02,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0 -a min -p 1 -q 1
 
 this would generate the following coarse model:
 

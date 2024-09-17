@@ -41,8 +41,9 @@ where
 -z    Vector of z-coarsening, see the description for -x ('' by default).
 -a    Use `min`, `max`, or `mode` to scale the actnum, e.g., min makes the new coarser cell inactive if at least one cell is inactive, while max makes it active it at least one cell is active (`mode` by default).
 -n    Use `min`, `max`, or `mode` to scale endnum, eqlnum, fipnum, fluxnum, imbnum, miscnum, multnum, pvtnum, rocknum, and satnum (`mode` by default).
--s    Use `min`, `max`, or `mean` to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, mean for mult(-)xyz, and the pore volume weighted mean for the rest).
+-s    Use `min`, `max`, or `mean` to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, volume weighted mean for mult(-)xyz, and the pore volume weighted mean for the rest).
 -p    Add the removed pore volume to the closest coarser cells (`0` by default, `1` to enable).
+-q    Adjust the pv to the initial FGIP and FOIP from the input deck (`0` by default, `1` to enable).
 -r    Remove CONFACT and KH from COMPDAT (`1`) and also remove PEQVR (`2`) (ITEM 13, the last entry) to compute the well transmisibility connections internally in OPM Flow using the grid properties (`2` by default; `0` to not remove).
 -j    Tuning parameter to avoid creation of neighbouring connections in the coarser model where there are discontinuities between cells along the z direction, e.g., around faults ('' by default, i.e., nothing corrected; if need it, try with values of the order of 1).
 -m    Execute a dry run on the input deck to generate the static properties ('prep'), generate only the coarse files ('deck'), only exectute a dry run on the generated coarse model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') (`prep_deck` by default).
