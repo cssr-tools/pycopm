@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915
+# pylint: disable=R0912,R0913,R0914,R0915,C0302
 
 """
 Utiliy methods to only create the coarser files by pycopm.
@@ -33,6 +33,9 @@ def create_deck(dic):
     if not dic["write"]:
         dic["write"] = dic["deck"] + "_PYCOPM"
     dic["flags"] = "--parsing-strictness=low --enable-dry-run=true --output-mode=none"
+    dic["flags1"] = (
+        f"--parsing-strictness=low --output-mode=none --output-dir={dic['fol']}"
+    )
     if dic["mode"] in ["prep", "prep_deck", "all"]:
         os.system(f"cp {dic['deck']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
         print(
@@ -78,6 +81,9 @@ def create_deck(dic):
         dic["grids"] = []
         dic["mults"] = []
         dic["special"] = []
+        dic["fip"] = ""
+        dic["nrptsrt"] = 0
+        dic["nrptsrtc"] = 0
         dic["grid"] = Grid(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
         dic["ini"] = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".INIT")
         if not dic["ijk"]:
@@ -113,6 +119,7 @@ def create_deck(dic):
         dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
         actnum = np.array([0 for _ in range(nc)])
         d_z = np.array([np.nan for _ in range(nc)])
+        v_c = np.array([np.nan for _ in range(nc)])
         z_t = np.array([np.nan for _ in range(nc)])
         z_b = np.array([np.nan for _ in range(nc)])
         z_b_t = np.array([np.nan for _ in range(nc)])
@@ -132,6 +139,9 @@ def create_deck(dic):
                 d_z[cell.global_index] = dic["grid"].cell_dz(
                     ijk=(cell.i, cell.j, cell.k)
                 )
+                v_c[cell.global_index] = dic["grid"].cell_volume(
+                    ijk=(cell.i, cell.j, cell.k)
+                )
                 for name in dic["props"] + dic["regions"] + dic["grids"]:
                     dic[name][cell.global_index] = dic["ini"].iget_kw(name.upper())[0][
                         n
@@ -148,6 +158,8 @@ def create_deck(dic):
                         dic["swatinit"][cell.global_index] *= dic["porv"][
                             cell.global_index
                         ]
+                    for name in dic["mults"]:
+                        dic[name][cell.global_index] *= v_c[cell.global_index]
                 n += 1
 
         # Coarsening
@@ -160,7 +172,7 @@ def create_deck(dic):
                 dic["kc"][dic["ijk"][2]],
             )
             sys.exit()
-        clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_t, z_b, z_b_t)
+        clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c)
         if dic["pvcorr"] == 1:
             handle_pv(dic, clusmin, clusmax, rmv)
         handle_cp_grid(dic)
@@ -174,6 +186,70 @@ def create_deck(dic):
         ) as file:
             for row in dic["lol"]:
                 file.write(row + "\n")
+        if dic["fipcorr"] == 1:
+            thr = 1e-1
+            with open(
+                f"{dic['exe']}/{dic['fol']}/{dic['write']}_2DAYS.DATA",
+                "w",
+                encoding="utf8",
+            ) as file:
+                for row in dic["lolc"]:
+                    file.write(row + "\n")
+            with open(
+                f"{dic['exe']}/{dic['fol']}/{dic['write']}_CORR.DATA",
+                "w",
+                encoding="utf8",
+            ) as file:
+                for row in dic["deckcorr"]:
+                    file.write(row + "\n")
+            os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
+            os.system(f"{dic['flow']} {dic['write']}_2DAYS.DATA {dic['flags1']}")
+            ref = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_2DAYS.UNRST")
+            cor = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.UNRST")
+            cori = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.INIT")
+            ref_fipg = np.array(ref.iget_kw("FIPGAS")[0])
+            ref_fipo = np.array(ref.iget_kw("FIPOIL")[0])
+            cor_pv = np.array(cori.iget_kw("PORV")[0])
+            cor_pa = cor_pv[cor_pv > 0]
+            cor_fipg = np.array(cor.iget_kw("FIPGAS")[0])
+            cor_fipo = np.array(cor.iget_kw("FIPOIL")[0])
+            fact = sum(ref_fipo) / sum(cor_fipo) - 1
+            cor_pa[cor_fipo <= thr] -= (
+                fact * sum(cor_pa[cor_fipo > thr]) / len(cor_pa[cor_fipo <= thr])
+            )
+            cor_pa[cor_fipo > thr] *= 1 + fact
+            cor_pv[cor_pv > 0] = cor_pa
+            with open(
+                f"{dic['exe']}/{dic['fol']}/{dic['label']}PORV.INC",
+                "w",
+                encoding="utf8",
+            ) as file:
+                file.write("PORV\n")
+                file.write("\n".join(f"{val}" for val in cor_pv))
+                file.write("\n/")
+            os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
+            cor = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.UNRST")
+            cori = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.INIT")
+            cor_pv = np.array(cori.iget_kw("PORV")[0])
+            cor_pa = cor_pv[cor_pv > 0]
+            cor_fipg = np.array(cor.iget_kw("FIPGAS")[0])
+            cor_fipo = np.array(cor.iget_kw("FIPOIL")[0])
+            cor_sgas = np.array(cor.iget_kw("SGAS")[0])
+            fact = (sum(ref_fipg) - sum(cor_fipg)) / sum(cor_fipg[cor_sgas > thr])
+            cor_pa[cor_fipo <= thr] -= (
+                fact * sum(cor_pa[cor_sgas > thr]) / len(cor_pa[cor_fipo <= thr])
+            )
+            cor_pa[cor_sgas > thr] *= 1 + fact
+            cor_pv[cor_pv > 0] = cor_pa
+            with open(
+                f"{dic['exe']}/{dic['fol']}/{dic['label']}PORV.INC",
+                "w",
+                encoding="utf8",
+            ) as file:
+                file.write("PORV\n")
+                file.write("\n".join(f"{val}" for val in cor_pv))
+                file.write("\n/")
+            os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
         print(
             f"\nThe generation of coarse files succeeded, see {dic['fol']}/"
             f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC"
@@ -186,7 +262,7 @@ def create_deck(dic):
         print("\nThe dry run of the coarse model succeeded\n")
 
 
-def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
+def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c):
     """
     Mapping to the coarse properties
 
@@ -205,6 +281,7 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
     freq = pd.Series(actnum).groupby(dic["con"]).sum()
     dz_c = pd.Series(z_b_t).groupby(dic["con"]).mean()
     h_tot = pd.Series(d_z).groupby(dic["con"]).sum()
+    v_tot = pd.Series(v_c).groupby(dic["con"]).sum()
     if dic["how"] == "min":
         clusmin = pd.Series(actnum).groupby(dic["con"]).min()
         clust = clusmin
@@ -251,7 +328,7 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t):
                 ]
             else:
                 dic[f"{name}_c"] = [
-                    f"{val/fre}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
+                    f"{val/v_t}" if v_t > 0 else "0" for val, v_t in zip(c_c, v_tot)
                 ]
         else:
             if dic["show"] == "min":
@@ -618,7 +695,7 @@ def process_the_deck(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["lol"] = []
+    dic["lol"], dic["lolc"] = [], []
     dic["dimens"] = False
     dic["removeg"] = False
     dic["welspecs"] = False
@@ -628,12 +705,16 @@ def process_the_deck(dic):
     dic["props"] = False
     dic["oper"] = False
     dic["region"] = False
+    dic["schedule"] = False
     dic["fault"] = False
+    dic["rptsrt"] = False
     with open(dic["deck"] + ".DATA", "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
             if 0 < nrwo.find("\\t"):
                 nrwo = nrwo.replace("\\t", " ")
+            if not dic["schedule"]:
+                dic["lolc"].append(nrwo)
             if nrwo == "DIMENS":
                 dic["dimens"] = True
                 continue
@@ -646,6 +727,8 @@ def process_the_deck(dic):
             if handle_props(dic, nrwo):
                 continue
             if handle_regions(dic, nrwo):
+                continue
+            if handle_schedule(dic, nrwo):
                 continue
             if handle_wells(dic, nrwo):
                 continue
@@ -722,6 +805,43 @@ def handle_oper(dic, nrwo):
                 return True
         if not dic["props"]:
             dic["lol"].append(nrwo)
+    return False
+
+
+def handle_schedule(dic, nrwo):
+    """
+    Handle the schedule sections
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if dic["rptsrt"]:
+        edit = nrwo.split()
+        if "RFIP" not in edit or "FIP" not in edit:
+            dic["fip"] = " ".join(edit[:-2] + ["FIP"] + [edit[-1]])
+            dic["nrptsrt"] = len(dic["lol"])
+            dic["nrptsrtc"] = len(dic["lolc"]) - 1
+        dic["rptsrt"] = False
+    if nrwo == "RPTRST" and dic["fipcorr"] == 1:
+        dic["rptsrt"] = True
+    if nrwo == "SCHEDULE" and not dic["schedule"]:
+        dic["schedule"] = True
+        dic["lol"].append(nrwo + "\n")
+        if dic["fipcorr"] == 1:
+            dic["deckcorr"] = dic["lol"].copy()
+            if dic["nrptsrt"] > 0:
+                dic["deckcorr"][dic["nrptsrt"]] = dic["fip"]
+                dic["lolc"][dic["nrptsrtc"]] = dic["fip"]
+            dic["deckcorr"].append("TSTEP")
+            dic["deckcorr"].append("2 /")
+            dic["lolc"].append("TSTEP")
+            dic["lolc"].append("2 /")
+        return True
     return False
 
 
