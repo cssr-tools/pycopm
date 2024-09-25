@@ -80,4 +80,24 @@ def test_generic_deck():
     )
     assert os.path.exists(f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.INIT")
     assert os.path.exists(f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.EGRID")
+    subprocess.run(
+        [
+            "pycopm",
+            "-i",
+            "HELLO_WORLD.DATA",
+            "-o",
+            "coarser",
+            "-c",
+            "1,1,5",
+            "-m",
+            "deck_dry",
+            "-t",
+            "1",
+            "-w",
+            "TRANS",
+        ],
+        check=True,
+    )
+    assert os.path.exists(f"{cwd}/tests/decks/coarser/TRANS.INIT")
+    assert os.path.exists(f"{cwd}/tests/decks/coarser/TRANS.EGRID")
     os.chdir(cwd)

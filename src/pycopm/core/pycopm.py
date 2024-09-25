@@ -37,6 +37,7 @@ def pycopm():
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["fipcorr"] = int(cmdargs["fipcorr"])
+    dic["trans"] = int(cmdargs["trans"])
     dic["cijk"] = "yes"
     for i in ["x", "y", "z"]:
         dic[f"{i}coar"] = []
@@ -193,6 +194,13 @@ def load_parser():
         "--fipcorr",
         default=0,
         help="Adjust the pv to the initial FGIP and FOIP from the input deck ('0' by default).",
+    )
+    parser.add_argument(
+        "-t",
+        "--trans",
+        default=0,
+        help="Write and use upscaled transmissibilities ('0' by default, it is advice to use "
+        "only with z-coarsening).",
     )
     parser.add_argument(
         "-r",
