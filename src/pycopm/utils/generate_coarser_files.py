@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915,C0302
+# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917
 
 """
 Utiliy methods to only create the coarser files by pycopm.
@@ -101,6 +101,9 @@ def create_deck(dic):
             if dic["ini"].has_kw(name.upper()):
                 if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
                     dic["grids"] += [name]
+        if dic["trans"] == 1:
+            for name in ["tranx", "trany", "tranz"]:
+                dic["props"] += [name]
         for name in [
             "endnum",
             "eqlnum",
@@ -119,6 +122,7 @@ def create_deck(dic):
         dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
         actnum = np.array([0 for _ in range(nc)])
         d_z = np.array([np.nan for _ in range(nc)])
+        d_az = np.array([np.nan for _ in range(nc)])
         v_c = np.array([np.nan for _ in range(nc)])
         z_t = np.array([np.nan for _ in range(nc)])
         z_b = np.array([np.nan for _ in range(nc)])
@@ -135,11 +139,12 @@ def create_deck(dic):
             z_b[cell.global_index] = max(cxyz[cell.global_index][i] for i in zti)
             tmp = max(cxyz[cell.global_index][i] for i in zbi)
             z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
+            d_z[cell.global_index] = dic["grid"].cell_dz(ijk=(cell.i, cell.j, cell.k))
+            v_c[cell.global_index] = dic["grid"].cell_volume(
+                ijk=(cell.i, cell.j, cell.k)
+            )
             if cell.active == 1:
-                d_z[cell.global_index] = dic["grid"].cell_dz(
-                    ijk=(cell.i, cell.j, cell.k)
-                )
-                v_c[cell.global_index] = dic["grid"].cell_volume(
+                d_az[cell.global_index] = dic["grid"].cell_dz(
                     ijk=(cell.i, cell.j, cell.k)
                 )
                 for name in dic["props"] + dic["regions"] + dic["grids"]:
@@ -172,7 +177,9 @@ def create_deck(dic):
                 dic["kc"][dic["ijk"][2]],
             )
             sys.exit()
-        clusmin, clusmax, rmv = map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c)
+        clusmin, clusmax, rmv = map_properties(
+            dic, actnum, d_z, z_t, z_b, z_b_t, v_c, d_az
+        )
         if dic["pvcorr"] == 1:
             handle_pv(dic, clusmin, clusmax, rmv)
         handle_cp_grid(dic)
@@ -262,7 +269,7 @@ def create_deck(dic):
         print("\nThe dry run of the coarse model succeeded\n")
 
 
-def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c):
+def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c, d_az):
     """
     Mapping to the coarse properties
 
@@ -281,6 +288,7 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c):
     freq = pd.Series(actnum).groupby(dic["con"]).sum()
     dz_c = pd.Series(z_b_t).groupby(dic["con"]).mean()
     h_tot = pd.Series(d_z).groupby(dic["con"]).sum()
+    ha_tot = pd.Series(d_az).groupby(dic["con"]).sum()
     v_tot = pd.Series(v_c).groupby(dic["con"]).sum()
     if dic["how"] == "min":
         clusmin = pd.Series(actnum).groupby(dic["con"]).min()
@@ -317,10 +325,19 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c):
                     f"{val/h_t}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, h_tot)
                 ]
+            elif name in ["tranx", "trany"]:
+                dic[f"{name}_c"] = [f"{val}" if val > 0 else "0" for val in c_c]
+            elif name == "tranz":
+                d_l = pd.Series(d_z).groupby(dic["con"]).last()
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).last()
+                dic["tranz_c"] = [
+                    f"{val*d_h/h_t}" if h_t * val > 0 else "0"
+                    for val, h_t, d_h in zip(c_c, h_tot, d_l)
+                ]
             elif name == "permz":
                 dic["permz_c"] = [
                     f"{h_t/val}" if h_t * val > 0 else "0"
-                    for val, h_t in zip(c_c, h_tot)
+                    for val, h_t in zip(c_c, ha_tot)
                 ]
             elif name in ["poro", "swatinit"]:
                 dic[f"{name}_c"] = [
@@ -904,6 +921,10 @@ def handle_grid_props(dic, nrwo):
             dic["lol"].append("EDIT\n")
             dic["lol"].append("INCLUDE")
             dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
+            if dic["trans"] == 1:
+                for name in ["tranx", "trany", "tranz"]:
+                    dic["lol"].append("INCLUDE")
+                    dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
         else:
             return True
     return False
