@@ -52,6 +52,10 @@ Run `pycopm --help` to see all possible command line argument options.
 ## Getting started
 See the [_examples_](https://cssr-tools.github.io/pycopm/examples.html) in the [_documentation_](https://cssr-tools.github.io/pycopm/introduction.html).
 
+## Citing
+
+* Landa-Marbán, D. 2024. pycopm: An open-source coarsening framework for OPM Flow geological models. V2024.04. https://doi.org/10.5281/zenodo.12740838.
+
 ## Publications
 The following is a list of manuscripts in which _pycopm_ is used:
 
@@ -59,6 +63,6 @@ The following is a list of manuscripts in which _pycopm_ is used:
 
 ## About pycopm
 The _pycopm_ package is being funded by the [_Center for Sustainable Subsurface Resources (CSSR)_](https://cssr.no) 
-[project no. 331841].
+[project no. 331841] and by [_Expansion of Resources for CO2 Storage on the Horda Platform (ExpReCCS)_](https://www.norceresearch.no/en/projects/expansion-of-resources-for-co2-storage-on-the-horda-platform-expreccs) [project no. 336294].
 This is work in progress.
 Contributions are more than welcome using the fork and pull request approach.

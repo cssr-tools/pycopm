@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917
+# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702
 
 """
 Utiliy methods to only create the coarser files by pycopm.
@@ -47,7 +47,8 @@ def create_deck(dic):
             f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA {dic['flags']} "
             f"--output-dir={dic['fol']}"
         )
-        os.system(f"mv {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA " + f"{dic['fol']}")
+        if dic["fol"] != ".":
+            os.system(f"mv {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA " + f"{dic['fol']}")
         for name in [".INIT", ".EGRID"]:
             files = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN" + name
             if not os.path.isfile(files):
@@ -65,6 +66,7 @@ def create_deck(dic):
         print("\nThe dry run succeeded")
 
     if dic["mode"] in ["prep_deck", "deck", "deck_dry", "all"]:
+        coarsening_dir(dic)
         dic["deck"] = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN"
         for name in [".INIT", ".EGRID"]:
             files = dic["deck"] + name
@@ -101,7 +103,7 @@ def create_deck(dic):
             if dic["ini"].has_kw(name.upper()):
                 if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
                     dic["grids"] += [name]
-        if dic["trans"] == 1:
+        if dic["trans"] > 0:
             for name in ["tranx", "trany", "tranz"]:
                 dic["props"] += [name]
         for name in [
@@ -110,6 +112,7 @@ def create_deck(dic):
             "fipnum",
             "imbnum",
             "miscnum",
+            "opernum",
             "pvtnum",
             "rocknum",
             "satnum",
@@ -121,8 +124,9 @@ def create_deck(dic):
         dic["con"] = np.array([0 for _ in range(nc)])
         dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
         actnum = np.array([0 for _ in range(nc)])
-        d_z = np.array([np.nan for _ in range(nc)])
-        d_az = np.array([np.nan for _ in range(nc)])
+        for i in ["x", "y", "z"]:
+            dic[f"d_{i}"] = np.array([np.nan for _ in range(nc)])
+            dic[f"d_a{i}"] = np.array([np.nan for _ in range(nc)])
         v_c = np.array([np.nan for _ in range(nc)])
         z_t = np.array([np.nan for _ in range(nc)])
         z_b = np.array([np.nan for _ in range(nc)])
@@ -134,17 +138,27 @@ def create_deck(dic):
         zbi = [14, 17, 20, 23]
         cxyz = dic["grid"].export_corners(dic["grid"].export_index())
         for cell in dic["grid"].cells():
+            dic["d_x"][cell.global_index] = dic["grid"].get_cell_dims(
+                ijk=(cell.i, cell.j, cell.k)
+            )[0]
+            dic["d_y"][cell.global_index] = dic["grid"].get_cell_dims(
+                ijk=(cell.i, cell.j, cell.k)
+            )[1]
             actnum[cell.global_index] = cell.active
             z_t[cell.global_index] = min(cxyz[cell.global_index][i] for i in zti)
             z_b[cell.global_index] = max(cxyz[cell.global_index][i] for i in zti)
             tmp = max(cxyz[cell.global_index][i] for i in zbi)
             z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
-            d_z[cell.global_index] = dic["grid"].cell_dz(ijk=(cell.i, cell.j, cell.k))
+            dic["d_z"][cell.global_index] = dic["grid"].cell_dz(
+                ijk=(cell.i, cell.j, cell.k)
+            )
             v_c[cell.global_index] = dic["grid"].cell_volume(
                 ijk=(cell.i, cell.j, cell.k)
             )
             if cell.active == 1:
-                d_az[cell.global_index] = dic["grid"].cell_dz(
+                dic["d_ax"][cell.global_index] = dic["d_x"][cell.global_index]
+                dic["d_ay"][cell.global_index] = dic["d_y"][cell.global_index]
+                dic["d_az"][cell.global_index] = dic["grid"].cell_dz(
                     ijk=(cell.i, cell.j, cell.k)
                 )
                 for name in dic["props"] + dic["regions"] + dic["grids"]:
@@ -152,11 +166,12 @@ def create_deck(dic):
                         n
                     ]
                 if not dic["show"]:
-                    dic["permx"][cell.global_index] *= d_z[cell.global_index]
-                    dic["permy"][cell.global_index] *= d_z[cell.global_index]
+                    dic["permx"][cell.global_index] *= dic["d_z"][cell.global_index]
+                    dic["permy"][cell.global_index] *= dic["d_z"][cell.global_index]
                     if dic["permz"][cell.global_index] != 0:
                         dic["permz"][cell.global_index] = (
-                            d_z[cell.global_index] / dic["permz"][cell.global_index]
+                            dic["d_z"][cell.global_index]
+                            / dic["permz"][cell.global_index]
                         )
                     dic["poro"][cell.global_index] *= dic["porv"][cell.global_index]
                     if "swatinit" in dic["props"]:
@@ -165,6 +180,12 @@ def create_deck(dic):
                         ]
                     for name in dic["mults"]:
                         dic[name][cell.global_index] *= v_c[cell.global_index]
+                    if len(dic["coardir"]) == 1 and dic["trans"] == 1:
+                        drc = dic["coardir"][0]
+                        if dic[f"tran{drc}"][cell.global_index] != 0:
+                            dic[f"tran{drc}"][cell.global_index] = (
+                                1.0 / dic[f"tran{drc}"][cell.global_index]
+                            )
                 n += 1
 
         # Coarsening
@@ -177,15 +198,13 @@ def create_deck(dic):
                 dic["kc"][dic["ijk"][2]],
             )
             sys.exit()
-        clusmin, clusmax, rmv = map_properties(
-            dic, actnum, d_z, z_t, z_b, z_b_t, v_c, d_az
-        )
+        process_the_deck(dic)
+        clusmin, clusmax, rmv = map_properties(dic, actnum, z_t, z_b, z_b_t, v_c)
         if dic["pvcorr"] == 1:
             handle_pv(dic, clusmin, clusmax, rmv)
         handle_cp_grid(dic)
         write_grid(dic)
         write_props(dic)
-        process_the_deck(dic)
         with open(
             f"{dic['exe']}/{dic['fol']}/{dic['write']}.DATA",
             "w",
@@ -269,14 +288,13 @@ def create_deck(dic):
         print("\nThe dry run of the coarse model succeeded\n")
 
 
-def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c, d_az):
+def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
     """
     Mapping to the coarse properties
 
     Args:
         dic (dict): Global dictionary\n
         actnum (array): Integers with the active cells\n
-        d_z (array): Floats with the corresponding grid DZ\n
         z_t (array): Floats with the top cell z-center position\n
         z_b (array): Floats with the bottom cell z-center position
 
@@ -285,59 +303,200 @@ def map_properties(dic, actnum, d_z, z_t, z_b, z_b_t, v_c, d_az):
 
     """
     clusmax = pd.Series(actnum).groupby(dic["con"]).max()
+    clusming = pd.Series(actnum).groupby(dic["con"]).min()
+    clusmode = (
+        pd.Series(actnum).groupby(dic["con"]).agg(lambda x: pd.Series.mode(x).iat[0])
+    )
     freq = pd.Series(actnum).groupby(dic["con"]).sum()
     dz_c = pd.Series(z_b_t).groupby(dic["con"]).mean()
-    h_tot = pd.Series(d_z).groupby(dic["con"]).sum()
-    ha_tot = pd.Series(d_az).groupby(dic["con"]).sum()
+    for i in ["x", "y", "z"]:
+        dic[f"{i}_tot"] = pd.Series(dic[f"d_{i}"]).groupby(dic["con"]).sum()
+        dic[f"{i}a_tot"] = pd.Series(dic[f"d_a{i}"]).groupby(dic["con"]).sum()
     v_tot = pd.Series(v_c).groupby(dic["con"]).sum()
-    if dic["how"] == "min":
-        clusmin = pd.Series(actnum).groupby(dic["con"]).min()
-        clust = clusmin
-    elif dic["how"] == "mode":
-        clusmin = (
-            pd.Series(actnum)
-            .groupby(dic["con"])
-            .agg(lambda x: pd.Series.mode(x).iat[0])
-        )
-        clust = clusmin
+    if len(dic["how"]) == 1:
+        if dic["how"][0] == "min":
+            clusmin = clusming
+            clust = clusmin
+        elif dic["how"][0] == "mode":
+            clusmin = clusmode
+            clust = clusmin
+        else:
+            clusmin = clusmax
+            clust = clusmax
     else:
-        clusmin = clusmax
-        clust = clusmax
-    if dic["jump"]:
-        rmv = 1 * (
-            (
+        clusmin = 1 * freq
+        clust = 1 * freq
+        for k, val in enumerate(dic["how"]):
+            if val == "min":
+                clusmin[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = clusming[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ]
+                clust[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = clusming[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ]
+            elif val == "mode":
+                clusmin[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = clusmode[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ]
+                clust[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = clusmode[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ]
+            else:
+                clusmin[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = clusmax[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ]
+                clust[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = clusmax[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ]
+    if dic["jump"][0]:
+        if len(dic["jump"]) == 1:
+            rmv = 1 * (
+                (
+                    pd.Series(z_b).groupby(dic["con"]).max()
+                    - pd.Series(z_t).groupby(dic["con"]).min()
+                )
+                < float(dic["jump"][0]) * dz_c
+            )
+        else:
+            rmv = 0.0 * freq
+            deltaz = (
                 pd.Series(z_b).groupby(dic["con"]).max()
                 - pd.Series(z_t).groupby(dic["con"]).min()
             )
-            < float(dic["jump"]) * dz_c
-        )
+            for k, val in enumerate(dic["jump"]):
+                rmv[
+                    k * dic["nx"] * dic["ny"] + 1 : (k + 1) * dic["nx"] * dic["ny"] + 2
+                ] = (
+                    1
+                    * (deltaz < float(val) * dz_c)[
+                        k * dic["nx"] * dic["ny"]
+                        + 1 : (k + 1) * dic["nx"] * dic["ny"]
+                        + 2
+                    ]
+                )
         dic["actnum_c"] = [int(val * r_m) for val, r_m in zip(clust, rmv)]
     else:
         rmv = 0 * dz_c + 1
         dic["actnum_c"] = [int(val) for val in clust]
     p_vs = pd.Series(dic["porv"]).groupby(dic["con"]).sum()
     dic["porv_c"] = [f"{val}" for val in p_vs]
+    drc = dic["coardir"][0]
     for name in dic["props"]:
         if not dic["show"]:
             c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
             if name in ["permx", "permy"]:
                 dic[f"{name}_c"] = [
                     f"{val/h_t}" if h_t * val > 0 else "0"
-                    for val, h_t in zip(c_c, h_tot)
+                    for val, h_t in zip(c_c, dic["z_tot"])
                 ]
-            elif name in ["tranx", "trany"]:
-                dic[f"{name}_c"] = [f"{val}" if val > 0 else "0" for val in c_c]
+            elif name == "tranx":
+                if "x" in dic["coardir"]:
+                    if dic["trans"] == 1:
+                        c_m = pd.Series(dic[name]).groupby(dic["con"]).min()
+                        dic[f"{name}_c"] = [
+                            f"{l_t/val}" if m_v * val > 0 else "0"
+                            for val, m_v, l_t in zip(c_c, c_m, dic[f"{drc}_tot"])
+                        ]
+                    else:
+                        # conxs = pd.Series(dic[name]).groupby(dic["con"]).agg(lambda x:
+                        # sum(max(list(x)[i],np.roll(x, 2)[i])>0 for i in
+                        # range(int(len(x)/2))) == int(len(x)/2))
+                        # conys = pd.Series(dic["trany"]).groupby(dic["con"]).agg(lambda x:
+                        # sum(max(list(x)[2*i],list(x)[2*i+1])>0 for i in range(int(len(x)/2)-1))
+                        # == int(len(x)/2)-1)
+                        c_ls = pd.Series(dic[name]).groupby(dic["con"]).mean()
+                        d_ls = pd.Series(dic[name]).groupby(dic["con"]).min()
+                        # d_ls = pd.Series(dic[f"d_x"]).groupby(dic["con"]).mean()
+                        # dic[f"{name}_c"] = [f"{val*d_l/l_t}" if val*conx*cony > 0 else "0" for
+                        # val, d_l, l_t, conx, cony in zip(c_ls, d_ls, dic[f"x_tot"], conxs, conys)]
+                        dic[f"{name}_c"] = [
+                            f"{val}" if d_l > 0 else "0" for val, d_l in zip(c_ls, d_ls)
+                        ]
+                else:
+                    dic[f"{name}_c"] = [
+                        f"{val*l_a/l_t}" if val > 0 else "0"
+                        for val, l_a, l_t in zip(
+                            c_c, dic[f"{drc}a_tot"], dic[f"{drc}_tot"]
+                        )
+                    ]
+            elif name == "trany":
+                if "y" in dic["coardir"]:
+                    if dic["trans"] == 1:
+                        c_m = pd.Series(dic[name]).groupby(dic["con"]).min()
+                        dic[f"{name}_c"] = [
+                            f"{l_t/val}" if m_v * val > 0 else "0"
+                            for val, m_v, l_t in zip(c_c, c_m, dic[f"{drc}_tot"])
+                        ]
+                    else:
+                        # conxs = pd.Series(dic["tranx"]).groupby(dic["con"]).agg(lambda
+                        # x: sum(max(list(x)[i],np.roll(x, 2)[i])>0 for i in
+                        # range(int(len(x)/2)-1)) == int(len(x)/2)-1)
+                        # conys = pd.Series(dic[name]).groupby(dic["con"]).agg(lambda
+                        # x: sum(max(list(x)[2*i],list(x)[2*i+1])>0 for i in
+                        # range(int(len(x)/2))) == int(len(x)/2))
+                        c_ls = pd.Series(dic[name]).groupby(dic["con"]).mean()
+                        d_ls = pd.Series(dic[name]).groupby(dic["con"]).min()
+                        # d_ls = pd.Series(dic[f"d_y"]).groupby(dic["con"]).mean()
+                        # dic[f"{name}_c"] = [f"{val*d_l/l_t}" if val*conx*cony > 0
+                        # else "0" for val, d_l, l_t, conx, cony in zip(c_ls, d_ls,
+                        # dic[f"y_tot"], conxs, conys)]
+                        dic[f"{name}_c"] = [
+                            f"{val}" if d_l > 0 else "0" for val, d_l in zip(c_ls, d_ls)
+                        ]
+                else:
+                    dic[f"{name}_c"] = [
+                        f"{val*l_a/l_t}" if val > 0 else "0"
+                        for val, l_a, l_t in zip(
+                            c_c, dic[f"{drc}a_tot"], dic[f"{drc}_tot"]
+                        )
+                    ]
             elif name == "tranz":
-                d_l = pd.Series(d_z).groupby(dic["con"]).last()
-                c_c = pd.Series(dic[name]).groupby(dic["con"]).last()
-                dic["tranz_c"] = [
-                    f"{val*d_h/h_t}" if h_t * val > 0 else "0"
-                    for val, h_t, d_h in zip(c_c, h_tot, d_l)
-                ]
+                if "z" in dic["coardir"]:
+                    if dic["trans"] == 1:
+                        c_m = pd.Series(dic[name]).groupby(dic["con"]).min()
+                        l_as = pd.Series(dic["d_az"]).groupby(dic["con"]).mean()
+                        c_c[: -dic["nx"] * dic["ny"]] = (
+                            (
+                                np.array(c_c[: -dic["nx"] * dic["ny"]])
+                                + np.array(c_c[dic["nx"] * dic["ny"] :])
+                            )
+                            * (np.array(c_m[: -dic["nx"] * dic["ny"]] > 0))
+                            * (np.array(c_m[dic["nx"] * dic["ny"] :] > 0))
+                        )
+                        dic[f"{name}_c"] = [
+                            f"{1.*l_a/(val * l_t)}" if val > 0 else "0"
+                            for val, l_t, l_a in zip(c_c, dic[f"{drc}_tot"], l_as)
+                        ]
+                    else:
+                        c_ls = pd.Series(dic[name]).groupby(dic["con"]).last()
+                        d_ls = pd.Series(dic["d_z"]).groupby(dic["con"]).last()
+                        dic[f"{name}_c"] = [
+                            f"{val*d_l/l_t}" if val > 0 else "0"
+                            for val, d_l, l_t in zip(c_ls, d_ls, dic[f"{drc}_tot"])
+                        ]
+                else:
+                    dic[f"{name}_c"] = [
+                        f"{val*l_a/l_t}" if val > 0 else "0"
+                        for val, l_a, l_t in zip(
+                            c_c, dic[f"{drc}a_tot"], dic[f"{drc}_tot"]
+                        )
+                    ]
             elif name == "permz":
                 dic["permz_c"] = [
                     f"{h_t/val}" if h_t * val > 0 else "0"
-                    for val, h_t in zip(c_c, ha_tot)
+                    for val, h_t in zip(c_c, dic["za_tot"])
                 ]
             elif name in ["poro", "swatinit"]:
                 dic[f"{name}_c"] = [
@@ -484,6 +643,28 @@ def get_ijk(dic, i_d):
     j = int((i_d - k * dic["nx"] * dic["ny"]) / dic["nx"])
     i = i_d - j * dic["nx"] - k * dic["nx"] * dic["ny"]
     return i, j, k
+
+
+def coarsening_dir(dic):
+    """
+    Get the coarsenign directions
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+         dic (dict): Modified global dictionary
+
+    """
+    dic["coardir"] = ""
+    if len(dic["cijk"]) > 2:
+        for i, drc in enumerate(["x", "y", "z"]):
+            if dic["cijk"][i] > 1:
+                dic["coardir"] += drc
+    else:
+        for drc in ["x", "y", "z"]:
+            if dic[f"{drc}coar"]:
+                dic["coardir"] += drc
 
 
 def write_grid(dic):
@@ -712,19 +893,20 @@ def process_the_deck(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["lol"], dic["lolc"] = [], []
+    dic["lol"], dic["lolc"], dic["flts"] = [], [], []
     dic["dimens"] = False
     dic["removeg"] = False
     dic["welspecs"] = False
     dic["compdat"] = False
     dic["compsegs"] = False
     dic["mapaxes"] = False
-    dic["props"] = False
+    dic["prop"] = False
     dic["oper"] = False
     dic["region"] = False
     dic["schedule"] = False
     dic["fault"] = False
     dic["rptsrt"] = False
+    dic["multflt"] = False
     with open(dic["deck"] + ".DATA", "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
@@ -773,15 +955,15 @@ def handle_props(dic, nrwo):
         dic (dict): Modified global dictionary
 
     """
-    if nrwo == "PROPS" and not dic["props"]:
-        dic["props"] = True
+    if nrwo == "PROPS" and not dic["prop"]:
+        dic["prop"] = True
         dic["lol"].append(nrwo + "\n")
         return True
-    if dic["props"]:
+    if dic["prop"]:
         if handle_oper(dic, nrwo):
             return True
         if nrwo in ["REGIONS", "SOLUTION"]:
-            dic["props"] = False
+            dic["prop"] = False
     return False
 
 
@@ -798,7 +980,7 @@ def handle_oper(dic, nrwo):
 
     """
     if nrwo in ["EQUALS", "COPY", "ADD", "MULTIPLY"]:
-        if not dic["props"] and nrwo == "COPY":
+        if not dic["prop"] and nrwo == "COPY":
             return False
         dic["oper"] = True
         dic["lol"].append(nrwo)
@@ -820,7 +1002,7 @@ def handle_oper(dic, nrwo):
                 edit[7] = str(dic["kc"][int(edit[7])])
                 dic["lol"].append(" ".join(edit))
                 return True
-        if not dic["props"]:
+        if not dic["prop"]:
             dic["lol"].append(nrwo)
     return False
 
@@ -914,6 +1096,8 @@ def handle_grid_props(dic, nrwo):
             return True
         if handle_mapaxes(dic, nrwo):
             return True
+        if handle_multflt(dic, nrwo):
+            return True
         # if handle_oper(dic, nrwo):
         #    return True
         if nrwo == "PROPS":
@@ -921,12 +1105,41 @@ def handle_grid_props(dic, nrwo):
             dic["lol"].append("EDIT\n")
             dic["lol"].append("INCLUDE")
             dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
-            if dic["trans"] == 1:
+            if dic["trans"] > 0:
                 for name in ["tranx", "trany", "tranz"]:
                     dic["lol"].append("INCLUDE")
                     dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
         else:
             return True
+    return False
+
+
+def handle_multflt(dic, nrwo):
+    """
+    Handle the fault multipliers
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if "MULTFLT" in nrwo:
+        edit = nrwo.split()
+        if edit[0] != "MULTFLT":
+            return False
+        dic["multflt"] = True
+        dic["lol"].append(edit[0])
+        return True
+    if dic["multflt"]:
+        edit = nrwo.split()
+        if edit:
+            dic["lol"].append(nrwo)
+            if edit[0] == "/":
+                dic["multflt"] = False
+        return True
     return False
 
 
@@ -974,6 +1187,7 @@ def handle_fault(dic, nrwo):
     if nrwo == "FAULTS":
         dic["fault"] = True
         dic["lol"].append(nrwo)
+        dic["afault"] = []
         return True
     if dic["fault"]:
         edit = nrwo.split()

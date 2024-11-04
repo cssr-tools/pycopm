@@ -25,10 +25,12 @@ def pycopm():
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
     dic["exe"] = os.getcwd()  # Path to the folder of the input.txt file
     dic["flow"] = cmdargs["flow"].strip()  # Path to flow
-    dic["how"] = cmdargs["how"].strip()  # Max, min, or mode for satnum
+    dic["how"] = (cmdargs["how"].strip()).split(",")  # Max, min, or mode for actnum
     dic["nhow"] = cmdargs["nhow"].strip()  # Max, min, or mode for other nums
     dic["show"] = cmdargs["show"].strip()  # Max, min, or mean for static props
-    dic["jump"] = cmdargs["jump"].strip()  # Tuning parameter to remove nnc
+    dic["jump"] = (cmdargs["jump"].strip()).split(
+        ","
+    )  # Tuning parameters to remove nnc
     dic["write"] = cmdargs["write"].strip()  # Name of the generated deck
     dic["mode"] = cmdargs["mode"].strip()  # What to run
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
@@ -172,7 +174,7 @@ def load_parser():
         "--nhow",
         default="mode",
         help="Use 'min', 'max', or 'mode' to scale endnum, eqlnum, fipnum, fluxnum, imbnum, "
-        "miscnum, multnum, pvtnum, rocknum, and satnum ('mode' by default).",
+        "miscnum, multnum, opernum, pvtnum, rocknum, and satnum ('mode' by default).",
     )
     parser.add_argument(
         "-s",
@@ -193,14 +195,17 @@ def load_parser():
         "-q",
         "--fipcorr",
         default=0,
-        help="Adjust the pv to the initial FGIP and FOIP from the input deck ('0' by default).",
+        help="Adjust the pv to the initial FGIP and FOIP from the input deck; use this option "
+        "only for systems with initial oil, gas, and water, e.g., norne or drogon, but "
+        "no in Smeaheia ('0' by default, '1' to enable).",
     )
     parser.add_argument(
         "-t",
         "--trans",
         default=0,
-        help="Write and use upscaled transmissibilities ('0' by default, it is advice to use "
-        "only with z-coarsening).",
+        help="Write and use upscaled transmissibilities by ('1') armonic averaging and summing "
+        "the transmissibilities in the corresponding coarsening direction and ('2') scaling "
+        "the face transmissibily on the coarse faces ('0' by default).",
     )
     parser.add_argument(
         "-r",
