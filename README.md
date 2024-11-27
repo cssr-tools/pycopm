@@ -55,7 +55,7 @@ See the [_examples_](https://cssr-tools.github.io/pycopm/examples.html) in the [
 
 ## Citing
 
-* Landa-Marbán, D. 2024. pycopm: An open-source coarsening framework for OPM Flow geological models. V2024.04. https://doi.org/10.5281/zenodo.12740838.
+* Landa-Marbán, D. 2024. pycopm: An open-source coarsening framework for OPM Flow geological models. https://doi.org/10.5281/zenodo.12740838.
 
 ## Publications
 The following is a list of manuscripts in which _pycopm_ is used:
