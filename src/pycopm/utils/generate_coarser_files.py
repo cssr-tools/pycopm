@@ -314,7 +314,6 @@ def handle_nnc_trans(dic):
             nrwo = str(row)[2:-2].strip()
             nncdeck.append(nrwo)
             if nrwo == "EDIT":
-                nncdeck.append(nrwo)
                 nncdeck.append("INCLUDE")
                 nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
     with open(
@@ -386,8 +385,8 @@ def handle_nnc_trans(dic):
     for n, (n1, n2) in enumerate(zip(cnnc1, cnnc2)):
         ijk1 = coag.get_ijk(global_index=n1 - 1)
         ijk2 = coag.get_ijk(global_index=n2 - 1)
-        fip1 = dic["kc"][ijk1[2] + 1]
-        fip2 = dic["kc"][ijk2[2] + 1]
+        fip1 = ijk1[2] + 1
+        fip2 = ijk2[2] + 1
         rtran = 0
         found = 0
         indel = []
