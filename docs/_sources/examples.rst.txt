@@ -94,7 +94,7 @@ We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG
     Top view of porosity values for the (left) original and (right) coarsed model (note that we also coarse on the z direction).
 
 .. tip::
-    You can install plopm by executing in the terminal: pip install git+https://github.com/cssr-tools/plopm.git.
+    You can install `plopm <https://github.com/cssr-tools/plopm>`_ by executing in the terminal: pip install git+https://github.com/cssr-tools/plopm.git.
 
 Drogon
 ------
@@ -152,7 +152,7 @@ If we run these three models using OPM Flow, then we can compare the summary vec
 
 .. code-block:: bash
 
-    plopm -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -v 'FOIP,FOPR,TCPU' -tunits y -f 14 -subfigs 2,2 -delax 1 -loc empty,empty,empty,center -d 10,5 -xformat '.1f' -xlnum 6 -ylabel 'sm$^3$ sm$^3$/day seconds' -t 'Field oil in place  Field oil production rate  Simulation time' -labels 'DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER' -save drogon_pycopm_comparison -yformat '.2e,.0f,.0f'
+    plopm -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -v 'FOIP,FOPR,TCPU' -tunits y -f 14 -subfigs 2,2 -delax 1 -loc empty,empty,empty,center -d 10,5 -xformat '.1f' -xlnum 6 -ylabel 'sm$^3$  sm$^3$/day  seconds' -t 'Field oil in place  Field oil production rate  Simulation time' -labels 'DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER' -save drogon_pycopm_comparison -yformat '.2e,.0f,.0f'
 
 .. figure:: figs/drogon_pycopm_comparison.png
 
@@ -164,7 +164,7 @@ We can also make a nice GIF by executing:
 
 .. code-block:: bash
 
-    plopm -v sgas -subfigs 1,3 -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -d 16,10.5 -r 0,3 -m gif -dpi 1000 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.30,0.01,0.4,0.02 -s ,,1 -rotate -30 -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69
+    plopm -v sgas -subfigs 1,3 -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -d 16,10.5 -r 0,3 -m gif -dpi 300 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.30,0.01,0.4,0.02 -s ,,1 -rotate -30 -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69
 
 .. figure:: figs/sgas.gif
 

@@ -12,23 +12,24 @@ Creation of coarser models from given input decks.
 
 ## Installation
 You will first need to install
-* OPM Flow (https://opm-project.org, Release 2024.04 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2024.10 or current master branches)
 
-To install the _pycopm_ executable in an existing Python environment:
+To install the _pycopm_ executable from the development version:
 
 ```bash
 pip install git+https://github.com/cssr-tools/pycopm.git
 ```
 
-If you are interested in modifying the source code, then you can clone the repository and 
-install the Python requirements in a virtual environment with the following commands:
+If you are interested in a specific version (e.g., v2024.10) or in modifying the source code, then you can clone the repository and install the Python requirements in a virtual environment with the following commands:
 
 ```bash
 # Clone the repo
 git clone https://github.com/cssr-tools/pycopm.git
 # Get inside the folder
 cd pycopm
-# Create virtual environment (for higher versions of Python than the default one, e.g., python3.12 -m venv vpycopm)
+# For a specific version (e.g., v2024.10), or skip this step (i.e., edge version)
+git checkout v2024.10
+# Create virtual environment (to specific Python, python3.12 -m venv vpycopm)
 python3 -m venv vpycopm
 # Activate virtual environment
 source vpycopm/bin/activate
@@ -40,7 +41,7 @@ pip install -e .
 pip install -r dev-requirements.txt
 ``` 
 
-See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) for further details on building OPM Flow from the master branches in Linux, Windows, and macOS, as well as the opm Python package. 
+See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) for further details on building OPM Flow from the master branches in Linux, Windows, and macOS. 
 
 ## Running pycopm
 You can run _pycopm_ as a single command line:
@@ -66,3 +67,4 @@ The _pycopm_ package is being funded by the [_Center for Sustainable Subsurface 
 [project no. 331841] and by [_Expansion of Resources for CO2 Storage on the Horda Platform (ExpReCCS)_](https://www.norceresearch.no/en/projects/expansion-of-resources-for-co2-storage-on-the-horda-platform-expreccs) [project no. 336294].
 This is work in progress.
 Contributions are more than welcome using the fork and pull request approach.
+For a new feature, please request this by raising an issue.
