@@ -7,11 +7,13 @@ Welcome to pycopm's documentation!
    :maxdepth: 4
 
    introduction
+   theory
    installation
    configuration_file
    examples
    api
    output_folder
+   contributing
    related
    about
 

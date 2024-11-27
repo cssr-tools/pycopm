@@ -4,13 +4,15 @@
 """Test the single run functionality"""
 
 import os
+import pathlib
 import subprocess
+
+dirname: pathlib.Path = pathlib.Path(__file__).parent
 
 
 def test_generic_deck():
     """pycopm application to coarser a geological model given an input deck"""
-    cwd = os.getcwd()
-    os.chdir(f"{os.getcwd()}/tests/decks")
+    os.chdir(f"{dirname}/decks")
     subprocess.run(
         [
             "pycopm",
@@ -26,10 +28,10 @@ def test_generic_deck():
         check=True,
     )
     assert os.path.exists(
-        f"{cwd}/tests/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT"
+        f"{dirname}/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT"
     )
     assert os.path.exists(
-        f"{cwd}/tests/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID"
+        f"{dirname}/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID"
     )
     for ahow in ["max", "min", "mode"]:
         for nhow in ["max", "min", "mode"]:
@@ -55,9 +57,9 @@ def test_generic_deck():
                     check=True,
                 )
                 assert os.path.exists(
-                    f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.DATA"
+                    f"{dirname}/decks/coarser/HELLO_WORLD_PYCOPM.DATA"
                 )
-                os.system(f"rm {cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.DATA")
+                os.system(f"rm {dirname}/decks/coarser/HELLO_WORLD_PYCOPM.DATA")
     subprocess.run(
         [
             "pycopm",
@@ -78,8 +80,8 @@ def test_generic_deck():
         ],
         check=True,
     )
-    assert os.path.exists(f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.INIT")
-    assert os.path.exists(f"{cwd}/tests/decks/coarser/HELLO_WORLD_PYCOPM.EGRID")
+    assert os.path.exists(f"{dirname}/decks/coarser/HELLO_WORLD_PYCOPM.INIT")
+    assert os.path.exists(f"{dirname}/decks/coarser/HELLO_WORLD_PYCOPM.EGRID")
     subprocess.run(
         [
             "pycopm",
@@ -98,8 +100,8 @@ def test_generic_deck():
         ],
         check=True,
     )
-    assert os.path.exists(f"{cwd}/tests/decks/coarser/TRANS.INIT")
-    assert os.path.exists(f"{cwd}/tests/decks/coarser/TRANS.EGRID")
+    assert os.path.exists(f"{dirname}/decks/coarser/TRANS.INIT")
+    assert os.path.exists(f"{dirname}/decks/coarser/TRANS.EGRID")
     subprocess.run(
         [
             "pycopm",
@@ -118,6 +120,5 @@ def test_generic_deck():
         ],
         check=True,
     )
-    assert os.path.exists(f"{cwd}/tests/decks/coarser/TRANS2.INIT")
-    assert os.path.exists(f"{cwd}/tests/decks/coarser/TRANS2.EGRID")
-    os.chdir(cwd)
+    assert os.path.exists(f"{dirname}/decks/coarser/TRANS2.INIT")
+    assert os.path.exists(f"{dirname}/decks/coarser/TRANS2.EGRID")

@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702
+# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916
 
 """
 Utiliy methods to only create the coarser files by pycopm.
@@ -86,6 +86,10 @@ def create_deck(dic):
         dic["fip"] = ""
         dic["nrptsrt"] = 0
         dic["nrptsrtc"] = 0
+        dic["hasnnc"] = False
+        temp = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
+        if temp.has_kw("NNC1") and dic["trans"] > 0:
+            dic["hasnnc"] = True
         dic["grid"] = Grid(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
         dic["ini"] = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".INIT")
         if not dic["ijk"]:
@@ -122,6 +126,15 @@ def create_deck(dic):
                     dic["regions"] += [name]
         nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
         dic["con"] = np.array([0 for _ in range(nc)])
+        handle_clusters(dic)
+        map_ijk(dic)
+        if dic["ijk"]:
+            print(
+                dic["ic"][dic["ijk"][0]],
+                dic["jc"][dic["ijk"][1]],
+                dic["kc"][dic["ijk"][2]],
+            )
+            sys.exit()
         dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
         actnum = np.array([0 for _ in range(nc)])
         for i in ["x", "y", "z"]:
@@ -188,16 +201,6 @@ def create_deck(dic):
                             )
                 n += 1
 
-        # Coarsening
-        handle_clusters(dic)
-        map_ijk(dic)
-        if dic["ijk"]:
-            print(
-                dic["ic"][dic["ijk"][0]],
-                dic["jc"][dic["ijk"][1]],
-                dic["kc"][dic["ijk"][2]],
-            )
-            sys.exit()
         process_the_deck(dic)
         clusmin, clusmax, rmv = map_properties(dic, actnum, z_t, z_b, z_b_t, v_c)
         if dic["pvcorr"] == 1:
@@ -276,6 +279,12 @@ def create_deck(dic):
                 file.write("\n".join(f"{val}" for val in cor_pv))
                 file.write("\n/")
             os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
+        if dic["hasnnc"] > 0:
+            print("\nCall OPM Flow for a dry run of the coarse model\n")
+            print("\nThis is needed for the nnctrans, please wait\n")
+            os.chdir(dic["fol"])
+            os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
+            handle_nnc_trans(dic)
         print(
             f"\nThe generation of coarse files succeeded, see {dic['fol']}/"
             f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC"
@@ -286,6 +295,143 @@ def create_deck(dic):
         os.chdir(dic["fol"])
         os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
         print("\nThe dry run of the coarse model succeeded\n")
+
+
+def handle_nnc_trans(dic):
+    """
+    Map the trans from the non-neighbouring connections
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    nncdeck = []
+    with open(dic["write"] + ".DATA", "r", encoding=dic["encoding"]) as file:
+        for row in csv.reader(file):
+            nrwo = str(row)[2:-2].strip()
+            nncdeck.append(nrwo)
+            if nrwo == "EDIT":
+                nncdeck.append(nrwo)
+                nncdeck.append("INCLUDE")
+                nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
+    with open(
+        f"{dic['exe']}/{dic['fol']}/{dic['write']}.DATA",
+        "w",
+        encoding="utf8",
+    ) as file:
+        for row in nncdeck:
+            file.write(row + "\n")
+    temp = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
+    coa = ResdataFile(dic["write"] + ".INIT")
+    coag = ResdataFile(dic["write"] + ".EGRID")
+    rnnc1 = np.array(temp.iget_kw("NNC1")[0])
+    rnnc2 = np.array(temp.iget_kw("NNC2")[0])
+    rnnct = np.array(dic["ini"].iget_kw("TRANNNC")[0])
+    cnnc1 = np.array(coag.iget_kw("NNC1")[0])
+    cnnc2 = np.array(coag.iget_kw("NNC2")[0])
+    cnnct = np.array(coa.iget_kw("TRANNNC")[0])
+    coag = Grid(dic["write"] + ".EGRID")
+    refpv = np.array(dic["ini"].iget_kw("PORV")[0])
+    coapv = np.array(coa.iget_kw("PORV")[0])
+    coa_dz = np.zeros(len(coapv))
+    ref_dz = np.zeros(len(refpv))
+    dic["coa_tranx"] = np.zeros(len(coapv))
+    dic["coa_trany"] = np.zeros(len(coapv))
+    dic["coa_tranx"][coapv > 0] = np.array(coa.iget_kw("TRANX")[0])
+    dic["coa_trany"][coapv > 0] = np.array(coa.iget_kw("TRANY")[0])
+    coa_dz[coapv > 0] = np.array(coa.iget_kw("DZ")[0])
+    ref_dz[refpv > 0] = np.array(dic["ini"].iget_kw("DZ")[0])
+    dic["coa_editnnc"] = []
+    indel = []
+    for i, (r1, r2) in enumerate(zip(rnnc1, rnnc2)):
+        rijk1 = dic["grid"].get_ijk(global_index=r1 - 1)
+        rijk2 = dic["grid"].get_ijk(global_index=r2 - 1)
+        if dic["kc"][rijk1[2] + 1] == dic["kc"][rijk2[2] + 1] and (
+            rijk1[0] != rijk2[0] or rijk1[1] != rijk2[1]
+        ):
+            if rijk1[0] + 1 == rijk2[0]:
+                ind = (
+                    rijk1[0]
+                    + rijk1[1] * dic["nx"]
+                    + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
+                )
+                dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
+            elif rijk1[1] + 1 == rijk2[1]:
+                ind = (
+                    rijk1[0]
+                    + rijk1[1] * dic["nx"]
+                    + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
+                )
+                dic["coa_trany"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
+            elif rijk1[0] == rijk2[0] + 1:
+                ind = (
+                    rijk2[0]
+                    + rijk2[1] * dic["nx"]
+                    + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
+                )
+                dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
+            elif rijk1[1] == rijk2[1] + 1:
+                ind = (
+                    rijk2[0]
+                    + rijk2[1] * dic["nx"]
+                    + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
+                )
+                dic["coa_trany"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
+            indel.append(i)
+    rnnc1 = np.delete(rnnc1, indel)
+    rnnc2 = np.delete(rnnc2, indel)
+    for n, (n1, n2) in enumerate(zip(cnnc1, cnnc2)):
+        ijk1 = coag.get_ijk(global_index=n1 - 1)
+        ijk2 = coag.get_ijk(global_index=n2 - 1)
+        fip1 = dic["kc"][ijk1[2] + 1]
+        fip2 = dic["kc"][ijk2[2] + 1]
+        rtran = 0
+        found = 0
+        indel = []
+        for i, (r1, r2) in enumerate(zip(rnnc1, rnnc2)):
+            rijk1 = dic["grid"].get_ijk(global_index=r1 - 1)
+            rijk2 = dic["grid"].get_ijk(global_index=r2 - 1)
+            rfip1 = dic["kc"][rijk1[2] + 1]
+            rfip2 = dic["kc"][rijk2[2] + 1]
+            if (
+                ijk1[0] == rijk1[0]
+                and ijk2[0] == rijk2[0]
+                and ijk1[1] == rijk1[1]
+                and ijk2[1] == rijk2[1]
+                and fip1 == rfip1
+                and fip2 == rfip2
+                and fip1 != fip2
+                and (ijk1[0] != ijk2[0] or ijk1[1] != ijk2[1])
+            ):
+                rtran += rnnct[i]
+                found = 1
+                indel.append(i)
+        rnnc1 = np.delete(rnnc1, indel)
+        rnnc2 = np.delete(rnnc2, indel)
+        if found == 1:
+            mult = rtran / cnnct[n]
+        else:
+            mult = 0
+        dic["coa_editnnc"].append(
+            f"{ijk1[0]+1} {ijk1[1]+1} {ijk1[2]+1} {ijk2[0]+1} {ijk2[1]+1} {ijk2[2]+1} {mult} /"
+        )
+    for name in ["tranx", "trany", "editnnc"]:
+        dic[f"coa_{name}"] = [f"{val}" for val in dic[f"coa_{name}"]]
+        dic[f"coa_{name}"].insert(0, name.upper())
+        dic[f"coa_{name}"].insert(
+            0,
+            "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm",
+        )
+        dic[f"coa_{name}"].append("/")
+        with open(
+            f"{dic['label']}{name.upper()}.INC",
+            "w",
+            encoding="utf8",
+        ) as file:
+            file.write("\n".join(dic[f"coa_{name}"]))
 
 
 def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
@@ -893,7 +1039,7 @@ def process_the_deck(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["lol"], dic["lolc"], dic["flts"] = [], [], []
+    dic["lol"], dic["lolc"] = [], []
     dic["dimens"] = False
     dic["removeg"] = False
     dic["welspecs"] = False

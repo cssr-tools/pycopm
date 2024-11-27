@@ -4,13 +4,14 @@
 """Test the ert functionality"""
 
 import os
+import pathlib
 import subprocess
+
+dirname: pathlib.Path = pathlib.Path(__file__).parent
 
 
 def test_ert():
     """See configs/ert.txt"""
-    cwd = os.getcwd()
-    os.chdir(f"{os.getcwd()}/tests/configs")
+    os.chdir(f"{dirname}/configs")
     subprocess.run(["pycopm", "-i", "ert.txt", "-o", "ert"], check=True)
-    assert os.path.exists("./ert/postprocessing/hm_missmatch.png")
-    os.chdir(cwd)
+    assert os.path.exists(f"{dirname}/configs/ert/postprocessing/hm_missmatch.png")

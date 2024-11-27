@@ -2,16 +2,19 @@
 Installation
 ============
 
+The following steps work installing the dependencies in Linux via apt-get or in macOS using brew or macports.
+While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
+
 Python package
 --------------
 
-To install the **pycopm** executable in an existing Python environment: 
+To install the **pycopm** executable from the development version: 
 
 .. code-block:: bash
 
     pip install git+https://github.com/cssr-tools/pycopm.git
 
-If you are interested in modifying the source code, then you can clone the repository and 
+If you are interested in a specific version (e.g., v2024.10) or in modifying the source code, then you can clone the repository and 
 install the Python requirements in a virtual environment with the following commands:
 
 .. code-block:: console
@@ -20,7 +23,9 @@ install the Python requirements in a virtual environment with the following comm
     git clone https://github.com/cssr-tools/pycopm.git
     # Get inside the folder
     cd pycopm
-    # Create virtual environment
+    # For a specific version (e.g., v2024.10), or skip this step (i.e., edge version)
+    git checkout v2024.10
+    # Create virtual environment (to specific Python, python3.12 -m venv vpycopm)
     python3 -m venv vpycopm
     # Activate virtual environment
     source vpycopm/bin/activate
@@ -31,21 +36,25 @@ install the Python requirements in a virtual environment with the following comm
     # For contributions/testing/linting, install the dev-requirements
     pip install -r dev-requirements.txt
 
+.. tip::
+
+    Typing **git tag -l** writes all available specific versions.
+
 OPM Flow
 --------
 You also need to install:
 
-* OPM Flow (https://opm-project.org, Release 2024.04 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2024.10 or current master branches)
 
 .. tip::
 
     See the `CI.yml <https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/CI.yml>`_ script 
-    for installation of OPM Flow (binary packages) and the pycopm package in Linux. 
+    for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu. 
 
 Source build in Linux/Windows
 +++++++++++++++++++++++++++++
 If you are a Linux user (including the Windows subsystem for Linux), then you could try to build Flow (after installing the `prerequisites <https://opm-project.org/?page_id=239>`_) from the master branches with mpi support by running
-in the terminal the following lines (which in turn should build flow in the folder ./build/opm-simulators/bin/flow.): 
+in the terminal the following lines (which in turn should build flow in the folder ./build/opm-simulators/bin/flow): 
 
 .. code-block:: console
 
@@ -106,7 +115,7 @@ For macOS, there are no available binary packages, so OPM Flow needs to be built
     do
         mkdir build/opm-$repo
         cd build/opm-$repo
-        cmake -DPYTHON_EXECUTABLE=$(which python) -DWITH_NDEBUG=1 -DUSE_MPI=0 -DOPM_ENABLE_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common" $CURRENT_DIRECTORY/opm-$repo
+        cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common" $CURRENT_DIRECTORY/opm-$repo
         make -j5 opm$repo
         cd ../..
     done    

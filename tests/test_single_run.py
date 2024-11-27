@@ -4,15 +4,16 @@
 """Test the single run functionality"""
 
 import os
+import pathlib
 from pycopm.core.pycopm import main
+
+dirname: pathlib.Path = pathlib.Path(__file__).parent
 
 
 def test_single_run():
     """See configs/input.txt"""
-    cwd = os.getcwd()
-    os.chdir(f"{cwd}/tests/configs")
+    os.chdir(f"{dirname}/configs")
     main()
     assert os.path.exists(
-        f"{cwd}/tests/configs/postprocessing/wells/HISTO_DATA_WWPR_A4.png"
+        f"{dirname}/configs/postprocessing/wells/HISTO_DATA_WWPR_A4.png"
     )
-    os.chdir(cwd)
