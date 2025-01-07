@@ -35,7 +35,7 @@ def test_generic_deck():
     )
     for ahow in ["max", "min", "mode"]:
         for nhow in ["max", "min", "mode"]:
-            for show in ["max", "min", "mean"]:
+            for show in ["max", "min", "mean", "pvmean"]:
                 subprocess.run(
                     [
                         "pycopm",

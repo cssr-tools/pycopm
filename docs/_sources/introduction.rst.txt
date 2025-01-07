@@ -41,7 +41,7 @@ where
 -z    Vector of z-coarsening, see the description for -x ('' by default).
 -a    Use `min`, `max`, or `mode` to scale the actnum, e.g., min makes the new coarser cell inactive if at least one cell is inactive, while max makes it active it at least one cell is active (`mode` by default).
 -n    Use `min`, `max`, or `mode` to scale endnum, eqlnum, fipnum, fluxnum, imbnum, miscnum, multnum, opernum, pvtnum, rocknum, and satnum (`mode` by default).
--s    Use `min`, `max`, or `mean` to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, volume weighted mean for mult(-)xyz, and the pore volume weighted mean for the rest).
+-s    Use `min`, `max`, `mean`, or `pvmean` to scale permx, permy, permz, poro, swatinit, and all mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic average for permz, volume weighted mean for mult(-)xyz, and the pore volume weighted mean (`pvmean`) for the rest).
 -p    Add the removed pore volume to the closest coarser cells (`0` by default, `1` to enable).
 -q    Adjust the pv to the initial FGIP and FOIP from the input deck; use this option only for systems with initial oil, gas, and water, e.g., norne or drogon, but no in Smeaheia (`0` by default, `1` to enable).
 -t    Write and use upscaled transmissibilities by (`1`) armonic averaging and summing the transmissibilities in the corresponding coarsening direction and (`2`) scaling the face transmissibily on the coarse faces (`0` by default).

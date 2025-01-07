@@ -148,6 +148,13 @@ it seems still ok to do a 2 times coarsening in one go):
     pycopm -i DROGON_HIST.DATA -c 2,2,2 -p 1 -q 1 -j 4 -w DROGON_2TIMES_COARSER
 
 Here, we use the **-w** flag to give a specific name to the generated coarser deck, as well as using a higher value of **-j** to avoid generated connections across the faults.
+
+.. tip::
+    To use a different approach from the default ones (see the :doc:`theroy <./theory>`) to coarse one of the properties (e.g., permeabilities), this can 
+    be achieve by the **-s** flag, e.g., **-s pvmean** to coarse the permeabilities using a pv-weighted mean. In addition, one could add a different label 
+    **-l pvweightedperms** to identify the generated .INC files with the permeabilities, and rename these files in order to be used in the coarser model with the rest 
+    of the properties using the default aporaches or a combination of them (e.g., **-s max -l maxpermz** and keep the maximum values of permz).
+
 If we run these three models using OPM Flow, then we can compare the summary vectors. To this end, we use our good old friend `plopm <https://github.com/cssr-tools/plopm>`_:
 
 .. code-block:: bash
@@ -164,7 +171,7 @@ We can also make a nice GIF by executing:
 
 .. code-block:: bash
 
-    plopm -v sgas -subfigs 1,3 -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -d 16,10.5 -r 0,3 -m gif -dpi 300 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.30,0.01,0.4,0.02 -s ,,1 -rotate -30 -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69
+    plopm -v sgas -subfigs 1,3 -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -d 16,10.5 -r 0,3 -m gif -dpi 300 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.30,0.01,0.4,0.02 -s ,,1 -rotate -30 -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69 -delax 1
 
 .. figure:: figs/sgas.gif
 
