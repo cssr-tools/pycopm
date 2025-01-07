@@ -66,7 +66,7 @@ For the rock permeability, there are different upscaling methods (e.g., arithmet
 see the `Lie 2019 textbook <https://www.cambridge.org/core/books/an-introduction-to-reservoir-simulation-using-matlabgnu-octave/F48C3D8C88A3F67E4D97D4E16970F894>`_
 for comparison of these methods. In **pycopm**, by default the permeability in the x and y directions are computed using the arithmetic average, while 
 the permeability in the z direction by the harmonic average. As additional options, the permeabilities in the coarser cells :math:`\mathbb{K}_{i^*,j^*,k^*}^*` can 
-be set to equal the min, max, and mean values from the permeabilities in the corresponding cluster :math:`\mathbb{K}_{i,j,k}`. For example, using the max for 
+be set to equal the min, max, mean, or pv-weighted mean (pvmean) values from the permeabilities in the corresponding cluster :math:`\mathbb{K}_{i,j,k}`. For example, using the max for 
 permeabilities could be useful for history matching studies, where the parameters to history match are saturation functions 
 (relative permeabilities and capillary pressure).
 

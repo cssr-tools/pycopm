@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Theory &mdash; pycopm  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -138,7 +138,7 @@ coarse indices in the x, y, and z direction respectively) are equal to the sum o
 see the <a class="reference external" href="https://www.cambridge.org/core/books/an-introduction-to-reservoir-simulation-using-matlabgnu-octave/F48C3D8C88A3F67E4D97D4E16970F894">Lie 2019 textbook</a>
 for comparison of these methods. In <strong>pycopm</strong>, by default the permeability in the x and y directions are computed using the arithmetic average, while
 the permeability in the z direction by the harmonic average. As additional options, the permeabilities in the coarser cells <span class="math notranslate nohighlight">\(\mathbb{K}_{i^*,j^*,k^*}^*\)</span> can
-be set to equal the min, max, and mean values from the permeabilities in the corresponding cluster <span class="math notranslate nohighlight">\(\mathbb{K}_{i,j,k}\)</span>. For example, using the max for
+be set to equal the min, max, mean, or pv-weighted mean (pvmean) values from the permeabilities in the corresponding cluster <span class="math notranslate nohighlight">\(\mathbb{K}_{i,j,k}\)</span>. For example, using the max for
 permeabilities could be useful for history matching studies, where the parameters to history match are saturation functions
 (relative permeabilities and capillary pressure).</p>
 <p>The above line mentions the initial application to develop <strong>pycopm</strong> (coarsening to history match saturation functions), as such there are no upscaling

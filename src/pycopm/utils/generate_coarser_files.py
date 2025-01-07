@@ -178,6 +178,8 @@ def create_deck(dic):
                     dic[name][cell.global_index] = dic["ini"].iget_kw(name.upper())[0][
                         n
                     ]
+                    if dic["show"] == "pvmean":
+                        dic[name][cell.global_index] *= dic["porv"][cell.global_index]
                 if not dic["show"]:
                     dic["permx"][cell.global_index] *= dic["d_z"][cell.global_index]
                     dic["permy"][cell.global_index] *= dic["d_z"][cell.global_index]
@@ -658,6 +660,11 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
             elif dic["show"] == "max":
                 c_c = pd.Series(dic[name]).groupby(dic["con"]).max()
                 dic[f"{name}_c"] = [f"{val}" for val in c_c]
+            elif dic["show"] == "pvmean":
+                c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
+                dic[f"{name}_c"] = [
+                    f"{val/p_v}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
+                ]
             else:
                 c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
                 dic[f"{name}_c"] = [

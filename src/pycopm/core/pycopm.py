@@ -180,10 +180,10 @@ def load_parser():
         "-s",
         "--show",
         default="",
-        help="Use 'min', 'max', or 'mean' to scale permx, permy, permz, poro, swatinit, and all "
-        "mult(-)xyz ('' by default, i.e., using the arithmetic average for permx/permy, harmonic"
-        " average for permz, volume weighted mean for mult(-)xyz, and the pore volume weighted"
-        " mean for the rest).",
+        help="Use 'min', 'max', 'mean', or 'pvmean' to scale permx, permy, permz, poro, "
+        "swatinit, and all mult(-)xyz ('' by default, i.e., using the arithmetic average for "
+        "permx/permy, harmonic average for permz, volume weighted mean for mult(-)xyz, and "
+        "the pore volume weighted ('pvmean') mean for the rest).",
     )
     parser.add_argument(
         "-p",
