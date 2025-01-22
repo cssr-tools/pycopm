@@ -178,9 +178,10 @@ def create_deck(dic):
                     dic[name][cell.global_index] = dic["ini"].iget_kw(name.upper())[0][
                         n
                     ]
-                    if dic["show"] == "pvmean":
+                if dic["show"] == "pvmean":
+                    for name in dic["props"]:
                         dic[name][cell.global_index] *= dic["porv"][cell.global_index]
-                if not dic["show"]:
+                elif not dic["show"]:
                     dic["permx"][cell.global_index] *= dic["d_z"][cell.global_index]
                     dic["permy"][cell.global_index] *= dic["d_z"][cell.global_index]
                     if dic["permz"][cell.global_index] != 0:
