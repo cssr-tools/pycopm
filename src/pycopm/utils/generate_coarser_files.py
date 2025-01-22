@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916
+# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911
 
 """
 Utiliy methods to only create the coarser files by pycopm.
@@ -1052,6 +1052,9 @@ def process_the_deck(dic):
     dic["compdat"] = False
     dic["compsegs"] = False
     dic["mapaxes"] = False
+    dic["edit"] = False
+    dic["editnnc"] = False
+    dic["multiply"] = False
     dic["prop"] = False
     dic["oper"] = False
     dic["region"] = False
@@ -1252,15 +1255,26 @@ def handle_grid_props(dic, nrwo):
             return True
         # if handle_oper(dic, nrwo):
         #    return True
-        if nrwo == "PROPS":
-            dic["removeg"] = False
-            dic["lol"].append("EDIT\n")
+        if nrwo == "EDIT" and dic["trans"] == 0:
+            dic["edit"] = True
+            dic["lol"].append(nrwo)
             dic["lol"].append("INCLUDE")
             dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
-            if dic["trans"] > 0:
-                for name in ["tranx", "trany", "tranz"]:
-                    dic["lol"].append("INCLUDE")
-                    dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
+        if nrwo == "PROPS":
+            dic["removeg"] = False
+            if not dic["edit"]:
+                dic["lol"].append("EDIT\n")
+                dic["lol"].append("INCLUDE")
+                dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
+                if dic["trans"] > 0:
+                    for name in ["tranx", "trany", "tranz"]:
+                        dic["lol"].append("INCLUDE")
+                        dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
+        elif dic["edit"]:
+            if handle_editnnc(dic, nrwo):
+                return True
+            if handle_multiply(dic, nrwo):
+                return True
         else:
             return True
     return False
@@ -1321,6 +1335,76 @@ def handle_mapaxes(dic, nrwo):
             if edit[-1] == "/" or edit[0] == "/":
                 dic["mapaxes"] = False
         return True
+    return False
+
+
+def handle_multiply(dic, nrwo):
+    """
+    Handle the  i,j,k coarser multiply indices
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if nrwo == "MULTIPLY":
+        dic["multiply"] = True
+        dic["lol"].append(nrwo)
+        return True
+    if dic["multiply"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0] == "/":
+                dic["lol"].append(nrwo)
+                dic["multiply"] = False
+        if len(edit) > 2:
+            if edit[0] != "--":
+                edit[2] = str(dic["ic"][int(edit[2])])
+                edit[3] = str(dic["ic"][int(edit[3])])
+                edit[4] = str(dic["jc"][int(edit[4])])
+                edit[5] = str(dic["jc"][int(edit[5])])
+                edit[6] = str(dic["kc"][int(edit[6])])
+                edit[7] = str(dic["kc"][int(edit[7])])
+                dic["lol"].append(" ".join(edit))
+                return True
+    return True
+
+
+def handle_editnnc(dic, nrwo):
+    """
+    Handle the  i,j,k coarser nnc indices
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if nrwo == "EDITNNC":
+        dic["editnnc"] = True
+        dic["lol"].append(nrwo)
+        return True
+    if dic["editnnc"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0] == "/":
+                dic["lol"].append(nrwo)
+                dic["editnnc"] = False
+        if len(edit) > 2:
+            if edit[0] != "--":
+                edit[0] = str(dic["ic"][int(edit[0])])
+                edit[1] = str(dic["jc"][int(edit[1])])
+                edit[2] = str(dic["kc"][int(edit[2])])
+                edit[3] = str(dic["ic"][int(edit[3])])
+                edit[4] = str(dic["jc"][int(edit[4])])
+                edit[5] = str(dic["kc"][int(edit[5])])
+                dic["lol"].append(" ".join(edit))
+                return True
     return False
 
 
