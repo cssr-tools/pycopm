@@ -360,28 +360,32 @@ def handle_nnc_trans(dic):
                     + rijk1[1] * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
+                if coa_dz[ind] > 0:
+                    dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
             elif rijk1[1] + 1 == rijk2[1]:
                 ind = (
                     rijk1[0]
                     + rijk1[1] * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                dic["coa_trany"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
+                if coa_dz[ind] > 0:
+                    dic["coa_trany"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
             elif rijk1[0] == rijk2[0] + 1:
                 ind = (
                     rijk2[0]
                     + rijk2[1] * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
+                if coa_dz[ind] > 0:
+                    dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
             elif rijk1[1] == rijk2[1] + 1:
                 ind = (
                     rijk2[0]
                     + rijk2[1] * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                dic["coa_trany"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
+                if coa_dz[ind] > 0:
+                    dic["coa_trany"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
             indel.append(i)
     rnnc1 = np.delete(rnnc1, indel)
     rnnc2 = np.delete(rnnc2, indel)
@@ -1053,6 +1057,7 @@ def process_the_deck(dic):
     dic["compdat"] = False
     dic["compsegs"] = False
     dic["mapaxes"] = False
+    dic["multregt"] = False
     dic["edit"] = False
     dic["editnnc"] = False
     dic["multiply"] = False
@@ -1252,15 +1257,18 @@ def handle_grid_props(dic, nrwo):
             return True
         if handle_mapaxes(dic, nrwo):
             return True
-        if handle_multflt(dic, nrwo):
-            return True
         # if handle_oper(dic, nrwo):
         #    return True
-        if nrwo == "EDIT" and dic["trans"] == 0:
-            dic["edit"] = True
-            dic["lol"].append(nrwo)
-            dic["lol"].append("INCLUDE")
-            dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
+        if dic["trans"] == 0:
+            if handle_multregt(dic, nrwo):
+                return True
+            if handle_multflt(dic, nrwo):
+                return True
+            if nrwo == "EDIT":
+                dic["edit"] = True
+                dic["lol"].append(nrwo)
+                dic["lol"].append("INCLUDE")
+                dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
         if nrwo == "PROPS":
             dic["removeg"] = False
             if not dic["edit"]:
@@ -1335,6 +1343,35 @@ def handle_mapaxes(dic, nrwo):
             dic["lol"].append(nrwo)
             if edit[-1] == "/" or edit[0] == "/":
                 dic["mapaxes"] = False
+        return True
+    return False
+
+
+def handle_multregt(dic, nrwo):
+    """
+    Copy if MULTREGT is on the GRID section
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if "MULTREGT" in nrwo:
+        edit = nrwo.split()
+        if edit[0] != "MULTREGT":
+            return False
+        dic["multregt"] = True
+        dic["lol"].append(edit[0])
+        return True
+    if dic["multregt"]:
+        edit = nrwo.split()
+        if edit:
+            dic["lol"].append(nrwo)
+            if edit[-1] == "/" or edit[0] == "/":
+                dic["multregt"] = False
         return True
     return False
 
