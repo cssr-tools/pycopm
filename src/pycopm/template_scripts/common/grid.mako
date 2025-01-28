@@ -11,14 +11,14 @@ ${dic['nx']} ${dic['ny']} ${dic['nz']} 1 F
 /
 
 COORD
-% for i in range(len(dic['cr'])):
-${f"{dic['cr'][i] : .3f}"}
+% for i in range(int(len(dic['cr']) / 6)):
+${f"{dic['cr'][i*6]:.3f} {dic['cr'][i*6+1]:.3f} {dic['cr'][i*6+2]:.3f} {dic['cr'][i*6+3]:.3f} {dic['cr'][i*6+4]:.3f} {dic['cr'][i*6+5]:.3f}"}
 % endfor
 /
 
 ZCORN
-% for i in range(len(dic['zc'])):
-${f"{dic['zc'][i] : .3f}"}
+% for i in range(int(len(dic['zc']) / 8)):
+${f"{dic['zc'][i*8]:.3f} {dic['zc'][i*8+1]:.3f} {dic['zc'][i*8+2]:.3f} {dic['zc'][i*8+3]:.3f} {dic['zc'][i*8+4]:.3f} {dic['zc'][i*8+5]:.3f} {dic['zc'][i*8+6]:.3f} {dic['zc'][i*8+7]:.3f}"}
 % endfor
 /
 

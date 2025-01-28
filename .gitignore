@@ -165,6 +165,7 @@ cython_debug/
 # Tests
 tests/configs/ert
 tests/decks/coarser
+tests/decks/finer
 tests/configs/ert
 tests/configs/jobs
 tests/configs/logs
