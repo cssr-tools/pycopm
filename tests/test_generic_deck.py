@@ -122,3 +122,21 @@ def test_generic_deck():
     )
     assert os.path.exists(f"{dirname}/decks/coarser/TRANS2.INIT")
     assert os.path.exists(f"{dirname}/decks/coarser/TRANS2.EGRID")
+    subprocess.run(
+        [
+            "pycopm",
+            "-i",
+            "HELLO_WORLD.DATA",
+            "-o",
+            "finer",
+            "-g",
+            "5,4,1",
+            "-m",
+            "all",
+            "-w",
+            "FINER",
+        ],
+        check=True,
+    )
+    assert os.path.exists(f"{dirname}/decks/finer/FINER.INIT")
+    assert os.path.exists(f"{dirname}/decks/finer/FINER.EGRID")

@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
+# pylint: disable=R0912,R0915
 
 """Main script for pycopm"""
 
@@ -13,7 +14,7 @@ from pycopm.utils.grid_builder import coarser_grid
 from pycopm.utils.properties_builder import coarser_properties
 from pycopm.utils.files_writer import coarser_files
 from pycopm.utils.runs_executer import simulations, plotting
-from pycopm.utils.generate_coarser_files import create_deck
+from pycopm.utils.generate_files import create_deck
 
 
 def pycopm():
@@ -34,30 +35,39 @@ def pycopm():
     dic["write"] = cmdargs["write"].strip()  # Name of the generated deck
     dic["mode"] = cmdargs["mode"].strip()  # What to run
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
-    dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the coarse model
+    dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the coarse/fine model
     dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["fipcorr"] = int(cmdargs["fipcorr"])
     dic["trans"] = int(cmdargs["trans"])
-    dic["cijk"] = "yes"
-    for i in ["x", "y", "z"]:
-        dic[f"{i}coar"] = []
-        if cmdargs[f"{i}coar"]:
-            dic[f"{i}coar"] = list(
-                np.genfromtxt(StringIO(cmdargs[f"{i}coar"]), delimiter=",", dtype=int)
+    for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
+        dic[f"{label}cijk"] = "yes"
+        for i in ["x", "y", "z"]:
+            dic[f"{i}{tag}"] = []
+            if cmdargs[f"{i}{tag}"]:
+                dic[f"{i}{tag}"] = list(
+                    np.genfromtxt(
+                        StringIO(cmdargs[f"{i}{tag}"]), delimiter=",", dtype=int
+                    )
+                )
+                dic[f"{label}cijk"] = "no"
+        if dic[f"{label}cijk"] != "no" and cmdargs[name]:
+            dic[f"{label}cijk"] = np.genfromtxt(
+                StringIO(cmdargs[name]), delimiter=",", dtype=int
             )
-            dic["cijk"] = "no"
-    if dic["cijk"] != "no":
-        dic["cijk"] = np.genfromtxt(
-            StringIO(cmdargs["coarsening"]), delimiter=",", dtype=int
-        )  # Coarsening level
-
+    if (
+        not isinstance(dic["rcijk"], str)
+        or sum(len(dic[f"{i}ref"]) for i in ["x", "y", "z"]) > 0
+    ):
+        dic["refinement"] = True
+    else:
+        dic["refinement"] = False
     # Make the output folder
     if not os.path.exists(f"{dic['exe']}/{dic['fol']}"):
         os.system(f"mkdir {dic['exe']}/{dic['fol']}")
 
-    # When a deck is given, then we only generate the coarser files
+    # When a deck is given, then we only generate the coarser/refined files
     if "DATA" in file:
         dic["deck"] = file.upper()[:-5]
         create_deck(dic)
@@ -162,6 +172,33 @@ def load_parser():
         help="Vector of z-coarsening, see the description for -x ('' by default).",
     )
     parser.add_argument(
+        "-g",
+        "--gridding",
+        default="",
+        help="Level of grid refinement in the x, y, and z dir ('' by default.",
+    )
+    parser.add_argument(
+        "-rx",
+        "--xref",
+        default="",
+        help="Vector of x-refinement, e.g., if the grid has 6 cells in the x "
+        "direction, then 0,1,0,2,0,4 would generate a refined model with 11 "
+        "cells, while 0,0,0,1,0,0 would generate a refined model with 7 cells "
+        "('' by default).",
+    )
+    parser.add_argument(
+        "-ry",
+        "--yref",
+        default="",
+        help="Vector of y-refinement, see the description for -x ('' by default).",
+    )
+    parser.add_argument(
+        "-rz",
+        "--zref",
+        default="",
+        help="Vector of z-refinement, see the description for -x ('' by default).",
+    )
+    parser.add_argument(
         "-a",
         "--how",
         default="mode",
@@ -257,9 +294,9 @@ def load_parser():
         "-ijk",
         "--ijk",
         default="",
-        help="Given i,j,k indices in the input model, return the coarse i,j,k corresponding "
+        help="Given i,j,k indices in the input model, return the coarse/finner i,j,k corresponding "
         "positions ('' by default; if not empty, e.g., 1,2,3 then the -mode is set to deck and "
-        "there will not be generation of coarse files, only the i,j,k coarse indices in the "
+        "there will not be generation of coarse files, only the i,j,k coarse/finner indices in the "
         "terminal).",
     )
     return vars(parser.parse_known_args()[0])
