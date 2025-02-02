@@ -27,6 +27,7 @@ from pycopm.utils.mapping_methods import (
     map_properties,
     map_vicinity,
     refine_grid,
+    transform_grid,
 )
 
 
@@ -110,6 +111,12 @@ def create_deck(dic):
             print("\nInitializing pycopm to generate the refinned files, please wait")
         elif dic["vicinity"]:
             print("\nInitializing pycopm to generate the submodel files, please wait")
+        elif dic["transform"]:
+            print(
+                "\nInitializing pycopm to generate the transformed files, please wait"
+            )
+            dic["rcijk"] = np.array([0, 0, 0])
+            dic["refinement"] = True
         elif not dic["ijk"]:
             print("\nInitializing pycopm to generate the coarsened files, please wait")
         if dic["ini"].has_kw("SWATINIT"):
@@ -263,7 +270,9 @@ def create_deck(dic):
                     n += 1
 
         process_the_deck(dic)
-        if dic["refinement"]:
+        if dic["transform"]:
+            transform_grid(dic)
+        elif dic["refinement"]:
             refine_grid(dic)
         elif dic["vicinity"]:
             chop_grid(dic)
@@ -348,21 +357,21 @@ def create_deck(dic):
                 file.write("\n/")
             os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
         if dic["hasnnc"] > 0:
-            print("\nCall OPM Flow for a dry run of the coarse model\n")
+            print("\nCall OPM Flow for a dry run of the generated model\n")
             print("\nThis is needed for the nnctrans, please wait\n")
             os.chdir(dic["fol"])
             os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
             handle_nnc_trans(dic)
         print(
-            f"\nThe generation of coarse files succeeded, see {dic['fol']}/"
+            f"\nThe generation of files succeeded, see {dic['fol']}/"
             f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC"
         )
 
     if dic["mode"] in ["deck_dry", "dry", "all"]:
-        print("\nCall OPM Flow for a dry run of the coarse model\n")
+        print("\nCall OPM Flow for a dry run of the generated model\n")
         os.chdir(dic["fol"])
         os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
-        print("\nThe dry run of the coarse model succeeded\n")
+        print("\nThe dry run of the generated model succeeded.\n")
 
 
 def handle_nnc_trans(dic):
