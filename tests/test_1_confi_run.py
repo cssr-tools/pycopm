@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
 
-"""Test the single run functionality"""
+"""Test the single run functionality via the configurationf ile"""
 
 import os
 import pathlib

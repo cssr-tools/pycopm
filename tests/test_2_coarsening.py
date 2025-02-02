@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
 
-"""Test the single run functionality"""
+"""Test the generic coarsening functionality"""
 
 import os
 import pathlib
@@ -10,8 +10,8 @@ import subprocess
 dirname: pathlib.Path = pathlib.Path(__file__).parent
 
 
-def test_generic_deck():
-    """pycopm application to coarser a geological model given an input deck"""
+def test_coarsenign():
+    """See decks/HELLO_WORLD.DATA"""
     os.chdir(f"{dirname}/decks")
     subprocess.run(
         [

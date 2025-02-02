@@ -41,6 +41,7 @@ def pycopm():
     dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["fipcorr"] = int(cmdargs["fipcorr"])
     dic["trans"] = int(cmdargs["trans"])
+    dic["vicinity"] = cmdargs["vicinity"].strip()
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -67,7 +68,7 @@ def pycopm():
     if not os.path.exists(f"{dic['exe']}/{dic['fol']}"):
         os.system(f"mkdir {dic['exe']}/{dic['fol']}")
 
-    # When a deck is given, then we only generate the coarser/refined files
+    # When a deck is given, only coarser/refined/submodel files are generated
     if "DATA" in file:
         dic["deck"] = file.upper()[:-5]
         create_deck(dic)
@@ -142,6 +143,15 @@ def load_parser():
         "--flow",
         default="flow",
         help="OPM Flow path to executable or just 'flow' ('flow' by default).",
+    )
+    parser.add_argument(
+        "-v",
+        "--vicinity",
+        default="",
+        help="The location to extract the sub model. This can be assigned by a "
+        "region assignation, e.g., 'fipnum 2,4' extracts the cells with fipnums "
+        "equal to 2 or 4, or can be assigned by a polygon given the xy locations "
+        "in meters, e.g., 'xypolygon [0,0] [30,0] [30,30] [0,0]' ('' by default).",
     )
     parser.add_argument(
         "-c",
@@ -226,7 +236,12 @@ def load_parser():
         "-p",
         "--pvcorr",
         default=0,
-        help="Add the removed pore volume to the closest coarser cells ('0' by default).",
+        help="In coarsening, set to '1' to add the removed pore volume to the closest coarser "
+        "cells, while in submodels '1' adds the porv from outside on the boundary of the "
+        "submodel, '2' adds the corner regions (e.g., below the mini and minj from the input "
+        "model) to the corners in the submodel, '3' distributes the porv uniformly along the "
+        "boundary, and '4' distributes it on the whole submodel ('0' by default, i.e., no "
+        "porv correction).",
     )
     parser.add_argument(
         "-q",

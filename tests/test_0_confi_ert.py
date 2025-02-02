@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
 
-"""Test the ert functionality"""
+"""Test the ert functionality via the configuration file"""
 
 import os
 import pathlib
