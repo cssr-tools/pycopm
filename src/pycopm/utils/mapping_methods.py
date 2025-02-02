@@ -1137,6 +1137,112 @@ def chop_grid(dic):
                             dic["zc"].append(zc[n])
 
 
+def transform_grid(dic):
+    """
+    Transform the reservoir grid
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    dic["zc"], dic["cr"] = [], []
+    cxy = []
+    trans = dic["transform"].split(" ")
+    if trans[0] in ["translate", "scale"]:
+        txyz = trans[1].split(",")
+        txyz = np.array([float(txyz[0][1:]), float(txyz[1]), float(txyz[-1][:-1])])
+    else:
+        txyz = float(trans[1])
+    zc = list(dic["grid"].export_zcorn())
+    cr = list(dic["grid"].export_coord())
+    if trans[0] in ["rotatexz", "rotateyz"]:
+        xyz = dic["grid"].export_corners(dic["grid"].export_index())
+        for k in range(dic["grid"].nz):
+            for j in range(dic["grid"].ny):
+                for i in range(dic["grid"].nx):
+                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
+                    cxy.append([xyz[ind][0], xyz[ind][1]])
+                    cxy.append([xyz[ind][3], xyz[ind][4]])
+                for i in range(dic["grid"].nx):
+                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
+                    cxy.append([xyz[ind][6], xyz[ind][7]])
+                    cxy.append([xyz[ind][9], xyz[ind][10]])
+            for j in range(dic["grid"].ny):
+                for i in range(dic["grid"].nx):
+                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
+                    cxy.append([xyz[ind][12], xyz[ind][13]])
+                    cxy.append([xyz[ind][15], xyz[ind][16]])
+                for i in range(dic["grid"].nx):
+                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
+                    cxy.append([xyz[ind][18], xyz[ind][19]])
+                    cxy.append([xyz[ind][21], xyz[ind][22]])
+    for j in range(dic["grid"].ny + 1):
+        l = 6 * (dic["grid"].nx + 1) * j
+        for i in range(dic["grid"].nx + 1):
+            m = l + 6 * i
+            if trans[0] == "translate":
+                for n in range(6):
+                    dic["cr"].append(cr[m + n] + txyz[n % 3])
+            elif trans[0] == "scale":
+                for n in range(6):
+                    dic["cr"].append(cr[m + n] * txyz[n % 3])
+            else:
+                if trans[0] == "rotatexy":
+                    for n in range(2):
+                        dic["cr"].append(
+                            cr[m + 3 * n] * np.cos(txyz * np.pi / 180)
+                            - cr[m + 3 * n + 1] * np.sin(txyz * np.pi / 180)
+                        )
+                        dic["cr"].append(
+                            cr[m + 3 * n + 1] * np.cos(txyz * np.pi / 180)
+                            + cr[m + 3 * n] * np.sin(txyz * np.pi / 180)
+                        )
+                        dic["cr"].append(cr[m + 3 * n + 2])
+                elif trans[0] == "rotatexz":
+                    for n in range(2):
+                        dic["cr"].append(
+                            cr[m + 3 * n] * np.cos(txyz * np.pi / 180)
+                            + cr[m + 3 * n + 2] * np.sin(txyz * np.pi / 180)
+                        )
+                        dic["cr"].append(cr[m + 3 * n + 1])
+                        dic["cr"].append(
+                            cr[m + 3 * n + 2] * np.cos(txyz * np.pi / 180)
+                            - cr[m + 3 * n] * np.sin(txyz * np.pi / 180)
+                        )
+                else:
+                    for n in range(2):
+                        dic["cr"].append(cr[m + 3 * n])
+                        dic["cr"].append(
+                            cr[m + 3 * n + 1] * np.cos(txyz * np.pi / 180)
+                            - cr[m + 3 * n + 2] * np.sin(txyz * np.pi / 180)
+                        )
+                        dic["cr"].append(
+                            cr[m + 3 * n + 2] * np.cos(txyz * np.pi / 180)
+                            + cr[m + 3 * n + 1] * np.sin(txyz * np.pi / 180)
+                        )
+    for i, val in enumerate(zc):
+        if trans[0] == "translate":
+            dic["zc"].append(val + txyz[2])
+        elif trans[0] == "scale":
+            dic["zc"].append(val * txyz[2])
+        else:
+            if trans[0] == "rotatexz":
+                dic["zc"].append(
+                    val * np.cos(txyz * np.pi / 180)
+                    - cxy[i][0] * np.sin(txyz * np.pi / 180)
+                )
+            elif trans[0] == "rotateyz":
+                dic["zc"].append(
+                    val * np.cos(txyz * np.pi / 180)
+                    + cxy[i][1] * np.sin(txyz * np.pi / 180)
+                )
+            else:
+                dic["zc"].append(val)
+
+
 def refine_grid(dic):
     """
     Refine the reservoir grid

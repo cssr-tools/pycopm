@@ -42,6 +42,7 @@ def pycopm():
     dic["fipcorr"] = int(cmdargs["fipcorr"])
     dic["trans"] = int(cmdargs["trans"])
     dic["vicinity"] = cmdargs["vicinity"].strip()
+    dic["transform"] = cmdargs["displace"].strip()
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -68,7 +69,7 @@ def pycopm():
     if not os.path.exists(f"{dic['exe']}/{dic['fol']}"):
         os.system(f"mkdir {dic['exe']}/{dic['fol']}")
 
-    # When a deck is given, only coarser/refined/submodel files are generated
+    # When a deck, only coarser/refined/submodel/transformed files are generated
     if "DATA" in file:
         dic["deck"] = file.upper()[:-5]
         create_deck(dic)
@@ -313,6 +314,16 @@ def load_parser():
         "positions ('' by default; if not empty, e.g., 1,2,3 then the -mode is set to deck and "
         "there will not be generation of coarse files, only the i,j,k coarse/finner indices in the "
         "terminal).",
+    )
+    parser.add_argument(
+        "-d",
+        "--displace",
+        default="",
+        help="Options to transform the x,y,z coordinates: 'translate [10,-5,4]' adds the values "
+        "in meters to the coordinates, 'scale [1,2,3]' to multiply the coordinates by the given "
+        "values respectively, and 'rotatexy 45' applies a rotation in degrees in the xy plane "
+        "(rotatexz and rotateyz applies a rotation around the y and x axis respectively) "
+        "('' by default).",
     )
     return vars(parser.parse_known_args()[0])
 
