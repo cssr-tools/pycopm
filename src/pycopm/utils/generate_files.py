@@ -15,13 +15,17 @@ from resdata.resfile import ResdataFile
 from mako.template import Template
 from pycopm.utils.parser_deck import process_the_deck
 from pycopm.utils.mapping_methods import (
+    add_pv_bc,
+    chop_grid,
     coarsening_dir,
     handle_pv,
     handle_cp_grid,
     handle_refinement,
     handle_clusters,
+    handle_vicinity,
     map_ijk,
     map_properties,
+    map_vicinity,
     refine_grid,
 )
 
@@ -104,6 +108,8 @@ def create_deck(dic):
         dic["ini"] = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".INIT")
         if dic["refinement"]:
             print("\nInitializing pycopm to generate the refinned files, please wait")
+        elif dic["vicinity"]:
+            print("\nInitializing pycopm to generate the submodel files, please wait")
         elif not dic["ijk"]:
             print("\nInitializing pycopm to generate the coarsened files, please wait")
         if dic["ini"].has_kw("SWATINIT"):
@@ -138,8 +144,12 @@ def create_deck(dic):
                     dic["regions"] += [name]
         nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
         dic["con"] = np.array([0 for _ in range(nc)])
+        dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
+        dic["actind"] = dic["porv"] > 0
         if dic["refinement"]:
             handle_refinement(dic)
+        elif dic["vicinity"]:
+            handle_vicinity(dic)
         else:
             handle_clusters(dic)
             for name in dic["props"] + dic["regions"] + dic["grids"]:
@@ -152,7 +162,6 @@ def create_deck(dic):
                 dic["kc"][dic["ijk"][2]],
             )
             sys.exit()
-        dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
         actnum = np.array([0 for _ in range(nc)])
         for i in ["x", "y", "z"]:
             dic[f"d_{i}"] = np.array([np.nan for _ in range(nc)])
@@ -162,7 +171,6 @@ def create_deck(dic):
         z_b = np.array([np.nan for _ in range(nc)])
         z_b_t = np.array([np.nan for _ in range(nc)])
         if dic["refinement"]:
-            dic["actind"] = dic["porv"] > 0
             for name in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
                 dic[name] = np.zeros(nc)
                 if name == "porv":
@@ -191,6 +199,8 @@ def create_deck(dic):
                                         )
                                         n += 1
             dic["actnum_c"] = ["1" if float(val) > 0 else "0" for val in dic["porv_c"]]
+        elif dic["vicinity"]:
+            map_vicinity(dic)
         else:
             n = 0
             zti = [2, 5, 8, 11]
@@ -255,6 +265,10 @@ def create_deck(dic):
         process_the_deck(dic)
         if dic["refinement"]:
             refine_grid(dic)
+        elif dic["vicinity"]:
+            chop_grid(dic)
+            if dic["pvcorr"] > 0:
+                add_pv_bc(dic)
         else:
             clusmin, clusmax, rmv = map_properties(dic, actnum, z_t, z_b, z_b_t, v_c)
             if dic["pvcorr"] == 1:

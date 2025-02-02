@@ -163,17 +163,8 @@ cython_debug/
 .DS_Store
 
 # Tests
-tests/configs/ert
-tests/decks/coarser
-tests/decks/finer
-tests/configs/ert
-tests/configs/jobs
-tests/configs/logs
-tests/configs/observations
-tests/configs/parameters
-tests/configs/output
-tests/configs/postprocessing
-tests/configs/preprocessing
+**/tests/decks/*/
+**/tests/configs/*/
 tests/configs/.ert_runpath_list
 tests/configs/ert.ert
 
