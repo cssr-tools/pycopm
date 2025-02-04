@@ -9,20 +9,23 @@ import subprocess
 import numpy as np
 from resdata.resfile import ResdataFile
 
-dirname: pathlib.Path = pathlib.Path(__file__).parent
+testpth: pathlib.Path = pathlib.Path(__file__).parent
+mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
 def test_submodel():
-    """See decks/MODEL0.DATA and decks/MODEL1.DATA"""
+    """See examples/decks/MODEL0.DATA and MODEL1.DATA"""
+    if not os.path.exists(f"{testpth}/output"):
+        os.system(f"mkdir {testpth}/output")
     for i in range(2):
-        os.chdir(f"{dirname}/decks")
+        os.chdir(f"{testpth}/output")
         subprocess.run(
             [
                 "pycopm",
                 "-i",
-                f"MODEL{i}.DATA",
+                f"{mainpth}/examples/decks/MODEL{i}.DATA",
                 "-o",
-                "submodel",
+                f"{testpth}/output/submodel",
                 "-g",
                 "4,4,3",
                 "-m",
@@ -34,9 +37,9 @@ def test_submodel():
             ],
             check=True,
         )
-        assert os.path.exists(f"{dirname}/decks/submodel/MODEL{i}_FINER.INIT")
-        assert os.path.exists(f"{dirname}/decks/submodel/MODEL{i}_FINER.EGRID")
-        os.chdir(f"{dirname}/decks/submodel")
+        assert os.path.exists(f"{testpth}/output/submodel/MODEL{i}_FINER.INIT")
+        assert os.path.exists(f"{testpth}/output/submodel/MODEL{i}_FINER.EGRID")
+        os.chdir(f"{testpth}/output/submodel")
         for j in [1, 3, 4]:
             subprocess.run(
                 [

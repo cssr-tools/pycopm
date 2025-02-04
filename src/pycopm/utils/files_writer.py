@@ -30,7 +30,7 @@ def coarser_files(dic):
     var = {"dic": dic}
     filledtemplate = mytemplate.render(**var)
     with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/schedule.SCH",
+        f"{dic['fol']}/preprocessing/schedule.SCH",
         "w",
         encoding="utf8",
     ) as file:
@@ -42,9 +42,7 @@ def coarser_files(dic):
         filename=f"{dic['pat']}/template_scripts/common/time_eval.mako"
     )
     filledtemplate = mytemplate.render(**var)
-    with open(
-        f"{dic['exe']}/{dic['fol']}/jobs/time_eval.py", "w", encoding="utf8"
-    ) as file:
+    with open(f"{dic['fol']}/jobs/time_eval.py", "w", encoding="utf8") as file:
         file.write(filledtemplate)
 
     # Write the deck for hm
@@ -54,7 +52,7 @@ def coarser_files(dic):
     var = {"dic": dic}
     filledtemplate = mytemplate.render(**var)
     with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/{dic['name']}_COARSER.DATA",
+        f"{dic['fol']}/preprocessing/{dic['name']}_COARSER.DATA",
         "w",
         encoding="utf8",
     ) as file:
@@ -65,16 +63,14 @@ def coarser_files(dic):
         filename=f"{dic['pat']}/template_scripts/common/flow_path.mako"
     )
     filledtemplate = mytemplate.render(**var)
-    with open(f"{dic['exe']}/{dic['fol']}/jobs/FLOWRUN", "w", encoding="utf8") as file:
+    with open(f"{dic['fol']}/jobs/FLOWRUN", "w", encoding="utf8") as file:
         file.write(filledtemplate)
     var = {"dic": dic}
     mytemplate = Template(
         filename=f"{dic['pat']}/template_scripts/common/flow_flags.mako"
     )
     filledtemplate = mytemplate.render(**var)
-    with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/flags.param", "w", encoding="utf8"
-    ) as file:
+    with open(f"{dic['fol']}/preprocessing/flags.param", "w", encoding="utf8") as file:
         file.write(filledtemplate)
 
 
@@ -105,7 +101,7 @@ def ert_files(dic):
             )
             filledtemplate = mytemplate.render(**var)
             with open(
-                f"{dic['exe']}/{dic['fol']}/parameters/{dic['rock'][i][0]}.tmpl",
+                f"{dic['fol']}/parameters/{dic['rock'][i][0]}.tmpl",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -115,7 +111,7 @@ def ert_files(dic):
             )
             filledtemplate = mytemplate.render(**var)
             with open(
-                f"{dic['exe']}/{dic['fol']}/parameters/{dic['rock'][i][0]}_priors.data",
+                f"{dic['fol']}/parameters/{dic['rock'][i][0]}_priors.data",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -125,7 +121,7 @@ def ert_files(dic):
             )
             filledtemplate = mytemplate.render(**var)
             with open(
-                f"{dic['exe']}/{dic['fol']}/jobs/{dic['rock'][i][0]}_eval.py",
+                f"{dic['fol']}/jobs/{dic['rock'][i][0]}_eval.py",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -140,7 +136,7 @@ def ert_files(dic):
             )
             filledtemplate = mytemplate.render(**var)
             with open(
-                f"{dic['exe']}/{dic['fol']}/parameters/coeff_{str(dic['LET'][i][0])}.tmpl",
+                f"{dic['fol']}/parameters/coeff_{str(dic['LET'][i][0])}.tmpl",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -150,7 +146,7 @@ def ert_files(dic):
             )
             filledtemplate = mytemplate.render(**var)
             with open(
-                f"{dic['exe']}/{dic['fol']}/parameters/coeff_{str(dic['LET'][i][0])}_priors.data",
+                f"{dic['fol']}/parameters/coeff_{str(dic['LET'][i][0])}_priors.data",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -161,9 +157,7 @@ def ert_files(dic):
             filename=f"{dic['pat']}/template_scripts/{dic['field']}/table_eval.mako"
         )
         filledtemplate = mytemplate.render(**var)
-        with open(
-            f"{dic['exe']}/{dic['fol']}/jobs/table_eval.py", "w", encoding="utf8"
-        ) as file:
+        with open(f"{dic['fol']}/jobs/table_eval.py", "w", encoding="utf8") as file:
             file.write(filledtemplate)
     var = {"dic": dic}
     mytemplate = Template(
@@ -171,7 +165,7 @@ def ert_files(dic):
     )
     filledtemplate = mytemplate.render(**var)
     with open(
-        f"{dic['exe']}/{dic['fol']}/observations/{dic['Obs']}.data",
+        f"{dic['fol']}/observations/{dic['Obs']}.data",
         "w",
         encoding="utf8",
     ) as file:
@@ -179,7 +173,7 @@ def ert_files(dic):
     var = {"dic": dic}
     mytemplate = Template(filename=f"{dic['pat']}/template_scripts/common/ert.mako")
     filledtemplate = mytemplate.render(**var)
-    with open(f"{dic['exe']}/{dic['fol']}/ert.ert", "w", encoding="utf8") as file:
+    with open(f"{dic['fol']}/ert.ert", "w", encoding="utf8") as file:
         file.write(filledtemplate)
 
 
@@ -202,24 +196,20 @@ def opm_properties(dic):
         prop += ["multnum", "fipzon", "pvtnum"]
     for name in prop:
         with open(
-            f"{dic['exe']}/{dic['fol']}/preprocessing/{name}.inc", "w", encoding="utf8"
+            f"{dic['fol']}/preprocessing/{name}.inc", "w", encoding="utf8"
         ) as file:
             file.write(dic["git"])
             file.write(f"{name.upper()}\n")
             for k in range(dic["num_cells"]):
                 file.write(f"{dic[f'{name}_c'][k]} \n")
             file.write("/\n")
-    with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/swatinit.inc", "w", encoding="utf8"
-    ) as file:
+    with open(f"{dic['fol']}/preprocessing/swatinit.inc", "w", encoding="utf8") as file:
         file.write(dic["git"])
         file.write("SWATINIT\n")
         for k in range(dic["num_cells"]):
             file.write(f"{dic['swat_c'][k]} \n")
         file.write("/\n")
-    with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/init.inc", "w", encoding="utf8"
-    ) as file:
+    with open(f"{dic['fol']}/preprocessing/init.inc", "w", encoding="utf8") as file:
         for name in ["swat", "sgas", "pressure", "rs", "rv"]:
             file.write(dic["git"])
             file.write(f"{name.upper()}\n")
@@ -227,7 +217,7 @@ def opm_properties(dic):
                 file.write(f"{dic[f'{name}_c'][k]} \n")
             file.write("/\n")
     with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/regionbarriers.inc",
+        f"{dic['fol']}/preprocessing/regionbarriers.inc",
         "w",
         encoding="utf8",
     ) as file:
@@ -238,7 +228,7 @@ def opm_properties(dic):
         file.write("/\n")
     for name in ["permx", "permy", "permz"]:
         with open(
-            f"{dic['exe']}/{dic['fol']}/preprocessing/{name.upper()}.inc",
+            f"{dic['fol']}/preprocessing/{name.upper()}.inc",
             "w",
             encoding="utf8",
         ) as file:
@@ -250,7 +240,7 @@ def opm_properties(dic):
     if dic["deck"] > 0:
         write_let_tables(dic)
     with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/endpoints.inc",
+        f"{dic['fol']}/preprocessing/endpoints.inc",
         "w",
         encoding="utf8",
     ) as file:
@@ -275,7 +265,7 @@ def write_let_tables(dic):
 
     """
     with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/tables.inc",
+        f"{dic['fol']}/preprocessing/tables.inc",
         "w",
         encoding="utf8",
     ) as file:
@@ -359,7 +349,7 @@ def grid_features(dic):
     mytemplate = Template(filename=f"{dic['pat']}/template_scripts/common/grid.mako")
     filledtemplate = mytemplate.render(**var)
     with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/{dic['name']}_COARSER.GRDECL",
+        f"{dic['fol']}/preprocessing/{dic['name']}_COARSER.GRDECL",
         "w",
         encoding="utf8",
     ) as file:
@@ -369,9 +359,7 @@ def grid_features(dic):
         filename=f"{dic['pat']}/template_scripts/{dic['field']}/fault.mako"
     )
     filledtemplate = mytemplate.render(**var)
-    with open(
-        f"{dic['exe']}/{dic['fol']}/preprocessing/fault.inc", "w", encoding="utf8"
-    ) as file:
+    with open(f"{dic['fol']}/preprocessing/fault.inc", "w", encoding="utf8") as file:
         file.write(filledtemplate)
 
     # Write the faults
@@ -383,7 +371,7 @@ def grid_features(dic):
         )
         filledtemplate = mytemplate.render(**var)
         with open(
-            f"{dic['exe']}/{dic['fol']}/preprocessing/localbarriers.inc",
+            f"{dic['fol']}/preprocessing/localbarriers.inc",
             "w",
             encoding="utf8",
         ) as file:
@@ -395,7 +383,7 @@ def grid_features(dic):
         )
         filledtemplate = mytemplate.render(**var)
         with open(
-            f"{dic['exe']}/{dic['fol']}/preprocessing/trans.inc",
+            f"{dic['fol']}/preprocessing/trans.inc",
             "w",
             encoding="utf8",
         ) as file:

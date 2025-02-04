@@ -54,15 +54,15 @@ TABDIMS
 
 -- Dimension of equilibration tables
 INCLUDE
-  '${dic['exe']}/${dic['fol']}/preprocessing/include/runspec/drogon.eqldims' / -- exported by rms
+  '${dic['fol']}/preprocessing/include/runspec/drogon.eqldims' / -- exported by rms
 
 -- Regions dimension data
 INCLUDE
-  '${dic['exe']}/${dic['fol']}/preprocessing/include/runspec/drogon.regdims' / -- exported by rms
+  '${dic['fol']}/preprocessing/include/runspec/drogon.regdims' / -- exported by rms
 
 -- x-,y-,z- and multnum regions
 INCLUDE
-  '${dic['exe']}/${dic['fol']}/preprocessing/include/runspec/drogon.gridopts' / -- exported by rms
+  '${dic['fol']}/preprocessing/include/runspec/drogon.gridopts' / -- exported by rms
 
 -- Dimensions for fault data
 FAULTDIM
@@ -121,53 +121,53 @@ PINCH
  3*  ALL  /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/DROGON_COARSER.GRDECL' /
+ '${dic['fol']}/preprocessing/DROGON_COARSER.GRDECL' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/actnum.inc' /
+ '${dic['fol']}/preprocessing/actnum.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/fault.inc' / 
+ '${dic['fol']}/preprocessing/fault.inc' / 
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/poro.inc' /
+ '${dic['fol']}/preprocessing/poro.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/ntg.inc' /
+ '${dic['fol']}/preprocessing/ntg.inc' /
  
 INCLUDE
 % if dic['rock'][0][1] > 0 and dic['study'] > 0:
 'PERMX.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/PERMX.inc' /
+'${dic['fol']}/preprocessing/PERMX.inc' /
 % endif
 
 INCLUDE
 % if dic['rock'][1][1] > 0 and dic['study'] > 0:
 'PERMY.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/PERMY.inc' /
+'${dic['fol']}/preprocessing/PERMY.inc' /
 % endif
 
 INCLUDE
 % if dic['rock'][2][1] > 0 and dic['study'] > 0:
 'PERMZ.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/PERMZ.inc' /
+'${dic['fol']}/preprocessing/PERMZ.inc' /
 % endif
  
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/multnum.inc' /
+ '${dic['fol']}/preprocessing/multnum.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/include/grid/drogon.multregt' / --from ert template
+ '${dic['fol']}/preprocessing/include/grid/drogon.multregt' / --from ert template
 
 -- =============================================================================
 EDIT
 -- =============================================================================
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/trans.inc' /
+ '${dic['fol']}/preprocessing/trans.inc' /
 
 -- =============================================================================
 PROPS
@@ -177,18 +177,18 @@ FILLEPS
 
 INCLUDE
 % if dic['deck'] == 0:                               
- '${dic['exe']}/${dic['fol']}/preprocessing/include/props/drogon.sattab' / --exported by rms
+ '${dic['fol']}/preprocessing/include/props/drogon.sattab' / --exported by rms
 % elif dic['indc'] > 0:
 'tables.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/tables.inc' /
+'${dic['fol']}/preprocessing/tables.inc' /
 % endif
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/swatinit.inc' /
+ '${dic['fol']}/preprocessing/swatinit.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/include/props/drogon.pvt' /
+ '${dic['fol']}/preprocessing/include/props/drogon.pvt' /
 
 -- Set up tracers
 TRACER
@@ -204,19 +204,19 @@ REGIONS
 -- =============================================================================
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/eqlnum.inc' /
+ '${dic['fol']}/preprocessing/eqlnum.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/fipnum.inc' /
+ '${dic['fol']}/preprocessing/fipnum.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/fipzon.inc' /
+ '${dic['fol']}/preprocessing/fipzon.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/satnum.inc' /
+ '${dic['fol']}/preprocessing/satnum.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/pvtnum.inc' /
+ '${dic['fol']}/preprocessing/pvtnum.inc' /
 
 
 -- =============================================================================
@@ -225,16 +225,16 @@ SOLUTION
 
 % if dic['initial'] == 0:  
 INCLUDE                                
- '${dic['exe']}/${dic['fol']}/preprocessing/include/solution/drogon.equil' / --exported by rms   
+ '${dic['fol']}/preprocessing/include/solution/drogon.equil' / --exported by rms   
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/include/solution/drogon.rxvd' / --!! manually created (7 equil regions)  
+ '${dic['fol']}/preprocessing/include/solution/drogon.rxvd' / --!! manually created (7 equil regions)  
 %else:
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/init.inc' / 
+ '${dic['fol']}/preprocessing/init.inc' / 
 % endif
 
 INCLUDE                                
- '${dic['exe']}/${dic['fol']}/preprocessing/include/solution/drogon.thpres' / --exported by rms 
+ '${dic['fol']}/preprocessing/include/solution/drogon.thpres' / --exported by rms 
  
 -- Initial tracer concentration vs depth for tracer WT1
 TVDPFWT1
@@ -265,7 +265,7 @@ SUMTHIN
  1 /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/include/summary/drogon.summary' /
+ '${dic['fol']}/preprocessing/include/summary/drogon.summary' /
 
 
 -- =============================================================================
@@ -273,5 +273,5 @@ SCHEDULE
 -- =============================================================================
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/schedule.SCH' / 
+ '${dic['fol']}/preprocessing/schedule.SCH' / 
 

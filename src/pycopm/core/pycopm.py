@@ -24,7 +24,6 @@ def pycopm():
     file = cmdargs["input"].strip()  # Name of the input file
     dic = {"fol": cmdargs["output"]}  # Name for the output folder
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
-    dic["exe"] = os.getcwd()  # Path to the folder of the input.txt file
     dic["flow"] = cmdargs["flow"].strip()  # Path to flow
     dic["how"] = (cmdargs["how"].strip()).split(",")  # Max, min, or mode for actnum
     dic["nhow"] = cmdargs["nhow"].strip()  # Max, min, or mode for other nums
@@ -43,6 +42,7 @@ def pycopm():
     dic["trans"] = int(cmdargs["trans"])
     dic["vicinity"] = cmdargs["vicinity"].strip()
     dic["transform"] = cmdargs["displace"].strip()
+    dic["fol"] = os.path.abspath(dic["fol"])
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -66,12 +66,14 @@ def pycopm():
     else:
         dic["refinement"] = False
     # Make the output folder
-    if not os.path.exists(f"{dic['exe']}/{dic['fol']}"):
-        os.system(f"mkdir {dic['exe']}/{dic['fol']}")
+    if not os.path.exists(f"{dic['fol']}"):
+        os.system(f"mkdir {dic['fol']}")
 
     # When a deck, only coarser/refined/submodel/transformed files are generated
     if "DATA" in file:
-        dic["deck"] = file.upper()[:-5]
+        # if "/" in file:
+        dic["deck"] = file.split("/")[-1][:-5]
+        dic["pth"] = file[:-5]
         create_deck(dic)
         return
 
@@ -79,8 +81,8 @@ def pycopm():
     process_input(dic, file)
 
     for folder in ["preprocessing", "parameters", "jobs", "observations"]:
-        if not os.path.exists(f"{dic['exe']}/{dic['fol']}/{folder}"):
-            os.system(f"mkdir {dic['exe']}/{dic['fol']}/{folder}")
+        if not os.path.exists(f"{dic['fol']}/{folder}"):
+            os.system(f"mkdir {dic['fol']}/{folder}")
 
     # Get the command lines for ERT
     dic["fert"] = [""]
@@ -104,12 +106,12 @@ def pycopm():
     if dic["field"] == "drogon":
         os.system(
             f"cp -r {dic['pat']}/reference_simulation/{dic['field']}/include"
-            f" {dic['exe']}/{dic['fol']}/preprocessing/include & wait"
+            f" {dic['fol']}/preprocessing/include & wait"
         )
     else:
         os.system(
             f"cp -r {dic['pat']}/reference_simulation/{dic['field']}/INCLUDE"
-            f" {dic['exe']}/{dic['fol']}/preprocessing/INCLUDE & wait"
+            f" {dic['fol']}/preprocessing/INCLUDE & wait"
         )
 
     # Run Flow or selected ERT functionality

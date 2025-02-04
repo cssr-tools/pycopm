@@ -151,19 +151,19 @@ NOECHO
 -- Simulation grid, with slooping faults:
 -- file in UTM coordinate system, for importing to DecisionSpace
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/NORNE_ATW2013_COARSER.GRDECL' /
+ '${dic['fol']}/preprocessing/NORNE_ATW2013_COARSER.GRDECL' /
 
  --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/actnum.inc' /
+ '${dic['fol']}/preprocessing/actnum.inc' /
 
 -- Faults
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/fault.inc' /
+ '${dic['fol']}/preprocessing/fault.inc' /
 
 -- Alteration of transmiscibility by use of the 'MULTFLT' keyword
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/FAULT/FAULTMULT_AUG-2006.INC' /
+ '${dic['fol']}/preprocessing/INCLUDE/FAULT/FAULTMULT_AUG-2006.INC' /
 
 --------------------------------------------------------
 --
@@ -173,30 +173,30 @@ INCLUDE
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/poro.inc' /
+ '${dic['fol']}/preprocessing/poro.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/ntg.inc' /
+ '${dic['fol']}/preprocessing/ntg.inc' /
  
 INCLUDE
 % if dic['rock'][0][1] > 0 and dic['study'] > 0:
 'PERMX.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/PERMX.inc' /
+'${dic['fol']}/preprocessing/PERMX.inc' /
 % endif
 
 INCLUDE
 % if dic['rock'][1][1] > 0 and dic['study'] > 0:
 'PERMY.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/PERMY.inc' /
+'${dic['fol']}/preprocessing/PERMY.inc' /
 % endif
 
 INCLUDE
 % if dic['rock'][2][1] > 0 and dic['study'] > 0:
 'PERMZ.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/PERMZ.inc' /
+'${dic['fol']}/preprocessing/PERMZ.inc' /
 % endif
 
 --------------------------------------------------------
@@ -211,7 +211,7 @@ INCLUDE
 
 -- Region barriers
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/regionbarriers.inc' /
+ '${dic['fol']}/preprocessing/regionbarriers.inc' /
 
 -- Field-wide barriers
 EQUALS
@@ -224,14 +224,14 @@ EQUALS
 
 -- Local barriers
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/localbarriers.inc' /
+ '${dic['fol']}/preprocessing/localbarriers.inc' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/fluxnum.inc' /
+ '${dic['fol']}/preprocessing/fluxnum.inc' /
 
 -- modify transmissibilites between fluxnum using MULTREGT
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/PETRO/MULTREGT_D_27.prop' /
+ '${dic['fol']}/preprocessing/INCLUDE/PETRO/MULTREGT_D_27.prop' /
 
 NOECHO
 
@@ -253,7 +253,7 @@ PROPS
 NOECHO
 
 INCLUDE
-'${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/PVT/PVT-WET-GAS.INC' /
+'${dic['fol']}/preprocessing/INCLUDE/PVT/PVT-WET-GAS.INC' /
 
 TRACER
 SEA  WAT  /
@@ -270,15 +270,15 @@ TFB  WAT  /
 --'INCLUDE/PETRO/SWINITIAL.INC' /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/swatinit.inc' /
+ '${dic['fol']}/preprocessing/swatinit.inc' /
 
  INCLUDE
 % if dic['deck'] == 0:
-'${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/RELPERM/SCAL_NORNE.INC' /
+'${dic['fol']}/preprocessing/INCLUDE/RELPERM/SCAL_NORNE.INC' /
 % elif dic['indc'] > 0:
 'tables.inc' /
 % else :
-'${dic['exe']}/${dic['fol']}/preprocessing/tables.inc' /
+'${dic['fol']}/preprocessing/tables.inc' /
 % endif
  
  SCALECRS
@@ -318,7 +318,7 @@ INCLUDE
 
  -- Coarser endpoints.
 INCLUDE
-'${dic['exe']}/${dic['fol']}/preprocessing/endpoints.inc' /
+'${dic['fol']}/preprocessing/endpoints.inc' /
 
 EQUALS
 SGL   0.0  1 ${dic['nx']} 1 ${dic['ny']} 1 ${dic['nz']}  /
@@ -354,10 +354,10 @@ RPTPROPS
 REGIONS
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/fipnum.inc' /
+ '${dic['fol']}/preprocessing/fipnum.inc' /
  
  INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/satnum.inc' /
+ '${dic['fol']}/preprocessing/satnum.inc' /
 
 EQUALS
 'PVTNUM'  1    1  ${dic['nx']}  1   ${dic['ny']}    1  ${dic['nz']}  /
@@ -374,7 +374,7 @@ ADD
 /
 
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/eqlnum.inc' /
+ '${dic['fol']}/preprocessing/eqlnum.inc' /
 
 ---------------------------------------------------------------------------------
 
@@ -391,7 +391,7 @@ FIP=3  SWAT /
 -- equilibrium data: do not include this file in case of RESTART
 
 INCLUDE
-'${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/PETRO/E3.prop' /
+'${dic['fol']}/preprocessing/INCLUDE/PETRO/E3.prop' /
 
 THPRES
   1 2 0.588031 /
@@ -434,7 +434,7 @@ MLINEARS
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/SUMMARY/summary.data' /
+ '${dic['fol']}/preprocessing/INCLUDE/SUMMARY/summary.data' /
 
 --
 --INCLUDE
@@ -442,14 +442,14 @@ INCLUDE
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/SUMMARY/tracer.data' /
+ '${dic['fol']}/preprocessing/INCLUDE/SUMMARY/tracer.data' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/SUMMARY/gas.inc' /
+ '${dic['fol']}/preprocessing/INCLUDE/SUMMARY/gas.inc' /
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/SUMMARY/wpave.inc' /
+ '${dic['fol']}/preprocessing/INCLUDE/SUMMARY/wpave.inc' /
 
 --------------------------------------------------------------------------------
 
@@ -468,57 +468,57 @@ NOECHO
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/DevNew.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/DevNew.VFP' /
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/E1h.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/E1h.VFP' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/NEW_D2_GAS_0.00003.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/NEW_D2_GAS_0.00003.VFP' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/GAS_PD2.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/GAS_PD2.VFP' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/AlmostVertNew.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/AlmostVertNew.VFP' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/GasProd.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/GasProd.VFP' /
 
 
 -- 01.01.07 new VFP curves for producing wells, matched with the latest well tests in Prosper. lmarr
 
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/B1BH.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/B1BH.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/B2H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/B2H.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/B3H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/B3H.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/B4DH.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/B4DH.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/D1CH.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/D1CH.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/D2H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/D2H.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/D3BH.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/D3BH.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/E1H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/E1H.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/E3CH.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/E3CH.Ecl' /
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/K3H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/K3H.Ecl' /
 
 --------------------------------------------
 --=======Production Flowlines========--
@@ -527,43 +527,43 @@ INCLUDE
 -- 16.5.02 new VFP curves for southgoing PD1,PD2,PB1,PB2 flowlines -> pd2.VFP
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/pd2.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/pd2.VFP' /
 --
 -- 16.5.02 new VFP curves for northgoing PE1,PE2 flowlines -> pe2.VFP
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/pe2.VFP' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/pe2.VFP' /
 
 
 -- 24.11.06 new matched VLP curves for PB1 valid from 01.07.06
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/PB1.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/PB1.PIPE.Ecl' /
 
 --24.11.06 new matched VLP curves for PB2 valid from 01.07.06
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/PB2.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/PB2.PIPE.Ecl' /
 
 --24.11.06 new matched VLP curves for PD1 valid from 01.07.06
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/PD1.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/PD1.PIPE.Ecl' /
 
 --24.11.06 new matched VLP curves for PD2 valid from 01.07.06
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/PD2.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/PD2.PIPE.Ecl' /
 
 --24.11.06 new matched VLP curves for PE1 valid from 01.07.06
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/PE1.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/PE1.PIPE.Ecl' /
 
 --24.11.06 new matched VLP curves for PE2 valid from 01.07.06
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/PE2.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/PE2.PIPE.Ecl' /
 
 
 -------------------------------------------
@@ -572,12 +572,12 @@ INCLUDE
 -- VFPINJ nr. 10 Water injection flowline WIC
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/WIC.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/WIC.PIPE.Ecl' /
 
 -- VFPINJ nr. 11 Water injection flowline WIF
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/WIF.PIPE.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/WIF.PIPE.Ecl' /
 
 --------------------------------------------
 --=======   INJECTION Wells 08.09.2005       ========--
@@ -585,47 +585,47 @@ INCLUDE
 -- VFPINJ nr. 12 Water injection wellbore Norne C-1H
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/C1H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/C1H.Ecl' /
 
 -- VFPINJ nr. 13 Water injection wellbore Norne C-2H
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/C2H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/C2H.Ecl' /
 
 -- VFPINJ nr. 14 Water injection wellbore Norne C-3H
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/C3H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/C3H.Ecl' /
 
 -- VFPINJ nr. 15 Water injection wellbore Norne C-4H
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/C4H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/C4H.Ecl' /
 
 -- VFPINJ nr. 16 Water injection wellbore Norne C-4AH
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/C4AH.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/C4AH.Ecl' /
 
 -- VFPINJ nr. 17 Water injection wellbore Norne F-1H
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/F1H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/F1H.Ecl' /
 
 -- VFPINJ nr. 18 Water injection wellbore Norne F-2H
 --
 INCLUDE
- '${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/F2H.Ecl' /
+ '${dic['fol']}/preprocessing/INCLUDE/VFP/F2H.Ecl' /
 
 -- VFPINJ nr. 19 Water injection wellbore Norne F-3 H
 --
 INCLUDE
-'${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/F3H.Ecl' /
+'${dic['fol']}/preprocessing/INCLUDE/VFP/F3H.Ecl' /
 
 -- VFPINJ nr. 20 Water injection wellbore Norne F-4H
 --
 INCLUDE
-'${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/VFP/F4H.Ecl' /
+'${dic['fol']}/preprocessing/INCLUDE/VFP/F4H.Ecl' /
 
 TUNING
 1 10  0.1  0.15  3  0.3  0.3  1.20  /
@@ -639,8 +639,8 @@ ZIPPY2
 
 -- PI reduction in case of water cut
 --INCLUDE
---'${dic['exe']}/${dic['fol']}/preprocessing/INCLUDE/PI/pimultab_low-high_aug-2006.inc' /
+--'${dic['fol']}/preprocessing/INCLUDE/PI/pimultab_low-high_aug-2006.inc' /
 
 -- History
 INCLUDE
-'${dic['exe']}/${dic['fol']}/preprocessing/schedule.SCH' /
+'${dic['fol']}/preprocessing/schedule.SCH' /

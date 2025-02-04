@@ -6,7 +6,7 @@ flow
 
 """Set the model parameters"""
 norne  #Geological model (norne or drogon)
-ert #Type of study to run (single-run or ert)
+single-run #Type of study to run (single-run or ert)
 [0 2 1 2 2 0 2 0 2 0 2 0 2 2 0 2 0 2 2 0 2 1 2 2
  0 2 1 2 2 0 2 1 2 0 2 1 2 2 0 2 2 0 2 2 2 2 0] #Vector of x-coersing
 [0 2 1 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2 2 0 2 1 2

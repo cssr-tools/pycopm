@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
+# pylint: disable=R0801
 
 """Test the generic coarsening functionality"""
 
@@ -7,31 +8,33 @@ import os
 import pathlib
 import subprocess
 
-dirname: pathlib.Path = pathlib.Path(__file__).parent
+testpth: pathlib.Path = pathlib.Path(__file__).parent
+mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
-def test_coarsenign():
-    """See decks/HELLO_WORLD.DATA"""
-    os.chdir(f"{dirname}/decks")
+def test_coarsening():
+    """See examples/decks/HELLO_WORLD.DATA"""
+    if not os.path.exists(f"{testpth}/output"):
+        os.system(f"mkdir {testpth}/output")
     subprocess.run(
         [
             "pycopm",
-            "-i",
-            "HELLO_WORLD.DATA",
-            "-o",
-            "coarser",
             "-c",
             "5,1,5",
+            "-i",
+            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
+            "-o",
+            f"{testpth}/output/coarser",
             "-m",
             "prep",
         ],
         check=True,
     )
     assert os.path.exists(
-        f"{dirname}/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT"
+        f"{testpth}/output/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT"
     )
     assert os.path.exists(
-        f"{dirname}/decks/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID"
+        f"{testpth}/output/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID"
     )
     for ahow in ["max", "min", "mode"]:
         for nhow in ["max", "min", "mode"]:
@@ -40,9 +43,9 @@ def test_coarsenign():
                     [
                         "pycopm",
                         "-i",
-                        "HELLO_WORLD.DATA",
+                        f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
                         "-o",
-                        "coarser",
+                        f"{testpth}/output/coarser",
                         "-c",
                         "5,1,5",
                         "-m",
@@ -57,16 +60,16 @@ def test_coarsenign():
                     check=True,
                 )
                 assert os.path.exists(
-                    f"{dirname}/decks/coarser/HELLO_WORLD_PYCOPM.DATA"
+                    f"{testpth}/output/coarser/HELLO_WORLD_PYCOPM.DATA"
                 )
-                os.system(f"rm {dirname}/decks/coarser/HELLO_WORLD_PYCOPM.DATA")
+                os.system(f"rm {testpth}/output/coarser/HELLO_WORLD_PYCOPM.DATA")
     subprocess.run(
         [
             "pycopm",
             "-i",
-            "HELLO_WORLD.DATA",
+            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
             "-o",
-            "coarser",
+            f"{testpth}/output/coarser",
             "-m",
             "deck_dry",
             "-p",
@@ -80,15 +83,15 @@ def test_coarsenign():
         ],
         check=True,
     )
-    assert os.path.exists(f"{dirname}/decks/coarser/HELLO_WORLD_PYCOPM.INIT")
-    assert os.path.exists(f"{dirname}/decks/coarser/HELLO_WORLD_PYCOPM.EGRID")
+    assert os.path.exists(f"{testpth}/output/coarser/HELLO_WORLD_PYCOPM.INIT")
+    assert os.path.exists(f"{testpth}/output/coarser/HELLO_WORLD_PYCOPM.EGRID")
     subprocess.run(
         [
             "pycopm",
             "-i",
-            "HELLO_WORLD.DATA",
+            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
             "-o",
-            "coarser",
+            f"{testpth}/output/coarser",
             "-c",
             "1,1,5",
             "-m",
@@ -100,15 +103,15 @@ def test_coarsenign():
         ],
         check=True,
     )
-    assert os.path.exists(f"{dirname}/decks/coarser/TRANS.INIT")
-    assert os.path.exists(f"{dirname}/decks/coarser/TRANS.EGRID")
+    assert os.path.exists(f"{testpth}/output/coarser/TRANS.INIT")
+    assert os.path.exists(f"{testpth}/output/coarser/TRANS.EGRID")
     subprocess.run(
         [
             "pycopm",
             "-i",
-            "HELLO_WORLD.DATA",
+            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
             "-o",
-            "coarser",
+            f"{testpth}/output/coarser",
             "-c",
             "5,4,1",
             "-m",
@@ -120,23 +123,5 @@ def test_coarsenign():
         ],
         check=True,
     )
-    assert os.path.exists(f"{dirname}/decks/coarser/TRANS2.INIT")
-    assert os.path.exists(f"{dirname}/decks/coarser/TRANS2.EGRID")
-    subprocess.run(
-        [
-            "pycopm",
-            "-i",
-            "HELLO_WORLD.DATA",
-            "-o",
-            "finer",
-            "-g",
-            "5,4,1",
-            "-m",
-            "all",
-            "-w",
-            "FINER",
-        ],
-        check=True,
-    )
-    assert os.path.exists(f"{dirname}/decks/finer/FINER.INIT")
-    assert os.path.exists(f"{dirname}/decks/finer/FINER.EGRID")
+    assert os.path.exists(f"{testpth}/output/coarser/TRANS2.INIT")
+    assert os.path.exists(f"{testpth}/output/coarser/TRANS2.EGRID")
