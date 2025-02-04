@@ -213,6 +213,27 @@ def names_segwells(dic):
     with open(dic["deck"] + ".DATA", "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
+            if nrwo == "COMPDAT":
+                dic["compdat"] = True
+                continue
+            if dic["compdat"]:
+                edit = nrwo.split()
+                if edit:
+                    if edit[0] == "/":
+                        dic["compdat"] = False
+                    if edit[0] in dic["swells"]:
+                        continue
+                    if len(edit) > 2:
+                        if edit[0][:2] != "--":
+                            if dic["edit0"] == "":
+                                dic["edit0"] = nrwo.split()
+                            else:
+                                if (
+                                    edit[1] != dic["edit0"][1]
+                                    or edit[2] != dic["edit0"][2]
+                                ) and edit[0] == dic["edit0"][0]:
+                                    dic["swells"].append(str(edit[0]))
+                            dic["edit0"] = nrwo.split()
             if nrwo == "COMPSEGS":
                 dic["compsegs"] = True
                 continue
@@ -274,7 +295,7 @@ def handle_welldims(dic, nrwo):
         if edit:
             if edit[0] != "--":
                 if len(edit) > 2:
-                    edit[1] = str(dic["nz"])
+                    edit[1] = str(dic["nx"] + (dic["ny"]) + (dic["nz"]))
                     dic["lol"].append(" ".join(edit))
                     if "/" in nrwo:
                         dic["welldims"] = False
@@ -736,14 +757,60 @@ def handle_fault(dic, nrwo):
                 dic["fault"] = False
         if len(edit) > 2:
             if edit[0] != "--":
-                # if dic["refinement"]:
-                #     edit[1] = str(dic["i1"][int(edit[1])])
-                #     edit[2] = str(dic["in"][int(edit[2])])
-                #     edit[3] = str(dic["j1"][int(edit[3])])
-                #     edit[4] = str(dic["jn"][int(edit[4])])
-                #     edit[5] = str(dic["k1"][int(edit[5])])
-                #     edit[6] = str(dic["kn"][int(edit[6])])
-                # else:
+                if dic["refinement"]:
+                    dcn = edit[7]
+                    edit0 = edit.copy()
+                    if dcn in ["I", "X"]:
+                        edit0[1] = str(dic["in"][int(edit[1])])
+                        edit0[2] = str(dic["in"][int(edit[2])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["j1"][int(edit[3])], dic["jn"][int(edit[4])] + 1
+                        ):
+                            edit0[3] = str(i)
+                            edit0[4] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    elif dcn in ["I-", "X-"]:
+                        edit0[1] = str(dic["i1"][int(edit[1])])
+                        edit0[2] = str(dic["i1"][int(edit[2])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["j1"][int(edit[3])], dic["jn"][int(edit[4])] + 1
+                        ):
+                            edit0[3] = str(i)
+                            edit0[4] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    elif dcn in ["J", "K"]:
+                        edit0[3] = str(dic["jn"][int(edit[3])])
+                        edit0[4] = str(dic["jn"][int(edit[4])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["i1"][int(edit[1])], dic["in"][int(edit[2])] + 1
+                        ):
+                            edit0[1] = str(i)
+                            edit0[2] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    elif dcn in ["J-", "K-"]:
+                        edit0[3] = str(dic["j1"][int(edit[3])])
+                        edit0[4] = str(dic["j1"][int(edit[4])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["i1"][int(edit[1])], dic["in"][int(edit[2])] + 1
+                        ):
+                            edit0[1] = str(i)
+                            edit0[2] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    edit[1] = str(dic["i1"][int(edit[1])])
+                    edit[2] = str(dic["in"][int(edit[2])])
+                    edit[3] = str(dic["j1"][int(edit[3])])
+                    edit[4] = str(dic["jn"][int(edit[4])])
+                    edit[5] = str(dic["k1"][int(edit[5])])
+                    edit[6] = str(dic["kn"][int(edit[6])])
+                    return True
                 if dic["vicinity"]:
                     if (
                         dic["ic"][int(edit[1])]
@@ -792,7 +859,7 @@ def handle_welsegs(dic, nrwo):
                     return True
         if len(edit) > 1:
             if edit[0][:2] != "--" and dic["lol"][-1] == "WELSEGS":
-                if edit[0] not in dic["nwells"] or edit[0] in dic["swells"]:
+                if edit[0] not in dic["nwells"] or edit[0] not in dic["swells"]:
                     del dic["lol"][-1]
                     if dic["lol"][-1] == "WELSEGS":
                         del dic["lol"][-1]
@@ -919,9 +986,12 @@ def handle_segmented_wells(dic, nrwo):
                             edit[1] != str(dic["ic"][int(dic["edit0"][1])])
                             or edit[2] != str(dic["jc"][int(dic["edit0"][2])])
                         ):
-                            edit[3] = str(dic["kn"][int(edit[4])])
-                            edit[4] = str(dic["kn"][int(edit[4])])
+                            edit[3] = str(dic["kc"][int(edit[3])])
+                            edit[4] = str(dic["kc"][int(edit[4])])
                             edit0 = edit.copy()
+                            edit1 = edit.copy()
+                            edit1[3] = str(dic["kc"][int(dic["edit0"][3])])
+                            edit1[4] = str(dic["kc"][int(dic["edit0"][4])])
                             if int(edit[1]) != dic["ic"][int(dic["edit0"][1])]:
                                 n = int(edit[1]) - dic["ic"][int(dic["edit0"][1])]
                                 for i in range(abs(n) - 1):
@@ -929,7 +999,14 @@ def handle_segmented_wells(dic, nrwo):
                                         dic["ic"][int(dic["edit0"][1])]
                                         + int((i + 1) * n / abs(n))
                                     )
-                                    dic["lol"].append(" ".join(edit0))
+                                    edit1[1] = str(
+                                        dic["ic"][int(dic["edit0"][1])]
+                                        + int((i + 1) * n / abs(n))
+                                    )
+                                    if i < (abs(n) - 1) / 2:
+                                        dic["lol"].append(" ".join(edit1))
+                                    else:
+                                        dic["lol"].append(" ".join(edit0))
                             elif int(edit[2]) != dic["jc"][int(dic["edit0"][2])]:
                                 n = int(edit[2]) - dic["jc"][int(dic["edit0"][2])]
                                 for i in range(abs(n) - 1):
@@ -937,10 +1014,54 @@ def handle_segmented_wells(dic, nrwo):
                                         dic["jc"][int(dic["edit0"][2])]
                                         + int((i + 1) * n / abs(n))
                                     )
-                                    dic["lol"].append(" ".join(edit0))
+                                    edit1[2] = str(
+                                        dic["jc"][int(dic["edit0"][2])]
+                                        + int((i + 1) * n / abs(n))
+                                    )
+                                    if i < (abs(n) - 1) / 2:
+                                        dic["lol"].append(" ".join(edit1))
+                                    else:
+                                        dic["lol"].append(" ".join(edit0))
+                        elif (
+                            edit[0] == dic["edit0"][0]
+                            and dic["edit0"][0] not in dic["nsegw"]
+                            and dic["edit0"][0] in dic["swells"]
+                        ) and (
+                            edit[1] == str(dic["ic"][int(dic["edit0"][1])])
+                            and edit[2] == str(dic["jc"][int(dic["edit0"][2])])
+                            and dic["kc"][int(edit[3])]
+                            != dic["kc"][int(dic["edit0"][3])]
+                        ):
+                            if (
+                                dic["kc"][int(dic["edit0"][3])]
+                                < dic["kc"][int(edit[3])]
+                            ):
+                                for n in range(
+                                    dic["kc"][int(dic["edit0"][3])],
+                                    dic["kc"][int(edit[3])],
+                                ):
+                                    edit[3] = str(n + 1)
+                                    edit[4] = str(n + 1)
+                                    dic["lol"].append(" ".join(edit))
+                            else:
+                                for n in range(
+                                    dic["kc"][int(edit[3])],
+                                    dic["kc"][int(dic["edit0"][3])],
+                                ):
+                                    edit[3] = str(n + 1)
+                                    edit[4] = str(n + 1)
+                                    dic["lol"].append(" ".join(edit))
+                            dic["edit0"] = nrwo.split()
+                            return True
+                        elif edit[0] in dic["swells"] + dic["nsegw"]:
+                            edit[3] = str(dic["kc"][int(edit[3])])
+                            edit[4] = str(dic["kc"][int(edit[4])])
                         else:
                             edit[3] = str(dic["k1"][int(edit[3])])
                             edit[4] = str(dic["kn"][int(edit[4])])
+                    elif edit[0] in dic["swells"] + dic["nsegw"]:
+                        edit[3] = str(dic["kc"][int(edit[3])])
+                        edit[4] = str(dic["kc"][int(edit[4])])
                     else:
                         edit[3] = str(dic["k1"][int(edit[3])])
                         edit[4] = str(dic["kn"][int(edit[4])])
@@ -962,22 +1083,25 @@ def handle_segmented_wells(dic, nrwo):
         if len(edit) > 2:
             if edit[0][:2] != "--":
                 if dic["vicinity"]:
-                    if (
-                        edit[0] not in dic["nwells"]
-                        or dic["ic"][int(edit[0])]
-                        * dic["jc"][int(edit[1])]
-                        * dic["kc"][int(edit[2])]
-                        == 0
-                    ):
+                    if (edit[0] not in dic["nwells"] and len(edit) < 4) or dic["ic"][
+                        int(edit[0])
+                    ] * dic["jc"][int(edit[1])] * dic["kc"][int(edit[2])] == 0:
+                        return True
+                    else:
+                        edit[0] = str(dic["ic"][int(edit[0])])
+                        edit[1] = str(dic["jc"][int(edit[1])])
+                        edit[2] = str(dic["kc"][int(edit[2])])
+                        dic["lol"].append(" ".join(edit))
                         return True
                 elif dic["refinement"]:
                     edit[0] = str(dic["ic"][int(edit[0])])
                     edit[1] = str(dic["jc"][int(edit[1])])
-                    for i in range(
-                        dic["k1"][int(edit[2])], dic["kn"][int(edit[2])] + 1
-                    ):
-                        edit[2] = str(i)
-                        dic["lol"].append(" ".join(edit))
+                    # for i in range(
+                    #     dic["k1"][int(edit[2])], dic["kn"][int(edit[2])] + 1
+                    # ):
+                    #     edit[2] = str(i)
+                    edit[2] = str(dic["kc"][int(edit[2])])
+                    dic["lol"].append(" ".join(edit))
                 else:
                     edit[0] = str(dic["ic"][int(edit[0])])
                     edit[1] = str(dic["jc"][int(edit[1])])

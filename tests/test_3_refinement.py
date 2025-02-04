@@ -6,22 +6,26 @@
 import os
 import pathlib
 import subprocess
+import numpy as np
+from resdata.resfile import ResdataFile
 
-dirname: pathlib.Path = pathlib.Path(__file__).parent
+mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
+testpth: pathlib.Path = pathlib.Path(__file__).parent
 
 
 def test_refinement():
-    """See decks/HELLO_WORLD.DATA"""
-    os.chdir(f"{dirname}/decks")
+    """See examples/decks/MODEL2.DATA"""
+    if not os.path.exists(f"{testpth}/output"):
+        os.system(f"mkdir {testpth}/output")
     subprocess.run(
         [
             "pycopm",
-            "-o",
-            "finer",
             "-i",
-            "HELLO_WORLD.DATA",
+            f"{mainpth}/examples/decks/MODEL2.DATA",
+            "-o",
+            f"{testpth}/output/finer",
             "-g",
-            "5,4,1",
+            "2,4,8",
             "-w",
             "FINER",
             "-m",
@@ -29,5 +33,9 @@ def test_refinement():
         ],
         check=True,
     )
-    assert os.path.exists(f"{dirname}/decks/finer/FINER.INIT")
-    assert os.path.exists(f"{dirname}/decks/finer/FINER.EGRID")
+    assert os.path.exists(f"{testpth}/output/finer/FINER.INIT")
+    assert os.path.exists(f"{testpth}/output/finer/FINER.EGRID")
+    os.chdir(f"{testpth}/output/finer")
+    porv = np.array(ResdataFile("FINER.INIT").iget_kw("PORV")[0])
+    assert abs(sum(porv) - 6506.25) < 1e-4
+    assert sum(porv > 0) == 2430

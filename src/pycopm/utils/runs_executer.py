@@ -21,8 +21,8 @@ def simulations(dic):
         None
 
     """
-    os.system(f"cp -a {dic['pat']}/jobs/. {dic['exe']}/{dic['fol']}/jobs/.")
-    os.chdir(f"{dic['exe']}/{dic['fol']}")
+    os.system(f"cp -a {dic['pat']}/jobs/. {dic['fol']}/jobs/.")
+    os.chdir(f"{dic['fol']}")
     for fil in [
         "PERMX_eval",
         "PERMY_eval",
@@ -38,20 +38,20 @@ def simulations(dic):
         if dic["mpi"] > 1:
             os.system(
                 f"mpirun -np {dic['mpi']} {dic['flow']}"
-                f" --parameter-file={dic['exe']}/{dic['fol']}/preprocessing/flags.param"
-                f" {dic['exe']}/{dic['fol']}/output/simulations/realisation-0/iter-0/"
-                f"{dic['name']}_COARSER.DATA --output-dir={dic['exe']}/{dic['fol']}/"
+                f" --parameter-file={dic['fol']}/preprocessing/flags.param"
+                f" {dic['fol']}/output/simulations/realisation-0/iter-0/"
+                f"{dic['name']}_COARSER.DATA --output-dir={dic['fol']}/"
                 f"output/simulations/realisation-0/iter-0 & wait\n"
             )
         else:
             os.system(
-                f"{dic['flow']} --parameter-file={dic['exe']}/{dic['fol']}/preprocessing/"
-                f"flags.param {dic['exe']}/{dic['fol']}/output/simulations/realisation-0/"
-                f"iter-0/{dic['name']}_COARSER.DATA --output-dir={dic['exe']}/{dic['fol']}/"
+                f"{dic['flow']} --parameter-file={dic['fol']}/preprocessing/"
+                f"flags.param {dic['fol']}/output/simulations/realisation-0/"
+                f"iter-0/{dic['name']}_COARSER.DATA --output-dir={dic['fol']}/"
                 f"output/simulations/realisation-0/iter-0 & wait\n"
             )
-        os.chdir(f"{dic['exe']}/{dic['fol']}/output/simulations/realisation-0/iter-0")
-        os.chdir(f"{dic['exe']}/{dic['fol']}")
+        os.chdir(f"{dic['fol']}/output/simulations/realisation-0/iter-0")
+        os.chdir(f"{dic['fol']}")
     else:
         os.system(f"ert {dic['fert'][0]} ert.ert & wait")
 
@@ -68,18 +68,12 @@ def plotting(dic, time):
         dic (dict): Modified global dictionary
 
     """
-    dic["Ne"] = len(next(os.walk(f"{dic['exe']}/{dic['fol']}/output/simulations"))[1])
+    dic["Ne"] = len(next(os.walk(f"{dic['fol']}/output/simulations"))[1])
     dic["Ni"] = 1
     for i in range(dic["Ne"]):
         dic["Ni"] = max(
             dic["Ni"],
-            len(
-                next(
-                    os.walk(
-                        f"{dic['exe']}/{dic['fol']}/output/simulations/realisation-{i}"
-                    )
-                )[1]
-            ),
+            len(next(os.walk(f"{dic['fol']}/output/simulations/realisation-{i}"))[1]),
         )
     dic["LET"] = sorted(dic["LET"], key=lambda x: x[0])
     var = {"dic": dic, "time": time}
@@ -87,12 +81,8 @@ def plotting(dic, time):
         filename=dic["pat"] + "/template_scripts/common/plot_post.mako"
     )
     filledtemplate = mytemplate.render(**var)
-    with open(
-        f"{dic['exe']}/{dic['fol']}/jobs/plotting.py", "w", encoding="utf8"
-    ) as file:
+    with open(f"{dic['fol']}/jobs/plotting.py", "w", encoding="utf8") as file:
         file.write(filledtemplate)
-    task = subprocess.run(
-        ["python", f"{dic['exe']}/{dic['fol']}/jobs/plotting.py"], check=True
-    )
+    task = subprocess.run(["python", f"{dic['fol']}/jobs/plotting.py"], check=True)
     if task.returncode != 0:
         raise ValueError(f"Invalid result: { task.returncode }")

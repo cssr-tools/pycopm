@@ -6,23 +6,27 @@
 import os
 import pathlib
 import subprocess
+from resdata.grid import Grid
 
-dirname: pathlib.Path = pathlib.Path(__file__).parent
+testpth: pathlib.Path = pathlib.Path(__file__).parent
+mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
 def test_transform():
-    """See decks/MODEL0.DATA"""
-    os.chdir(f"{dirname}/decks")
+    """See examples/decks/MODEL0.DATA"""
+    if not os.path.exists(f"{testpth}/output"):
+        os.system(f"mkdir {testpth}/output")
     flags = ["translate", "scale", "rotatexy", "rotatexz", "rotateyz"]
     values = ["[5,-3,2]", "[2,.5,4]", "45", "-10", "15"]
-    for flag, val in zip(flags, values):
+    checks = [3, 4, 1, 3.5899, 4.848]
+    for flag, val, check in zip(flags, values, checks):
         subprocess.run(
             [
                 "pycopm",
                 "-i",
-                "MODEL0.DATA",
+                f"{mainpth}/examples/decks/MODEL0.DATA",
                 "-o",
-                "transform",
+                f"{testpth}/output/transform",
                 "-d",
                 f"{flag} {val}",
                 "-m",
@@ -34,5 +38,8 @@ def test_transform():
             ],
             check=True,
         )
-        assert os.path.exists(f"{dirname}/decks/transform/{flag.upper()}.INIT")
-        assert os.path.exists(f"{dirname}/decks/transform/{flag.upper()}.EGRID")
+        assert os.path.exists(f"{testpth}/output/transform/{flag.upper()}.INIT")
+        assert os.path.exists(f"{testpth}/output/transform/{flag.upper()}.EGRID")
+        grid = Grid(f"{testpth}/output/transform/{flag.upper()}.EGRID")
+        zcoord = grid.export_corners(grid.export_index())[-1][-1]
+        assert abs(zcoord - check) < 1e-2

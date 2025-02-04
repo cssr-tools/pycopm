@@ -21,7 +21,7 @@ from datetime import timedelta
 def visualizeData():
     """Visualize time series"""
 
-    output_folder = '${dic['exe']}/${dic['fol']}'
+    output_folder = '${dic['fol']}'
     pycopm_path = '${dic['pat']}'
     num_satn = ${max(dic['satnum_c'])}
     num_para = ${len(dic["LET"])}

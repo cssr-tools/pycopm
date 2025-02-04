@@ -63,10 +63,10 @@ SIMULATION_JOB table_eval
 % if dic['study'] > 0:
 % if dic['mpi'] == 1:
 INSTALL_JOB flowrun ./jobs/FLOWRUN
-SIMULATION_JOB flowrun "--parameter-file=${dic['exe']}/${dic['fol']}/preprocessing/flags.param" <ECLBASE>
+SIMULATION_JOB flowrun "--parameter-file=${dic['fol']}/preprocessing/flags.param" <ECLBASE>
 % else:
 INSTALL_JOB mpirun ./jobs/MPIRUN
-SIMULATION_JOB mpirun -np ${dic['mpi']} ${dic['flow']} "--parameter-file=${dic['exe']}/${dic['fol']}/preprocessing/flags.param" <ECLBASE>
+SIMULATION_JOB mpirun -np ${dic['mpi']} ${dic['flow']} "--parameter-file=${dic['fol']}/preprocessing/flags.param" <ECLBASE>
 %endif
 
 INSTALL_JOB time_eval ./jobs/TIME_EVAL

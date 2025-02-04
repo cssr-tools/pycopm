@@ -52,9 +52,9 @@ def create_deck(dic):
         f"--parsing-strictness=low --output-mode=none --output-dir={dic['fol']}"
     )
     if dic["mode"] in ["prep", "prep_deck", "all"]:
-        os.system(f"cp {dic['deck']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
+        os.system(f"cp {dic['pth']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
         print(
-            f"\nCloning {dic['deck']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA for"
+            f"\nCloning {dic['pth']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA for"
             " the intial dry run to generate the grid (.EGRID) and static (.INIT) "
             "properties\n"
         )
@@ -102,11 +102,11 @@ def create_deck(dic):
         dic["nrptsrt"] = 0
         dic["nrptsrtc"] = 0
         dic["hasnnc"] = False
-        temp = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
+        temp = ResdataFile(dic["deck"] + ".EGRID")
         if temp.has_kw("NNC1") and dic["trans"] > 0:
             dic["hasnnc"] = True
-        dic["grid"] = Grid(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
-        dic["ini"] = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".INIT")
+        dic["grid"] = Grid(dic["deck"] + ".EGRID")
+        dic["ini"] = ResdataFile(dic["deck"] + ".INIT")
         if dic["refinement"]:
             print("\nInitializing pycopm to generate the refinned files, please wait")
         elif dic["vicinity"]:
@@ -286,7 +286,7 @@ def create_deck(dic):
         write_grid(dic)
         write_props(dic)
         with open(
-            f"{dic['exe']}/{dic['fol']}/{dic['write']}.DATA",
+            f"{dic['fol']}/{dic['write']}.DATA",
             "w",
             encoding="utf8",
         ) as file:
@@ -295,24 +295,28 @@ def create_deck(dic):
         if dic["fipcorr"] == 1:
             thr = 1e-1
             with open(
-                f"{dic['exe']}/{dic['fol']}/{dic['write']}_2DAYS.DATA",
+                f"{dic['fol']}/{dic['write']}_2DAYS.DATA",
                 "w",
                 encoding="utf8",
             ) as file:
                 for row in dic["lolc"]:
                     file.write(row + "\n")
             with open(
-                f"{dic['exe']}/{dic['fol']}/{dic['write']}_CORR.DATA",
+                f"{dic['fol']}/{dic['write']}_CORR.DATA",
                 "w",
                 encoding="utf8",
             ) as file:
                 for row in dic["deckcorr"]:
                     file.write(row + "\n")
-            os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
-            os.system(f"{dic['flow']} {dic['write']}_2DAYS.DATA {dic['flags1']}")
-            ref = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_2DAYS.UNRST")
-            cor = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.UNRST")
-            cori = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.INIT")
+            os.system(
+                f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
+            )
+            os.system(
+                f"{dic['flow']} {dic['fol']}/{dic['write']}_2DAYS.DATA {dic['flags1']}"
+            )
+            ref = ResdataFile(f"{dic['fol']}/{dic['write']}_2DAYS.UNRST")
+            cor = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
+            cori = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
             ref_fipg = np.array(ref.iget_kw("FIPGAS")[0])
             ref_fipo = np.array(ref.iget_kw("FIPOIL")[0])
             cor_pv = np.array(cori.iget_kw("PORV")[0])
@@ -326,16 +330,18 @@ def create_deck(dic):
             cor_pa[cor_fipo > thr] *= 1 + fact
             cor_pv[cor_pv > 0] = cor_pa
             with open(
-                f"{dic['exe']}/{dic['fol']}/{dic['label']}PORV.INC",
+                f"{dic['fol']}/{dic['label']}PORV.INC",
                 "w",
                 encoding="utf8",
             ) as file:
                 file.write("PORV\n")
                 file.write("\n".join(f"{val}" for val in cor_pv))
                 file.write("\n/")
-            os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
-            cor = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.UNRST")
-            cori = ResdataFile(f"{dic['exe']}/" + dic["write"] + "_CORR.INIT")
+            os.system(
+                f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
+            )
+            cor = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
+            cori = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
             cor_pv = np.array(cori.iget_kw("PORV")[0])
             cor_pa = cor_pv[cor_pv > 0]
             cor_fipg = np.array(cor.iget_kw("FIPGAS")[0])
@@ -348,19 +354,21 @@ def create_deck(dic):
             cor_pa[cor_sgas > thr] *= 1 + fact
             cor_pv[cor_pv > 0] = cor_pa
             with open(
-                f"{dic['exe']}/{dic['fol']}/{dic['label']}PORV.INC",
+                f"{dic['fol']}/{dic['label']}PORV.INC",
                 "w",
                 encoding="utf8",
             ) as file:
                 file.write("PORV\n")
                 file.write("\n".join(f"{val}" for val in cor_pv))
                 file.write("\n/")
-            os.system(f"{dic['flow']} {dic['write']}_CORR.DATA {dic['flags1']}")
+            os.system(
+                f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
+            )
         if dic["hasnnc"] > 0:
             print("\nCall OPM Flow for a dry run of the generated model\n")
             print("\nThis is needed for the nnctrans, please wait\n")
             os.chdir(dic["fol"])
-            os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
+            os.system(f"{dic['flow']} {dic['fol']}/{dic['write']}.DATA {dic['flags']}")
             handle_nnc_trans(dic)
         print(
             f"\nThe generation of files succeeded, see {dic['fol']}/"
@@ -394,13 +402,13 @@ def handle_nnc_trans(dic):
                 nncdeck.append("INCLUDE")
                 nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
     with open(
-        f"{dic['exe']}/{dic['fol']}/{dic['write']}.DATA",
+        f"{dic['fol']}/{dic['write']}.DATA",
         "w",
         encoding="utf8",
     ) as file:
         for row in nncdeck:
             file.write(row + "\n")
-    temp = ResdataFile(f"{dic['exe']}/" + dic["deck"] + ".EGRID")
+    temp = ResdataFile(dic["deck"] + ".EGRID")
     coa = ResdataFile(dic["write"] + ".INIT")
     coag = ResdataFile(dic["write"] + ".EGRID")
     rnnc1 = np.array(temp.iget_kw("NNC1")[0])
@@ -525,21 +533,10 @@ def write_grid(dic):
         None
 
     """
-    if dic["fol"] != ".":
-        dic["files"] = [f for f in os.listdir(f"{dic['exe']}") if f.endswith(".INC")]
-        for file in dic["files"]:
-            copy = True
-            for prop in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
-                if prop in file:
-                    copy = False
-            if copy:
-                os.system(f"scp -r {dic['exe']}/{file} {dic['exe']}/{dic['fol']}")
     var = {"dic": dic}
     mytemplate = Template(filename=f"{dic['pat']}/template_scripts/common/grid.mako")
     filledtemplate = mytemplate.render(**var)
-    with open(
-        f"{dic['exe']}/{dic['fol']}/{dic['label']}GRID.INC", "w", encoding="utf8"
-    ) as f:
+    with open(f"{dic['fol']}/{dic['label']}GRID.INC", "w", encoding="utf8") as f:
         f.write(filledtemplate)
 
 
@@ -562,7 +559,7 @@ def write_props(dic):
         )
         dic[f"{name}_c"].append("/")
         with open(
-            f"{dic['exe']}/{dic['fol']}/{dic['label']}{name.upper()}.INC",
+            f"{dic['fol']}/{dic['label']}{name.upper()}.INC",
             "w",
             encoding="utf8",
         ) as file:
