@@ -136,21 +136,21 @@ INCLUDE
  '${dic['fol']}/preprocessing/ntg.inc' /
  
 INCLUDE
-% if dic['rock'][0][1] > 0 and dic['study'] > 0:
+% if dic['rock'][0][1] > 0 and dic['mode'] in ["files","ert"]:
 'PERMX.inc' /
 % else :
 '${dic['fol']}/preprocessing/PERMX.inc' /
 % endif
 
 INCLUDE
-% if dic['rock'][1][1] > 0 and dic['study'] > 0:
+% if dic['rock'][1][1] > 0 and dic['mode'] in ["files","ert"]:
 'PERMY.inc' /
 % else :
 '${dic['fol']}/preprocessing/PERMY.inc' /
 % endif
 
 INCLUDE
-% if dic['rock'][2][1] > 0 and dic['study'] > 0:
+% if dic['rock'][2][1] > 0 and dic['mode'] in ["files","ert"]:
 'PERMZ.inc' /
 % else :
 '${dic['fol']}/preprocessing/PERMZ.inc' /

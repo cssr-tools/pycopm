@@ -44,6 +44,13 @@ def coarser_files(dic):
     filledtemplate = mytemplate.render(**var)
     with open(f"{dic['fol']}/jobs/time_eval.py", "w", encoding="utf8") as file:
         file.write(filledtemplate)
+    var = {"dic": dic}
+    mytemplate = Template(
+        filename=f"{dic['pat']}/template_scripts/common/flow_eval.mako"
+    )
+    filledtemplate = mytemplate.render(**var)
+    with open(f"{dic['fol']}/jobs/flow_eval.py", "w", encoding="utf8") as file:
+        file.write(filledtemplate)
 
     # Write the deck for hm
     mytemplate = Template(
@@ -56,21 +63,6 @@ def coarser_files(dic):
         "w",
         encoding="utf8",
     ) as file:
-        file.write(filledtemplate)
-
-    var = {"dic": dic}
-    mytemplate = Template(
-        filename=f"{dic['pat']}/template_scripts/common/flow_path.mako"
-    )
-    filledtemplate = mytemplate.render(**var)
-    with open(f"{dic['fol']}/jobs/FLOWRUN", "w", encoding="utf8") as file:
-        file.write(filledtemplate)
-    var = {"dic": dic}
-    mytemplate = Template(
-        filename=f"{dic['pat']}/template_scripts/common/flow_flags.mako"
-    )
-    filledtemplate = mytemplate.render(**var)
-    with open(f"{dic['fol']}/preprocessing/flags.param", "w", encoding="utf8") as file:
         file.write(filledtemplate)
 
 
@@ -94,7 +86,7 @@ def ert_files(dic):
         [dic["permx_c"], dic["permy_c"], dic["permz_c"]],
         [dic["permx_c_min_max"], dic["permy_c_min_max"], dic["permz_c_min_max"]],
     ):
-        if dic["rock"][i][1] == 1 and dic["study"] > 0:
+        if dic["rock"][i][1] == 1 and dic["mode"] in ["files", "ert"]:
             var = {"dic": dic, "last": last, "k_c": k_c, "min_max": min_max, "i": i}
             mytemplate = Template(
                 filename=f"{dic['pat']}/template_scripts/common/perm.mako"
@@ -128,7 +120,9 @@ def ert_files(dic):
                 file.write(filledtemplate)
     dic["indc"] = 0
     for i in range(len(dic["LET"])):
-        if (dic["LET"][i][2] == 1 and dic["study"] > 0) and dic["deck"] == 1:
+        if (dic["LET"][i][2] == 1 and dic["mode"] in ["files", "ert"]) and dic[
+            "deck"
+        ] == 1:
             dic["indc"] = 1
             var = {"dic": dic, "i": i}
             mytemplate = Template(
@@ -161,11 +155,11 @@ def ert_files(dic):
             file.write(filledtemplate)
     var = {"dic": dic}
     mytemplate = Template(
-        filename=f"{dic['pat']}/template_scripts/{dic['field']}/{dic['Obs']}.mako"
+        filename=f"{dic['pat']}/template_scripts/{dic['field']}/{dic['obs']}.mako"
     )
     filledtemplate = mytemplate.render(**var)
     with open(
-        f"{dic['fol']}/observations/{dic['Obs']}.data",
+        f"{dic['fol']}/observations/{dic['obs']}.data",
         "w",
         encoding="utf8",
     ) as file:

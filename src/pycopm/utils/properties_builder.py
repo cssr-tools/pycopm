@@ -74,9 +74,9 @@ def coarser_properties(dic):
             dic["pvtnum_c"][num] = int(min(dic["pvtnum"][inx]))
             dic["fipzon_c"][num] = int(min(dic["fipzon"][inx]))
             dic["satnum_c"][num] = int(min(dic["satnum"][inx]))
-        if dic["deck"] == 1 and (dic["CS"] == 1 or dic["CS"] == 3):
+        if dic["deck"] == 1 and (dic["letsatn"] == 1 or dic["letsatn"] == 3):
             dic["satnum_c"][num] = int(min(dic["satnum"][inx]))
-        if dic["deck"] == 1 and dic["CS"] == 2:
+        if dic["deck"] == 1 and dic["letsatn"] == 2:
             if sum(dic["actnum_c"][0:num]) > 1:
                 dic["satnum_c"][num] += int(sum(dic["actnum_c"][0:num])) - 1
 
@@ -119,7 +119,7 @@ def coarser_properties(dic):
                 min(dic[name][inx]),
                 1.1 * max(dic[name][inx]),
             ]
-        if (actnum_m[num] - dic["actnum_c"][num]) > 0 and dic["PV"] == 1:
+        if (actnum_m[num] - dic["actnum_c"][num]) > 0 and dic["cporv"] == 1:
             add_lost_pv_to_boundary_cells(dic, inx, num)
 
     add_lost_pv_to_all_cells(dic)
@@ -255,7 +255,7 @@ def add_lost_pv_to_all_cells(dic):
         dic (dict): Modified global dictionary
 
     """
-    if dic["PV"] != 2:
+    if dic["cporv"] != 2:
         return
     pv_c = sum(
         np.array(dic["poro_c"])
@@ -280,7 +280,7 @@ def add_lost_pv_to_all_eq_cells(dic):
         dic (dict): Modified global dictionary
 
     """
-    if dic["PV"] != 3:
+    if dic["cporv"] != 3:
         return
 
     for i in range(1, 8):
@@ -318,7 +318,7 @@ def add_lost_pv_to_all_fip_cells(dic):
         dic (dict): Modified global dictionary
 
     """
-    if dic["PV"] != 4:
+    if dic["cporv"] != 4:
         return
 
     for i in range(1, 22):
