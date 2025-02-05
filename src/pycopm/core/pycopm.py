@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0915
+# pylint: disable=R0912,R0915,R1702
 
 """Main script for pycopm"""
 
@@ -34,7 +34,7 @@ def pycopm():
     dic["write"] = cmdargs["write"].strip()  # Name of the generated deck
     dic["mode"] = cmdargs["mode"].strip()  # What to run
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
-    dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the coarse/fine model
+    dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the modified model
     dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
@@ -48,11 +48,23 @@ def pycopm():
         for i in ["x", "y", "z"]:
             dic[f"{i}{tag}"] = []
             if cmdargs[f"{i}{tag}"]:
-                dic[f"{i}{tag}"] = list(
-                    np.genfromtxt(
-                        StringIO(cmdargs[f"{i}{tag}"]), delimiter=",", dtype=int
+                if ":" in cmdargs[f"{i}{tag}"]:
+                    dic[f"{i}{tag}"] = [0]
+                    ind = 1
+                    for val in cmdargs[f"{i}{tag}"].split(","):
+                        ent = val.split(":")
+                        for _ in range(ind, int(ent[0])):
+                            dic[f"{i}{tag}"] += [0]
+                        for _ in range(int(ent[0]), int(ent[1])):
+                            dic[f"{i}{tag}"] += [2]
+                        ind = int(ent[1])
+                    dic[f"{i}{tag}"] += [0]
+                else:
+                    dic[f"{i}{tag}"] = list(
+                        np.genfromtxt(
+                            StringIO(cmdargs[f"{i}{tag}"]), delimiter=",", dtype=int
+                        )
                     )
-                )
                 dic[f"{label}cijk"] = "no"
         if dic[f"{label}cijk"] != "no" and cmdargs[name]:
             dic[f"{label}cijk"] = np.genfromtxt(
@@ -165,7 +177,10 @@ def load_parser():
         help="Vector of x-coarsening, e.g., if the grid has 6 cells in the x "
         "direction, then 0,2,0,2,0,2,0 would generate a coarser model with 3 "
         "cells, while 0,2,2,2,2,2,0 would generate a coarser model with 1 cell, "
-        "i.e., 0 keeps the pilars while 2 removes them ('' by default).",
+        "i.e., 0 keeps the pilars while 2 removes them. As an alternative, the "
+        "range of the cells to coarse can be given separate them by commas, e.g., "
+        "1:3,5:6 generates a coarser model with 3 cells where the cells with the "
+        "first three and two last i indices are coarsened to one ('' by default).",
     )
     parser.add_argument(
         "-y",

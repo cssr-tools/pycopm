@@ -44,6 +44,8 @@ def process_the_deck(dic):
     dic["welldims"] = False
     dic["wells"] = False
     dic["skip"] = False
+    dic["aqucon"] = False
+    dic["aqunum"] = False
     dic["edit0"] = ""
     dic["nsegw"] = []
     dic["nwells"] = []
@@ -265,7 +267,7 @@ def handle_dimens(dic, nrwo):
     if dic["dimens"]:
         edit = nrwo.split()
         if edit:
-            if edit[0] != "--":
+            if edit[0][:2] != "--":
                 if edit[-1] == "/" or edit[0] == "/":
                     dic["dimens"] = False
         return True
@@ -293,7 +295,7 @@ def handle_welldims(dic, nrwo):
     if dic["welldims"]:
         edit = nrwo.split()
         if edit:
-            if edit[0] != "--":
+            if edit[0][:2] != "--":
                 if len(edit) > 2:
                     edit[1] = str(dic["nx"] + (dic["ny"]) + (dic["nz"]))
                     dic["lol"].append(" ".join(edit))
@@ -505,6 +507,10 @@ def handle_grid_props(dic, nrwo):
             return True
         if handle_mapaxes(dic, nrwo):
             return True
+        if handle_aqunum(dic, nrwo):
+            return True
+        if handle_aqucon(dic, nrwo):
+            return True
         # if handle_oper(dic, nrwo):
         #    return True
         if dic["trans"] == 0:
@@ -534,6 +540,146 @@ def handle_grid_props(dic, nrwo):
                 return True
         else:
             return True
+    return False
+
+
+def handle_aqunum(dic, nrwo):
+    """
+    Handle the i,j,k aquifer numbers
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if nrwo == "AQUNUM":
+        dic["aqunum"] = True
+        dic["lol"].append(nrwo)
+        return True
+    if dic["aqunum"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0] == "/":
+                dic["lol"].append(nrwo)
+                dic["aqunum"] = False
+        if len(edit) > 2:
+            if edit[0][:2] != "--":
+                if dic["vicinity"]:
+                    if (
+                        dic["ic"][int(edit[1])]
+                        * dic["jc"][int(edit[2])]
+                        * dic["jc"][int(edit[3])]
+                        == 0
+                    ):
+                        return True
+                edit[1] = str(dic["ic"][int(edit[1])])
+                edit[2] = str(dic["jc"][int(edit[2])])
+                edit[3] = str(dic["kc"][int(edit[3])])
+                dic["lol"].append(" ".join(edit))
+                return True
+    return False
+
+
+def handle_aqucon(dic, nrwo):
+    """
+    Handle the  i,j,k aquifer indices
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if nrwo == "AQUCON":
+        dic["aqucon"] = True
+        dic["lol"].append(nrwo)
+        return True
+    if dic["aqucon"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0] == "/":
+                dic["lol"].append(nrwo)
+                dic["aqucon"] = False
+        if len(edit) > 2:
+            if edit[0][:2] != "--":
+                if dic["refinement"]:
+                    dcn = edit[7]
+                    edit0 = edit.copy()
+                    if dcn in ["I", "X"]:
+                        edit0[1] = str(dic["in"][int(edit[1])])
+                        edit0[2] = str(dic["in"][int(edit[2])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["j1"][int(edit[3])], dic["jn"][int(edit[4])] + 1
+                        ):
+                            edit0[3] = str(i)
+                            edit0[4] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    elif dcn in ["I-", "X-"]:
+                        edit0[1] = str(dic["i1"][int(edit[1])])
+                        edit0[2] = str(dic["i1"][int(edit[2])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["j1"][int(edit[3])], dic["jn"][int(edit[4])] + 1
+                        ):
+                            edit0[3] = str(i)
+                            edit0[4] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    elif dcn in ["J", "K"]:
+                        edit0[3] = str(dic["jn"][int(edit[3])])
+                        edit0[4] = str(dic["jn"][int(edit[4])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["i1"][int(edit[1])], dic["in"][int(edit[2])] + 1
+                        ):
+                            edit0[1] = str(i)
+                            edit0[2] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    elif dcn in ["J-", "K-"]:
+                        edit0[3] = str(dic["j1"][int(edit[3])])
+                        edit0[4] = str(dic["j1"][int(edit[4])])
+                        edit0[5] = str(dic["k1"][int(edit[5])])
+                        edit0[6] = str(dic["kn"][int(edit[6])])
+                        for i in range(
+                            dic["i1"][int(edit[1])], dic["in"][int(edit[2])] + 1
+                        ):
+                            edit0[1] = str(i)
+                            edit0[2] = str(i)
+                            dic["lol"].append(" ".join(edit0))
+                    edit[1] = str(dic["i1"][int(edit[1])])
+                    edit[2] = str(dic["in"][int(edit[2])])
+                    edit[3] = str(dic["j1"][int(edit[3])])
+                    edit[4] = str(dic["jn"][int(edit[4])])
+                    edit[5] = str(dic["k1"][int(edit[5])])
+                    edit[6] = str(dic["kn"][int(edit[6])])
+                    return True
+                if dic["vicinity"]:
+                    if (
+                        dic["ic"][int(edit[1])]
+                        * dic["ic"][int(edit[2])]
+                        * dic["jc"][int(edit[3])]
+                        * dic["jc"][int(edit[4])]
+                        * dic["kc"][int(edit[5])]
+                        * dic["kc"][int(edit[6])]
+                        == 0
+                    ):
+                        return True
+                edit[1] = str(dic["ic"][int(edit[1])])
+                edit[2] = str(dic["ic"][int(edit[2])])
+                edit[3] = str(dic["jc"][int(edit[3])])
+                edit[4] = str(dic["jc"][int(edit[4])])
+                edit[5] = str(dic["kc"][int(edit[5])])
+                edit[6] = str(dic["kc"][int(edit[6])])
+                dic["lol"].append(" ".join(edit))
+                return True
     return False
 
 
@@ -618,7 +764,7 @@ def handle_multregt(dic, nrwo):
         edit = nrwo.split()
         if edit:
             dic["lol"].append(nrwo)
-            if edit[-1] == "/" or edit[0] == "/":
+            if edit[0] == "/":
                 dic["multregt"] = False
         return True
     return False
@@ -647,7 +793,7 @@ def handle_multiply(dic, nrwo):
                 dic["lol"].append(nrwo)
                 dic["multiply"] = False
         if len(edit) > 2:
-            if edit[0] != "--":
+            if edit[0][:2] != "--":
                 if dic["refinement"]:
                     edit[2] = str(dic["i1"][int(edit[2])])
                     edit[3] = str(dic["in"][int(edit[3])])
@@ -701,7 +847,7 @@ def handle_editnnc(dic, nrwo):
                 dic["lol"].append(nrwo)
                 dic["editnnc"] = False
         if len(edit) > 2:
-            if edit[0] != "--":
+            if edit[0][:2] != "--":
                 if dic["refinement"]:
                     edit[0] = str(dic["i1"][int(edit[0])])
                     edit[1] = str(dic["j1"][int(edit[1])])
@@ -756,7 +902,7 @@ def handle_fault(dic, nrwo):
                 dic["lol"].append(nrwo)
                 dic["fault"] = False
         if len(edit) > 2:
-            if edit[0] != "--":
+            if edit[0][:2] != "--":
                 if dic["refinement"]:
                     dcn = edit[7]
                     edit0 = edit.copy()
