@@ -62,7 +62,7 @@ def create_deck(dic):
             f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA {dic['flags']} "
             f"--output-dir={dic['fol']}"
         )
-        if dic["fol"] != ".":
+        if dic["fol"] != os.path.abspath("."):
             os.system(f"mv {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA " + f"{dic['fol']}")
         for name in [".INIT", ".EGRID"]:
             files = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN" + name
@@ -147,7 +147,10 @@ def create_deck(dic):
             "satnum",
         ]:
             if dic["ini"].has_kw(name.upper()):
-                if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
+                if (
+                    max(dic["ini"].iget_kw(name.upper())[0]) > 1
+                    or min(dic["ini"].iget_kw(name.upper())[0]) < 1
+                ):
                     dic["regions"] += [name]
         nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
         dic["con"] = np.array([0 for _ in range(nc)])

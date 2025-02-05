@@ -740,7 +740,8 @@ def handle_clusters(dic):
     else:
         for i in ["x", "y", "z"]:
             if dic[f"{i}coar"]:
-                dic[i.upper()] = np.array(dic[f"{i}coar"])
+                size = len(dic[f"{i}coar"])
+                dic[i.upper()][:size] = np.array(dic[f"{i}coar"])
     n = 0
     m = 1
     for k in range(dic["grid"].nz):
