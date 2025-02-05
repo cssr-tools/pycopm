@@ -31,7 +31,6 @@ def coarser_grid(dic):
                 if (dic["Z"][k + 1]) > 1:
                     dic["con"][num + dic["grid"].nx * dic["grid"].ny] = dic["con"][num]
                 num += 1
-
     dic["nx"] = dic["grid"].nx - int(sum(dic["X"] == 2))
     dic["ny"] = dic["grid"].ny - int(sum(dic["Y"] == 2))
     dic["nz"] = dic["grid"].nz - int(sum(dic["Z"] == 2))

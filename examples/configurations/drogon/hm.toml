@@ -1,0 +1,50 @@
+# Set mpirun, the full path to the flow executable, and simulator flags (except --output-dir)
+flow = "mpirun -np 4 /Users/dmar/Github/opm/build/opm-simulators/bin/flow --newton-min-iterations=1"
+
+# Set the model parameters
+field = "drogon"  # Geological model (norne or drogon)
+mode = "ert" # Mode to run (single-run, files, or ert)
+X = [0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0] # Array of x-coarsening 
+Y = [0,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0] # Array of y-coarsening 
+Z = [0,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0] # Array of z-coarsening
+net = 50 # Number of ensembles
+mep = 2 # Maximum number of ensembles running in parallel
+mrt = 120 # Maximum runtime in seconds of a realization. A value of 0 means unlimited runtime. 
+mrn = 2 # Minimum number of realizations that must have succeeded for the simulation to be regarded as a success.
+rds = 7 # Set a specific seed for reproducibility. A value of 0 means no seed.  
+obs = "observations_training" # Name of the observation file for the hm ('observations_training', 'observations_test', or 'observations_complete')
+deck = 1 # Select which coarser deck to use: 0 -> default one or 1 -> LET sat functions.
+cporv = 2 # 0 -> no corrections for lost porv, 1 -> correct it on the cell boundaries, 2 -> account it on the porosity on all cells
+initial = 0 # Initialization 0 -> Equil 1->INIT from fine-scale
+error = [0.1,0.1,0.1] # Error WWPR, WOPR, and WGPR
+minerror = [100,100,50000] # Minimum error of WWPR, WOPR, and WGPR
+date = 2020-07-01 # Last date to HM
+suffixes = ["EGRID","UNRST"] # Delete files with this suffix to save storage
+
+# Set the command line for the ert executable (gui, test_run, ensemble_experiment, ensemble_smoother, iterative_ensemble_smoother, and es_mda) and flags
+ert = "es_mda --weights 4,2,1"
+
+# Properties LET saturation functions: name, value, use dist in hm?, dist, distpara, distpara
+LET = [["lw", 3, 1, "UNIFORM", 1.1, 5],
+["ew",        1, 1, "UNIFORM", -1,  2], 
+["tw",        3, 1, "UNIFORM", 1.1, 5], 
+["lo",        3, 1, "UNIFORM", 1.1, 5], 
+["eo",        1, 1, "UNIFORM", -1,  2], 
+["to",        3, 1, "UNIFORM", 1.1, 5], 
+["lg",        3, 1, "UNIFORM", 1.1, 5], 
+["eg",        1, 1, "UNIFORM", -1,  2], 
+["tg",        3, 1, "UNIFORM", 1.1, 5], 
+["log",       3, 1, "UNIFORM", 1.1, 5], 
+["eog",       1, 1, "UNIFORM", -1,  2], 
+["tog",       1, 1, "UNIFORM", 1.1, 5], 
+["lmlto",   1.5, 1, "UNIFORM", 1,   2], 
+["lmltg",   1.5, 1, "UNIFORM", 1,   2], 
+["kwow",      1, 1, "UNIFORM", 0.1, 1],
+["kwoo",      1, 1, "UNIFORM", 0.1, 1], 
+["kwgw",      1, 1, "UNIFORM", 0.1, 1],
+["kwgg",      1, 1, "UNIFORM", 0.1, 1]]
+
+# Coarser rock properties: name, use dist in hm?, coarsing approach (max or mean)
+rock = [["PERMX", 0, "max"],
+["PERMY",         0, "max"],
+["PERMZ",         0, "max"]]

@@ -13,7 +13,7 @@ def perm_evaluation():
     """
     Permeability assignation
     """
-    % if dic['rock'][i][1] > 0 and dic['study'] > 0:
+    % if dic['rock'][i][1] > 0 and dic['mode'] in ["files","ert"]:
     with open("${dic['rock'][i][0]}.json") as f:
         C = json.load(f)
     % endif
@@ -21,7 +21,7 @@ def perm_evaluation():
     """Permeability assignation"""
     P = [0. for i in range(${len(dic['actnum_c'])})]
     % for k in range(len(dic['actnum_c'])):
-    % if dic['rock'][i][1] > 0 and dic['study'] > 0:
+    % if dic['rock'][i][1] > 0 and dic['mode'] in ["files","ert"]:
     % if dic['actnum_c'][k] == 1:
     P[${k}] = C["${dic['rock'][i][0]}${sum(dic['actnum_c'][0:k])}"]
     % else:

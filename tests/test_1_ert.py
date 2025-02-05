@@ -12,10 +12,10 @@ mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
 def test_ert():
-    """See examples/configurations/norne/coarser.txt"""
+    """See examples/configurations/norne/input.toml"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
     os.chdir(f"{testpth}/output")
-    confi = f"{mainpth}/examples/configurations/norne/coarser.txt"
+    confi = f"{mainpth}/examples/configurations/norne/input.toml"
     subprocess.run(["pycopm", "-i", confi, "-o", "ert"], check=True)
     assert os.path.exists(f"{testpth}/output/ert/postprocessing/hm_missmatch.png")

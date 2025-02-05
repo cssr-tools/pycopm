@@ -42,7 +42,7 @@ def visualizeData():
     os.system(f"mkdir {output_folder}/postprocessing/parameters")
     os.system(f"mkdir {output_folder}/postprocessing/saturation_functions")
 
-    N = ${dic['Ne']}
+    N = ${dic['net']}
     I = ${dic['Ni']}
     training=datetime.fromisoformat("${dic['date']}")
 

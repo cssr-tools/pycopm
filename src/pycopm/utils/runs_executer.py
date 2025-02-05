@@ -29,31 +29,21 @@ def simulations(dic):
         "PERMZ_eval",
         "table_eval",
         "time_eval",
+        "flow_eval",
     ]:
         if os.path.exists("jobs/" + fil + ".py") == 1:
             os.system(f"chmod u+x jobs/{fil}.py")
 
-    if dic["study"] == 0:
+    if dic["mode"] == "single-run":
         os.system("ert test_run ert.ert & wait")
-        if dic["mpi"] > 1:
-            os.system(
-                f"mpirun -np {dic['mpi']} {dic['flow']}"
-                f" --parameter-file={dic['fol']}/preprocessing/flags.param"
-                f" {dic['fol']}/output/simulations/realisation-0/iter-0/"
-                f"{dic['name']}_COARSER.DATA --output-dir={dic['fol']}/"
-                f"output/simulations/realisation-0/iter-0 & wait\n"
-            )
-        else:
-            os.system(
-                f"{dic['flow']} --parameter-file={dic['fol']}/preprocessing/"
-                f"flags.param {dic['fol']}/output/simulations/realisation-0/"
-                f"iter-0/{dic['name']}_COARSER.DATA --output-dir={dic['fol']}/"
-                f"output/simulations/realisation-0/iter-0 & wait\n"
-            )
-        os.chdir(f"{dic['fol']}/output/simulations/realisation-0/iter-0")
+        os.system(
+            f"{dic['flow']} {dic['fol']}/output/simulations/realisation-0/"
+            f"iter-0/{dic['name']}_COARSER.DATA --output-dir={dic['fol']}/"
+            f"output/simulations/realisation-0/iter-0 & wait\n"
+        )
         os.chdir(f"{dic['fol']}")
-    else:
-        os.system(f"ert {dic['fert'][0]} ert.ert & wait")
+    elif dic["mode"] == "ert":
+        os.system(f"ert {dic['ert'][0]} ert.ert & wait")
 
 
 def plotting(dic, time):
@@ -68,9 +58,9 @@ def plotting(dic, time):
         dic (dict): Modified global dictionary
 
     """
-    dic["Ne"] = len(next(os.walk(f"{dic['fol']}/output/simulations"))[1])
+    dic["net"] = len(next(os.walk(f"{dic['fol']}/output/simulations"))[1])
     dic["Ni"] = 1
-    for i in range(dic["Ne"]):
+    for i in range(dic["net"]):
         dic["Ni"] = max(
             dic["Ni"],
             len(next(os.walk(f"{dic['fol']}/output/simulations/realisation-{i}"))[1]),

@@ -7,7 +7,7 @@ Script to write the LET saturation functions
 import json
 
 % for i in range(len(dic['LET'])):
-% if dic['LET'][i][2] > 0 and dic['study'] > 0:
+% if dic['LET'][i][2] > 0 and dic['mode'] in ["files","ert"]:
 with open("coeff_${str(dic['LET'][i][0])}.json", 'r', encoding="utf8") as file:
     ${str(dic['LET'][i][0])}C = json.load(file)
 % endif
@@ -20,10 +20,10 @@ ${str(dic['LET'][j][0])} = [0.0 for i in range(${max(dic['satnum_c'])})]
 
 % for i in range(max(dic['satnum_c'])):
 % for j in range(len(dic['LET'])):
-% if dic['LET'][j][2] > 0 and dic['study'] > 0:
+% if dic['LET'][j][2] > 0 and dic['mode'] in ["files","ert"]:
 ${str(dic['LET'][j][0])}[${i}] = ${str(dic['LET'][j][0])}C["${str(dic['LET'][j][0])}${i}"]
 % else:
-${str(dic['LET'][j][0])}[${i}] = ${dic['LET'][j][1]}
+${str(dic['LET'][j][0])}[${i}] = ${float(dic['LET'][j][1])}
 % endif
 % endfor
 % endfor

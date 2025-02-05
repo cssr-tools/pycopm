@@ -84,12 +84,6 @@ def pycopm():
         if not os.path.exists(f"{dic['fol']}/{folder}"):
             os.system(f"mkdir {dic['fol']}/{folder}")
 
-    # Get the command lines for ERT
-    dic["fert"] = [""]
-    dic["fert"][0] += dic["ert"][0][0]
-    for i in range(len(dic["ert"]) - 1):
-        dic["fert"][0] += " --" + dic["ert"][i + 1][0] + " " + dic["ert"][i + 1][1]
-
     # Read the data from the uncoarsed output files
     read_reference(dic)
 
@@ -114,11 +108,12 @@ def pycopm():
             f" {dic['fol']}/preprocessing/INCLUDE & wait"
         )
 
-    # Run Flow or selected ERT functionality
-    simulations(dic)
+    if dic["mode"] in ["single-run", "ert"]:
+        # Run Flow or selected ERT functionality
+        simulations(dic)
 
-    # Make some useful plots after the studies
-    plotting(dic, time.monotonic() - start_time)
+        # Make some useful plots after the studies
+        plotting(dic, time.monotonic() - start_time)
 
 
 def load_parser():
@@ -130,9 +125,9 @@ def load_parser():
     parser.add_argument(
         "-i",
         "--input",
-        default="input.txt",
+        default="input.toml",
         help="The base name of the input file or the name of the deck, "
-        "e.g., DROGON.DATA ('input.txt' by default).",
+        "e.g., DROGON.DATA ('input.toml' by default).",
     )
     parser.add_argument(
         "-o",
