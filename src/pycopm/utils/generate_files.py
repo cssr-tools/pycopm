@@ -122,6 +122,9 @@ def create_deck(dic):
         if dic["ini"].has_kw("SWATINIT"):
             dic["props"] += ["swatinit"]
             dic["special"] += ["swatinit"]
+        for name in ["thconr", "disperc"]:
+            if dic["ini"].has_kw(name.upper()):
+                dic["grids"] += [name]
         for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
             if dic["ini"].has_kw(name.upper()):
                 tmp = np.array(dic["ini"].iget_kw(name.upper())[0])
@@ -262,6 +265,11 @@ def create_deck(dic):
                             dic["swatinit"][cell.global_index] *= dic["porv"][
                                 cell.global_index
                             ]
+                        for name in ["disperc", "thconr"]:
+                            if name in dic["grids"]:
+                                dic[name][cell.global_index] *= dic["porv"][
+                                    cell.global_index
+                                ]
                         for name in dic["mults"]:
                             dic[name][cell.global_index] *= v_c[cell.global_index]
                         if len(dic["coardir"]) == 1 and dic["trans"] == 1:
