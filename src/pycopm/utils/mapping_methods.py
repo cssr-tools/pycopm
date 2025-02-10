@@ -222,7 +222,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                     f"{h_t/val}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, dic["za_tot"])
                 ]
-            elif name in ["poro", "swatinit"]:
+            elif name in ["poro", "swatinit", "disperc", "thconr"]:
                 dic[f"{name}_c"] = [
                     f"{val/p_v}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
                 ]
