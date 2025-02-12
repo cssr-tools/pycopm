@@ -61,8 +61,7 @@ def process_the_deck(dic):
     with open(dic["deck"] + ".DATA", "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
-            if 0 < nrwo.find("\\t"):
-                nrwo = nrwo.replace("\\t", " ")
+            nrwo = nrwo.replace("\\t", " ")
             if not dic["schedule"]:
                 dic["lolc"].append(nrwo)
             if handle_dimens(dic, nrwo):

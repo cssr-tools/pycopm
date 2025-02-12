@@ -36,6 +36,7 @@ def pycopm():
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
     dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the modified model
     dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
+    dic["resdata"] = (cmdargs["use"].strip()).lower() == "resdata"
     dic["encoding"] = cmdargs["encoding"].strip()
     dic["pvcorr"] = int(cmdargs["pvcorr"])
     dic["fipcorr"] = int(cmdargs["fipcorr"])
@@ -336,6 +337,12 @@ def load_parser():
         "values respectively, and 'rotatexy 45' applies a rotation in degrees in the xy plane "
         "(rotatexz and rotateyz applies a rotation around the y and x axis respectively) "
         "('' by default).",
+    )
+    parser.add_argument(
+        "-u",
+        "--use",
+        default="resdata",
+        help="Use resdata or OPM Python libraries ('resdata' by default).",
     )
     return vars(parser.parse_known_args()[0])
 
