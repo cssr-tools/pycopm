@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0
 
 """
-Utiliy functions to set the requiried input values by pycopm.
+Utiliy functions to set the input values from the toml configuration file.
 """
 
 import csv
@@ -40,7 +40,7 @@ def process_input(dic, in_file):
 
 def read_reference(dic):
     """
-    Function to read the cell quantities from the uncoarser simulation output.
+    Function to read the cell quantities from the uncoarsened simulation output.
 
     Args:
         dic (dict): Global dictionary with required parameters

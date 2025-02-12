@@ -3,7 +3,7 @@
 # pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911,R1705
 
 """
-Methods to parser OPM decks.
+Methods to parser the input OPM deck.
 """
 
 import csv
@@ -49,6 +49,7 @@ def process_the_deck(dic):
     dic["bccon"] = False
     dic["bwpr"] = False
     dic["source"] = False
+    dic["pinch"] = False
     dic["edit0"] = ""
     dic["nsegw"] = []
     dic["nwells"] = []
@@ -552,6 +553,8 @@ def handle_grid_props(dic, nrwo):
             return True
         if handle_mapaxes(dic, nrwo):
             return True
+        if handle_pinch(dic, nrwo):
+            return True
         if handle_aqunum(dic, nrwo):
             return True
         if handle_aqucon(dic, nrwo):
@@ -632,7 +635,7 @@ def handle_aqunum(dic, nrwo):
 
 def handle_aqucon(dic, nrwo):
     """
-    Handle the  i,j,k aquifer indices
+    Handle the modified i,j,k aquifer indices
 
     Args:
         dic (dict): Global dictionary\n
@@ -788,6 +791,35 @@ def handle_mapaxes(dic, nrwo):
     return False
 
 
+def handle_pinch(dic, nrwo):
+    """
+    Keep pinch from the input model
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if "PINCH" in nrwo:
+        edit = nrwo.split()
+        if edit[0] != "PINCH":
+            return False
+        dic["pinch"] = True
+        dic["lol"].append(edit[0])
+        return True
+    if dic["pinch"]:
+        edit = nrwo.split()
+        if edit:
+            dic["lol"].append(nrwo)
+            if edit[-1] == "/" or edit[0] == "/":
+                dic["pinch"] = False
+        return True
+    return False
+
+
 def handle_multregt(dic, nrwo):
     """
     Copy if MULTREGT is on the GRID section
@@ -819,7 +851,7 @@ def handle_multregt(dic, nrwo):
 
 def handle_bccon(dic, nrwo):
     """
-    Handle the i,j,k bccon indices
+    Handle the modified i,j,k bccon indices
 
     Args:
         dic (dict): Global dictionary\n
@@ -874,7 +906,7 @@ def handle_bccon(dic, nrwo):
 
 def handle_multiply(dic, nrwo):
     """
-    Handle the  i,j,k coarser multiply indices
+    Handle the modified i,j,k multiply indices
 
     Args:
         dic (dict): Global dictionary\n
@@ -928,7 +960,7 @@ def handle_multiply(dic, nrwo):
 
 def handle_editnnc(dic, nrwo):
     """
-    Handle the  i,j,k coarser nnc indices
+    Handle the modified i,j,k nnc indices
 
     Args:
         dic (dict): Global dictionary\n
@@ -982,7 +1014,7 @@ def handle_editnnc(dic, nrwo):
 
 def handle_fault(dic, nrwo):
     """
-    Handle the  i,j,k coarser fault indices
+    Handle the modified i,j,k fault indices
 
     Args:
         dic (dict): Global dictionary\n
@@ -1363,7 +1395,7 @@ def handle_segmented_wells(dic, nrwo):
 
 def handle_wells(dic, nrwo):
     """
-    Add the necessary keywords and right i,j,k coarser well indices
+    Add the necessary keywords and modified i,j,k well indices
 
     Args:
         dic (dict): Global dictionary\n

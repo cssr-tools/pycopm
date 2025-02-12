@@ -6,8 +6,10 @@
 
 import os
 import time
+import sys
 import argparse
 from io import StringIO
+import subprocess
 import numpy as np
 from pycopm.utils.input_values import process_input, read_reference
 from pycopm.utils.grid_builder import coarser_grid
@@ -22,28 +24,25 @@ def pycopm():
     start_time = time.monotonic()
     cmdargs = load_parser()
     file = cmdargs["input"].strip()  # Name of the input file
-    dic = {"fol": cmdargs["output"]}  # Name for the output folder
+    dic = {"fol": os.path.abspath(cmdargs["output"])}  # Name for the output folder
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
     dic["flow"] = cmdargs["flow"].strip()  # Path to flow
     dic["how"] = (cmdargs["how"].strip()).split(",")  # Max, min, or mode for actnum
     dic["nhow"] = cmdargs["nhow"].strip()  # Max, min, or mode for other nums
     dic["show"] = cmdargs["show"].strip()  # Max, min, or mean for static props
-    dic["jump"] = (cmdargs["jump"].strip()).split(
-        ","
-    )  # Tuning parameters to remove nnc
+    dic["jump"] = (cmdargs["jump"].strip()).split(",")  # Tuning to remove nnc
     dic["write"] = cmdargs["write"].strip()  # Name of the generated deck
     dic["mode"] = cmdargs["mode"].strip()  # What to run
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
     dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the modified model
     dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
-    dic["resdata"] = (cmdargs["use"].strip()).lower() == "resdata"
-    dic["encoding"] = cmdargs["encoding"].strip()
-    dic["pvcorr"] = int(cmdargs["pvcorr"])
-    dic["fipcorr"] = int(cmdargs["fipcorr"])
-    dic["trans"] = int(cmdargs["trans"])
-    dic["vicinity"] = cmdargs["vicinity"].strip()
-    dic["transform"] = cmdargs["displace"].strip()
-    dic["fol"] = os.path.abspath(dic["fol"])
+    dic["resdata"] = (cmdargs["use"].strip()).lower() == "resdata"  # Use resdata or opm
+    dic["encoding"] = cmdargs["encoding"].strip()  # Use utf8 or ISO-8859-1
+    dic["pvcorr"] = int(cmdargs["pvcorr"])  # Correct for removed pore volume
+    dic["fipcorr"] = int(cmdargs["fipcorr"])  # Correct for total mass of fluids
+    dic["trans"] = int(cmdargs["trans"])  # Coarse transmissibilities
+    dic["vicinity"] = cmdargs["vicinity"].strip()  # Extract sub models
+    dic["transform"] = cmdargs["displace"].strip()  # Apply affine transformations
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -78,7 +77,8 @@ def pycopm():
         dic["refinement"] = True
     else:
         dic["refinement"] = False
-    # Make the output folder
+
+    # Create the output folder
     if not os.path.exists(f"{dic['fol']}"):
         os.system(f"mkdir {dic['fol']}")
 
@@ -90,6 +90,8 @@ def pycopm():
         create_deck(dic)
         return
 
+    # When a toml file, coarsened norne/drogon to use ERT for history matching
+
     # Open pycopm.utils.inputvalues to see the dic name abbreviations meaning
     process_input(dic, file)
 
@@ -97,7 +99,7 @@ def pycopm():
         if not os.path.exists(f"{dic['fol']}/{folder}"):
             os.system(f"mkdir {dic['fol']}/{folder}")
 
-    # Read the data from the uncoarsed output files
+    # Read the data from the input model
     read_reference(dic)
 
     # Coarse the grid
@@ -132,14 +134,16 @@ def pycopm():
 def load_parser():
     """Argument options"""
     parser = argparse.ArgumentParser(
-        description="Main script to coarse the geological model and run "
-        "simulations using OPM Flow."
+        description="Main script to tailor the geological model and run "
+        "simulations using OPM Flow. All flag values can be set for "
+        "input decks, while only the flags -i and -o are valid for toml "
+        "configuration files."
     )
     parser.add_argument(
         "-i",
         "--input",
         default="input.toml",
-        help="The base name of the input file or the name of the deck, "
+        help="The base name of the toml configuration file or the name of the deck, "
         "e.g., DROGON.DATA ('input.toml' by default).",
     )
     parser.add_argument(
@@ -176,11 +180,11 @@ def load_parser():
         "--xcoar",
         default="",
         help="Vector of x-coarsening, e.g., if the grid has 6 cells in the x "
-        "direction, then 0,2,0,2,0,2,0 would generate a coarser model with 3 "
-        "cells, while 0,2,2,2,2,2,0 would generate a coarser model with 1 cell, "
+        "direction, then 0,2,0,2,0,2,0 would generate a coarsened model with 3 "
+        "cells, while 0,2,2,2,2,2,0 would generate a coarsened model with 1 cell, "
         "i.e., 0 keeps the pilars while 2 removes them. As an alternative, the "
         "range of the cells to coarse can be given separate them by commas, e.g., "
-        "1:3,5:6 generates a coarser model with 3 cells where the cells with the "
+        "1:3,5:6 generates a coarsened model with 3 cells where the cells with the "
         "first three and two last i indices are coarsened to one ('' by default).",
     )
     parser.add_argument(
@@ -286,7 +290,7 @@ def load_parser():
         "--jump",
         default="",
         help="Tuning parameter to avoid creation of neighbouring connections in "
-        "the coarser model where there are discontinuities between cells along "
+        "the coarsened model where there are discontinuities between cells along "
         "the z direction, e.g., around faults ('' by default, i.e., nothing "
         "corrected; if need it, try with values of the order of 1).",
     )
@@ -295,8 +299,8 @@ def load_parser():
         "--mode",
         default="prep_deck",
         help="Execute a dry run on the input deck to generate the static properties ('prep'), "
-        "generate only the coarse files ('deck'), only exectute a dry run on the generated "
-        "coarse model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') ('prep_deck' by "
+        "generate only the modified files ('deck'), only exectute a dry run on the generated "
+        "modified model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') ('prep_deck' by "
         "default).",
     )
     parser.add_argument(
@@ -310,7 +314,7 @@ def load_parser():
         "-l",
         "--label",
         default="PYCOPM_",
-        help="Added text before each generated .INC ('PYCOPM_' by default, i.e., the coarse porv "
+        help="Added text before each generated .INC ('PYCOPM_' by default, i.e., the porv "
         "is saved in PYCOPM_PORV.INC; set to '' to generate PORV.INC, PERMX.INC, etc).",
     )
     parser.add_argument(
@@ -323,9 +327,9 @@ def load_parser():
         "-ijk",
         "--ijk",
         default="",
-        help="Given i,j,k indices in the input model, return the coarse/finner i,j,k corresponding "
+        help="Given i,j,k indices in the input model, return the modified i,j,k corresponding "
         "positions ('' by default; if not empty, e.g., 1,2,3 then the -mode is set to deck and "
-        "there will not be generation of coarse files, only the i,j,k coarse/finner indices in the "
+        "there will not be generation of modified files, only the i,j,k mapped indices in the "
         "terminal).",
     )
     parser.add_argument(
@@ -345,6 +349,77 @@ def load_parser():
         help="Use resdata or OPM Python libraries ('resdata' by default).",
     )
     return vars(parser.parse_known_args()[0])
+
+
+def check_cmdargs(cmdargs):
+    """
+    Check for invalid combinations of command arguments
+
+    Args:
+        cmdargs (dict): Command flags
+
+    Returns:
+        None
+
+    """
+    if not (cmdargs["input"].strip()).endswith((".DATA", ".toml")):
+        print(
+            f"\nInvalid extension for input file '-i {cmdargs['input'].strip()}', "
+            f"valid extensions are .DATA or .toml\n"
+        )
+        sys.exit()
+    if (cmdargs["input"].strip()).endswith(".DATA"):
+        if (
+            subprocess.call(
+                cmdargs["flow"].strip(),
+                shell=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT,
+            )
+            != 1
+        ):
+            print(
+                f"\nThe OPM flow executable '-f {cmdargs['flow'].strip()}' is not found, "
+                f"try to install it following the information in the documentation.\n"
+            )
+            sys.exit()
+        for option, flag in zip(["how", "nhow"], ["-a", "-n"]):
+            if cmdargs[option].strip() not in ["min", "max", "mode"]:
+                print(
+                    f"\nInvalid option for '{flag} {cmdargs['option'].strip()}', "
+                    f"valid options are 'min', 'max', or 'mode'.\n"
+                )
+                sys.exit()
+        if cmdargs["show"].strip():
+            if cmdargs["show"].strip() not in ["min", "max", "mean", "pvmean"]:
+                print(
+                    f"\nInvalid option for '-s {cmdargs['show'].strip()}', "
+                    f"valid options are 'min', 'max', 'mean', and 'pvmean'.\n"
+                )
+                sys.exit()
+        if cmdargs["mode"].strip() not in [
+            "prep",
+            "deck",
+            "dry",
+            "prep_deck",
+            "deck_dry",
+            "all",
+        ]:
+            print(
+                f"\nInvalid option for '-m {cmdargs['mode'].strip()}', "
+                "valid options are 'prep', 'deck', 'dry', 'prep_deck', "
+                "'deck_dry', and 'all'.\n"
+            )
+            sys.exit()
+        if cmdargs["vicinity"].strip() and cmdargs["displace"].strip():
+            print("\nInvalid combination, either set '-v' or '-d'.\n")
+            sys.exit()
+        if cmdargs["vicinity"].strip() and cmdargs["gridding"].strip():
+            print("\nInvalid combination, either set '-v' or '-g'.\n")
+            sys.exit()
+        if cmdargs["displace"].strip() and cmdargs["gridding"].strip():
+            print("\nInvalid combination, either set '-d' or '-g'.\n")
+            sys.exit()
 
 
 def main():

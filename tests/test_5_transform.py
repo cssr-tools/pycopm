@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0
 # pylint: disable=R0801
 
-"""Test the generic submodel functionality"""
+"""Test the generic affine transformation functionality"""
 
 import os
 import pathlib

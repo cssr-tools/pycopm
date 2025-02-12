@@ -14,16 +14,21 @@ from shapely import Polygon, prepare, contains_xy
 
 def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
     """
-    Mapping to the coarse properties
+    Mapping to the coarsened properties
 
     Args:
         dic (dict): Global dictionary\n
         actnum (array): Integers with the active cells\n
         z_t (array): Floats with the top cell z-center position\n
-        z_b (array): Floats with the bottom cell z-center position
+        z_b (array): Floats with the bottom cell z-center position\n
+        z_b_t (array): Floats with the maximum cell z difference\n
+        v_c (array): Floats with the cell volumes
 
     Returns:
-        dic (dict): Modified global dictionary
+        dic (dict): Modified global dictionary\n
+        clusmin (array): True for clusters with at least one inactive cell\n
+        clusmax (array): True for clusters with at least one active cell \n
+        rmv (array): Indices for the cells to remove
 
     """
     clusmax = pd.Series(actnum).groupby(dic["con"]).max()
@@ -689,7 +694,7 @@ def get_ijk(dic, i_d):
 
 def coarsening_dir(dic):
     """
-    Get the coarsenign directions
+    Get the coarsening directions
 
     Args:
         dic (dict): Global dictionary

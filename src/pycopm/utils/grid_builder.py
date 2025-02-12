@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0
 
 """
-Utiliy functions for the generation of coarse corner-point grids.
+Utiliy functions for coarsened corner-point grids from toml configuration files.
 """
 
 

@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0
 
 """
-Utiliy functions for the generation of the deck properties.
+Utiliy functions to generate model properties from toml configuration files.
 """
 
 import numpy as np
