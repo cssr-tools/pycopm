@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0
 
 """
-Utiliy functions to run the studies.
+Utiliy functions to run the studies from toml configuration files.
 """
 
 import os

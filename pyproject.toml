@@ -4,22 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycopm"
-description = "An open-source coarsening framework using OPM Flow"
+description = "An open-source tool to tailor OPM Flow geological models"
 authors = [{ name = "David Landa-Marbán", email = "dmar@norceresearch.no" }]
 maintainers = [{ name = "David Landa-Marbán", email = "dmar@norceresearch.no" }]
 dynamic = ["version"]
 readme = {file = "README.md", content-type = "text/markdown"}
 license = {text = "GPL-3.0"}
-keywords = ["OPM", "flow", "black-oil", "egrid", "corner-point", "coarsening", "upscaling"]
+keywords = ["coarsening", "corner-point", "egrid", "flow", "opm", "proxy-models", "refinement", "transformations"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Natural Language :: English",
     "Topic :: Scientific/Engineering",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent"

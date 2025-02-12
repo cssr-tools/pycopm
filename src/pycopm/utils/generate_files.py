@@ -84,7 +84,7 @@ def create_deck(dic):
                         f" the GRID section in the original deck {dic['deck']}.DATA\n"
                     )
                 sys.exit()
-        print("\nThe dry run succeeded")
+        print(f"\nThe dry run of {dic['deck']}.DATA succeeded")
 
     if dic["mode"] in ["prep_deck", "deck", "deck_dry", "all"]:
         coarsening_dir(dic)
@@ -449,14 +449,17 @@ def create_deck(dic):
             handle_nnc_trans(dic)
         print(
             f"\nThe generation of files succeeded, see {dic['fol']}/"
-            f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC"
+            f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC\n"
         )
 
     if dic["mode"] in ["deck_dry", "dry", "all"]:
         print("\nCall OPM Flow for a dry run of the generated model\n")
         os.chdir(dic["fol"])
         os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
-        print("\nThe dry run of the generated model succeeded.\n")
+        print(
+            "\nThe dry run of the generated model "
+            f"{dic['fol']}/{dic['write']}.DATA succeeded.\n"
+        )
 
 
 def initialize_variables(dic):
@@ -658,7 +661,7 @@ def handle_nnc_trans(dic):
                 ind = (
                     rijk2[0]
                     + rijk2[1] * dic["nx"]
-                    + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
+                    + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
                     dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
@@ -666,7 +669,7 @@ def handle_nnc_trans(dic):
                 ind = (
                     rijk2[0]
                     + rijk2[1] * dic["nx"]
-                    + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
+                    + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
                     dic["coa_trany"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
@@ -752,7 +755,7 @@ def write_grid(dic):
 
 def write_props(dic):
     """
-    Write the coarser properties
+    Write the modified properties
 
     Args:
         dic (dict): Global dictionary
