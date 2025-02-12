@@ -306,49 +306,45 @@ def add_pv_bc(dic):
         inb = 0
         for j in range(dic["minkj"][k_r] - 1):
             for i in range(dic["minki"][k_r] - 1):
-                ind = (
-                    i
-                    + j * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
-                )
+                ind = i + j * dic["xn"] + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 porv00 += dic["porv"][ind]
-        for j in range(dic["grid"].ny - dic["maxkj"][k_r]):
+        for j in range(dic["yn"] - dic["maxkj"][k_r]):
             for i in range(dic["minki"][k_r] - 1):
                 ind = (
                     i
-                    + (j + dic["maxkj"][k_r]) * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + (j + dic["maxkj"][k_r]) * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 porv0j += dic["porv"][ind]
         for j in range(dic["minkj"][k_r] - 1):
-            for i in range(dic["grid"].nx - dic["maxki"][k_r]):
+            for i in range(dic["xn"] - dic["maxki"][k_r]):
                 ind = (
                     i
                     + dic["maxki"][k_r]
-                    + j * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + j * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 porvi0 += dic["porv"][ind]
-        for j in range(dic["grid"].ny - dic["maxkj"][k_r]):
-            for i in range(dic["grid"].nx - dic["maxki"][k_r]):
+        for j in range(dic["yn"] - dic["maxkj"][k_r]):
+            for i in range(dic["xn"] - dic["maxki"][k_r]):
                 ind = (
                     i
                     + dic["maxki"][k_r]
-                    + (j + dic["maxkj"][k_r]) * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + (j + dic["maxkj"][k_r]) * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 porvij += dic["porv"][ind]
         for i in range(dic["nx"] - i_0 - i_n):
             ins = i + i_0 + j_0 * dic["nx"] + k * dic["nx"] * dic["ny"]
-            ind = (i + dic["minki"][k_r] - 1) + (k + dic["mink"] - 1) * dic[
-                "grid"
-            ].nx * dic["grid"].ny
+            ind = (i + dic["minki"][k_r] - 1) + (k + dic["mink"] - 1) * dic["xn"] * dic[
+                "yn"
+            ]
             pvy = 0
             for j in range(dic["minkj"][k_r] - 1):
                 ind = (
                     (i + dic["minki"][k_r] - 1)
-                    + j * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + j * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
@@ -364,8 +360,8 @@ def add_pv_bc(dic):
                     )
                     ind = (
                         (i + dic["minki"][k_r] - 1)
-                        + (j + dic["minkj"][k_r] - 1) * dic["grid"].nx
-                        + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                        + (j + dic["minkj"][k_r] - 1) * dic["xn"]
+                        + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
@@ -385,14 +381,14 @@ def add_pv_bc(dic):
                 i + i_0 + (dic["ny"] - 1 - j_n) * dic["nx"] + k * dic["nx"] * dic["ny"]
             )
             pvy = 0
-            for j in range(dic["grid"].ny - dic["maxkj"][k_r]):
+            for j in range(dic["yn"] - dic["maxkj"][k_r]):
                 ind = (
                     (i + dic["minki"][k_r] - 1)
-                    + (j + dic["maxkj"][k_r]) * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + (j + dic["maxkj"][k_r]) * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 if j == 0:
-                    inb = ind - dic["grid"].nx
+                    inb = ind - dic["xn"]
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
                 numn += 1.0
@@ -410,8 +406,8 @@ def add_pv_bc(dic):
                     )
                     ind = (
                         (i + dic["minki"][k_r] - 1)
-                        + (dic["maxkj"][k_r] - j - 1) * dic["grid"].nx
-                        + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                        + (dic["maxkj"][k_r] - j - 1) * dic["xn"]
+                        + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
@@ -433,8 +429,8 @@ def add_pv_bc(dic):
             for i in range(dic["minki"][k_r] - 1):
                 ind = (
                     i
-                    + (j + dic["minkj"][k_r] - 1) * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + (j + dic["minkj"][k_r] - 1) * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
@@ -450,8 +446,8 @@ def add_pv_bc(dic):
                     )
                     ind = (
                         (i + dic["minki"][k_r] - 1)
-                        + (j + dic["minkj"][k_r] - 1) * dic["grid"].nx
-                        + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                        + (j + dic["minkj"][k_r] - 1) * dic["xn"]
+                        + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
@@ -471,11 +467,11 @@ def add_pv_bc(dic):
                 dic["nx"] - 1 - i_n + (j + j_0) * dic["nx"] + k * dic["nx"] * dic["ny"]
             )
             pvx = 0
-            for i in range(dic["grid"].nx - dic["maxki"][k_r]):
+            for i in range(dic["xn"] - dic["maxki"][k_r]):
                 ind = (
                     (i + dic["maxki"][k_r])
-                    + (j + dic["minkj"][k_r] - 1) * dic["grid"].nx
-                    + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                    + (j + dic["minkj"][k_r] - 1) * dic["xn"]
+                    + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                 )
                 if i == 0:
                     inb = ind - 1
@@ -498,8 +494,8 @@ def add_pv_bc(dic):
                     )
                     ind = (
                         (dic["maxki"][k_r] - 1 - i)
-                        + (j + dic["minkj"][k_r] - 1) * dic["grid"].nx
-                        + (k + dic["mink"] - 1) * dic["grid"].nx * dic["grid"].ny
+                        + (j + dic["minkj"][k_r] - 1) * dic["xn"]
+                        + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
@@ -726,16 +722,16 @@ def handle_clusters(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["X"] = np.zeros(dic["grid"].nx + 1)
-    dic["Y"] = np.zeros(dic["grid"].ny + 1)
-    dic["Z"] = np.zeros(dic["grid"].nz + 1)
+    dic["X"] = np.zeros(dic["xn"] + 1)
+    dic["Y"] = np.zeros(dic["yn"] + 1)
+    dic["Z"] = np.zeros(dic["zn"] + 1)
     if len(dic["cijk"]) > 2:
-        dic["X"] = 2 * np.ones(dic["grid"].nx + 1)
-        dic["Y"] = 2 * np.ones(dic["grid"].ny + 1)
-        dic["Z"] = 2 * np.ones(dic["grid"].nz + 1)
-        dic["X"][range(0, dic["grid"].nx, dic["cijk"][0])] = 0
-        dic["Y"][range(0, dic["grid"].ny, dic["cijk"][1])] = 0
-        dic["Z"][range(0, dic["grid"].nz, dic["cijk"][2])] = 0
+        dic["X"] = 2 * np.ones(dic["xn"] + 1)
+        dic["Y"] = 2 * np.ones(dic["yn"] + 1)
+        dic["Z"] = 2 * np.ones(dic["zn"] + 1)
+        dic["X"][range(0, dic["xn"], dic["cijk"][0])] = 0
+        dic["Y"][range(0, dic["yn"], dic["cijk"][1])] = 0
+        dic["Z"][range(0, dic["zn"], dic["cijk"][2])] = 0
         dic["X"][-1], dic["Y"][-1], dic["Z"][-1] = 0, 0, 0
     else:
         for i in ["x", "y", "z"]:
@@ -744,23 +740,23 @@ def handle_clusters(dic):
                 dic[i.upper()][:size] = np.array(dic[f"{i}coar"])
     n = 0
     m = 1
-    for k in range(dic["grid"].nz):
-        for j in range(dic["grid"].ny):
-            for i in range(dic["grid"].nx):
+    for k in range(dic["zn"]):
+        for j in range(dic["yn"]):
+            for i in range(dic["xn"]):
                 if dic["con"][n] == 0:
                     dic["con"][n] = m
                     m += 1
                 if (dic["X"][i + 1]) > 1:
                     dic["con"][n + 1] = dic["con"][n]
                 if (dic["Y"][j + 1]) > 1:
-                    dic["con"][n + dic["grid"].nx] = dic["con"][n]
+                    dic["con"][n + dic["xn"]] = dic["con"][n]
                 if (dic["Z"][k + 1]) > 1:
-                    dic["con"][n + dic["grid"].nx * dic["grid"].ny] = dic["con"][n]
+                    dic["con"][n + dic["xn"] * dic["yn"]] = dic["con"][n]
                 n += 1
 
-    dic["nx"] = dic["grid"].nx - int(sum(dic["X"] == 2))
-    dic["ny"] = dic["grid"].ny - int(sum(dic["Y"] == 2))
-    dic["nz"] = dic["grid"].nz - int(sum(dic["Z"] == 2))
+    dic["nx"] = dic["xn"] - int(sum(dic["X"] == 2))
+    dic["ny"] = dic["yn"] - int(sum(dic["Y"] == 2))
+    dic["nz"] = dic["zn"] - int(sum(dic["Z"] == 2))
 
 
 def handle_refinement(dic):
@@ -774,9 +770,9 @@ def handle_refinement(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["X"] = np.zeros(dic["grid"].nx, int)
-    dic["Y"] = np.zeros(dic["grid"].ny, int)
-    dic["Z"] = np.zeros(dic["grid"].nz, int)
+    dic["X"] = np.zeros(dic["xn"], int)
+    dic["Y"] = np.zeros(dic["yn"], int)
+    dic["Z"] = np.zeros(dic["zn"], int)
     if len(dic["rcijk"]) > 2:
         dic["X"] += dic["rcijk"][0]
         dic["Y"] += dic["rcijk"][1]
@@ -785,9 +781,9 @@ def handle_refinement(dic):
         for i in ["x", "y", "z"]:
             if dic[f"{i}ref"]:
                 dic[i.upper()] = np.array(dic[f"{i}ref"])
-    dic["nx"] = dic["grid"].nx + int(sum(dic["X"]))
-    dic["ny"] = dic["grid"].ny + int(sum(dic["Y"]))
-    dic["nz"] = dic["grid"].nz + int(sum(dic["Z"]))
+    dic["nx"] = dic["xn"] + int(sum(dic["X"]))
+    dic["ny"] = dic["yn"] + int(sum(dic["Y"]))
+    dic["nz"] = dic["zn"] + int(sum(dic["Z"]))
 
 
 def handle_vicinity(dic):
@@ -804,9 +800,20 @@ def handle_vicinity(dic):
     vicinity = dic["vicinity"].split(" ")
     quan = vicinity[0].upper()
     if quan == "XYPOLYGON":
-        coords = dic["grid"].export_position(dic["grid"].export_index())
-        nxy = dic["grid"].nx * dic["grid"].ny
-        nxyz = nxy * dic["grid"].nz
+        if dic["resdata"]:
+            coords = dic["grid"].export_position(dic["grid"].export_index())
+        else:
+            coords = []
+            for k in range(dic["zn"]):
+                for j in range(dic["yn"]):
+                    for i in range(dic["xn"]):
+                        xyz = dic["grid"].xyz_from_ijk(i, j, k)
+                        coords.append(
+                            [sum(xyz[0]) / 8.0, sum(xyz[1]) / 8, sum(xyz[2]) / 8]
+                        )
+            coords = np.array(coords)
+        nxy = dic["xn"] * dic["yn"]
+        nxyz = nxy * dic["zn"]
         dic["subm"] = []
         poly = np.array(
             [
@@ -822,7 +829,7 @@ def handle_vicinity(dic):
         maxx = pts.max(axis=0)
         minx = np.array([min(minx[0], minpp[0]), min(minx[1], minpp[1])])
         maxx = np.array([max(maxx[0], maxpp[0]), max(maxx[1], maxpp[1])])
-        for k in range(dic["grid"].nz - 1):
+        for k in range(dic["zn"] - 1):
             pts = coords[(k + 1) * nxy : (k + 2) * nxy][:, 0:2]
             minx = np.array(
                 [min(minx[0], pts.min(axis=0)[0]), min(minx[1], pts.min(axis=0)[1])]
@@ -841,7 +848,7 @@ def handle_vicinity(dic):
         dic["subm"] = contains_xy(area, nrmp[:, 0], nrmp[:, 1])
     else:
         if dic["ini"].has_kw(quan):
-            dic["subm"] = np.ones(dic["grid"].nx * dic["grid"].ny * dic["grid"].nz)
+            dic["subm"] = np.ones(dic["xn"] * dic["yn"] * dic["zn"])
             dic["subm"][dic["actind"]] = dic["ini"].iget_kw(quan)[0]
             quans = [int(val) for val in vicinity[1].split(",")]
             dic["subm"] = [val in quans for val in dic["subm"]]
@@ -851,21 +858,21 @@ def handle_vicinity(dic):
                 "add the keyword to the deck or use 'xypolygon'."
             )
             sys.exit()
-    nxy = dic["grid"].nx * dic["grid"].ny
-    dic["mini"] = dic["grid"].nx
+    nxy = dic["xn"] * dic["yn"]
+    dic["mini"] = dic["xn"]
     dic["maxi"] = 1
-    dic["minj"] = dic["grid"].ny
+    dic["minj"] = dic["yn"]
     dic["maxj"] = 1
-    dic["mink"] = dic["grid"].nz
+    dic["mink"] = dic["zn"]
     dic["maxk"] = 1
-    dic["minki"] = [dic["grid"].nx] * dic["grid"].nz
-    dic["maxki"] = [1] * dic["grid"].nz
-    dic["minkj"] = [dic["grid"].ny] * dic["grid"].nz
-    dic["maxkj"] = [1] * dic["grid"].nz
-    for k in range(dic["grid"].nz):
-        for j in range(dic["grid"].ny):
-            for i in range(dic["grid"].nx):
-                ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
+    dic["minki"] = [dic["xn"]] * dic["zn"]
+    dic["maxki"] = [1] * dic["zn"]
+    dic["minkj"] = [dic["yn"]] * dic["zn"]
+    dic["maxkj"] = [1] * dic["zn"]
+    for k in range(dic["zn"]):
+        for j in range(dic["yn"]):
+            for i in range(dic["xn"]):
+                ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
                 if dic["subm"][ind] and dic["porv"][ind] > 0:
                     dic["mini"] = min(dic["mini"], i + 1)
                     dic["minj"] = min(dic["minj"], j + 1)
@@ -890,19 +897,22 @@ def map_vicinity(dic):
         dic (dict): Modified global dictionary
 
     """
-    nc = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
+    nc = dic["xn"] * dic["yn"] * dic["zn"]
     dic["actind"] = dic["porv"] > 0
     dic["freqsub"] = [0.0] * dic["nz"]
     for name in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
         if name != "porv":
             dic[name] = np.zeros(nc)
-            dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
+            if dic["resdata"]:
+                dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
+            else:
+                dic[name][dic["actind"]] = dic["ini"][name.upper()]
         dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
         n = 0
-        for k in range(dic["grid"].nz):
-            for j in range(dic["grid"].ny):
-                for i in range(dic["grid"].nx):
-                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
+        for k in range(dic["zn"]):
+            for j in range(dic["yn"]):
+                for i in range(dic["xn"]):
+                    ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
                     if (
                         dic["mini"] <= i + 1
                         and i + 1 <= dic["maxi"]
@@ -934,16 +944,16 @@ def map_ijk(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["ic"] = np.array([0 for _ in range(dic["grid"].nx + 1)])
-    dic["i1"] = np.array([0 for _ in range(dic["grid"].nx + 1)])
-    dic["in"] = np.array([0 for _ in range(dic["grid"].nx + 1)])
-    dic["jc"] = np.array([0 for _ in range(dic["grid"].ny + 1)])
-    dic["j1"] = np.array([0 for _ in range(dic["grid"].ny + 1)])
-    dic["jn"] = np.array([0 for _ in range(dic["grid"].ny + 1)])
-    dic["kc"] = np.array([0 for _ in range(dic["grid"].nz + 1)])
-    dic["k1"] = np.array([0 for _ in range(dic["grid"].nz + 1)])
-    dic["kn"] = np.array([0 for _ in range(dic["grid"].nz + 1)])
-    dic["nc"] = np.ones(dic["grid"].nx * dic["grid"].ny * dic["grid"].nz)
+    dic["ic"] = np.array([0 for _ in range(dic["xn"] + 1)])
+    dic["i1"] = np.array([0 for _ in range(dic["xn"] + 1)])
+    dic["in"] = np.array([0 for _ in range(dic["xn"] + 1)])
+    dic["jc"] = np.array([0 for _ in range(dic["yn"] + 1)])
+    dic["j1"] = np.array([0 for _ in range(dic["yn"] + 1)])
+    dic["jn"] = np.array([0 for _ in range(dic["yn"] + 1)])
+    dic["kc"] = np.array([0 for _ in range(dic["zn"] + 1)])
+    dic["k1"] = np.array([0 for _ in range(dic["zn"] + 1)])
+    dic["kn"] = np.array([0 for _ in range(dic["zn"] + 1)])
+    dic["nc"] = np.ones(dic["xn"] * dic["yn"] * dic["zn"])
     if dic["refinement"]:
         for j, k in zip(["i", "j", "k"], ["X", "Y", "Z"]):
             n = 2
@@ -958,9 +968,9 @@ def map_ijk(dic):
                 dic[f"{j}n"][i + 1] = n - 1
                 n += 1
         n = 0
-        for k in range(dic["grid"].nz):
-            for j in range(dic["grid"].ny):
-                for i in range(dic["grid"].nx):
+        for k in range(dic["zn"]):
+            for j in range(dic["yn"]):
+                for i in range(dic["xn"]):
                     dic["nc"][n] = (
                         (dic["X"][i] + 1) * (dic["Y"][j] + 1) * (dic["Z"][k] + 1)
                     )
@@ -968,7 +978,7 @@ def map_ijk(dic):
     elif dic["vicinity"]:
         n = 1
         m = 1
-        for i in range(dic["grid"].nx):
+        for i in range(dic["xn"]):
             if dic["mini"] <= i + 1 and i + 1 <= dic["maxi"]:
                 dic["ic"][n] = m
                 m += 1
@@ -976,7 +986,7 @@ def map_ijk(dic):
         dic["nx"] = m - 1
         n = 1
         m = 1
-        for j in range(dic["grid"].ny):
+        for j in range(dic["yn"]):
             if dic["minj"] <= j + 1 and j + 1 <= dic["maxj"]:
                 dic["jc"][n] = m
                 m += 1
@@ -984,7 +994,7 @@ def map_ijk(dic):
         dic["ny"] = m - 1
         n = 1
         m = 1
-        for k in range(dic["grid"].nz):
+        for k in range(dic["zn"]):
             if dic["mink"] <= k + 1 and k + 1 <= dic["maxk"]:
                 dic["kc"][n] = m
                 m += 1
@@ -993,7 +1003,7 @@ def map_ijk(dic):
     else:
         n = 1
         m = 1
-        for i in range(dic["grid"].nx):
+        for i in range(dic["xn"]):
             if dic["ic"][n] == 0:
                 dic["ic"][n] = m
                 m += 1
@@ -1002,7 +1012,7 @@ def map_ijk(dic):
             n += 1
         n = 1
         m = 1
-        for j in range(dic["grid"].ny):
+        for j in range(dic["yn"]):
             if dic["jc"][n] == 0:
                 dic["jc"][n] = m
                 m += 1
@@ -1011,7 +1021,7 @@ def map_ijk(dic):
             n += 1
         n = 1
         m = 1
-        for k in range(dic["grid"].nz):
+        for k in range(dic["zn"]):
             if dic["kc"][n] == 0:
                 dic["kc"][n] = m
                 m += 1
@@ -1033,34 +1043,36 @@ def handle_cp_grid(dic):
     """
     ir = []
     mr = []
-    zc = dic["grid"].export_zcorn()
-    cr = dic["grid"].export_coord()
-    for i in range(dic["grid"].nx + 1):
+    if dic["resdata"]:
+        zc = dic["grid"].export_zcorn()
+        cr = dic["grid"].export_coord()
+    else:
+        zc = dic["ogrid"]["ZCORN"]
+        cr = dic["ogrid"]["COORD"]
+    for i in range(dic["xn"] + 1):
         if (dic["X"][i]) > 1:
-            for m in range(
-                i, (dic["grid"].nx + 1) * (dic["grid"].ny + 1), dic["grid"].nx + 1
-            ):
+            for m in range(i, (dic["xn"] + 1) * (dic["yn"] + 1), dic["xn"] + 1):
                 for l in range(6):
                     mr.append(m * 6 + l)
             for n in range(
                 2 * i - 1,
-                8 * dic["grid"].nx * dic["grid"].ny * dic["grid"].nz,
-                2 * dic["grid"].nx,
+                8 * dic["xn"] * dic["yn"] * dic["zn"],
+                2 * dic["xn"],
             ):
                 ir.append(n)
                 ir.append(n + 1)
 
-    for j in range(dic["grid"].ny + 1):
+    for j in range(dic["yn"] + 1):
         if (dic["Y"][j]) > 1:
-            for m in range(j * (dic["grid"].nx + 1), (j + 1) * (dic["grid"].nx + 1)):
+            for m in range(j * (dic["xn"] + 1), (j + 1) * (dic["xn"] + 1)):
                 for l in range(6):
                     mr.append(m * 6 + l)
             for n in range(
-                (2 * j - 1) * 2 * dic["grid"].nx,
-                8 * dic["grid"].nx * dic["grid"].ny * dic["grid"].nz,
-                4 * dic["grid"].nx * dic["grid"].ny,
+                (2 * j - 1) * 2 * dic["xn"],
+                8 * dic["xn"] * dic["yn"] * dic["zn"],
+                4 * dic["xn"] * dic["yn"],
             ):
-                for l in range(4 * dic["grid"].nx):
+                for l in range(4 * dic["xn"]):
                     ir.append(n + l)
 
     ir = handle_zcorn(dic, ir)
@@ -1080,11 +1092,11 @@ def handle_zcorn(dic, ir):
         ir (list): Modified z coordinates
 
     """
-    for k in range(dic["grid"].nz + 1):
+    for k in range(dic["zn"] + 1):
         if (dic["Z"][k]) > 1:
             for n in range(
-                (2 * k - 1) * 4 * dic["grid"].nx * dic["grid"].ny,
-                (2 * k + 1) * 4 * dic["grid"].nx * dic["grid"].ny,
+                (2 * k - 1) * 4 * dic["xn"] * dic["yn"],
+                (2 * k + 1) * 4 * dic["xn"] * dic["yn"],
             ):
                 ir.append(n)
     return ir
@@ -1102,12 +1114,16 @@ def chop_grid(dic):
 
     """
     dic["zc"], dic["cr"] = [], []
-    zc = list(dic["grid"].export_zcorn())
-    cr = list(dic["grid"].export_coord())
-    for j in range(dic["grid"].ny + 1):
-        l = 6 * (dic["grid"].nx + 1) * j
+    if dic["resdata"]:
+        zc = list(dic["grid"].export_zcorn())
+        cr = list(dic["grid"].export_coord())
+    else:
+        zc = list(dic["ogrid"]["ZCORN"])
+        cr = list(dic["ogrid"]["COORD"])
+    for j in range(dic["yn"] + 1):
+        l = 6 * (dic["xn"] + 1) * j
         added = False
-        for i in range(dic["grid"].nx):
+        for i in range(dic["xn"]):
             m = l + 6 * i
             if (
                 dic["mini"] <= i + 1
@@ -1124,13 +1140,13 @@ def chop_grid(dic):
                         dic["cr"].append(cr[n + m])
             else:
                 added = False
-    nxy = 4 * dic["grid"].nx * dic["grid"].ny
-    for k in range(dic["grid"].nz):
+    nxy = 4 * dic["xn"] * dic["yn"]
+    for k in range(dic["zn"]):
         if (dic["kc"][k + 1]) > 0:
             for l in range(2):
-                for j in range(2 * dic["grid"].ny):
-                    for i in range(2 * dic["grid"].nx):
-                        n = (l + 2 * k) * nxy + j * 2 * dic["grid"].nx + i
+                for j in range(2 * dic["yn"]):
+                    for i in range(2 * dic["xn"]):
+                        n = (l + 2 * k) * nxy + j * 2 * dic["xn"] + i
                         if (
                             dic["ic"][int(i / 2) + 1] > 0
                             and dic["jc"][int(j / 2) + 1] > 0
@@ -1157,32 +1173,54 @@ def transform_grid(dic):
         txyz = np.array([float(txyz[0][1:]), float(txyz[1]), float(txyz[-1][:-1])])
     else:
         txyz = float(trans[1])
-    zc = list(dic["grid"].export_zcorn())
-    cr = list(dic["grid"].export_coord())
+    if dic["resdata"]:
+        zc = list(dic["grid"].export_zcorn())
+        cr = list(dic["grid"].export_coord())
+    else:
+        zc = list(dic["ogrid"]["ZCORN"])
+        cr = list(dic["ogrid"]["COORD"])
     if trans[0] in ["rotatexz", "rotateyz"]:
-        xyz = dic["grid"].export_corners(dic["grid"].export_index())
-        for k in range(dic["grid"].nz):
-            for j in range(dic["grid"].ny):
-                for i in range(dic["grid"].nx):
-                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
-                    cxy.append([xyz[ind][0], xyz[ind][1]])
-                    cxy.append([xyz[ind][3], xyz[ind][4]])
-                for i in range(dic["grid"].nx):
-                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
-                    cxy.append([xyz[ind][6], xyz[ind][7]])
-                    cxy.append([xyz[ind][9], xyz[ind][10]])
-            for j in range(dic["grid"].ny):
-                for i in range(dic["grid"].nx):
-                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
-                    cxy.append([xyz[ind][12], xyz[ind][13]])
-                    cxy.append([xyz[ind][15], xyz[ind][16]])
-                for i in range(dic["grid"].nx):
-                    ind = i + j * dic["grid"].nx + k * dic["grid"].nx * dic["grid"].ny
-                    cxy.append([xyz[ind][18], xyz[ind][19]])
-                    cxy.append([xyz[ind][21], xyz[ind][22]])
-    for j in range(dic["grid"].ny + 1):
-        l = 6 * (dic["grid"].nx + 1) * j
-        for i in range(dic["grid"].nx + 1):
+        if dic["resdata"]:
+            xyz = dic["grid"].export_corners(dic["grid"].export_index())
+            for k in range(dic["zn"]):
+                for j in range(dic["yn"]):
+                    for i in range(dic["xn"]):
+                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                        cxy.append([xyz[ind][0], xyz[ind][1]])
+                        cxy.append([xyz[ind][3], xyz[ind][4]])
+                    for i in range(dic["xn"]):
+                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                        cxy.append([xyz[ind][6], xyz[ind][7]])
+                        cxy.append([xyz[ind][9], xyz[ind][10]])
+                for j in range(dic["yn"]):
+                    for i in range(dic["xn"]):
+                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                        cxy.append([xyz[ind][12], xyz[ind][13]])
+                        cxy.append([xyz[ind][15], xyz[ind][16]])
+                    for i in range(dic["xn"]):
+                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                        cxy.append([xyz[ind][18], xyz[ind][19]])
+                        cxy.append([xyz[ind][21], xyz[ind][22]])
+        else:
+            for k in range(dic["zn"]):
+                for j in range(dic["yn"]):
+                    for i in range(dic["xn"]):
+                        xyz = dic["grid"].xyz_from_ijk(i, j, k)
+                        cxy.append([xyz[0][0], xyz[1][0]])
+                        cxy.append([xyz[0][1], xyz[1][1]])
+                    for i in range(dic["xn"]):
+                        cxy.append([xyz[0][2], xyz[1][2]])
+                        cxy.append([xyz[0][3], xyz[1][3]])
+                for j in range(dic["yn"]):
+                    for i in range(dic["xn"]):
+                        cxy.append([xyz[0][4], xyz[1][4]])
+                        cxy.append([xyz[0][5], xyz[1][5]])
+                    for i in range(dic["xn"]):
+                        cxy.append([xyz[0][6], xyz[1][6]])
+                        cxy.append([xyz[0][7], xyz[1][7]])
+    for j in range(dic["yn"] + 1):
+        l = 6 * (dic["xn"] + 1) * j
+        for i in range(dic["xn"] + 1):
             m = l + 6 * i
             if trans[0] == "translate":
                 for n in range(6):
@@ -1256,13 +1294,17 @@ def refine_grid(dic):
 
     """
     crx, dic["zc"], dic["cr"] = [], [], []
-    zc = list(dic["grid"].export_zcorn())
-    cr = list(dic["grid"].export_coord())
-    for j in range(dic["grid"].ny + 1):
-        l = 6 * (dic["grid"].nx + 1) * j
+    if dic["resdata"]:
+        zc = list(dic["grid"].export_zcorn())
+        cr = list(dic["grid"].export_coord())
+    else:
+        zc = list(dic["ogrid"]["ZCORN"])
+        cr = list(dic["ogrid"]["COORD"])
+    for j in range(dic["yn"] + 1):
+        l = 6 * (dic["xn"] + 1) * j
         for n in range(6):
             crx.append(cr[n + l])
-        for i in range(dic["grid"].nx):
+        for i in range(dic["xn"]):
             m = l + 6 * i
             for n in range(dic["X"][i] + 1):
                 crx.append(cr[m] + (n + 1) * (cr[m + 6] - cr[m]) / (dic["X"][i] + 1.0))
@@ -1290,7 +1332,7 @@ def refine_grid(dic):
         dic["cr"].append(crx[m + 4])
         dic["cr"].append(crx[m + 5])
     s = 6 * (dic["nx"] + 1)
-    for j in range(dic["grid"].ny):
+    for j in range(dic["yn"]):
         l = 6 * (dic["nx"] + 1) * j
         for n in range(dic["Y"][j] + 1):
             for i in range(dic["nx"] + 1):
@@ -1318,13 +1360,13 @@ def refine_grid(dic):
                     crx[m + 5]
                     + (n + 1) * (crx[m + s + 5] - crx[m + 5]) / (dic["Y"][j] + 1)
                 )
-    nxy = 4 * dic["grid"].nx * dic["grid"].ny
-    for k in range(dic["grid"].nz):
-        for o in range(2 * dic["grid"].ny):
+    nxy = 4 * dic["xn"] * dic["yn"]
+    for k in range(dic["zn"]):
+        for o in range(2 * dic["yn"]):
             z_0 = []
             z_1 = []
-            for l in range(2 * dic["grid"].nx):
-                n = (2 * k) * nxy + o * 2 * dic["grid"].nx + l
+            for l in range(2 * dic["xn"]):
+                n = (2 * k) * nxy + o * 2 * dic["xn"] + l
                 dic["zc"].append(zc[n])
                 z_0.append(dic["zc"][-1])
                 if l % 2 == 0:
@@ -1340,8 +1382,8 @@ def refine_grid(dic):
                         )
                         z_0.append(dic["zc"][-1])
             if o % 2 == 0:
-                for l in range(2 * dic["grid"].nx):
-                    n = (2 * k) * nxy + (o + 1) * 2 * dic["grid"].nx + l
+                for l in range(2 * dic["xn"]):
+                    n = (2 * k) * nxy + (o + 1) * 2 * dic["xn"] + l
                     z_1.append(zc[n])
                     if l % 2 == 0:
                         for q in range(dic["X"][int(l / 2)]):
@@ -1365,11 +1407,11 @@ def refine_grid(dic):
                             )
         for i in range(dic["Z"][k]):
             for _ in range(2):
-                for o in range(2 * dic["grid"].ny):
+                for o in range(2 * dic["yn"]):
                     z_0 = []
                     z_1 = []
-                    for l in range(2 * dic["grid"].nx):
-                        n = (2 * k) * nxy + o * 2 * dic["grid"].nx + l
+                    for l in range(2 * dic["xn"]):
+                        n = (2 * k) * nxy + o * 2 * dic["xn"] + l
                         dic["zc"].append(
                             zc[n] + (i + 1) * (zc[n + nxy] - zc[n]) / (dic["Z"][k] + 1)
                         )
@@ -1392,8 +1434,8 @@ def refine_grid(dic):
                                 )
                                 z_0.append(dic["zc"][-1])
                     if o % 2 == 0:
-                        for l in range(2 * dic["grid"].nx):
-                            n = (2 * k) * nxy + (o + 1) * 2 * dic["grid"].nx + l
+                        for l in range(2 * dic["xn"]):
+                            n = (2 * k) * nxy + (o + 1) * 2 * dic["xn"] + l
                             z_1.append(
                                 zc[n]
                                 + (i + 1) * (zc[n + nxy] - zc[n]) / (dic["Z"][k] + 1)
@@ -1426,11 +1468,11 @@ def refine_grid(dic):
                                         * (z1 - z0)
                                         / (dic["Y"][int(o / 2)] + 1)
                                     )
-        for o in range(2 * dic["grid"].ny):
+        for o in range(2 * dic["yn"]):
             z_0 = []
             z_1 = []
-            for l in range(2 * dic["grid"].nx):
-                n = (2 * k + 1) * nxy + o * 2 * dic["grid"].nx + l
+            for l in range(2 * dic["xn"]):
+                n = (2 * k + 1) * nxy + o * 2 * dic["xn"] + l
                 dic["zc"].append(zc[n])
                 z_0.append(dic["zc"][-1])
                 if l % 2 == 0:
@@ -1446,8 +1488,8 @@ def refine_grid(dic):
                         )
                         z_0.append(dic["zc"][-1])
             if o % 2 == 0:
-                for l in range(2 * dic["grid"].nx):
-                    n = (2 * k + 1) * nxy + (o + 1) * 2 * dic["grid"].nx + l
+                for l in range(2 * dic["xn"]):
+                    n = (2 * k + 1) * nxy + (o + 1) * 2 * dic["xn"] + l
                     z_1.append(zc[n])
                     if l % 2 == 0:
                         for q in range(dic["X"][int(l / 2)]):
