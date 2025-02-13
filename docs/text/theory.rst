@@ -2,16 +2,17 @@
 Theory
 ******
 
-The coarsening approach implemented in **pycopm** is based on industry standard grid formats which is preserved during coarsening. 
-This allows for direct application in standard reservoir simulators.
-In coarsening accuracy is traded for speed. 
-This is often appropriate, but care must be taken to assure that the coarse solution preserve the key properties of the model.
-The `Lie 2019 textbook <https://www.cambridge.org/core/books/an-introduction-to-reservoir-simulation-using-matlabgnu-octave/F48C3D8C88A3F67E4D97D4E16970F894>`_ 
-gives an excellent introduction to grid coarsening and upscaling geological properties, and the methods implemented in **pycopm** follow similar techniques. 
+Here insight about the **pycopm** methods regarding grid coarsening, grid refinement, submodels, and transformations is given.
 
 ===============
 Grid coarsening
 ===============
+
+The coarsening approach implemented in **pycopm** is based on industry standard grid formats which is preserved during coarsening. 
+This allows for direct application in standard reservoir simulators. In coarsening accuracy is traded for speed. 
+This is often appropriate, but care must be taken to assure that the coarse solution preserve the key properties of the model.
+The `Lie 2019 textbook <https://www.cambridge.org/core/books/an-introduction-to-reservoir-simulation-using-matlabgnu-octave/F48C3D8C88A3F67E4D97D4E16970F894>`_ 
+gives an excellent introduction to grid coarsening and upscaling geological properties, and the methods implemented in **pycopm** follow similar techniques. 
 
 Corner-point grids are commonly use in subsurface simulations, due to its flexibility to handle complex geometries such as faults. 
 The grid is defined by vertical pillars and horizontal lines connecting the pillars, resulting in cells that can have up to six faces (hexahedrons), 
@@ -38,11 +39,8 @@ Figure 1 shows a simple 2D corner-point grid with different coarsening using min
     coarsening in the xy plane, since using min results in coarser models that do not generate 
     new connections across inactive cells.
 
-================================
-Upscaling geophysical properties 
-================================
-
-Naturally, the pore volume in a coarser cell :math:`\Phi_{i^*,j^*,k^*}^*` (:math:`i^*`, :math:`j^*`, and :math:`k^*` referring to the cell 
+ 
+For upscaling geophysical properties, naturally, the pore volume in a coarser cell :math:`\Phi_{i^*,j^*,k^*}^*` (:math:`i^*`, :math:`j^*`, and :math:`k^*` referring to the cell 
 coarse indices in the x, y, and z direction respectively) are equal to the sum of pore volume from the corresponding cells 
 :math:`\Phi_{i,j,k}` in the input model, which are part of the cluster :math:`\mathbb{C}_{i^*,j^*,k^*}`:
 
@@ -97,3 +95,53 @@ armonic average. For both approaches, the transmissibilities are scaled with the
 face effective areas (input model) to the coarse cell area. For non-neighbouring connections, this approach is also implemented, i.e., 
 the non-neighbouring connections in the coarser model sum the values from the non-neighbouring connections in the input model, which is important in 
 order to honor the pressure connections along open faults communicating different formations.
+
+===============
+Grid refinement
+===============
+
+The grid refinement is achieved by adding vertical pillars and horizontal lines in the grid from the input model. The refinement can be defined globally 
+in any direction (i, j, or k), as well as localized in defined grid indices. Properties such as porosity, permeabilities, and region numbers are set to the 
+same value in the corresponding finner cells inside the unrefined cell. Model properties defined by i,j,k locations such as wells, faults, and 
+boundary conditions are mapped to the new range of refined indices (i.e., adding additional entries to the generated deck).
+
+.. figure:: figs/refinement.png
+
+    Figure 2: Faults and well in `MODEL3.DATA <https://github.com/cssr-tools/pycopm/blob/main/examples/decks/MODEL3.DATA>`_ (left) and after grid refinement "-g 2,2,2" (right). 
+
+
+=========
+Submodels
+=========
+
+The generation of a submodel, i.e., a selected region in the input model, makes possible to lower the number of active cells and focus on an area of interest in 
+the input model. This results in smaller size of the input files, and faster simulations using OPM Flow. The submodel can be defined by properties matching a 
+value, e.g., all cells with fipnum equal to 1, or by a polygon given the xy locations in meters. Model properties defined by i,j,k locations such as wells and faults 
+are shifted to their corresponding values. If the wells/faults are not inside the extracted submodel, then these are not written to the generated deck.
+
+Regarding the boundary conditions in the extracted model with respect to the pore volume outisde the submodel, four options are provided by **pycopm**: 
+
+#. no correction for the pore volume
+#. adding the pore volume in each cell on the submodel boundary by summing all cell pore volumes in their corresponding i and j directions. If there is pore volume in the outside corners, this is equally distributed among the boundary cells in the two corresponding sides.  
+#. distributing the pore volume equally among the boundary cells in the submodel.
+#. distributing the pore volume equally among all cells in the submodel
+
+.. figure:: figs/submodel.png
+
+    Figure 3: The shape to extract the sudmodel corresponds to "-v 'xypolygon [50,90] [60,60] [90,60] [65,40] [75,10] [50,30] [25,10] [35,40] [10,60] [40,60] [50,90]'".
+    The j indices for the cells have been accordingly shifted in the extracted model, and the right figure shows the pore volume on the boundary 
+    by distributing the outside pore volume equally among the boundary cells.
+
+===============
+Transformations
+===============
+
+Affine transformations are widely used in diverse applications since they preserve points, straight lines, and planes. In the field of reservoir management, there are large 
+uncertainties in the characterization of geological formations (reservoirs are typically located several kilometers below the surface). Once a reservoir model is created, over time 
+additional information from field measurements (e.g., seismic data, addiitonal wells, well's pressures, production rates) can indicate a different model characterization. This is when having 
+tools like **pycopm** can be handy, i.e., to apply translations of the grid (e.g., a different depth which impacts the pressure), scaling (e.g., to ease comparison between models made by different 
+groups which missmatch in the thickness of layers), and rotations (e.g., to align grids betweens two different models). 
+
+.. figure:: figs/transformation.png
+
+    Figure 4: Extracted shape in Figure 3 after a rotation "-d 'rotatexy 45'" (left) and scaling "-d 'scale [1,0.25,1]'" (right).

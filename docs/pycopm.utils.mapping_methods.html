@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycopm.utils.mapping_methods module &mdash; pycopm  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pycopm.utils.parser_deck module" href="pycopm.utils.parser_deck.html" />
+    <link rel="prev" title="pycopm.utils.input_values module" href="pycopm.utils.input_values.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #aaaaaa" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">pycopm Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_folder.html">Output folder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related.html">Related</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About pycopm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #aaaaaa" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycopm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">pycopm Python API</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.html">pycopm package</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.utils.html">pycopm.utils package</a></li>
+      <li class="breadcrumb-item active">pycopm.utils.mapping_methods module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pycopm.utils.mapping_methods.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pycopm.utils.mapping_methods">
+<span id="pycopm-utils-mapping-methods-module"></span><h1>pycopm.utils.mapping_methods module<a class="headerlink" href="#module-pycopm.utils.mapping_methods" title="Link to this heading"></a></h1>
+<p>Methods to create modified (coarser, finner, submodels, transformations) OPM files.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.add_pv_bc">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">add_pv_bc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.add_pv_bc" title="Link to this definition"></a></dt>
+<dd><p>Add the pore volume from outside the submodel on the xy directions</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.chop_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">chop_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.chop_grid" title="Link to this definition"></a></dt>
+<dd><p>Extract the corresponding subgrid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.coarsening_dir">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">coarsening_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.coarsening_dir" title="Link to this definition"></a></dt>
+<dd><p>Get the coarsening directions</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.find_neighbors">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">find_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.find_neighbors" title="Link to this definition"></a></dt>
+<dd><p>Find the neighbouring cells to distribute the removed pore volume</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>ind (list): Indices os cells to distribute the pore volume</p>
+<p>i_d (int): Index of the removed cell to distribute its pore volume</p>
+<p>n (int): Current increased index for the neighbours search</p>
+<p>s (int): Shift to neighbours cells</p>
+</dd>
+<dt>Returns:</dt><dd><p>ind (list): Indices os cells to distribute the pore volume</p>
+<p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.get_ijk">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">get_ijk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.get_ijk" title="Link to this definition"></a></dt>
+<dd><p>Return the i,j, and k index from the global index</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>i_d (int): Index of the removed cell to distribute its pore volume</p>
+</dd>
+<dt>Returns:</dt><dd><p>i,j,k (int): i,j, and k cell indices</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_clusters">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_clusters" title="Link to this definition"></a></dt>
+<dd><p>Create the coarser clusters</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_cp_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_cp_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_cp_grid" title="Link to this definition"></a></dt>
+<dd><p>Handle the pillars and zcord for the coarser grid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_pv">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_pv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_pv" title="Link to this definition"></a></dt>
+<dd><p>Make sure the pore volume is not created nor destroyed, only distributed</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>clusmin (pandas dataFrame): Mask with all active cells in cluster</p>
+<p>clusmax (pandas dataFrame): Mask with at least one active cell in cluster</p>
+<p>rmv (pandas dataFrame): Mask to remove cells by the argument flag jump</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_refinement">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_refinement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_refinement" title="Link to this definition"></a></dt>
+<dd><p>Create the refinement objects</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_vicinity">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_vicinity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_vicinity" title="Link to this definition"></a></dt>
+<dd><p>Create the vicinity objects</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_zcorn">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_zcorn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_zcorn" title="Link to this definition"></a></dt>
+<dd><p>Process the zcorn</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>ir (list): Z coordinates from the corners</p>
+</dd>
+<dt>Returns:</dt><dd><p>ir (list): Modified z coordinates</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.map_ijk">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">map_ijk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.map_ijk" title="Link to this definition"></a></dt>
+<dd><p>Create the mappings to the new i,j,k indices</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.map_properties">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">map_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_b_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.map_properties" title="Link to this definition"></a></dt>
+<dd><p>Mapping to the coarsened properties</p>
+<dl>
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<p>actnum (array): Integers with the active cells</p>
+<p>z_t (array): Floats with the top cell z-center position</p>
+<p>z_b (array): Floats with the bottom cell z-center position</p>
+<p>z_b_t (array): Floats with the maximum cell z difference</p>
+<p>v_c (array): Floats with the cell volumes</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<p>clusmin (array): True for clusters with at least one inactive cell</p>
+<p>clusmax (array): True for clusters with at least one active cell</p>
+<p>rmv (array): Indices for the cells to remove</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.map_vicinity">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">map_vicinity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.map_vicinity" title="Link to this definition"></a></dt>
+<dd><p>Properties to the vicinity</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.refine_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">refine_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.refine_grid" title="Link to this definition"></a></dt>
+<dd><p>Refine the reservoir grid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.transform_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">transform_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.transform_grid" title="Link to this definition"></a></dt>
+<dd><p>Transform the reservoir grid</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+</dd>
+<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pycopm.utils.input_values.html" class="btn btn-neutral float-left" title="pycopm.utils.input_values module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.parser_deck.html" class="btn btn-neutral float-right" title="pycopm.utils.parser_deck module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2025, NORCE Norwegian Research Centre AS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

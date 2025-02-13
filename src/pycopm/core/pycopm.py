@@ -160,10 +160,19 @@ def load_parser():
         help="OPM Flow path to executable or just 'flow' ('flow' by default).",
     )
     parser.add_argument(
+        "-m",
+        "--mode",
+        default="prep_deck",
+        help="Execute a dry run of the input deck to generate the static properties ('prep'), "
+        "generate only the modified files ('deck'), only exectute a dry run on the generated "
+        "model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') ('prep_deck' by "
+        "default).",
+    )
+    parser.add_argument(
         "-v",
         "--vicinity",
         default="",
-        help="The location to extract the sub model. This can be assigned by a "
+        help="The location to extract the sub model which can be assigned by a "
         "region assignation, e.g., 'fipnum 2,4' extracts the cells with fipnums "
         "equal to 2 or 4, or can be assigned by a polygon given the xy locations "
         "in meters, e.g., 'xypolygon [0,0] [30,0] [30,30] [0,0]' ('' by default).",
@@ -179,7 +188,7 @@ def load_parser():
         "-x",
         "--xcoar",
         default="",
-        help="Vector of x-coarsening, e.g., if the grid has 6 cells in the x "
+        help="Array of x-coarsening, e.g., if the grid has 6 cells in the x "
         "direction, then 0,2,0,2,0,2,0 would generate a coarsened model with 3 "
         "cells, while 0,2,2,2,2,2,0 would generate a coarsened model with 1 cell, "
         "i.e., 0 keeps the pilars while 2 removes them. As an alternative, the "
@@ -191,13 +200,13 @@ def load_parser():
         "-y",
         "--ycoar",
         default="",
-        help="Vector of y-coarsening, see the description for -x ('' by default).",
+        help="Array of y-coarsening, see the description for -x ('' by default).",
     )
     parser.add_argument(
         "-z",
         "--zcoar",
         default="",
-        help="Vector of z-coarsening, see the description for -x ('' by default).",
+        help="Array of z-coarsening, see the description for -x ('' by default).",
     )
     parser.add_argument(
         "-g",
@@ -209,8 +218,8 @@ def load_parser():
         "-rx",
         "--xref",
         default="",
-        help="Vector of x-refinement, e.g., if the grid has 6 cells in the x "
-        "direction, then 0,1,0,2,0,4 would generate a refined model with 11 "
+        help="Array of x-refinement, e.g., if the grid has 6 cells in the x "
+        "direction, then 0,1,0,2,0,4 would generate a refined model with 13 "
         "cells, while 0,0,0,1,0,0 would generate a refined model with 7 cells "
         "('' by default).",
     )
@@ -218,37 +227,39 @@ def load_parser():
         "-ry",
         "--yref",
         default="",
-        help="Vector of y-refinement, see the description for -x ('' by default).",
+        help="Array of y-refinement, see the description for -rx ('' by default).",
     )
     parser.add_argument(
         "-rz",
         "--zref",
         default="",
-        help="Vector of z-refinement, see the description for -x ('' by default).",
+        help="Array of z-refinement, see the description for -rx ('' by default).",
     )
     parser.add_argument(
         "-a",
         "--how",
         default="mode",
-        help="Use 'min', 'max', or 'mode' to scale the actnum, e.g., min makes "
-        "the new coarser cell inactive if at least one cell is inactive, while "
-        " max makes it active it at least one cell is active ('mode' by default).",
+        help="In coarsening, use 'min', 'max', or 'mode' to scale the actnum, e.g., min "
+        "makes the new coarser cell inactive if at least one cell is inactive, while "
+        "max makes it active it at least one cell is active ('mode' by default).",
     )
     parser.add_argument(
         "-n",
         "--nhow",
         default="mode",
-        help="Use 'min', 'max', or 'mode' to scale endnum, eqlnum, fipnum, fluxnum, imbnum, "
-        "miscnum, multnum, opernum, pvtnum, rocknum, and satnum ('mode' by default).",
+        help="In coarsening, use 'min', 'max', or 'mode' to scale endnum, eqlnum, fipnum, "
+        "fluxnum, imbnum, miscnum, multnum, opernum, pvtnum, rocknum, and satnum ('mode' "
+        "by default).",
     )
     parser.add_argument(
         "-s",
         "--show",
         default="",
-        help="Use 'min', 'max', 'mean', or 'pvmean' to scale permx, permy, permz, poro, "
-        "swatinit, and all mult(-)xyz ('' by default, i.e., using the arithmetic average for "
-        "permx/permy, harmonic average for permz, volume weighted mean for mult(-)xyz, and "
-        "the pore volume weighted ('pvmean') mean for the rest).",
+        help="In coarsening, use 'min', 'max', 'mean', or 'pvmean' to scale permx, permy, "
+        "permz, poro, swatinit, disperc, thconr, and all mult(-)xyz ('' by default, i.e., "
+        "using the arithmetic average for permx/permy, harmonic average for permz, volume "
+        "weighted mean for mult(-)xyz, and the pore volume weighted ('pvmean') mean for "
+        "the rest).",
     )
     parser.add_argument(
         "-p",
@@ -273,9 +284,10 @@ def load_parser():
         "-t",
         "--trans",
         default=0,
-        help="Write and use upscaled transmissibilities by ('1') armonic averaging and summing "
-        "the transmissibilities in the corresponding coarsening direction and ('2') scaling "
-        "the face transmissibily on the coarse faces ('0' by default).",
+        help="In coarsening, write and use upscaled transmissibilities by ('1') armonic "
+        "averaging and summing the transmissibilities in the corresponding coarsening direction "
+        "and ('2') scaling the face transmissibily on the coarse faces ('0' by default, i.e., "
+        "transmissibilities are not used).",
     )
     parser.add_argument(
         "-r",
@@ -283,25 +295,16 @@ def load_parser():
         default="2",
         help="Remove CONFACT and KH from COMPDAT (1) and also remove PEQVR (2) (ITEM 13, the "
         "last entry) to compute the well transmisibility connections internally in OPM Flow "
-        "using the grid properties ('2' by default; '0' to not remove).",
+        "using the grid properties ('2' by default; set to '0' to not remove).",
     )
     parser.add_argument(
         "-j",
         "--jump",
         default="",
-        help="Tuning parameter to avoid creation of neighbouring connections in "
-        "the coarsened model where there are discontinuities between cells along "
+        help="In coarsening, tuning parameter to avoid creation of neighbouring connections "
+        "in the coarsened model where there are discontinuities between cells along "
         "the z direction, e.g., around faults ('' by default, i.e., nothing "
         "corrected; if need it, try with values of the order of 1).",
-    )
-    parser.add_argument(
-        "-m",
-        "--mode",
-        default="prep_deck",
-        help="Execute a dry run on the input deck to generate the static properties ('prep'), "
-        "generate only the modified files ('deck'), only exectute a dry run on the generated "
-        "modified model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') ('prep_deck' by "
-        "default).",
     )
     parser.add_argument(
         "-w",
@@ -314,8 +317,8 @@ def load_parser():
         "-l",
         "--label",
         default="PYCOPM_",
-        help="Added text before each generated .INC ('PYCOPM_' by default, i.e., the porv "
-        "is saved in PYCOPM_PORV.INC; set to '' to generate PORV.INC, PERMX.INC, etc).",
+        help="Added text before each generated .INC ('PYCOPM_' by default, i.e., the modified "
+        "porv is saved in PYCOPM_PORV.INC; set to '' to generate PORV.INC, PERMX.INC, etc).",
     )
     parser.add_argument(
         "-e",
@@ -328,7 +331,7 @@ def load_parser():
         "--ijk",
         default="",
         help="Given i,j,k indices in the input model, return the modified i,j,k corresponding "
-        "positions ('' by default; if not empty, e.g., 1,2,3 then the -mode is set to deck and "
+        "positions ('' by default; if not empty, e.g., '1,2,3', then "
         "there will not be generation of modified files, only the i,j,k mapped indices in the "
         "terminal).",
     )
@@ -337,7 +340,7 @@ def load_parser():
         "--displace",
         default="",
         help="Options to transform the x,y,z coordinates: 'translate [10,-5,4]' adds the values "
-        "in meters to the coordinates, 'scale [1,2,3]' to multiply the coordinates by the given "
+        "in meters to the coordinates, 'scale [1,2,3]' multiplies the coordinates by the given "
         "values respectively, and 'rotatexy 45' applies a rotation in degrees in the xy plane "
         "(rotatexz and rotateyz applies a rotation around the y and x axis respectively) "
         "('' by default).",
@@ -346,7 +349,7 @@ def load_parser():
         "-u",
         "--use",
         default="resdata",
-        help="Use resdata or OPM Python libraries ('resdata' by default).",
+        help="Use the resdata or opm Python libraries ('resdata' by default).",
     )
     return vars(parser.parse_known_args()[0])
 

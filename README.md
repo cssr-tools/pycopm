@@ -2,12 +2,12 @@
 <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20to%203.12-blue.svg"></a>
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-<img src="docs/text/figs/pycopm.gif" width="900" height="300">
+<img src="docs/text/figs/pycopm.png" width="900" height="380">
 
 # pycopm: An open-source tool to tailor OPM Flow geological models. 
 
 ## Main feature
-Creation of files from provided input decks with options for grid refinement, grid coarsening, submodel substraction, and transformations including scaling, rotations, and transtaltions.   
+Creation of OPM Flow geological models from provided input decks with options for grid refinement, grid coarsening, submodel substraction, and transformations including scaling, rotations, and transtaltions.   
 
 ## Installation
 You will first need to install
@@ -51,6 +51,10 @@ Run `pycopm --help` to see all possible command line argument options.
 
 ## Getting started
 See the [_examples_](https://cssr-tools.github.io/pycopm/examples.html) in the [_documentation_](https://cssr-tools.github.io/pycopm/introduction.html).
+
+## Citing
+
+* Landa-Marbán, D. pycopm: An open-source tool to tailor OPM Flow geological models. Submitted.
 
 ## Publications
 The following is a list of manuscripts in which _pycopm_ is used:

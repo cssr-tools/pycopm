@@ -6,7 +6,7 @@ field = "norne"  # Geological model (norne or drogon)
 mode = "ert" # Mode to run (single-run, files, or ert)
 X = [0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0] # Array of x-coarsening 
 Y = [0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0] # Array of y-coarsening 
-Z = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0] # Array of z-coarsening
+Z = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0] # Array of z-coarsening
 net = 2 # Number of ensembles
 mep = 2 # Maximum number of ensembles running in parallel
 mrt = 600 # Maximum runtime in seconds of a realization. A value of 0 means unlimited runtime. 
@@ -20,6 +20,7 @@ initial = 0 # Initialization 0 -> Equil 1->INIT from fine-scale
 error = [0.1,0.1,0.1] # Error WWPR, WOPR, and WGPR
 minerror = [100,100,100000] # Minimum error of WWPR, WOPR, and WGPR
 date = 2005-03-01 # Last date to HM
+suffixes = ["PRT"] # Delete files with this suffix to save storage
 
 # Set the command line for the ert executable (gui, test_run, ensemble_experiment, ensemble_smoother, iterative_ensemble_smoother, and es_mda) and flags
 ert = "es_mda --weights 1"

@@ -92,7 +92,9 @@
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
 <p>The following steps work installing the dependencies in Linux via apt-get or in macOS using brew or macports.
-While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.</p>
+While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
+In addition, the current supported Python versions are 3.11 to 3.12. We will update the documentation when Python3.13 is supported (e.g., the resdata Python package is not yet available
+via pip install in Python 3.13).</p>
 <section id="python-package">
 <h2>Python package<a class="headerlink" href="#python-package" title="Link to this heading"></a></h2>
 <p>To install the <strong>pycopm</strong> executable from the development version:</p>
@@ -135,6 +137,15 @@ install the Python requirements in a virtual environment with the following comm
 <p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/CI.yml">CI.yml</a> script
 for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For not macOS users, to install the Python opm package (this is an alternative
+to <a class="reference external" href="https://github.com/equinor/resdata">resdata</a>, both are use to read OPM output files; while resdata is easier to
+install in macOS, opm seems to be faster), execute in the terminal</p>
+<p><strong>pip install opm</strong></p>
+<p>This is equivalent to execute <strong>pip install -e .[opm]</strong> in the installation process.</p>
+<p>For macOS users, see <a class="reference internal" href="#macos"><span class="std std-ref">Source build in macOS</span></a>.</p>
+</div>
 <section id="source-build-in-linux-windows">
 <h3>Source build in Linux/Windows<a class="headerlink" href="#source-build-in-linux-windows" title="Link to this heading"></a></h3>
 <p>If you are a Linux user (including the Windows subsystem for Linux), then you could try to build Flow (after installing the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>) from the master branches with mpi support by running
@@ -170,7 +181,7 @@ in the terminal the following lines (which in turn should build flow in the fold
 </div>
 </section>
 <section id="source-build-in-macos">
-<h3>Source build in macOS<a class="headerlink" href="#source-build-in-macos" title="Link to this heading"></a></h3>
+<span id="macos"></span><h3>Source build in macOS<a class="headerlink" href="#source-build-in-macos" title="Link to this heading"></a></h3>
 <p>For macOS, there are no available binary packages, so OPM Flow needs to be built from source, in addition to the dune libraries
 (see the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>, which can be installed using macports or brew). This can be achieved by the following lines:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
@@ -188,13 +199,15 @@ in the terminal the following lines (which in turn should build flow in the fold
 <span class="go">    git clone https://github.com/OPM/opm-$repo.git</span>
 <span class="go">done</span>
 
+<span class="go">source vpycopm/bin/activate</span>
+
 <span class="go">mkdir build</span>
 
 <span class="go">for repo in common grid</span>
 <span class="go">do</span>
 <span class="go">    mkdir build/opm-$repo</span>
 <span class="go">    cd build/opm-$repo</span>
-<span class="go">    cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common&quot; $CURRENT_DIRECTORY/opm-$repo</span>
+<span class="go">    cmake -DPYTHON_EXECUTABLE=$(which python) -DWITH_NDEBUG=1 -DUSE_MPI=0 -DOPM_ENABLE_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common&quot; $CURRENT_DIRECTORY/opm-$repo</span>
 <span class="go">    make -j5 opm$repo</span>
 <span class="go">    cd ../..</span>
 <span class="go">done</span>
@@ -204,9 +217,11 @@ in the terminal the following lines (which in turn should build flow in the fold
 <span class="go">cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid&quot; $CURRENT_DIRECTORY/opm-simulators</span>
 <span class="go">make -j5 flow</span>
 <span class="go">cd ../..</span>
+
+<span class="go">echo &quot;export PYTHONPATH=\$PYTHONPATH:$CURRENT_DIRECTORY/build/opm-common/python&quot; &gt;&gt; $CURRENT_DIRECTORY/vpycopm/bin/activate</span>
 </pre></div>
 </div>
-<p>In addition, use at least a Python version of 3.10 (due to the resdata Python package).</p>
+<p>This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH. Then after execution, deactivate and activate the Python virtual environment.</p>
 </section>
 </section>
 </section>
@@ -222,7 +237,7 @@ in the terminal the following lines (which in turn should build flow in the fold
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, NORCE Norwegian Research Centre AS.</p>
+    <p>&#169; Copyright 2024-2025, NORCE Norwegian Research Centre AS.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

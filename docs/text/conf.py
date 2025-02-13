@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'pycopm'
-copyright = '2024, NORCE Norwegian Research Centre AS'
+copyright = '2024-2025, NORCE Norwegian Research Centre AS'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

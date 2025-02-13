@@ -4,6 +4,8 @@ Installation
 
 The following steps work installing the dependencies in Linux via apt-get or in macOS using brew or macports.
 While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
+In addition, the current supported Python versions are 3.11 to 3.12. We will update the documentation when Python3.13 is supported (e.g., the resdata Python package is not yet available
+via pip install in Python 3.13).
 
 Python package
 --------------
@@ -49,7 +51,19 @@ You also need to install:
 .. tip::
 
     See the `CI.yml <https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/CI.yml>`_ script 
-    for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu. 
+    for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu.
+
+.. note::
+
+    For not macOS users, to install the Python opm package (this is an alternative
+    to `resdata <https://github.com/equinor/resdata>`_, both are use to read OPM output files; while resdata is easier to
+    install in macOS, opm seems to be faster), execute in the terminal
+
+    **pip install opm**
+
+    This is equivalent to execute **pip install -e .[opm]** in the installation process.
+
+    For macOS users, see :ref:`macOS`. 
 
 Source build in Linux/Windows
 +++++++++++++++++++++++++++++
@@ -87,6 +101,8 @@ in the terminal the following lines (which in turn should build flow in the fold
 
     You can create a .sh file (e.g., build_opm_mpi.sh), copy the previous lines, and run in the terminal **source build_opm_mpi.sh**  
 
+.. _macOS:
+
 Source build in macOS
 +++++++++++++++++++++
 For macOS, there are no available binary packages, so OPM Flow needs to be built from source, in addition to the dune libraries 
@@ -109,13 +125,15 @@ For macOS, there are no available binary packages, so OPM Flow needs to be built
         git clone https://github.com/OPM/opm-$repo.git
     done
 
+    source vpycopm/bin/activate
+
     mkdir build
 
     for repo in common grid
     do
         mkdir build/opm-$repo
         cd build/opm-$repo
-        cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common" $CURRENT_DIRECTORY/opm-$repo
+        cmake -DPYTHON_EXECUTABLE=$(which python) -DWITH_NDEBUG=1 -DUSE_MPI=0 -DOPM_ENABLE_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common" $CURRENT_DIRECTORY/opm-$repo
         make -j5 opm$repo
         cd ../..
     done    
@@ -126,4 +144,6 @@ For macOS, there are no available binary packages, so OPM Flow needs to be built
     make -j5 flow
     cd ../..
 
-In addition, use at least a Python version of 3.10 (due to the resdata Python package).
+    echo "export PYTHONPATH=\$PYTHONPATH:$CURRENT_DIRECTORY/build/opm-common/python" >> $CURRENT_DIRECTORY/vpycopm/bin/activate
+
+This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH. Then after execution, deactivate and activate the Python virtual environment.
