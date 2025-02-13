@@ -2,28 +2,24 @@
 Examples
 ********
 
+For additional examples demonstrating the applicability of **pycopm**, see the `tests <https://github.com/cssr-tools/pycopm/tree/main/tests>`_.
+`ResInsight <https://resinsight.org>`_ and `plopm <https://github.com/cssr-tools/plopm>`_ are used for the visualization of the results.
+
 =======================
 Via configuration files
 =======================
 
-The `examples <https://github.com/cssr-tools/pycopm/blob/main/examples>`_ folder contains configuration files
-to perform HM studies in drogon and norne using `ERT <https://ert.readthedocs.io/en/latest/>`_. For example, by executing inside the `example folder for drogon <https://github.com/cssr-tools/pycopm/blob/main/examples/drogon>`_:
+The `examples <https://github.com/cssr-tools/pycopm/blob/main/examples/configurations>`_ folder contains configuration files
+to perform HM studies in drogon and norne using `ERT <https://ert.readthedocs.io/en/latest/>`_. For example, by executing inside the `example folder for drogon <https://github.com/cssr-tools/pycopm/blob/main/examples/configurations/drogon>`_:
 
 .. code-block:: bash
 
-    pycopm -i coarser.txt -o drogon_coarser
+    pycopm -i input.toml -o drogon_coarser
 
-The following are the drogon model from `opm-tests <https://github.com/OPM/opm-tests/tree/master/drogon>`_ and coarser model generated using **pycopm**:
+The following are the drogon model from `opm-tests <https://github.com/OPM/opm-tests/tree/master/drogon>`_ and coarsened model generated using **pycopm**:
 
 .. figure:: figs/drogon_coarser.png
-
-For norne:
-
-.. code-block:: bash
-
-    pycopm -i input.txt -o norne_coarser
-
-The norne GIF in the :doc:`introduction <./introduction>` was generated using the generated coarse model. 
+ 
 
 .. _generic:
 
@@ -31,15 +27,16 @@ The norne GIF in the :doc:`introduction <./introduction>` was generated using th
 Via OPM Flow decks 
 ==================
 
-The current development of **pycopm** focuses on only creating coarser models (i.e., all needed input files to run OPM Flow) by using the input deck.
+The current development of **pycopm** focuses on creating tailored models (grid refinement, grid coarsening, submodels, and transformations) by using input decks.
+While in the Hello world example these four different options are demonstrated, for the latter examples the focus is on the grid coarsening functionality. 
 
 Hello world
 -----------
-For the `HELLO_WORLD.DATA <https://github.com/cssr-tools/pycopm/blob/main/tests/decks/HELLO_WORLD.DATA>`_ deck, by executing:
+For the `HELLO_WORLD.DATA <https://github.com/cssr-tools/pycopm/blob/main/examples/decks/HELLO_WORLD.DATA>`_ deck, by executing:
 
 .. code-block:: bash
 
-    pycopm -i HELLO_WORLD.DATA -c 5,1,5 -m all
+    pycopm -i HELLO_WORLD.DATA -c 5,5,1 -m all
 
 This would generate the following:
 
@@ -51,11 +48,26 @@ To make active the coarse cell where there is only one active cell, this can be 
 
 .. code-block:: bash
 
-    pycopm -i HELLO_WORLD.DATA -c 5,1,5 -m all -a max
+    pycopm -i HELLO_WORLD.DATA -c 5,5,1 -m all -a max
 
 .. figure:: figs/hello_world_2.png
 
     Dry run from the input cloned deck (left) and (right) coarsed model. The region numbers by default are given by the mode, e.g., use the flag **-n max** to keep the maximum integer.
+
+As described in the :doc:`theory <./theory>`, **pycopm** can be not only used for grid coarsening, but also to apply grid refinements, submodels, and transformations.
+Then, with the following commands first we substract a submodel around the isolated grid cell proyecting the outside pore volume on the boundaries, after 
+we apply a grid refinement on the cells in the middle x and y location, and finally we rotate the model 45 degrees.
+
+.. code-block:: bash
+
+    pycopm -i HELLO_WORLD.DATA -v 'xypolygon [4,8.5] [4,16.5] [11.5,16.5] [11.5,8.5]' -p 1 -m all
+    pycopm -i HELLO_WORLD_PYCOPM.DATA -rx 0,0,0,2,0,0,0 -ry 0,0,0,2,0,0,0 -m all
+    pycopm -i HELLO_WORLD_PYCOPM_PYCOPM.DATA -d 'rotatexy 45' -m all
+
+.. figure:: figs/hello_world_3.png
+
+    Extracted region with the projected pore volumes (bottom left), refinement around the center cells (top right), and rotation (bottom right).
+
 
 SPE10
 -----
@@ -101,16 +113,16 @@ Drogon
 
 .. note::
     In the current implementation of the **pycopm** tool, the handling of properties that require definitions of i,j,k indices 
-    (e.g., FAULTS, WELLSPECS) are assumed to be define in the main .DATA deck. Then, in order to use **pycopm** for simulation models 
+    (e.g., FAULTS, WELLSPECS) are assumed to be defined in the main .DATA deck. Then, in order to use **pycopm** for simulation models 
     where these properties are define via include files, replace those includes in the .DATA deck with the actual content of the include files.
-    Here are some relevant keywords per deck section that need to be in the main input deck to coarse and not via include files:
+    Here are some relevant keywords per deck section that need to be in the main input deck and not via include files:
 
     SECTION GRID: MAPAXES, FAULTS, MULTREGT (other keywords like MULTZ, NTG, or definitions/operations for perms and poro can be in included files since 
     permx, permy, permz, poro, porv, multx, multy, multz are read from the .INIT file)
 
-    SECTION PROPS: EQUALS, COPY, ADD, and MULTIPLY since this involve i,j,k indices and are apply to properties such as saturation functions parameters that
-    are still given in the same input format in the coarse deck. In addition, SWATINIT if used in the deck, is read from the .INIT file and output for the 
-    coarse model in a new file, then one might need to give the right include path to this special case. 
+    SECTION PROPS: EQUALS, COPY, ADD, and MULTIPLY since this involve i,j,k indices and are applied to properties such as saturation functions parameters that
+    are still given in the same input format in the generated deck. In addition, SWATINIT if used in the deck, is read from the .INIT file and output for the 
+    modified deck in a new file, then one might need to give the right include path to this special case. 
 
     SECTION SCHEDULE: All keywords in this section must be in the input deck and no via include viles.
 
@@ -137,23 +149,23 @@ gas and oil, this results in the coarse model having the same total pore volume,
 place as the input model.
 
 .. note::
-    Add to the generated coarse deck the removed include files in the grid section related to the region operations (e.g.,
+    Add to the generated deck the removed include files in the grid section related to the region operations (e.g.,
     ../include/grid/drogon.multregt for this case).
 
-Now, we also show a 2 times coarser model in all directions (referring to the previous comment about divide and conquer, for the Drogon model
+Now, we also show a 2 times coarsened model in all directions (referring to the previous comment about divide and conquer, for the Drogon model
 it seems still ok to do a 2 times coarsening in one go):
 
 .. code-block:: bash
 
     pycopm -i DROGON_HIST.DATA -c 2,2,2 -p 1 -q 1 -j 4 -w DROGON_2TIMES_COARSER
 
-Here, we use the **-w** flag to give a specific name to the generated coarser deck, as well as using a higher value of **-j** to avoid generated connections across the faults.
+Here, we use the **-w** flag to give a specific name to the generated coarsened deck, as well as using a higher value of **-j** to avoid generated connections across the faults.
 
 .. tip::
     To use a different approach from the default ones (see the :doc:`theroy <./theory>`) to coarse one of the properties (e.g., permeabilities), this can 
     be achieve by the **-s** flag, e.g., **-s pvmean** to coarse the permeabilities using a pv-weighted mean. In addition, one could add a different label 
-    **-l pvweightedperms** to identify the generated .INC files with the permeabilities, and rename these files in order to be used in the coarser model with the rest 
-    of the properties using the default aporaches or a combination of them (e.g., **-s max -l maxpermz** and keep the maximum values of permz).
+    **-l pvweightedperms** to identify the generated .INC files with the permeabilities, and rename these files in order to be used in the coarserned model with the rest 
+    of the properties using the default aproaches or a combination of them (e.g., **-s max -l maxpermz** and keep the maximum values of permz).
 
 If we run these three models using OPM Flow, then we can compare the summary vectors. To this end, we use our good old friend `plopm <https://github.com/cssr-tools/plopm>`_:
 
@@ -163,9 +175,9 @@ If we run these three models using OPM Flow, then we can compare the summary vec
 
 .. figure:: figs/drogon_pycopm_comparison.png
 
-    Note that the coarse models have the same initial field oil in place as the input model. It seems the coarse properties (e.g., permeabilities)
+    Note that the coarsened models have the same initial field oil in place as the input model. It seems the coarsened properties (e.g., permeabilities)
     are good initial inputs to use in a history matching framework (e.g., to history match saturation function parameters), and the lower simulation 
-    time for the coarse models allow for more ensemble members and more iterations.
+    time for the coarsened models allow for more ensemble members and more iterations.
 
 We can also make a nice GIF by executing:
 
@@ -175,17 +187,17 @@ We can also make a nice GIF by executing:
 
 .. figure:: figs/sgas.gif
 
-    Top view of the Drogon and the two coarse models
+    Top view of the Drogon and the two coarsened models
 
 Norne
 -----
 By downloading the `Norne model <https://github.com/OPM/opm-tests/tree/master/norne>`_ (and replacing the needed include files as described in the previous
-example), then here we create a coarser model by removing certain pilars in order to keep the main features of the geological model:
+example), then here we create a coarsened model by removing certain pilars in order to keep the main features of the geological model:
 
 .. code-block:: bash
 
-    pycopm -i NORNE_ATW2013.DATA -x 0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0 -y 0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0 -z 0,0,2,0,0,2,2,2,2,2,02,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0 -a min -p 1 -q 1
+    pycopm -i NORNE_ATW2013.DATA -x 0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0 -y 0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0 -z 0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0 -a min -p 1 -q 1 -m all
 
-this would generate the following coarse model:
+this would generate the following coarsened model:
 
 .. figure:: figs/norne_vec.png

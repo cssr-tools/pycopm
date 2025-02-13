@@ -55,7 +55,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#ground-rules">Ground Rules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contribute-to-the-software">Contribute to the software</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reporting-issues-or-problems">Reporting issues or problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#report-issues-or-problems">Report issues or problems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#seek-support">Seek support</a></li>
 </ul>
 </li>
@@ -108,6 +108,7 @@ documentation about collaborating with pull request; also, looking at previous m
 <blockquote>
 <div><ol class="arabic simple">
 <li><p><strong>pip install -r dev-requirements.txt</strong> (this installs the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/dev-requirements.txt">dev-requirements.txt</a>)</p></li>
+<li><p><strong>pip install opm</strong> (this does not work in macOS, then follow the steps in <a class="reference external" href="https://cssr-tools.github.io/pycopm/installation.html#source-build-in-macos">source build in macOS</a>)</p></li>
 <li><p><strong>black src/ tests/</strong> (this formats the code)</p></li>
 <li><p><strong>pylint src/ tests/</strong> (this analyses the code, and might rise issues that need to be fixed before the pull request)</p></li>
 <li><p><strong>mypy –ignore-missing-imports src/ tests/</strong> (this is a static checker, and might rise issues that need to be fixed before the pull request)</p></li>
@@ -116,7 +117,7 @@ documentation about collaborating with pull request; also, looking at previous m
 </ol>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/CI.yml">CI.yml</a> script and the <a class="reference external" href="https://github.com/cssr-tools/pycopm/actions">Actions</a> for installation of pycopm, OPM Flow (binary packages), and dependencies, as well as the execution of the six previous steps in Ubuntu 24.10.</p>
+<p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/CI.yml">CI.yml</a> script and the <a class="reference external" href="https://github.com/cssr-tools/pycopm/actions">Actions</a> for installation of pycopm, OPM Flow (binary packages), and dependencies, as well as the execution of the seven previous steps in Ubuntu 24.10 using Python3.11.</p>
 </div>
 </div></blockquote>
 </li>
@@ -125,18 +126,18 @@ documentation about collaborating with pull request; also, looking at previous m
 <li><p>The maintainers will review the pull request, and if the contribution is accepted, then it will be merge to the main repo</p></li>
 </ol>
 </section>
-<section id="reporting-issues-or-problems">
-<h2>Reporting issues or problems<a class="headerlink" href="#reporting-issues-or-problems" title="Link to this heading"></a></h2>
+<section id="report-issues-or-problems">
+<h2>Report issues or problems<a class="headerlink" href="#report-issues-or-problems" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>Issues or problems can be raised by creating a <a class="reference external" href="https://github.com/cssr-tools/pycopm/issues">new issue</a> in the repository GitHub page (if you are not familiar with this approach, please visit <a class="reference external" href="https://docs.github.com/en/issues/tracking-your-work-with-issues">GitHub Docs Issues</a>).</p></li>
-<li><p>We will try to answer as soon as possible, but also any user is more than welcome to answer.</p></li>
+<li><p>Issues or problems can be raised by creating a <a class="reference external" href="https://github.com/cssr-tools/pycopm/issues">new issue</a> in the repository GitHub page (if you are not familiar with this approach, please visit <a class="reference external" href="https://docs.github.com/en/issues/tracking-your-work-with-issues">GitHub Docs Issues</a>)</p></li>
+<li><p>We will try to answer as soon as possible, but also any user is more than welcome to answer</p></li>
 </ol>
 </section>
 <section id="seek-support">
 <h2>Seek support<a class="headerlink" href="#seek-support" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>The preferred approach to seek support is to raise an Issue as described in the previous lines.</p></li>
-<li><p>We will try to answer as soon as possible, but also any user is more than welcome to answer.</p></li>
+<li><p>The preferred approach to seek support is to raise an Issue as described in the previous lines</p></li>
+<li><p>We will try to answer as soon as possible, but also any user is more than welcome to answer</p></li>
 </ol>
 <ul class="simple">
 <li><p>An alternative approach is to send an email to any of the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/pyproject.toml">mantainers</a>.</p></li>
@@ -155,7 +156,7 @@ documentation about collaborating with pull request; also, looking at previous m
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, NORCE Norwegian Research Centre AS.</p>
+    <p>&#169; Copyright 2024-2025, NORCE Norwegian Research Centre AS.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

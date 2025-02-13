@@ -553,8 +553,6 @@ def handle_grid_props(dic, nrwo):
             return True
         if handle_mapaxes(dic, nrwo):
             return True
-        if handle_pinch(dic, nrwo):
-            return True
         if handle_aqunum(dic, nrwo):
             return True
         if handle_aqucon(dic, nrwo):
@@ -564,6 +562,8 @@ def handle_grid_props(dic, nrwo):
         # if handle_oper(dic, nrwo):
         #    return True
         if dic["trans"] == 0:
+            if handle_pinch(dic, nrwo):
+                return True
             if handle_multregt(dic, nrwo):
                 return True
             if handle_multflt(dic, nrwo):
@@ -813,9 +813,10 @@ def handle_pinch(dic, nrwo):
     if dic["pinch"]:
         edit = nrwo.split()
         if edit:
-            dic["lol"].append(nrwo)
-            if edit[-1] == "/" or edit[0] == "/":
-                dic["pinch"] = False
+            if edit[0][:2] != "--":
+                dic["lol"].append(nrwo)
+                if "/" in edit[0] or "/" in edit[-1]:
+                    dic["pinch"] = False
         return True
     return False
 
