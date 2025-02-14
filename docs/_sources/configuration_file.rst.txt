@@ -34,7 +34,7 @@ The next entries define the following parameters:
     mode = "ert" # Mode to run (single-run, files, or ert)
     X = [0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0] # Array of x-coarsening 
     Y = [0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0] # Array of y-coarsening 
-    Z = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0,0,0,0,0,0,0,0,0,0] # Array of z-coarsening
+    Z = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0] # Array of z-coarsening
     net = 2 # Number of ensembles
     mep = 2 # Maximum number of ensembles running in parallel
     mrt = 600 # Maximum runtime in seconds of a realization. A value of 0 means unlimited runtime. 

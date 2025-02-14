@@ -146,7 +146,9 @@ pycopm<span class="w"> </span>-i<span class="w"> </span>HELLO_WORLD_PYCOPM_PYCOP
 <figure class="align-default" id="id7">
 <img alt="_images/hello_world_3.png" src="_images/hello_world_3.png" />
 <figcaption>
-<p><span class="caption-text">Extracted region with the projected pore volumes (bottom left), refinement around the center cells (top right), and rotation (bottom right).</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+<p><span class="caption-text">Extracted region with the projected pore volumes (bottom left), refinement around the center cells (top right), and rotation (bottom right).
+The text in the legends highlight that the pore volume is conserved (35.58) and the number of active cells is reduced from 351 to 25 in the
+submodel and after increased to 41 due to the grid refinement.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -156,6 +158,7 @@ pycopm<span class="w"> </span>-i<span class="w"> </span>HELLO_WORLD_PYCOPM_PYCOP
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>SPE10_MODEL2.DATA<span class="w"> </span>-o<span class="w"> </span>coarser<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span>,8,2
 </pre></div>
 </div>
+<p>generates a coarsened model from ca. 1 million cells to ca. 20 thousands cells.</p>
 <figure class="align-default" id="id8">
 <img alt="_images/spe10_model2_coarser.png" src="_images/spe10_model2_coarser.png" />
 <figcaption>
@@ -235,7 +238,7 @@ it seems still ok to do a 2 times coarsening in one go):</p>
 <p>Here, we use the <strong>-w</strong> flag to give a specific name to the generated coarsened deck, as well as using a higher value of <strong>-j</strong> to avoid generated connections across the faults.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>To use a different approach from the default ones (see the <a class="reference internal" href="theory.html"><span class="doc">theroy</span></a>) to coarse one of the properties (e.g., permeabilities), this can
+<p>To use a different approach from the default ones (see the <a class="reference internal" href="theory.html"><span class="doc">theory</span></a>) to coarse one of the properties (e.g., permeabilities), this can
 be achieve by the <strong>-s</strong> flag, e.g., <strong>-s pvmean</strong> to coarse the permeabilities using a pv-weighted mean. In addition, one could add a different label
 <strong>-l pvweightedperms</strong> to identify the generated .INC files with the permeabilities, and rename these files in order to be used in the coarserned model with the rest
 of the properties using the default aproaches or a combination of them (e.g., <strong>-s max -l maxpermz</strong> and keep the maximum values of permz).</p>
