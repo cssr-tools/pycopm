@@ -187,12 +187,13 @@ def create_deck(dic):
         elif dic["vicinity"]:
             map_vicinity(dic)
         else:
-            n = 0
-            zti = [0, 1, 2, 3]
-            zbi = [4, 5, 6, 7]
             if not dic["resdata"]:
+                zti = [0, 1, 2, 3]
+                zbi = [4, 5, 6, 7]
                 actnum = 1 * (dic["porv"] > 0)
                 v_c = np.array(dic["grid"].cellvolumes())
+                for name in dic["props"] + dic["regions"] + dic["grids"]:
+                    dic[name][dic["actind"]] = dic["ini"][name.upper()]
                 for k in range(dic["zn"]):
                     for j in range(dic["yn"]):
                         for i in range(dic["xn"]):
@@ -219,44 +220,12 @@ def create_deck(dic):
                             z_b[ind] = max(cxyz[2][i] for i in zti)
                             tmp = max(cxyz[2][i] for i in zbi)
                             z_b_t[ind] = tmp - z_t[ind]
-                            if actnum[ind] == 1:
-                                dic["d_ax"][ind] = dic["d_x"][ind]
-                                dic["d_ay"][ind] = dic["d_y"][ind]
-                                dic["d_az"][ind] = dic["d_z"][ind]
-                                for name in (
-                                    dic["props"] + dic["regions"] + dic["grids"]
-                                ):
-                                    dic[name][ind] = dic["ini"][name.upper()][n]
-                                if dic["show"] == "pvmean":
-                                    for name in dic["props"]:
-                                        dic[name][ind] *= dic["porv"][ind]
-                                elif not dic["show"]:
-                                    dic["permx"][ind] *= dic["d_z"][ind]
-                                    dic["permy"][ind] *= dic["d_z"][ind]
-                                    if dic["permz"][ind] != 0:
-                                        dic["permz"][ind] = (
-                                            dic["d_z"][ind] / dic["permz"][ind]
-                                        )
-                                    dic["poro"][ind] *= dic["porv"][ind]
-                                    if "swatinit" in dic["props"]:
-                                        dic["swatinit"][ind] *= dic["porv"][ind]
-                                    for name in ["disperc", "thconr"]:
-                                        if name in dic["grids"]:
-                                            dic[name][ind] *= dic["porv"][ind]
-                                    for name in dic["mults"]:
-                                        dic[name][ind] *= v_c[ind]
-                                    if len(dic["coardir"]) == 1 and dic["trans"] == 1:
-                                        drc = dic["coardir"][0]
-                                        if dic[f"tran{drc}"][ind] != 0:
-                                            dic[f"tran{drc}"][ind] = (
-                                                1.0 / dic[f"tran{drc}"][ind]
-                                            )
-                                n += 1
-
             else:
                 zti = [2, 5, 8, 11]
                 zbi = [14, 17, 20, 23]
                 cxyz = dic["grid"].export_corners(dic["grid"].export_index())
+                for name in dic["props"] + dic["regions"] + dic["grids"]:
+                    dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
                 for cell in dic["grid"].cells():
                     dic["d_x"][cell.global_index] = dic["grid"].get_cell_dims(
                         ijk=(cell.i, cell.j, cell.k)
@@ -279,55 +248,35 @@ def create_deck(dic):
                     v_c[cell.global_index] = dic["grid"].cell_volume(
                         ijk=(cell.i, cell.j, cell.k)
                     )
-                    if cell.active == 1:
-                        dic["d_ax"][cell.global_index] = dic["d_x"][cell.global_index]
-                        dic["d_ay"][cell.global_index] = dic["d_y"][cell.global_index]
-                        dic["d_az"][cell.global_index] = dic["grid"].cell_dz(
-                            ijk=(cell.i, cell.j, cell.k)
-                        )
-                        for name in dic["props"] + dic["regions"] + dic["grids"]:
-                            dic[name][cell.global_index] = dic["ini"].iget_kw(
-                                name.upper()
-                            )[0][n]
-                        if dic["show"] == "pvmean":
-                            for name in dic["props"]:
-                                dic[name][cell.global_index] *= dic["porv"][
-                                    cell.global_index
-                                ]
-                        elif not dic["show"]:
-                            dic["permx"][cell.global_index] *= dic["d_z"][
-                                cell.global_index
-                            ]
-                            dic["permy"][cell.global_index] *= dic["d_z"][
-                                cell.global_index
-                            ]
-                            if dic["permz"][cell.global_index] != 0:
-                                dic["permz"][cell.global_index] = (
-                                    dic["d_z"][cell.global_index]
-                                    / dic["permz"][cell.global_index]
-                                )
-                            dic["poro"][cell.global_index] *= dic["porv"][
-                                cell.global_index
-                            ]
-                            if "swatinit" in dic["props"]:
-                                dic["swatinit"][cell.global_index] *= dic["porv"][
-                                    cell.global_index
-                                ]
-                            for name in ["disperc", "thconr"]:
-                                if name in dic["grids"]:
-                                    dic[name][cell.global_index] *= dic["porv"][
-                                        cell.global_index
-                                    ]
-                            for name in dic["mults"]:
-                                dic[name][cell.global_index] *= v_c[cell.global_index]
-                            if len(dic["coardir"]) == 1 and dic["trans"] == 1:
-                                drc = dic["coardir"][0]
-                                if dic[f"tran{drc}"][cell.global_index] != 0:
-                                    dic[f"tran{drc}"][cell.global_index] = (
-                                        1.0 / dic[f"tran{drc}"][cell.global_index]
-                                    )
-                        n += 1
-
+            dic["d_ax"][dic["actind"]] = dic["d_x"][dic["actind"]]
+            dic["d_ay"][dic["actind"]] = dic["d_y"][dic["actind"]]
+            dic["d_az"][dic["actind"]] = dic["d_z"][dic["actind"]]
+            if dic["show"] == "pvmean":
+                for name in dic["props"]:
+                    dic[name][dic["actind"]] *= dic["porv"][dic["actind"]]
+            elif not dic["show"]:
+                dic["permx"][dic["actind"]] *= dic["d_z"][dic["actind"]]
+                dic["permy"][dic["actind"]] *= dic["d_z"][dic["actind"]]
+                dic["permz"][dic["actind"]] = [
+                    d_z / k_z if k_z > 0 else np.nan
+                    for d_z, k_z in zip(
+                        dic["d_z"][dic["actind"]], dic["permz"][dic["actind"]]
+                    )
+                ]
+                dic["poro"][dic["actind"]] *= dic["porv"][dic["actind"]]
+                if "swatinit" in dic["props"]:
+                    dic["swatinit"][dic["actind"]] *= dic["porv"][dic["actind"]]
+                for name in ["disperc", "thconr"]:
+                    if name in dic["grids"]:
+                        dic[name][dic["actind"]] *= dic["porv"][dic["actind"]]
+                for name in dic["mults"]:
+                    dic[name][dic["actind"]] *= v_c[dic["actind"]]
+                if len(dic["coardir"]) == 1 and dic["trans"] == 1:
+                    drc = dic["coardir"][0]
+                    dic[f"tran{drc}"][dic["actind"]] = [
+                        1.0 / val if val > 0 else np.nan
+                        for val in dic[f"tran{drc}"][dic["actind"]]
+                    ]
         process_the_deck(dic)
         if dic["transform"]:
             transform_grid(dic)
