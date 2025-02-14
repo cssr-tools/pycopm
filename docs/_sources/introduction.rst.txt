@@ -8,7 +8,7 @@ This documentation describes the **pycopm** tool hosted in `https://github.com/c
 
 Concept
 -------
-User-friendly creation of OPM Flow geological models from provided input decks with options for grid refinement, grid coarsening, submodels, and transformations including scaling, rotations, and transtaltions. 
+User-friendly creation of OPM Flow geological models from provided input decks with options for grid refinement, grid coarsening, submodels, and transformations including scalings, rotations, and translations. 
 
 Roadmap
 -------

@@ -7,7 +7,7 @@
 # pycopm: An open-source tool to tailor OPM Flow geological models. 
 
 ## Main feature
-Creation of OPM Flow geological models from provided input decks with options for grid refinement, grid coarsening, submodel substraction, and transformations including scaling, rotations, and transtaltions.   
+Creation of OPM Flow geological models from provided input decks with options for grid refinement, grid coarsening, submodels, and transformations including scalings, rotations, and translations.   
 
 ## Installation
 You will first need to install

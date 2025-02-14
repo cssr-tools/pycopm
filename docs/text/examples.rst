@@ -67,6 +67,8 @@ we apply a grid refinement on the cells in the middle x and y location, and fina
 .. figure:: figs/hello_world_3.png
 
     Extracted region with the projected pore volumes (bottom left), refinement around the center cells (top right), and rotation (bottom right).
+    The text in the legends highlight that the pore volume is conserved (35.58) and the number of active cells is reduced from 351 to 25 in the 
+    submodel and after increased to 41 due to the grid refinement.
 
 
 SPE10
@@ -77,6 +79,8 @@ By downloading the `SPE10_MODEL2 model <https://github.com/OPM/opm-data/tree/mas
 .. code-block:: bash
 
     pycopm -i SPE10_MODEL2.DATA -o coarser -c 4,8,2
+
+generates a coarsened model from ca. 1 million cells to ca. 20 thousands cells.
 
 .. figure:: figs/spe10_model2_coarser.png
 
@@ -162,7 +166,7 @@ it seems still ok to do a 2 times coarsening in one go):
 Here, we use the **-w** flag to give a specific name to the generated coarsened deck, as well as using a higher value of **-j** to avoid generated connections across the faults.
 
 .. tip::
-    To use a different approach from the default ones (see the :doc:`theroy <./theory>`) to coarse one of the properties (e.g., permeabilities), this can 
+    To use a different approach from the default ones (see the :doc:`theory <./theory>`) to coarse one of the properties (e.g., permeabilities), this can 
     be achieve by the **-s** flag, e.g., **-s pvmean** to coarse the permeabilities using a pv-weighted mean. In addition, one could add a different label 
     **-l pvweightedperms** to identify the generated .INC files with the permeabilities, and rename these files in order to be used in the coarserned model with the rest 
     of the properties using the default aproaches or a combination of them (e.g., **-s max -l maxpermz** and keep the maximum values of permz).

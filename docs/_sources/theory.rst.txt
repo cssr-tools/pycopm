@@ -129,8 +129,7 @@ Regarding the boundary conditions in the extracted model with respect to the por
 .. figure:: figs/submodel.png
 
     Figure 3: The shape to extract the sudmodel corresponds to "-v 'xypolygon [50,90] [60,60] [90,60] [65,40] [75,10] [50,30] [25,10] [35,40] [10,60] [40,60] [50,90]'".
-    The j indices for the cells have been accordingly shifted in the extracted model, and the right figure shows the pore volume on the boundary 
-    by distributing the outside pore volume equally among the boundary cells.
+    The j indices for the cells have been accordingly shifted in the extracted model, and the right figure shows the projected pore volume on the boundary.
 
 ===============
 Transformations
