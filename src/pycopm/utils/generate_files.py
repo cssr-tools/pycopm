@@ -592,32 +592,32 @@ def handle_nnc_trans(dic):
         ):
             if rijk1[0] + 1 == rijk2[0]:
                 ind = (
-                    rijk1[0]
-                    + rijk1[1] * dic["nx"]
+                    (dic["ic"][rijk1[0] + 1] - 1)
+                    + (dic["jc"][rijk1[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
                     dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
             elif rijk1[1] + 1 == rijk2[1]:
                 ind = (
-                    rijk1[0]
-                    + rijk1[1] * dic["nx"]
+                    (dic["ic"][rijk1[0] + 1] - 1)
+                    + (dic["jc"][rijk1[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
                     dic["coa_trany"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
             elif rijk1[0] == rijk2[0] + 1:
                 ind = (
-                    rijk2[0]
-                    + rijk2[1] * dic["nx"]
+                    (dic["ic"][rijk2[0] + 1] - 1)
+                    + (dic["jc"][rijk2[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
                     dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
             elif rijk1[1] == rijk2[1] + 1:
                 ind = (
-                    rijk2[0]
-                    + rijk2[1] * dic["nx"]
+                    (dic["ic"][rijk2[0] + 1] - 1)
+                    + (dic["jc"][rijk2[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:

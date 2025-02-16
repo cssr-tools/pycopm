@@ -353,6 +353,7 @@ def add_pv_bc(dic):
                 )
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
+                dic["opernum_c"][ins] = "2"
                 nums += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvy)
@@ -370,6 +371,7 @@ def add_pv_bc(dic):
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
+                        dic["opernum_c"][ins] = "2"
                         ijs[i] = j + 1
                         nums += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -396,6 +398,7 @@ def add_pv_bc(dic):
                     inb = ind - dic["xn"]
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
+                dic["opernum_c"][ins] = "2"
                 numn += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvy)
@@ -416,6 +419,7 @@ def add_pv_bc(dic):
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
+                        dic["opernum_c"][ins] = "2"
                         ijn[i] = j + 1
                         numn += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -439,6 +443,7 @@ def add_pv_bc(dic):
                 )
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
+                dic["opernum_c"][ins] = "2"
                 nume += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
@@ -456,6 +461,7 @@ def add_pv_bc(dic):
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
+                        dic["opernum_c"][ins] = "2"
                         ije[j] = i + 1
                         nume += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -482,6 +488,7 @@ def add_pv_bc(dic):
                     inb = ind - 1
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
+                dic["opernum_c"][ins] = "2"
                 numw += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
@@ -504,6 +511,7 @@ def add_pv_bc(dic):
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
+                        dic["opernum_c"][ins] = "2"
                         ijw[j] = i + 1
                         numw += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -516,11 +524,21 @@ def add_pv_bc(dic):
                         break
             else:
                 pvw += pvx
-        if dic["pvcorr"] == 4:
+        nbc = 0
+        for i in range(k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]):
+            if dic["opernum_c"][i] == "2":
+                nbc += 1
+        if dic["pvcorr"] == 3:
+            if nbc > 0:
+                totpv = dic["porvk"][k] / nbc
+                for i in range(
+                    k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]
+                ):
+                    if dic["opernum_c"][i] == "2":
+                        dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
+        elif dic["pvcorr"] == 4:
             if dic["freqsub"][k] > 0:
-                totpv = (
-                    pvs + pvn + pve + pvw + porv00 + porvi0 + porv0j + porvij
-                ) / dic["freqsub"][k]
+                totpv = dic["porvk"][k] / dic["freqsub"][k]
                 for i in range(
                     k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]
                 ):
@@ -533,7 +551,7 @@ def add_pv_bc(dic):
                 if int(dic["actnum_c"][ins]) > 0:
                     if nums > 0:
                         pva += pvs / nums
-                        if dic["pvcorr"] in [1, 3]:
+                        if dic["pvcorr"] == 1:
                             pva += porv00 / (nums + nume)
                             pva += porvi0 / (nums + numw)
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pva)
@@ -547,7 +565,7 @@ def add_pv_bc(dic):
                 if int(dic["actnum_c"][ins]) > 0:
                     if numn > 0:
                         pva += pvn / numn
-                        if dic["pvcorr"] in [1, 3]:
+                        if dic["pvcorr"] == 1:
                             pva += porv0j / (numn + nume)
                             pva += porvij / (numn + numw)
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pva)
@@ -557,7 +575,7 @@ def add_pv_bc(dic):
                 if int(dic["actnum_c"][ins]) > 0:
                     if nume > 0:
                         pva += pve / nume
-                        if dic["pvcorr"] in [1, 3]:
+                        if dic["pvcorr"] == 1:
                             pva += porv00 / (nume + nums)
                             pva += porv0j / (nume + numn)
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pva)
@@ -573,7 +591,7 @@ def add_pv_bc(dic):
                 if int(dic["actnum_c"][ins]) > 0:
                     if numw > 0:
                         pva += pvw / numw
-                        if dic["pvcorr"] in [1, 3]:
+                        if dic["pvcorr"] == 1:
                             pva += porvi0 / (numw + nums)
                             pva += porvij / (numw + numn)
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pva)
@@ -586,6 +604,17 @@ def add_pv_bc(dic):
                     float(dic["porv_c"][(dic["ny"] - 1) * dic["nx"]]) + porv0j
                 )
                 dic["porv_c"][-1] = str(float(dic["porv_c"][-1]) + porvij)
+            kpv = 0.0
+            for i in range(k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]):
+                kpv += float(dic["porv_c"][i])
+            if kpv < dic["porvk"][k] + dic["porvij"][k]:
+                if nbc > 0:
+                    totpv = (dic["porvk"][k] + dic["porvij"][k] - kpv) / nbc
+                    for i in range(
+                        k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]
+                    ):
+                        if dic["opernum_c"][i] == "2":
+                            dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
 
 
 def handle_pv(dic, clusmin, clusmax, rmv):
@@ -874,6 +903,8 @@ def handle_vicinity(dic):
     dic["maxki"] = [1] * dic["zn"]
     dic["minkj"] = [dic["yn"]] * dic["zn"]
     dic["maxkj"] = [1] * dic["zn"]
+    dic["porvk"] = np.zeros(dic["zn"])
+    dic["porvij"] = np.zeros(dic["zn"])
     for k in range(dic["zn"]):
         for j in range(dic["yn"]):
             for i in range(dic["xn"]):
@@ -889,6 +920,9 @@ def handle_vicinity(dic):
                     dic["minkj"][k] = min(dic["minkj"][k], j + 1)
                     dic["maxki"][k] = max(dic["maxki"][k], i + 1)
                     dic["maxkj"][k] = max(dic["maxkj"][k], j + 1)
+                    dic["porvij"][k] += dic["porv"][ind]
+                else:
+                    dic["porvk"][k] += dic["porv"][ind]
 
 
 def map_vicinity(dic):
@@ -935,7 +969,10 @@ def map_vicinity(dic):
                         else:
                             dic[f"{name}_c"][n] = "0"
                         n += 1
+    if "opernum" not in dic["regions"]:
+        dic["regions"] += ["opernum"]
     dic["actnum_c"] = ["1" if float(val) > 0 else "0" for val in dic["porv_c"]]
+    dic["opernum_c"] = ["1"] * len(dic["porv_c"])
 
 
 def map_ijk(dic):
