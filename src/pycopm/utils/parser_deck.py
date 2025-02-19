@@ -1251,11 +1251,14 @@ def handle_segmented_wells(dic, nrwo):
                     ):
                         return True
                 if dic["remove"] > 0 and len(edit) > 7:
-                    edit[7] = "1*"
+                    if edit[7] != "/":
+                        edit[7] = "1*"
                 if dic["remove"] > 0 and len(edit) > 9:
-                    edit[9] = "1*"
+                    if not edit[9] in ["1*", "2*", "3*", "/"]:
+                        edit[9] = "1*"
                 if dic["remove"] > 1 and len(edit) > 12:
-                    edit[-2] = ""
+                    if edit[-2] != "/":
+                        edit[-2] = ""
                 edit[1] = str(dic["ic"][int(edit[1])])
                 edit[2] = str(dic["jc"][int(edit[2])])
                 if dic["refinement"]:
