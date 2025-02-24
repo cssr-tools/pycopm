@@ -23,6 +23,7 @@ def pycopm():
     """Main function for the pycopm executable"""
     start_time = time.monotonic()
     cmdargs = load_parser()
+    check_cmdargs(cmdargs)
     file = cmdargs["input"].strip()  # Name of the input file
     dic = {"fol": os.path.abspath(cmdargs["output"])}  # Name for the output folder
     dic["pat"] = os.path.dirname(__file__)[:-5]  # Path to the pycopm folder
