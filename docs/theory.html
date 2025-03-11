@@ -196,6 +196,14 @@ are shifted to their corresponding values. If the wells/faults are not inside th
 The j indices for the cells have been accordingly shifted in the extracted model, and the right figure shows the projected pore volume on the boundary.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+<p>In addition, it is possible to extract submodels around wells, with three different options for the neighbourhood: box, diamond, and diamondxy. The box option allows to define
+the intervals to extract the cells, while the diamond and diamondxy results in fewer cells since the cells in the corners are trimmed.</p>
+<figure class="align-default" id="id5">
+<img alt="_images/submodelwell.png" src="_images/submodelwell.png" />
+<figcaption>
+<p><span class="caption-text">Figure 4: The submodel in <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/norne">norne</a> by executing “-v ‘E-3H diamondxy 0’ -p 1”, “-v ‘E-3H diamond 1’ -p 1”, and “-v ‘E-3H box [-1,2] [-2,3] [-1,1]’ -p 1” respectively.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 <section id="transformations">
 <h2>Transformations<a class="headerlink" href="#transformations" title="Link to this heading"></a></h2>
@@ -204,10 +212,10 @@ uncertainties in the characterization of geological formations (reservoirs are t
 additional information from field measurements (e.g., seismic data, addiitonal wells, well’s pressures, production rates) can indicate a different model characterization. This is when having
 tools like <strong>pycopm</strong> can be handy, i.e., to apply translations of the grid (e.g., a different depth which impacts the pressure), scaling (e.g., to ease comparison between models made by different
 groups which missmatch in the thickness of layers), and rotations (e.g., to align grids betweens two different models).</p>
-<figure class="align-default" id="id5">
+<figure class="align-default" id="id6">
 <img alt="_images/transformation.png" src="_images/transformation.png" />
 <figcaption>
-<p><span class="caption-text">Figure 4: Extracted shape in Figure 3 after a rotation “-d ‘rotatexy 45’” (left) and scaling “-d ‘scale [1,0.25,1]’” (right).</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+<p><span class="caption-text">Figure 5: Extracted shape in Figure 3 after a rotation “-d ‘rotatexy 45’” (left) and scaling “-d ‘scale [1,0.25,1]’” (right).</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>

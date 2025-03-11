@@ -125,7 +125,7 @@ test different approaches in diverse applications (e.g., proxy models, non-confo
 <dd><p>Execute a dry run of the input deck to generate the static properties (‘prep’), generate only the modified files (‘deck’), only exectute a dry run on the generated model (‘dry’), ‘prep_deck’, ‘deck_dry’, or do all (‘all’) (‘prep_deck’ by default).</p>
 </dd>
 <dt><kbd><span class="option">-v</span></kbd></dt>
-<dd><p>The location to extract the sub model which can be assigned by a region assignation, e.g., ‘fipnum 2,4’ extracts the cells with fipnums equal to 2 or 4, or can be assigned by a polygon given the xy locations in meters, e.g., ‘xypolygon [0,0] [30,0] [30,30] [0,0]’ (’’ by default).</p>
+<dd><p>The location to extract the sub model which can be assigned by region values, e.g., ‘fipnum 2,4’ extracts the cells with fipnums equal to 2 or 4, by a polygon given the xy locations in meters, e.g., ‘xypolygon [0,0] [30,0] [30,30] [0,0]’, or by the name of the well and three different options for the neighbourhood: box, diamond, and diamondxy, where for box the i, j, and k interval around the connections are given, e.g., ‘welln box [-1,1] [-2,2] [0,3]’ results in a vicinity with 1 pm cell in the x direction, 2 pm cells in the y direction and only 3 cells in the k positive direction, while the diamond considers only the given number of cells around the well connections (e.g., ‘welln diamond 2’) and diamondxy it is restricted to the xy plane (’’ by default).</p>
 </dd>
 <dt><kbd><span class="option">-c</span></kbd></dt>
 <dd><p>Level of coarsening in the x, y, and z dir (‘2,2,2’ by default; either use this flag or the -x, -y, and -z ones).</p>

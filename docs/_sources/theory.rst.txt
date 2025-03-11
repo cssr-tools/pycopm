@@ -131,6 +131,13 @@ Regarding the boundary conditions in the extracted model with respect to the por
     Figure 3: The shape to extract the sudmodel corresponds to "-v 'xypolygon [50,90] [60,60] [90,60] [65,40] [75,10] [50,30] [25,10] [35,40] [10,60] [40,60] [50,90]'".
     The j indices for the cells have been accordingly shifted in the extracted model, and the right figure shows the projected pore volume on the boundary.
 
+In addition, it is possible to extract submodels around wells, with three different options for the neighbourhood: box, diamond, and diamondxy. The box option allows to define 
+the intervals to extract the cells, while the diamond and diamondxy results in fewer cells since the cells in the corners are trimmed.
+
+.. figure:: figs/submodelwell.png
+
+    Figure 4: The submodel in `norne <https://github.com/OPM/opm-tests/tree/master/norne>`_ by executing "-v 'E-3H diamondxy 0' -p 1", "-v 'E-3H diamond 1' -p 1", and "-v 'E-3H box [-1,2] [-2,3] [-1,1]' -p 1" respectively.
+
 ===============
 Transformations
 ===============
@@ -143,4 +150,4 @@ groups which missmatch in the thickness of layers), and rotations (e.g., to alig
 
 .. figure:: figs/transformation.png
 
-    Figure 4: Extracted shape in Figure 3 after a rotation "-d 'rotatexy 45'" (left) and scaling "-d 'scale [1,0.25,1]'" (right).
+    Figure 5: Extracted shape in Figure 3 after a rotation "-d 'rotatexy 45'" (left) and scaling "-d 'scale [1,0.25,1]'" (right).
