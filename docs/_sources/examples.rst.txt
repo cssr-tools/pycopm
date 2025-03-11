@@ -28,7 +28,8 @@ Via OPM Flow decks
 ==================
 
 The current development of **pycopm** focuses on creating tailored models (grid refinement, grid coarsening, submodels, and transformations) by using input decks.
-While in the Hello world example these four different options are demonstrated, for the latter examples the focus is on the grid coarsening functionality. 
+While in the Hello world example these four different options are demonstrated, for the latter examples the focus is on the grid coarsening functionality, and the
+SPE10 also shows the submodel functionality. 
 
 Hello world
 -----------
@@ -70,22 +71,6 @@ we apply a grid refinement on the cells in the middle x and y location, and fina
     The text in the legends highlight that the pore volume is conserved (35.58) and the number of active cells is reduced from 351 to 25 in the 
     submodel and after increased to 41 due to the grid refinement.
 
-
-SPE10
------
-
-By downloading the `SPE10_MODEL2 model <https://github.com/OPM/opm-data/tree/master/spe10model2>`_, then:
-
-.. code-block:: bash
-
-    pycopm -i SPE10_MODEL2.DATA -o coarser -c 4,8,2
-
-generates a coarsened model from ca. 1 million cells to ca. 20 thousands cells.
-
-.. figure:: figs/spe10_model2_coarser.png
-
-    Porosity values for the (left) original and (right) coarsed SPE10 model.
-
 Smeaheia
 --------
 
@@ -94,7 +79,7 @@ then:
 
 .. code-block:: bash
 
-    pycopm -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o . -c 5,4,3 -a min -m all
+    pycopm -c 5,4,3 -a min -m all -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o .
 
 will generate a coarser model 5 times in the x direction, 4 in the y direction, and 3 in the z direction, where the coarse cell is
 made inactive if at least one cell is inactive (**-a min**).
@@ -103,7 +88,7 @@ We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG
 
 .. code-block:: bash
 
-    plopm -i ' STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PREP_PYCOPM_DRYRUN STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM' -s ,,0 -v poro -subfigs 1,2 -save smeaheia -t 'Smeaheia  Coarsed smeaheia' -xunits km -xformat .0f -yunits km -yformat .0f -d 5,5.2 -suptitle 0 -c cet_rainbow_bgyrm_35_85_c69 -cbsfax 0.30,0.01,0.4,0.02 -cformat .2f
+    plopm -i 'STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PREP_PYCOPM_DRYRUN STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM' -s ,,0 -v poro -subfigs 1,2 -save smeaheia -t 'Smeaheia  Coarsed smeaheia' -xunits km -xformat .0f -yunits km -yformat .0f -d 5,5.2 -suptitle 0 -c cet_rainbow_bgyrm_35_85_c69 -cbsfax 0.30,0.01,0.4,0.02 -cformat .2f
 
 .. figure:: figs/smeia.png
 
@@ -200,8 +185,33 @@ example), then here we create a coarsened model by removing certain pilars in or
 
 .. code-block:: bash
 
-    pycopm -i NORNE_ATW2013.DATA -x 0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0 -y 0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0 -z 0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0 -a min -p 1 -q 1 -m all
+    pycopm -i NORNE_ATW2013.DATA -s pvmean -x 0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0 -y 0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0 -z 0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0 -a min -p 1 -q 1 -m all
 
 this would generate the following coarsened model:
 
 .. figure:: figs/norne_vec.png
+
+SPE10
+-----
+
+By downloading the `SPE10_MODEL2 model <https://github.com/OPM/opm-data/tree/master/spe10model2>`_, then:
+
+.. code-block:: bash
+
+    pycopm -i SPE10_MODEL2.DATA -s pvmean -c 4,8,2
+
+generates a coarsened model from ca. 1 million cells to ca. 20 thousands cells.
+
+.. figure:: figs/spe10_model2_coarser.png
+
+    Porosity values for the (left) original and (right) coarsed SPE10 model.
+
+To generate a submodel from the coarsened model around the injector 'INJ', this can be achieved by executing:
+
+.. code-block:: bash
+
+    pycopm -i SPE10_MODEL2_PYCOPM.DATA -p 1 -v 'INJ diamondxy 5' -m all -w vicinity -l sub 
+
+.. figure:: figs/vicinity.png
+
+    Pore volume values for the (left) coarsened and (right) vicinity around the well INJ in the SPE10 model.

@@ -136,6 +136,40 @@ def handle_schedulekw(dic, nrwo):
     return False
 
 
+def get_wells_for_vicinity(dic):
+    """
+    Get the names and i,j,k indices for the wells
+
+    Args:
+        dic (dict): Global dictionary
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    compdat = False
+    with open(dic["deck"] + ".DATA", "r", encoding=dic["encoding"]) as file:
+        for row in csv.reader(file):
+            nrwo = str(row)[2:-2].strip()
+            if nrwo == "COMPDAT":
+                compdat = True
+                continue
+            if compdat:
+                edit = nrwo.split()
+                if edit:
+                    if edit[0] == "/":
+                        dic["edit0"] = ""
+                        compdat = False
+                    if edit[0] not in [dic["optvic"], f"'{dic['optvic']}'"]:
+                        continue
+                    if len(edit) > 2:
+                        if edit[0][:2] != "--":
+                            for i in range(int(edit[3]), int(edit[4]) + 1):
+                                dic["wvicinity"].append(
+                                    [int(edit[1]) - 1, int(edit[2]) - 1, i - 1]
+                                )
+
+
 def names_wells(dic):
     """
     Get the names of the wells in the submodel
@@ -202,10 +236,21 @@ def names_wells(dic):
         "compord",
         "wtracer",
         "wconinjh",
+        "wconinje",
+        "wconprod",
+        "wtest",
+        "welopen",
         "wsegvalv",
     ]
     for name in dic["kw"]:
         dic[name] = False
+    if dic["wvicinity"]:
+        for n in ["s", "n", "a"]:
+            dic[f"{n}wells"] = [
+                val
+                for val in dic[f"{n}wells"]
+                if val in [dic["optvic"], f"'{dic['optvic']}'"]
+            ]
 
 
 def names_segwells(dic):
@@ -1364,6 +1409,16 @@ def handle_segmented_wells(dic, nrwo):
                     del dic["lol"][-1]
                     del dic["lol"][-1]
                     return True
+            if (
+                len(edit) > 1
+                and edit[0][:2] != "--"
+                and dic["lol"][-1].split()[0] == "COMPSEGS"
+                and dic["vicinity"]
+            ):
+                if edit[0] not in dic["nwells"] or edit[0] not in dic["swells"]:
+                    del dic["lol"][-1]
+                    del dic["lol"][-1]
+                    return True
         if len(edit) > 2:
             if edit[0][:2] != "--":
                 if dic["vicinity"]:
@@ -1418,10 +1473,32 @@ def handle_wells(dic, nrwo):
         if len(edit) > 2:
             if edit[0][:2] != "--":
                 if dic["vicinity"]:
-                    if (
-                        edit[0] not in dic["nwells"]
-                        or dic["ic"][int(edit[2])] * dic["jc"][int(edit[3])] == 0
-                    ):
+                    if edit[0] not in dic["nwells"]:
+                        return True
+                    if dic["hvicinity"]:
+                        if dic["ic"][int(edit[2])] == 0:
+                            for i in range(dic["nx"]):
+                                if dic["ic"][int(edit[2]) - i] > 0:
+                                    edit[2] = str(dic["ic"][int(edit[2]) - i])
+                                    break
+                                if dic["ic"][int(edit[2]) + i] > 0:
+                                    edit[2] = str(dic["ic"][int(edit[2]) + i])
+                                    break
+                        else:
+                            edit[2] = str(dic["ic"][int(edit[2])])
+                        if dic["jc"][int(edit[3])] == 0:
+                            for i in range(dic["ny"]):
+                                if dic["jc"][int(edit[3]) - i] > 0:
+                                    edit[3] = str(dic["jc"][int(edit[3]) - i])
+                                    break
+                                if dic["ic"][int(edit[3]) + i] > 0:
+                                    edit[3] = str(dic["jc"][int(edit[3]) + i])
+                                    break
+                        else:
+                            edit[3] = str(dic["jc"][int(edit[3])])
+                        dic["lol"].append(" ".join(edit))
+                        return True
+                    if dic["ic"][int(edit[2])] * dic["jc"][int(edit[3])] == 0:
                         return True
                 edit[2] = str(dic["ic"][int(edit[2])])
                 edit[3] = str(dic["jc"][int(edit[3])])

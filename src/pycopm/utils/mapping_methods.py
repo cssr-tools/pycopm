@@ -10,6 +10,7 @@ import sys
 import numpy as np
 import pandas as pd
 from shapely import Polygon, prepare, contains_xy
+from pycopm.utils.parser_deck import get_wells_for_vicinity
 
 
 def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
@@ -286,6 +287,7 @@ def add_pv_bc(dic):
         dic (dict): Modified global dictionary
 
     """
+    nbct = 0
     for k in range(dic["nz"]):
         k_r = k + dic["mink"] - 1
         j_0 = dic["minkj"][k_r] - dic["minj"]
@@ -529,6 +531,9 @@ def add_pv_bc(dic):
             if dic["opernum_c"][i] == "2":
                 nbc += 1
         if dic["pvcorr"] == 3:
+            if dic["hvicinity"] == "diamond":
+                nbct += nbc
+                continue
             if nbc > 0:
                 totpv = dic["porvk"][k] / nbc
                 for i in range(
@@ -537,6 +542,9 @@ def add_pv_bc(dic):
                     if dic["opernum_c"][i] == "2":
                         dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
         elif dic["pvcorr"] == 4:
+            if dic["hvicinity"] == "diamond":
+                nbct += nbc
+                continue
             if dic["freqsub"][k] > 0:
                 totpv = dic["porvk"][k] / dic["freqsub"][k]
                 for i in range(
@@ -615,6 +623,86 @@ def add_pv_bc(dic):
                     ):
                         if dic["opernum_c"][i] == "2":
                             dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
+        nbct += nbc
+    if dic["hvicinity"] != "diamond" and dic["pvcorr"] not in [3, 4]:
+        pvt = sum(dic["porv"][: (dic["mink"] - 2) * dic["xn"] * dic["yn"]])
+        inds = []
+        for j in range(0, dic["maxj"] - dic["minj"] + 1):
+            for i in range(0, dic["maxi"] - dic["mini"] + 1):
+                if dic["mink"] > 1:
+                    for k in range(0, dic["maxk"] - dic["mink"] + 1):
+                        ind = (
+                            i
+                            + j * (dic["maxi"] - dic["mini"] + 1)
+                            + k
+                            * (dic["maxi"] - dic["mini"] + 1)
+                            * (dic["maxj"] - dic["minj"] + 1)
+                        )
+                        if float(dic["porv_c"][ind]) > 0:
+                            inds.append(ind)
+                            break
+        if len(inds) > 0:
+            pvt /= len(inds)
+            for ind in inds:
+                dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
+        pvt = sum(dic["porv"][dic["maxk"] * dic["xn"] * dic["yn"] :])
+        inds = []
+        for j in range(0, dic["maxj"] - dic["minj"] + 1):
+            for i in range(0, dic["maxi"] - dic["mini"] + 1):
+                if dic["maxk"] < dic["nz"]:
+                    for k in range(dic["nz"], 0, -1):
+                        ind = (
+                            i
+                            + j * (dic["maxi"] - dic["mini"] + 1)
+                            + (dic["nz"] - k - 1)
+                            * (dic["maxi"] - dic["mini"] + 1)
+                            * (dic["maxj"] - dic["minj"] + 1)
+                        )
+                        if float(dic["porv_c"][ind]) > 0:
+                            inds.append(ind)
+                            break
+        if len(inds) > 0:
+            pvt /= len(inds)
+            for ind in inds:
+                dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
+    if dic["zn"] != dic["nz"]:
+        for j in range(0, dic["maxj"] - dic["minj"] + 1):
+            for i in range(0, dic["maxi"] - dic["mini"] + 1):
+                for k in range(0, dic["maxk"] - dic["mink"] + 1):
+                    ind = (
+                        i
+                        + j * (dic["maxi"] - dic["mini"] + 1)
+                        + k
+                        * (dic["maxi"] - dic["mini"] + 1)
+                        * (dic["maxj"] - dic["minj"] + 1)
+                    )
+                    if float(dic["porv_c"][ind]) > 0:
+                        dic["opernum_c"][ind] = "2"
+                        break
+                for k in range(dic["nz"], 0, -1):
+                    ind = (
+                        i
+                        + j * (dic["maxi"] - dic["mini"] + 1)
+                        + (dic["nz"] - k - 1)
+                        * (dic["maxi"] - dic["mini"] + 1)
+                        * (dic["maxj"] - dic["minj"] + 1)
+                    )
+                    if float(dic["porv_c"][ind]) > 0:
+                        dic["opernum_c"][ind] = "2"
+                        break
+    porv = sum(float(val) for val in dic["porv_c"])
+    if dic["pvcorr"] in [1, 2, 3]:
+        freq = sum(1 for val in dic["opernum_c"] if val == "2")
+        corr = (sum(dic["porvk"]) + sum(dic["porvij"]) - porv) / freq
+        for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
+            if dic["opernum_c"][i] == "2":
+                dic["porv_c"][i] = str(float(dic["porv_c"][i]) + corr)
+    else:
+        freq = sum(dic["freqsub"])
+        if freq > 0:
+            corr = (sum(dic["porvk"]) + sum(dic["porvij"]) - porv) / freq
+            for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
+                dic["porv_c"][i] = str(float(dic["porv_c"][i]) + corr)
 
 
 def handle_pv(dic, clusmin, clusmax, rmv):
@@ -832,8 +920,10 @@ def handle_vicinity(dic):
 
     """
     vicinity = dic["vicinity"].split(" ")
-    quan = vicinity[0].upper()
-    if quan == "XYPOLYGON":
+    dic["optvic"] = vicinity[0]
+    dic["wvicinity"] = []
+    dic["hvicinity"] = []
+    if dic["optvic"].upper() == "XYPOLYGON":
         if dic["resdata"]:
             coords = dic["grid"].export_position(dic["grid"].export_index())
         else:
@@ -880,15 +970,87 @@ def handle_vicinity(dic):
         area = Polygon(poly)
         prepare(area)
         dic["subm"] = contains_xy(area, nrmp[:, 0], nrmp[:, 1])
+    elif len(vicinity) > 2:
+        get_wells_for_vicinity(dic)
+        dic["subm"] = np.zeros(dic["xn"] * dic["yn"] * dic["zn"], dtype=bool)
+        dic["hvicinity"] = vicinity[1].lower()
+        if dic["hvicinity"] == "diamond":
+            inter = int(vicinity[2])
+            for well in dic["wvicinity"]:
+                for k in range(-inter, inter + 1):
+                    if well[2] + k > dic["zn"] - 1 or well[2] + k < 0:
+                        continue
+                    for j in range(-inter, inter + 1):
+                        if well[1] + j > dic["yn"] - 1 or well[1] + j < 0:
+                            continue
+                        for i in range(-inter, inter + 1):
+                            if (
+                                well[0] + i > dic["xn"] - 1
+                                or well[0] + i < 0
+                                or abs(j - i - k) > inter
+                                or abs(i + j - k) > inter
+                                or abs(j - i + k) > inter
+                                or abs(i + j + k) > inter
+                            ):
+                                continue
+                            ind = (
+                                (well[0] + i)
+                                + (well[1] + j) * dic["xn"]
+                                + (well[2] + k) * dic["xn"] * dic["yn"]
+                            )
+                            dic["subm"][ind] = True
+        elif dic["hvicinity"] == "diamondxy":
+            inter = int(vicinity[2])
+            for well in dic["wvicinity"]:
+                for j in range(-inter, inter + 1):
+                    if well[1] + j > dic["yn"] - 1 or well[1] + j < 0:
+                        continue
+                    for i in range(-inter, inter + 1):
+                        if (
+                            well[0] + i > dic["xn"] - 1
+                            or well[0] + i < 0
+                            or abs(j - i) > inter
+                            or abs(i + j) > inter
+                        ):
+                            continue
+                        ind = (
+                            (well[0] + i)
+                            + (well[1] + j) * dic["xn"]
+                            + well[2] * dic["xn"] * dic["yn"]
+                        )
+                        dic["subm"][ind] = True
+        else:
+            inter = np.array(
+                [
+                    [int(x.split(",")[0][1:]), int(x.split(",")[1][:-1])]
+                    for x in vicinity[2:]
+                ]
+            )
+            for well in dic["wvicinity"]:
+                for k in range(inter[2][0], inter[2][1] + 1):
+                    if well[2] + k > dic["zn"] - 1 or well[2] + k < 0:
+                        continue
+                    for j in range(inter[1][0], inter[1][1] + 1):
+                        if well[1] + j > dic["yn"] - 1 or well[1] + j < 0:
+                            continue
+                        for i in range(inter[0][0], inter[0][1] + 1):
+                            if well[0] + i > dic["xn"] - 1 or well[0] + i < 0:
+                                continue
+                            ind = (
+                                (well[0] + i)
+                                + (well[1] + j) * dic["xn"]
+                                + (well[2] + k) * dic["xn"] * dic["yn"]
+                            )
+                            dic["subm"][ind] = True
     else:
-        if dic["ini"].has_kw(quan):
+        if dic["ini"].has_kw(dic["optvic"].upper()):
             dic["subm"] = np.ones(dic["xn"] * dic["yn"] * dic["zn"])
-            dic["subm"][dic["actind"]] = dic["ini"].iget_kw(quan)[0]
+            dic["subm"][dic["actind"]] = dic["ini"].iget_kw(dic["optvic"].upper())[0]
             quans = [int(val) for val in vicinity[1].split(",")]
             dic["subm"] = [val in quans for val in dic["subm"]]
         else:
             print(
-                f"\nThe simulation model does not have the keyword {quan}, "
+                f"\nThe simulation model does not have the keyword {dic['optvic']}, "
                 "add the keyword to the deck or use 'xypolygon'."
             )
             sys.exit()

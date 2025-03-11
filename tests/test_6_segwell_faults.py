@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2025 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0801
+# pylint: disable=R0801,R0914
 
 """
 Test on a complex model with a segmented well and faults.
@@ -133,3 +133,37 @@ def test_complex():
         rrst = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
         rgf = np.array(rrst.iget_kw("FIPGAS")[0])
         assert abs(sum(bgf) - sum(rgf)) < 50  # ca. 2.56191e10 fipgas in the ref
+        for i, val in enumerate(
+            ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
+        ):
+            sub = f"{i}{use.upper()}"
+            subprocess.run(
+                [
+                    "pycopm",
+                    "-o",
+                    f"{testpth}/output/complex",
+                    "-i",
+                    f"{mainpth}/examples/decks/MODEL3.DATA",
+                    "-v",
+                    f"A4 {val}",
+                    "-w",
+                    f"SUBMODEL{sub}",
+                    "-l",
+                    f"S{sub}",
+                    "-p",
+                    f"{[1,3,3,4][i]}",
+                    "-m",
+                    "deck_dry",
+                    "-u",
+                    use,
+                ],
+                check=True,
+            )
+            assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{sub}.INIT")
+            assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{sub}.EGRID")
+            bini = ResdataFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
+            cini = ResdataFile(f"{testpth}/output/complex/SUBMODEL{sub}.INIT")
+            bpv = np.array(bini.iget_kw("PORV")[0])
+            cpv = np.array(cini.iget_kw("PORV")[0])
+            assert abs(sum(bpv) - sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
+            assert sum(cpv > 0) == [20, 77, 151, 260][i]
