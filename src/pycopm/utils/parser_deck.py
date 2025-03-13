@@ -126,10 +126,11 @@ def handle_schedulekw(dic, nrwo):
                     dic[name] = False
             if len(edit) > 1:
                 if edit[0][:2] != "--":
+                    well = edit[0].replace("'", "")
                     if name == "wsegvalv":
-                        if edit[0] in dic["swells"]:
+                        if well in dic["swells"]:
                             return True
-                    if edit[0] not in dic["nwells"]:
+                    if well not in dic["nwells"]:
                         return True
                 else:
                     return True
@@ -160,7 +161,8 @@ def get_wells_for_vicinity(dic):
                     if edit[0] == "/":
                         dic["edit0"] = ""
                         compdat = False
-                    if edit[0] not in [dic["optvic"], f"'{dic['optvic']}'"]:
+                    well = edit[0].replace("'", "")
+                    if well != dic["optvic"]:
                         continue
                     if len(edit) > 2:
                         if edit[0][:2] != "--":
@@ -194,12 +196,13 @@ def names_wells(dic):
                     if edit[0] == "/":
                         dic["edit0"] = ""
                         dic["compdat"] = False
-                    if edit[0] in dic["nwells"]:
+                    well = edit[0].replace("'", "")
+                    if well in dic["nwells"]:
                         continue
                 if len(edit) > 2:
                     if edit[0][:2] != "--":
-                        if edit[0] not in dic["awells"]:
-                            dic["awells"].append(edit[0])
+                        if well not in dic["awells"]:
+                            dic["awells"].append(well)
                         if (
                             dic["ic"][int(edit[1])]
                             * dic["jc"][int(edit[2])]
@@ -207,7 +210,7 @@ def names_wells(dic):
                             * dic["kc"][int(edit[4])]
                             > 0
                         ):
-                            dic["nwells"].append(edit[0])
+                            dic["nwells"].append(well)
             if nrwo == "COMPSEGS":
                 dic["compsegs"] = True
                 continue
@@ -218,8 +221,9 @@ def names_wells(dic):
                         dic["compsegs"] = False
                 if len(edit) > 1:
                     if edit[0][:2] != "--":
-                        if edit[0] in dic["awells"]:
-                            swell = edit[0]
+                        well = edit[0].replace("'", "")
+                        if well in dic["awells"]:
+                            swell = well
                         elif (
                             dic["ic"][int(edit[0])]
                             * dic["jc"][int(edit[1])]
@@ -241,13 +245,14 @@ def names_wells(dic):
         "wtest",
         "welopen",
         "wsegvalv",
+        "wecon",
     ]
     for name in dic["kw"]:
         dic[name] = False
     if dic["wvicinity"]:
         for n in ["s", "n", "a"]:
             dic[f"{n}wells"] = [
-                val
+                val.replace("'", "")
                 for val in dic[f"{n}wells"]
                 if val in [dic["optvic"], f"'{dic['optvic']}'"]
             ]
@@ -275,18 +280,20 @@ def names_segwells(dic):
                 if edit:
                     if edit[0] == "/":
                         dic["compdat"] = False
-                    if edit[0] in dic["swells"]:
+                    well = edit[0].replace("'", "")
+                    if well in dic["swells"]:
                         continue
                     if len(edit) > 2:
                         if edit[0][:2] != "--":
                             if dic["edit0"] == "":
                                 dic["edit0"] = nrwo.split()
                             else:
+                                well0 = dic["edit0"][0].replace("'", "")
                                 if (
                                     edit[1] != dic["edit0"][1]
                                     or edit[2] != dic["edit0"][2]
-                                ) and edit[0] == dic["edit0"][0]:
-                                    dic["swells"].append(str(edit[0]))
+                                ) and well == well0:
+                                    dic["swells"].append(str(well))
                             dic["edit0"] = nrwo.split()
             if nrwo == "COMPSEGS":
                 dic["compsegs"] = True
@@ -294,8 +301,9 @@ def names_segwells(dic):
             if dic["compsegs"]:
                 edit = nrwo.split()
                 if len(edit) > 1:
+                    well = edit[0].replace("'", "")
                     if edit[0][:2] != "--":
-                        dic["nsegw"].append(str(edit[0]))
+                        dic["nsegw"].append(str(well))
                         dic["compsegs"] = False
 
 
@@ -1185,7 +1193,8 @@ def handle_welsegs(dic, nrwo):
                     return True
         if len(edit) > 1:
             if edit[0][:2] != "--" and dic["lol"][-1] == "WELSEGS":
-                if edit[0] not in dic["nwells"] or edit[0] not in dic["swells"]:
+                well = edit[0].replace("'", "")
+                if well not in dic["nwells"] or well not in dic["swells"]:
                     del dic["lol"][-1]
                     if dic["lol"][-1] == "WELSEGS":
                         del dic["lol"][-1]
@@ -1234,7 +1243,8 @@ def handle_compsegs(dic, nrwo):
                     return True
         if len(edit) > 1:
             if edit[0][:2] != "--" and dic["lol"][-1] == "COMPSEGS":
-                if edit[0] not in dic["nwells"]:
+                well = edit[0].replace("'", "")
+                if well not in dic["nwells"]:
                     del dic["lol"][-1]
                     if dic["lol"][-1] == "COMPSEGS":
                         del dic["lol"][-1]
@@ -1286,8 +1296,9 @@ def handle_segmented_wells(dic, nrwo):
         if len(edit) > 2:
             if edit[0][:2] != "--":
                 if dic["vicinity"]:
+                    well = edit[0].replace("'", "")
                     if (
-                        edit[0] not in dic["nwells"]
+                        well not in dic["nwells"]
                         or dic["ic"][int(edit[1])]
                         * dic["jc"][int(edit[2])]
                         * dic["kc"][int(edit[3])]
@@ -1307,11 +1318,10 @@ def handle_segmented_wells(dic, nrwo):
                 edit[1] = str(dic["ic"][int(edit[1])])
                 edit[2] = str(dic["jc"][int(edit[2])])
                 if dic["refinement"]:
+                    well = edit[0].replace("'", "")
                     if dic["edit0"]:
-                        if (
-                            edit[0] == dic["edit0"][0]
-                            and dic["edit0"][0] not in dic["nsegw"]
-                        ) and (
+                        well0 = dic["edit0"][0].replace("'", "")
+                        if (well == well0 and well0 not in dic["nsegw"]) and (
                             edit[1] != str(dic["ic"][int(dic["edit0"][1])])
                             or edit[2] != str(dic["jc"][int(dic["edit0"][2])])
                         ):
@@ -1352,9 +1362,9 @@ def handle_segmented_wells(dic, nrwo):
                                     else:
                                         dic["lol"].append(" ".join(edit0))
                         elif (
-                            edit[0] == dic["edit0"][0]
-                            and dic["edit0"][0] not in dic["nsegw"]
-                            and dic["edit0"][0] in dic["swells"]
+                            well == well0
+                            and well0 not in dic["nsegw"]
+                            and well0 in dic["swells"]
                         ) and (
                             edit[1] == str(dic["ic"][int(dic["edit0"][1])])
                             and edit[2] == str(dic["jc"][int(dic["edit0"][2])])
@@ -1382,13 +1392,13 @@ def handle_segmented_wells(dic, nrwo):
                                     dic["lol"].append(" ".join(edit))
                             dic["edit0"] = nrwo.split()
                             return True
-                        elif edit[0] in dic["swells"] + dic["nsegw"]:
+                        elif well in dic["swells"] + dic["nsegw"]:
                             edit[3] = str(dic["kc"][int(edit[3])])
                             edit[4] = str(dic["kc"][int(edit[4])])
                         else:
                             edit[3] = str(dic["k1"][int(edit[3])])
                             edit[4] = str(dic["kn"][int(edit[4])])
-                    elif edit[0] in dic["swells"] + dic["nsegw"]:
+                    elif well in dic["swells"] + dic["nsegw"]:
                         edit[3] = str(dic["kc"][int(edit[3])])
                         edit[4] = str(dic["kc"][int(edit[4])])
                     else:
@@ -1415,14 +1425,16 @@ def handle_segmented_wells(dic, nrwo):
                 and dic["lol"][-1].split()[0] == "COMPSEGS"
                 and dic["vicinity"]
             ):
-                if edit[0] not in dic["nwells"] or edit[0] not in dic["swells"]:
+                well = edit[0].replace("'", "")
+                if well not in dic["nwells"] or well not in dic["swells"]:
                     del dic["lol"][-1]
                     del dic["lol"][-1]
                     return True
         if len(edit) > 2:
             if edit[0][:2] != "--":
                 if dic["vicinity"]:
-                    if (edit[0] not in dic["nwells"] and len(edit) < 4) or dic["ic"][
+                    well = edit[0].replace("'", "")
+                    if (well not in dic["nwells"] and len(edit) < 4) or dic["ic"][
                         int(edit[0])
                     ] * dic["jc"][int(edit[1])] * dic["kc"][int(edit[2])] == 0:
                         return True
@@ -1473,7 +1485,8 @@ def handle_wells(dic, nrwo):
         if len(edit) > 2:
             if edit[0][:2] != "--":
                 if dic["vicinity"]:
-                    if edit[0] not in dic["nwells"]:
+                    well = edit[0].replace("'", "")
+                    if well not in dic["nwells"]:
                         return True
                     if dic["hvicinity"]:
                         if dic["ic"][int(edit[2])] == 0:
