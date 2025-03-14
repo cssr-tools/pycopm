@@ -63,6 +63,7 @@ def process_the_deck(dic):
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
             nrwo = nrwo.replace("\\t", " ")
+            nrwo = nrwo.replace("', '", ",")
             if not dic["schedule"]:
                 dic["lolc"].append(nrwo)
             if handle_dimens(dic, nrwo):
@@ -130,6 +131,11 @@ def handle_schedulekw(dic, nrwo):
                     if name == "wsegvalv":
                         if well in dic["swells"]:
                             return True
+                    if well[-1] == "*":
+                        n = len(well[:-1])
+                        for well1 in dic["nwells"]:
+                            if well1[:n] == well[:-1]:
+                                return False
                     if well not in dic["nwells"]:
                         return True
                 else:
@@ -246,6 +252,7 @@ def names_wells(dic):
         "welopen",
         "wsegvalv",
         "wecon",
+        "cskin",
     ]
     for name in dic["kw"]:
         dic[name] = False

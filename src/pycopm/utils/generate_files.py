@@ -9,6 +9,7 @@ Create modified (coarser, finner, submodels, transformations) OPM files.
 import os
 import csv
 import sys
+import subprocess
 import numpy as np
 from resdata.grid import Grid
 from resdata.resfile import ResdataFile
@@ -39,7 +40,7 @@ except ImportError:
 
 def create_deck(dic):
     """
-    Main scrip to call the diffeent methods to generate the opm files
+    Main script to call the diffeent methods to generate the opm files
 
     Args:
         dic (dict): Global dictionary
@@ -404,11 +405,22 @@ def create_deck(dic):
     if dic["mode"] in ["deck_dry", "dry", "all"]:
         print("\nCall OPM Flow for a dry run of the generated model\n")
         os.chdir(dic["fol"])
-        os.system(f"{dic['flow']} {dic['write']}.DATA {dic['flags']}")
-        print(
-            "\nThe dry run of the generated model "
-            f"{dic['fol']}/{dic['write']}.DATA succeeded.\n"
+        prosc = subprocess.run(
+            [dic["flow"], f"{dic['write']}.DATA"] + dic["flags"].split(" "), check=False
         )
+        if prosc.returncode != 0:
+            print(
+                "\nThe dry run of the generated model "
+                f"{dic['fol']}/{dic['write']}.DATA failed. Check the Flow output in the "
+                "terminal for the error which might be possible to fix by correcting the "
+                f"input deck {dic['pth']}.DATA or the generated deck; otherwise, please raise an "
+                "issue at https://github.com/cssr-tools/pycopm/issues"
+            )
+        else:
+            print(
+                "\nThe dry run of the generated model "
+                f"{dic['fol']}/{dic['write']}.DATA succeeded.\n"
+            )
 
 
 def initialize_variables(dic):
