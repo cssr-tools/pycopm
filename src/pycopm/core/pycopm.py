@@ -44,6 +44,7 @@ def pycopm():
     dic["trans"] = int(cmdargs["trans"])  # Coarse transmissibilities
     dic["vicinity"] = cmdargs["vicinity"].strip()  # Extract sub models
     dic["transform"] = cmdargs["displace"].strip()  # Apply affine transformations
+    dic["explicit"] = int(cmdargs["explicit"]) == 1  # Write cell values in the SOLUTION
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -219,7 +220,7 @@ def load_parser():
         "-g",
         "--gridding",
         default="",
-        help="Level of grid refinement in the x, y, and z dir ('' by default.",
+        help="Level of grid refinement in the x, y, and z dir ('' by default).",
     )
     parser.add_argument(
         "-rx",
@@ -357,6 +358,13 @@ def load_parser():
         "--use",
         default="resdata",
         help="Use the resdata or opm Python libraries ('resdata' by default).",
+    )
+    parser.add_argument(
+        "-explicit",
+        "--explicit",
+        default=0,
+        help="Set to 1 to explicitly write the cell values in the SOLUTION section in the "
+        "deck ('0' by default).",
     )
     return vars(parser.parse_known_args()[0])
 

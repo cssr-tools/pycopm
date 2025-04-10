@@ -36,6 +36,7 @@ def process_the_deck(dic):
     dic["prop"] = False
     dic["oper"] = False
     dic["region"] = False
+    dic["equil"] = False
     dic["schedule"] = False
     dic["fault"] = False
     dic["rptsrt"] = False
@@ -75,6 +76,8 @@ def process_the_deck(dic):
             if handle_props(dic, nrwo):
                 continue
             if handle_regions(dic, nrwo):
+                continue
+            if handle_equil(dic, nrwo):
                 continue
             if handle_bwpr(dic, nrwo):
                 continue
@@ -586,6 +589,60 @@ def handle_regions(dic, nrwo):
         else:
             return True
     return False
+
+
+def handle_equil(dic, nrwo):
+    """
+    Handle the solution sections
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    if not dic["explicit"]:
+        return False
+    if "EQUIL" in nrwo:
+        edit = nrwo.split()
+        if edit[0] != "EQUIL":
+            return False
+        dic["equil"] = True
+        dic["lol"].append("--EQUIL --pycopm explicit initialization")
+        return True
+    if dic["equil"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0][:2] != "--":
+                if not edit[0][0].isdigit():
+                    write_explicit(dic)
+                    dic["lol"].append(edit[0])
+                    dic["equil"] = False
+                else:
+                    dic["lol"].append("--" + nrwo)
+            else:
+                dic["lol"].append("--" + nrwo)
+        return True
+    return False
+
+
+def write_explicit(dic):
+    """
+    Write the explicit solution
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (list): Splited row from the input deck
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    for name in dic["rptrst"]:
+        dic["lol"].append("INCLUDE")
+        dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
 
 
 def handle_grid_props(dic, nrwo):

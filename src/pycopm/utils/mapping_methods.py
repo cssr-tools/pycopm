@@ -123,7 +123,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
     p_vs = pd.Series(dic["porv"]).groupby(dic["con"]).sum()
     dic["porv_c"] = [f"{val}" for val in p_vs]
     drc = dic["coardir"][0]
-    for name in dic["props"]:
+    for name in dic["props"] + dic["rptrst"]:
         if not dic["show"]:
             c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
             if name in ["permx", "permy"]:
@@ -228,7 +228,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                     f"{h_t/val}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, dic["za_tot"])
                 ]
-            elif name in ["poro", "swatinit", "disperc", "thconr"]:
+            elif name in ["poro", "swatinit", "disperc", "thconr"] + dic["rptrst"]:
                 dic[f"{name}_c"] = [
                     f"{val/p_v}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
                 ]
@@ -1101,13 +1101,19 @@ def map_vicinity(dic):
     nc = dic["xn"] * dic["yn"] * dic["zn"]
     dic["actind"] = dic["porv"] > 0
     dic["freqsub"] = [0.0] * dic["nz"]
-    for name in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
+    for name in dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]:
         if name != "porv":
             dic[name] = np.zeros(nc)
             if dic["resdata"]:
-                dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
+                if name in dic["rptrst"]:
+                    dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
+                else:
+                    dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
             else:
-                dic[name][dic["actind"]] = dic["ini"][name.upper()]
+                if name in dic["rptrst"]:
+                    dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
+                else:
+                    dic[name][dic["actind"]] = dic["ini"][name.upper()]
         dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
         n = 0
         for k in range(dic["zn"]):
