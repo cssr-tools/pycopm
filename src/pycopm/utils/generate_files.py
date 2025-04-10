@@ -58,20 +58,55 @@ def create_deck(dic):
     dic["flags1"] = (
         f"--parsing-strictness=low --output-mode=none --output-dir={dic['fol']}"
     )
+    types = [".INIT", ".EGRID"]
     if dic["mode"] in ["prep", "prep_deck", "all"]:
-        os.system(f"cp {dic['pth']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
-        print(
-            f"\nCloning {dic['pth']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA for"
-            " the intial dry run to generate the grid (.EGRID) and static (.INIT) "
-            "properties\n"
-        )
-        os.system(
-            f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA {dic['flags']} "
-            f"--output-dir={dic['fol']}"
-        )
+        if dic["explicit"]:
+            types += [".UNRST"]
+            dic["lol"] = []
+            with open(dic["pth"] + ".DATA", "r", encoding="utf8") as file:
+                for row in csv.reader(file):
+                    nrwo = str(row)[2:-2].strip()
+                    if nrwo == "SCHEDULE":
+                        dic["lol"].append(nrwo)
+                        dic["lol"].append("RPTRST\n'BASIC=2'/\n")
+                        dic["lol"].append("TSTEP\n1*0.0001/\n")
+                        break
+                    dic["lol"].append(nrwo)
+            with open(
+                dic["deck"] + "_PREP_PYCOPM_DRYRUN.DATA",
+                "w",
+                encoding="utf8",
+            ) as file:
+                for row in dic["lol"]:
+                    file.write(row + "\n")
+            print(
+                f"\nTemporal {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA from {dic['pth']}.DATA for"
+                " the initial run to generate the grid (.EGRID), static (.INIT), and initial"
+                " (.UNRST) properties\n"
+            )
+            os.system(
+                f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA --output-mode=none "
+                f"--parsing-strictness=low --enable-opm-rst-file=1 --output-dir={dic['fol']}"
+            )
+            os.system(f"rm {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
+            os.system(f"cp {dic['pth']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
+            print(
+                f"\nCloning {dic['pth']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA \n"
+            )
+        else:
+            os.system(f"cp {dic['pth']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
+            print(
+                f"\nCloning {dic['pth']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA for"
+                " the initial dry run to generate the grid (.EGRID) and static"
+                " (.INIT) properties\n"
+            )
+            os.system(
+                f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA {dic['flags']} "
+                f"--output-dir={dic['fol']}"
+            )
         if dic["fol"] != os.path.abspath("."):
             os.system(f"mv {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA " + f"{dic['fol']}")
-        for name in [".INIT", ".EGRID"]:
+        for name in types:
             files = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN" + name
             if not os.path.isfile(files):
                 if name == ".INIT":
@@ -79,18 +114,22 @@ def create_deck(dic):
                         f"\nThe {files} is not found, try adding the keyword INIT in"
                         f" the GRID section in the original deck {dic['deck']}.DATA\n"
                     )
-                else:
+                elif name == ".INIT":
                     print(
                         f"\nThe {files} is not found, try removing the keyword GRIDFILE in"
                         f" the GRID section in the original deck {dic['deck']}.DATA\n"
                     )
+                else:
+                    print(
+                        f"\nThe {files} is not found, check the input deck {dic['deck']}"
+                        f".DATA\n"
+                    )
                 sys.exit()
-        print(f"\nThe dry run of {dic['deck']}.DATA succeeded")
-
+        print(f"\nThe initial/dry run of {dic['deck']}.DATA succeeded")
     if dic["mode"] in ["prep_deck", "deck", "deck_dry", "all"]:
         coarsening_dir(dic)
         dic["deck"] = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN"
-        for name in [".INIT", ".EGRID"]:
+        for name in types:
             files = dic["deck"] + name
             if not os.path.isfile(files):
                 print(
@@ -103,6 +142,7 @@ def create_deck(dic):
         dic["base"] = dic["props"] + ["grid"]
         dic["regions"] = []
         dic["grids"] = []
+        dic["rptrst"] = []
         dic["mults"] = []
         dic["special"] = []
         dic["fip"] = ""
@@ -134,7 +174,7 @@ def create_deck(dic):
             handle_vicinity(dic)
         else:
             handle_clusters(dic)
-            for name in dic["props"] + dic["regions"] + dic["grids"]:
+            for name in dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"]:
                 dic[name] = 1.0 * np.ones(dic["tc"]) * np.nan
         map_ijk(dic)
         if dic["ijk"]:
@@ -153,13 +193,17 @@ def create_deck(dic):
         z_b = np.array([np.nan for _ in range(dic["tc"])])
         z_b_t = np.array([np.nan for _ in range(dic["tc"])])
         if dic["refinement"]:
-            for name in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
+            for name in (
+                dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]
+            ):
                 dic[name] = np.zeros(dic["tc"])
                 if dic["resdata"]:
                     if name == "porv":
                         dic[name] = np.divide(
                             np.array(dic["ini"].iget_kw(name.upper())[0]), dic["nc"]
                         )
+                    elif name in dic["rptrst"]:
+                        dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
                     else:
                         dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
                 else:
@@ -167,6 +211,8 @@ def create_deck(dic):
                         dic[name] = np.divide(
                             np.array(dic["ini"][name.upper()]), dic["nc"]
                         )
+                    elif name in dic["rptrst"]:
+                        dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
                     else:
                         dic[name][dic["actind"]] = dic["ini"][name.upper()]
                 dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
@@ -195,6 +241,8 @@ def create_deck(dic):
                 v_c = np.array(dic["grid"].cellvolumes())
                 for name in dic["props"] + dic["regions"] + dic["grids"]:
                     dic[name][dic["actind"]] = dic["ini"][name.upper()]
+                for name in dic["rptrst"]:
+                    dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
                 for k in range(dic["zn"]):
                     for j in range(dic["yn"]):
                         for i in range(dic["xn"]):
@@ -227,6 +275,8 @@ def create_deck(dic):
                 cxyz = dic["grid"].export_corners(dic["grid"].export_index())
                 for name in dic["props"] + dic["regions"] + dic["grids"]:
                     dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
+                for name in dic["rptrst"]:
+                    dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
                 for cell in dic["grid"].cells():
                     dic["d_x"][cell.global_index] = dic["grid"].get_cell_dims(
                         ijk=(cell.i, cell.j, cell.k)
@@ -253,7 +303,7 @@ def create_deck(dic):
             dic["d_ay"][dic["actind"]] = dic["d_y"][dic["actind"]]
             dic["d_az"][dic["actind"]] = dic["d_z"][dic["actind"]]
             if dic["show"] == "pvmean":
-                for name in dic["props"]:
+                for name in dic["props"] + dic["rptrst"]:
                     dic[name][dic["actind"]] *= dic["porv"][dic["actind"]]
             elif not dic["show"]:
                 dic["permx"][dic["actind"]] *= dic["d_z"][dic["actind"]]
@@ -278,6 +328,8 @@ def create_deck(dic):
                         1.0 / val if val > 0 else np.nan
                         for val in dic[f"tran{drc}"][dic["actind"]]
                     ]
+                for name in dic["rptrst"]:
+                    dic[name][dic["actind"]] *= dic["porv"][dic["actind"]]
         process_the_deck(dic)
         if dic["transform"]:
             transform_grid(dic)
@@ -477,6 +529,32 @@ def initialize_variables(dic):
         dic["yn"] = dic["grid"].ny
         dic["zn"] = dic["grid"].nz
         dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
+        if dic["explicit"]:
+            dic["solution"] = []
+            dic["rst"] = ResdataFile(dic["deck"] + ".UNRST")
+            for name in [
+                "sgas",
+                "soil",
+                "swat",
+                "rs",
+                "rv",
+                "rsw",
+                "rvw",
+                "pressure",
+                "sbiof",
+                "scalc",
+                "smicr",
+                "soxyg",
+                "surea",
+                "ssol",
+                "spoly",
+                "surf",
+                "spoly",
+                "saltp",
+                "salt",
+            ]:
+                if dic["rst"].has_kw(name.upper()):
+                    dic["rptrst"] += [name]
     else:
         dic["ogrid"] = OpmFile(dic["deck"] + ".EGRID")
         if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
@@ -520,6 +598,32 @@ def initialize_variables(dic):
         dic["yn"] = dic["grid"].dimension[1]
         dic["zn"] = dic["grid"].dimension[2]
         dic["porv"] = np.array(dic["ini"]["PORV"])
+        if dic["explicit"]:
+            dic["solution"] = []
+            dic["rst"] = OpmFile(dic["deck"] + ".UNRST")
+            for name in [
+                "sgas",
+                "soil",
+                "swat",
+                "rs",
+                "rv",
+                "rsw",
+                "rvw",
+                "pressure",
+                "sbiof",
+                "scalc",
+                "smicr",
+                "soxyg",
+                "surea",
+                "ssol",
+                "spoly",
+                "surf",
+                "spoly",
+                "saltp",
+                "salt",
+            ]:
+                if dic["rst"].count(name.upper()):
+                    dic["rptrst"] += [name]
 
 
 def handle_nnc_trans(dic):
@@ -725,7 +829,7 @@ def write_props(dic):
         None
 
     """
-    for name in dic["props"] + dic["regions"] + dic["grids"] + ["porv"]:
+    for name in dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]:
         dic[f"{name}_c"].insert(0, f"{name.upper()}")
         dic[f"{name}_c"].insert(
             0,

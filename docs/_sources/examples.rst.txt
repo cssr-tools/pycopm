@@ -71,6 +71,11 @@ we apply a grid refinement on the cells in the middle x and y location, and fina
     The text in the legends highlight that the pore volume is conserved (35.58) and the number of active cells is reduced from 351 to 25 in the 
     submodel and after increased to 41 due to the grid refinement.
 
+.. note::
+
+    To write the cell values for the SOLUTION section instead of using the EQUIL keyword, this can be achieved by the flag **-explicit 1**; the 
+    only requirement is that the EQUIL keyword needs to be in the main input DATA file and no via INCLUDE files.  
+
 Smeaheia
 --------
 

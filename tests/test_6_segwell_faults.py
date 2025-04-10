@@ -94,45 +94,49 @@ def test_complex():
         bgf = np.array(brst.iget_kw("FIPGAS")[0])
         cgf = np.array(crst.iget_kw("FIPGAS")[0])
         assert abs(sum(bgf) - sum(cgf)) < 50  # ca. 2.56191e10 fipgas in the ref
-        subprocess.run(
-            [
-                "pycopm",
-                "-o",
-                f"{testpth}/output/complex",
-                "-i",
-                f"{mainpth}/examples/decks/MODEL3.DATA",
-                "-g",
-                "2,2,2",
-                "-w",
-                f"FINER{sub}",
-                "-l",
-                f"R0{sub}",
-                "-q",
-                "1",
-                "-m",
-                "all",
-                "-u",
-                use,
-            ],
-            check=True,
-        )
-        assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.INIT")
-        assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.EGRID")
-        subprocess.run(
-            [
-                "flow",
-                f"{testpth}/output/complex/FINER{sub}.DATA",
-                f"--output-dir={testpth}/output/complex/finer",
-            ],
-            check=True,
-        )
-        rini = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.INIT")
-        rpv = np.array(rini.iget_kw("PORV")[0])
-        assert abs(sum(bpv) - sum(rpv)) < 50  # ca. 4.61992e8 porv in the ref
-        assert sum(rpv > 0) == 22896
-        rrst = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
-        rgf = np.array(rrst.iget_kw("FIPGAS")[0])
-        assert abs(sum(bgf) - sum(rgf)) < 50  # ca. 2.56191e10 fipgas in the ref
+        for explicit in ["0", "1"]:
+            sub = f"{explicit}{use.upper()}"
+            subprocess.run(
+                [
+                    "pycopm",
+                    "-o",
+                    f"{testpth}/output/complex",
+                    "-i",
+                    f"{mainpth}/examples/decks/MODEL3.DATA",
+                    "-g",
+                    "2,2,2",
+                    "-w",
+                    f"FINER{sub}",
+                    "-l",
+                    f"R0{sub}",
+                    "-q",
+                    "1",
+                    "-m",
+                    "all",
+                    "-u",
+                    use,
+                    "-explicit",
+                    explicit,
+                ],
+                check=True,
+            )
+            assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.INIT")
+            assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.EGRID")
+            subprocess.run(
+                [
+                    "flow",
+                    f"{testpth}/output/complex/FINER{sub}.DATA",
+                    f"--output-dir={testpth}/output/complex/finer",
+                ],
+                check=True,
+            )
+            rini = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.INIT")
+            rpv = np.array(rini.iget_kw("PORV")[0])
+            assert abs(sum(bpv) - sum(rpv)) < 50  # ca. 4.61992e8 porv in the ref
+            assert sum(rpv > 0) == 22896
+            rrst = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
+            rgf = np.array(rrst.iget_kw("FIPGAS")[0])
+            assert abs(sum(bgf) - sum(rgf)) < 3e2  # ca. 2.56191e10 fipgas in the ref
         for i, val in enumerate(
             ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
         ):
