@@ -14,11 +14,21 @@ to perform HM studies in drogon and norne using `ERT <https://ert.readthedocs.io
 
 .. code-block:: bash
 
+    # From inside the main pycopm folder
+    cd examples/configurations/drogon
     pycopm -i input.toml -o drogon_coarser
 
 The following are the drogon model from `opm-tests <https://github.com/OPM/opm-tests/tree/master/drogon>`_ and coarsened model generated using **pycopm**:
 
 .. figure:: figs/drogon_coarser.png
+
+.. note::
+
+    For Drogon, a scored is printed after the run to compared the error to the results available at 
+    https://webviz-subsurface-example.azurewebsites.net/history-match. While `input.toml <https://github.com/cssr-tools/pycopm/blob/main/examples/configurations/drogon/input.toml>`_ 
+    only runs a single simulation that is used in testing **pycopm**, `hm.toml <https://github.com/cssr-tools/pycopm/blob/main/examples/configurations/drogon/hm.toml>`_ runs a history matching 
+    with a better score (i.e., less error compare to the observation data). This configuration file is also an example of how to use mpi to run Flow built from source 
+    (if you do not have mpi, you can remove it and still run the example).
  
 
 .. _generic:
@@ -74,7 +84,7 @@ we apply a grid refinement on the cells in the middle x and y location, and fina
 .. note::
 
     To write the cell values for the SOLUTION section instead of using the EQUIL keyword, this can be achieved by the flag **-explicit 1**; the 
-    only requirement is that the EQUIL keyword needs to be in the main input DATA file and no via INCLUDE files.  
+    only requirement is that the EQUIL keyword needs to be in the main input DATA file and no via INCLUDE files.
 
 Smeaheia
 --------

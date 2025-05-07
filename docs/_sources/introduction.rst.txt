@@ -61,3 +61,4 @@ where
 -d          Options to transform the x,y,z coordinates: 'translate [10,-5,4]' adds the values in meters to the coordinates, 'scale [1,2,3]' multiplies the coordinates by the given values respectively, and 'rotatexy 45' applies a rotation in degrees in the xy plane (rotatexz and rotateyz applies a rotation around the y and x axis respectively) ('' by default).
 -u          Use the resdata or opm Python libraries ('resdata' by default).
 -explicit   Set to 1 to explicitly write the cell values in the SOLUTION section in the deck ('0' by default).
+-warnings   Set to 1 to show Python warnings ('0' by default).

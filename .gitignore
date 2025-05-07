@@ -177,7 +177,6 @@ dune-istl/
 # The OPM
 opm-common/
 opm-grid/
-opm-models/
 opm-simulators/
 
 # Developing

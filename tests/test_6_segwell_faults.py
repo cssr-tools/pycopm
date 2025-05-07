@@ -27,6 +27,12 @@ import subprocess
 import numpy as np
 from resdata.resfile import ResdataFile
 
+OPM = False
+try:
+    OPM = bool(__import__("opm"))
+except ImportError:
+    pass
+
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
@@ -43,7 +49,10 @@ def test_complex():
         ],
         check=True,
     )
-    for use in ["resdata", "opm"]:
+    readers = ["resdata"]
+    if OPM:
+        readers += ["opm"]
+    for use in readers:
         sub = use.upper()
         subprocess.run(
             [
@@ -103,6 +112,8 @@ def test_complex():
                     f"{testpth}/output/complex",
                     "-i",
                     f"{mainpth}/examples/decks/MODEL3.DATA",
+                    "-warnings",
+                    "1",
                     "-g",
                     "2,2,2",
                     "-w",
@@ -152,6 +163,8 @@ def test_complex():
                     f"A4 {val}",
                     "-w",
                     f"SUBMODEL{sub}",
+                    "-warnings",
+                    "1",
                     "-l",
                     f"S{sub}",
                     "-p",

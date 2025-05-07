@@ -10,6 +10,7 @@ after the hm
 import os
 import csv
 import numpy as np
+import warnings
 from datetime import datetime
 from resdata.summary import Summary
 from resdata.grid import Grid
@@ -21,6 +22,9 @@ from datetime import timedelta
 def visualizeData():
     """Visualize time series"""
 
+    % if not dic["warnings"]:
+    warnings.warn = lambda *args, **kwargs: None
+    % endif
     output_folder = '${dic['fol']}'
     pycopm_path = '${dic['pat']}'
     num_satn = ${max(dic['satnum_c'])}
@@ -275,7 +279,7 @@ def visualizeData():
                         solData.append(row)
                     time_ens[0].append(float(solData[0][-1]))
                 except:
-                    print(f'Problem with the sim_time file')
+                    pass
             else:
                 error_ens[0][r] += 1e10
         for ite in range(I-2):
@@ -307,7 +311,7 @@ def visualizeData():
                         solData.append(row)
                     time_ens[ite+1].append(float(solData[0][-1]))
                 except:
-                    print(f'Problem with the sim_time file')
+                    pass
             else:
                 error_ens[ite+1][r] += 1e10
         ok_file = f"{output_folder}/output/simulations/realisation-{r}/iter-{I-1}/OK"
@@ -346,7 +350,7 @@ def visualizeData():
                 time_ens[-1].append(float(solData[0][-1]))
                 meant += float(solData[0][-1])
             except:
-                print(f'Problem with the sim_time file')
+                pass
             if N > 1:
                 file_para = f"{output_folder}/output/simulations/realisation-{r}/iter-{I-1}/parameters.txt"
                 data_param = np.genfromtxt(file_para, delimiter=" ")
@@ -474,7 +478,9 @@ def visualizeData():
         indc = np.argsort(allw)
         allw = np.sort(allw)
         ax.axhline(y=rallw.mean(), color="black", ls="--", lw=1, label=f'opm-tests: {rallw.mean():.3e}')
+        % if dic['field']=='drogon':
         ax.axhline(y=webviz, color="black", ls=":", lw=1, marker="*", markevery=0.2, label=f'Mean (webviz): {webviz:.3e}')
+        % endif
         ax.axhline(y=allw.mean(), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {allw.mean():.3e}')
         ax.bar(range(len(allw)), allw, color=color[0], label=names[0])
         for i, type in enumerate(names[:-1]):
@@ -499,7 +505,9 @@ def visualizeData():
         indc = np.argsort(allw)
         allw = np.sort(allw)
         ax.axhline(y=rallw.mean(), color="black", ls="--", lw=1, label=f'opm-tests: {rallw.mean():.3e} kg')
+        % if dic['field']=='drogon':
         ax.axhline(y=webviz, color="black", ls=":", lw=1, marker="*", markevery=0.2, label=f'Mean (webviz): {webviz:.3e} kg')
+        % endif
         ax.axhline(y=allw.mean(), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {allw.mean():.3e} kg')
         ax.bar(range(len(allw)), allw, color=color[0], label=names[0])
         for i, type in enumerate(names[:-1]):
@@ -527,7 +535,9 @@ def visualizeData():
         allw = np.sort(allw)
         goal = 4.88 - allw.mean()
         ax.axhline(y=rallw.mean(), color="black", ls="--", lw=1, label=f'opm-tests: {rallw.mean():.2f} %')
+        % if dic['field']=='drogon':
         ax.axhline(y=webviz, color="black", ls=":", lw=1, marker="*", markevery=0.2, label=f'Mean (webviz): {webviz:.2f} %')
+        % endif
         ax.axhline(y=allw.mean(), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {allw.mean():.2f} %')
         ax.bar(range(len(allw)), allw, color=color[0], label=names[0]+f' ({fmass[names[0]]:.3e} kg)')
         for i, type in enumerate(names[:-1]):
@@ -540,9 +550,9 @@ def visualizeData():
 
     if N > 1:
         with open(f"{output_folder}/postprocessing/errors.txt", 'w') as f:
-            f.write(f'Closest final realization to all obs:{eobs[-1][0][0]}\n')
+            f.write(f'\nClosest final realization to all obs:{eobs[-1][0][0]}\n')
             f.write(f'Number of parameters to HM: {len(csvData)}\n')
-            f.write(f'Mean simulation time of a single ensemble : {timedelta(seconds=meant)})\n')
+            f.write(f'Mean simulation time of a single ensemble : {timedelta(seconds=meant)}\n')
             f.write(f'Total execution time : {timedelta(seconds=${'{0:.2f}'.format(time)})}\n')
             f.write(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}\n')
             for i in range(I):
@@ -558,14 +568,19 @@ def visualizeData():
             print(f'Iteration {i}; Number of ensembles {int(n_e[i])}')
             print(f'Missmatch (mean): {sum(error_hist[i])/(len(error_hist[i])) : .4e}')
             print(f'Missmatch (closest realization to all obs): {error_ens[i][eobs[i][0][0]] : .4e}')
-        print(f'Difference (webviz - pycopm): {goal : .2f} (a positive number (percentage) is the goal)')
     else:
         with open(f"{output_folder}/postprocessing/errors.txt", 'w') as f:
             f.write(f'Missmatch (standard simulation from opm-test deck) : {error_standard : .4e}\n')
             f.write(f'Missmatch (single simulation): {error_ens[0][eobs[0][0][0]] : .4e}\n')
         print(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}')
         print(f'Missmatch (single simulation): {error_ens[0][eobs[0][0][0]] : .4e}')
-        print(f'Difference (webviz - pycopm): {goal : .2f} (a positive number (percentage) is the goal)')
+    % if dic['field']=='drogon':
+    print(f'Difference (webviz - pycopm): {goal : .2f} (a positive number (percentage) is the goal)')
+    print(f'See {output_folder}/postprocessing/cumulative_misfit_mass_normalized_ite-{iter}.png\n')
+    if goal <= 0:
+        print('To improve the goal, for example, you can try to run a hm study (mode = "ert") and increase the number ')
+        print('of ensembles (mep), iterations (--weights), distribution type/intervals, random seed (rds).\n')
+    % endif
 
 if __name__ == "__main__":
     visualizeData()

@@ -10,6 +10,12 @@ import subprocess
 import numpy as np
 from resdata.resfile import ResdataFile
 
+OPM = False
+try:
+    OPM = bool(__import__("opm"))
+except ImportError:
+    pass
+
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 
@@ -18,7 +24,10 @@ def test_refinement():
     """See examples/decks/MODEL2.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    for use in ["resdata", "opm"]:
+    readers = ["resdata"]
+    if OPM:
+        readers += ["opm"]
+    for use in readers:
         sub = f"FINER{use.upper()}"
         subprocess.run(
             [
@@ -37,6 +46,8 @@ def test_refinement():
                 "all",
                 "-u",
                 use,
+                "-warnings",
+                "1",
             ],
             check=True,
         )

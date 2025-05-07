@@ -10,6 +10,12 @@ import subprocess
 import numpy as np
 from resdata.resfile import ResdataFile
 
+OPM = False
+try:
+    OPM = bool(__import__("opm"))
+except ImportError:
+    pass
+
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
@@ -18,7 +24,10 @@ def test_submodel():
     """See examples/decks/MODEL0.DATA and MODEL1.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    for use in ["resdata", "opm"]:
+    readers = ["resdata"]
+    if OPM:
+        readers += ["opm"]
+    for use in readers:
         for i in range(2):
             sub = f"MODEL{i}_FINER{use.upper()}"
             os.chdir(f"{testpth}/output")
@@ -31,6 +40,8 @@ def test_submodel():
                     f"{testpth}/output/submodel",
                     "-g",
                     "4,4,3",
+                    "-warnings",
+                    "1",
                     "-m",
                     "all",
                     "-w",
@@ -61,6 +72,8 @@ def test_submodel():
                         f"{sub}SUBMODEL",
                         "-l",
                         f"{sub}SUBMODEL",
+                        "-warnings",
+                        "1",
                         "-p",
                         f"{j}",
                         "-u",
