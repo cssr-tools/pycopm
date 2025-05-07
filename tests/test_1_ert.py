@@ -17,5 +17,5 @@ def test_ert():
         os.system(f"mkdir {testpth}/output")
     os.chdir(f"{testpth}/output")
     confi = f"{mainpth}/examples/configurations/norne/input.toml"
-    subprocess.run(["pycopm", "-i", confi, "-o", "ert"], check=True)
+    subprocess.run(["pycopm", "-i", confi, "-o", "ert", "-warnings", "1"], check=True)
     assert os.path.exists(f"{testpth}/output/ert/postprocessing/hm_missmatch.png")

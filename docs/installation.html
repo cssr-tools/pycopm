@@ -96,7 +96,7 @@ While using package managers such as Anaconda, Miniforge, or Mamba might work, t
 In addition, the current supported Python versions are 3.11 to 3.12. We will update the documentation when Python3.13 is supported (e.g., the resdata Python package is not yet available
 via pip install in Python 3.13).</p>
 <section id="python-package">
-<h2>Python package<a class="headerlink" href="#python-package" title="Link to this heading"></a></h2>
+<span id="vpycopm"></span><h2>Python package<a class="headerlink" href="#python-package" title="Link to this heading"></a></h2>
 <p>To install the <strong>pycopm</strong> executable from the development version:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/cssr-tools/pycopm.git
 </pre></div>
@@ -127,7 +127,7 @@ install the Python requirements in a virtual environment with the following comm
 </div>
 </section>
 <section id="opm-flow">
-<h2>OPM Flow<a class="headerlink" href="#opm-flow" title="Link to this heading"></a></h2>
+<span id="opmflow"></span><h2>OPM Flow<a class="headerlink" href="#opm-flow" title="Link to this heading"></a></h2>
 <p>You also need to install:</p>
 <ul class="simple">
 <li><p>OPM Flow (<a class="reference external" href="https://opm-project.org">https://opm-project.org</a>, Release 2024.10 or current master branches)</p></li>
@@ -141,14 +141,15 @@ for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu.
 <p class="admonition-title">Note</p>
 <p>For not macOS users, to install the Python opm package (this is an alternative
 to <a class="reference external" href="https://github.com/equinor/resdata">resdata</a>, both are use to read OPM output files; while resdata is easier to
-install in macOS, opm seems to be faster), execute in the terminal</p>
+install in macOS, opm seems to be faster; the default is <cite>-u resdata</cite>), execute in the terminal</p>
 <p><strong>pip install opm</strong></p>
 <p>This is equivalent to execute <strong>pip install -e .[opm]</strong> in the installation process.</p>
 <p>For macOS users, see <a class="reference internal" href="#macos"><span class="std std-ref">Source build in macOS</span></a>.</p>
 </div>
 <section id="source-build-in-linux-windows">
 <h3>Source build in Linux/Windows<a class="headerlink" href="#source-build-in-linux-windows" title="Link to this heading"></a></h3>
-<p>If you are a Linux user (including the Windows subsystem for Linux), then you could try to build Flow (after installing the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>) from the master branches with mpi support by running
+<p>If you are a Linux user (including the Windows subsystem for Linux, see <a class="reference external" href="https://learn.microsoft.com/en-us/windows/python/web-frameworks">this link</a>
+for a nice tutorial for setting Python environments in WSL), then you could try to build Flow (after installing the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>) from the master branches with mpi support by running
 in the terminal the following lines (which in turn should build flow in the folder ./build/opm-simulators/bin/flow):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
 
@@ -183,8 +184,19 @@ in the terminal the following lines (which in turn should build flow in the fold
 <section id="source-build-in-macos">
 <span id="macos"></span><h3>Source build in macOS<a class="headerlink" href="#source-build-in-macos" title="Link to this heading"></a></h3>
 <p>For macOS, there are no available binary packages, so OPM Flow needs to be built from source, in addition to the dune libraries
-(see the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>, which can be installed using macports or brew). This can be achieved by the following lines:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
+(see the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>, which can be installed using macports or brew). For example,
+with brew the prerequisites can be installed by:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install boost cmake openblas suite-sparse python@3.12</span>
+</pre></div>
+</div>
+<p>In addition, it is recommended to uprade and update your macOS to the latest available versions (the following steps have
+worked for macOS Sequoia 15.4.1 with Apple clang version 17.0.0).
+After the prerequisites are installed and the vpyocpm Python environment is created (see <a class="reference internal" href="#vpycopm"><span class="std std-ref">Python package</span></a>),
+then building OPM Flow and the opm Python package can be achieved with the following lines:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">deactivate</span>
+<span class="go">source vpycopm/bin/activate</span>
+
+<span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
 
 <span class="go">for module in common geometry grid istl</span>
 <span class="go">do   git clone https://gitlab.dune-project.org/core/dune-$module.git --branch v2.9.1</span>
@@ -198,8 +210,6 @@ in the terminal the following lines (which in turn should build flow in the fold
 <span class="go">do</span>
 <span class="go">    git clone https://github.com/OPM/opm-$repo.git</span>
 <span class="go">done</span>
-
-<span class="go">source vpycopm/bin/activate</span>
 
 <span class="go">mkdir build</span>
 
@@ -222,6 +232,13 @@ in the terminal the following lines (which in turn should build flow in the fold
 </pre></div>
 </div>
 <p>This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH. Then after execution, deactivate and activate the Python virtual environment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can test if flow works by typing in the terminal <cite>./build/opm-simulators/bin/flow –help</cite>. In addition, you can add <cite>build/opm-simulators/bin</cite> to your path
+to execute it as flow. You can also test that the Python package opm works by executing <cite>python -c “import opm”</cite>. If for any reason the installation of the Python
+opm package was not sucessful, still all functionality of <strong>pycopm</strong> is available, just do not execute <strong>pycopm</strong> with the flag <cite>-u opm</cite> (see the note in
+<a class="reference internal" href="#opmflow"><span class="std std-ref">OPM Flow</span></a> for a brief comment about the Python packages resdata and opm).</p>
+</div>
 </section>
 </section>
 </section>

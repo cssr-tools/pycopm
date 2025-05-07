@@ -9,6 +9,12 @@ import pathlib
 import subprocess
 from resdata.grid import Grid
 
+OPM = False
+try:
+    OPM = bool(__import__("opm"))
+except ImportError:
+    pass
+
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
@@ -17,7 +23,10 @@ def test_transform():
     """See examples/decks/MODEL0.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    for use in ["resdata", "opm"]:
+    readers = ["resdata"]
+    if OPM:
+        readers += ["opm"]
+    for use in readers:
         flags = ["translate", "scale", "rotatexy", "rotatexz", "rotateyz"]
         values = ["[5,-3,2]", "[2,.5,4]", "45", "-10", "15"]
         checks = [3, 4, 1, 3.5899, 4.848]
@@ -34,6 +43,8 @@ def test_transform():
                     f"{flag} {val}",
                     "-m",
                     "all",
+                    "-warnings",
+                    "1",
                     "-w",
                     sub,
                     "-l",

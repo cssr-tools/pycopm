@@ -8,6 +8,12 @@ import os
 import pathlib
 import subprocess
 
+OPM = False
+try:
+    OPM = bool(__import__("opm"))
+except ImportError:
+    pass
+
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
@@ -16,7 +22,10 @@ def test_coarsening():
     """See examples/decks/HELLO_WORLD.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    for use in ["resdata", "opm"]:
+    readers = ["resdata"]
+    if OPM:
+        readers += ["opm"]
+    for use in readers:
         sub = f"FINER{use.upper()}"
         subprocess.run(
             [
@@ -27,6 +36,8 @@ def test_coarsening():
                 f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
                 "-o",
                 f"{testpth}/output/coarser",
+                "-warnings",
+                "1",
                 "-m",
                 "prep",
                 "-u",
@@ -58,6 +69,8 @@ def test_coarsening():
                             ahow,
                             "-n",
                             nhow,
+                            "-warnings",
+                            "1",
                             "-s",
                             show,
                             "-u",
@@ -82,6 +95,8 @@ def test_coarsening():
                 "1",
                 "-n",
                 "mode",
+                "-warnings",
+                "1",
                 "-x",
                 "6:10",
                 "-y",
@@ -107,6 +122,8 @@ def test_coarsening():
                 "-m",
                 "deck_dry",
                 "-t",
+                "1",
+                "-warnings",
                 "1",
                 "-w",
                 f"TRANS{sub}",
@@ -134,6 +151,8 @@ def test_coarsening():
                 f"TRANS2{sub}",
                 "-u",
                 use,
+                "-warnings",
+                "1",
             ],
             check=True,
         )

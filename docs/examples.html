@@ -100,13 +100,23 @@
 <h2>Via configuration files<a class="headerlink" href="#via-configuration-files" title="Link to this heading"></a></h2>
 <p>The <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/examples/configurations">examples</a> folder contains configuration files
 to perform HM studies in drogon and norne using <a class="reference external" href="https://ert.readthedocs.io/en/latest/">ERT</a>. For example, by executing inside the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/examples/configurations/drogon">example folder for drogon</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycopm<span class="w"> </span>-i<span class="w"> </span>input.toml<span class="w"> </span>-o<span class="w"> </span>drogon_coarser
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># From inside the main pycopm folder</span>
+<span class="nb">cd</span><span class="w"> </span>examples/configurations/drogon
+pycopm<span class="w"> </span>-i<span class="w"> </span>input.toml<span class="w"> </span>-o<span class="w"> </span>drogon_coarser
 </pre></div>
 </div>
 <p>The following are the drogon model from <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">opm-tests</a> and coarsened model generated using <strong>pycopm</strong>:</p>
 <figure class="align-default">
 <img alt="_images/drogon_coarser.png" src="_images/drogon_coarser.png" />
 </figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For Drogon, a scored is printed after the run to compared the error to the results available at
+<a class="reference external" href="https://webviz-subsurface-example.azurewebsites.net/history-match">https://webviz-subsurface-example.azurewebsites.net/history-match</a>. While <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/examples/configurations/drogon/input.toml">input.toml</a>
+only runs a single simulation that is used in testing <strong>pycopm</strong>, <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/examples/configurations/drogon/hm.toml">hm.toml</a> runs a history matching
+with a better score (i.e., less error compare to the observation data). This configuration file is also an example of how to use mpi to run Flow built from source
+(if you do not have mpi, you can remove it and still run the example).</p>
+</div>
 </section>
 <section id="via-opm-flow-decks">
 <span id="generic"></span><h2>Via OPM Flow decks<a class="headerlink" href="#via-opm-flow-decks" title="Link to this heading"></a></h2>

@@ -8,6 +8,7 @@ import os
 import time
 import sys
 import argparse
+import warnings
 from io import StringIO
 import subprocess
 import numpy as np
@@ -17,6 +18,12 @@ from pycopm.utils.properties_builder import coarser_properties
 from pycopm.utils.files_writer import coarser_files
 from pycopm.utils.runs_executer import simulations, plotting
 from pycopm.utils.generate_files import create_deck
+
+OPM = False
+try:
+    OPM = bool(__import__("opm"))
+except ImportError:
+    pass
 
 
 def pycopm():
@@ -45,6 +52,9 @@ def pycopm():
     dic["vicinity"] = cmdargs["vicinity"].strip()  # Extract sub models
     dic["transform"] = cmdargs["displace"].strip()  # Apply affine transformations
     dic["explicit"] = int(cmdargs["explicit"]) == 1  # Write cell values in the SOLUTION
+    dic["warnings"] = int(cmdargs["warnings"]) == 1  # Show or hidde python warnings
+    if not dic["warnings"]:
+        warnings.warn = lambda *args, **kwargs: None
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -366,6 +376,12 @@ def load_parser():
         help="Set to 1 to explicitly write the cell values in the SOLUTION section in the "
         "deck ('0' by default).",
     )
+    parser.add_argument(
+        "-warnings",
+        "--warnings",
+        default=0,
+        help="Set to 1 to show Python warnings ('0' by default).",
+    )
     return vars(parser.parse_known_args()[0])
 
 
@@ -383,7 +399,13 @@ def check_cmdargs(cmdargs):
     if not (cmdargs["input"].strip()).endswith((".DATA", ".toml")):
         print(
             f"\nInvalid extension for input file '-i {cmdargs['input'].strip()}', "
-            f"valid extensions are .DATA or .toml\n"
+            "valid extensions are .DATA or .toml\n"
+        )
+        sys.exit()
+    if (cmdargs["use"].strip()).lower() == "opm" and not OPM:
+        print(
+            "\nThe Python package opm cannot be import. Either try to install it "
+            "following the pycopm documentation, or remove the flag '-u opm'.\n"
         )
         sys.exit()
     if (cmdargs["input"].strip()).endswith(".DATA"):

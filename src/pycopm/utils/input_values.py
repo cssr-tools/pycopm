@@ -6,7 +6,9 @@ Utiliy functions to set the input values from the toml configuration file.
 """
 
 import csv
+import sys
 import tomllib
+import subprocess
 from itertools import islice
 import numpy as np
 from resdata.grid import Grid
@@ -36,6 +38,48 @@ def process_input(dic, in_file):
         dic[val] = np.array(dic[val])
     dic["ert"] = dic["ert"].split(" ")
     dic["suffixes"] = ",".join(["'" + val + "'" for val in dic["suffixes"]])
+    check_flow(dic, in_file)
+
+
+def check_flow(dic, in_file):
+    """
+    Check if flow is found
+
+    Args:
+        dic (dict): Global dictionary with required parameters\n
+        in_file (str): Name of the input text file
+
+    Returns:
+        dic (dict): Modified global dictionary
+    """
+    dic["flowpth"] = False
+    for value in dic["flow"].split():
+        if "flow" in value:
+            dic["flowpth"] = value
+            break
+    if not dic["flowpth"]:
+        print(
+            f"\nflow is not included in the configuration file {in_file}.\n"
+            "See the pycopm documentation.\n"
+        )
+        sys.exit()
+    if (
+        subprocess.call(
+            dic["flowpth"].strip(),
+            shell=True,
+            stderr=subprocess.STDOUT,
+            stdout=subprocess.DEVNULL,
+        )
+        != 1
+    ):
+        print(
+            f"\nThe OPM flow executable '{dic['flowpth'].strip()}' is not found; "
+            "try to install it following the pycopm documentation.\nIf it was "
+            "built from source, then either add the folder location to your path, "
+            "or write the path\nto flow in the toml configuration file "
+            "(e.g., flow = '/home/pycopm/build/opm-simulators/bin/flow').\n"
+        )
+        sys.exit()
 
 
 def read_reference(dic):

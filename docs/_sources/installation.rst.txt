@@ -7,6 +7,8 @@ While using package managers such as Anaconda, Miniforge, or Mamba might work, t
 In addition, the current supported Python versions are 3.11 to 3.12. We will update the documentation when Python3.13 is supported (e.g., the resdata Python package is not yet available
 via pip install in Python 3.13).
 
+.. _vpycopm:
+
 Python package
 --------------
 
@@ -42,6 +44,8 @@ install the Python requirements in a virtual environment with the following comm
 
     Typing **git tag -l** writes all available specific versions.
 
+.. _opmflow:
+
 OPM Flow
 --------
 You also need to install:
@@ -57,7 +61,7 @@ You also need to install:
 
     For not macOS users, to install the Python opm package (this is an alternative
     to `resdata <https://github.com/equinor/resdata>`_, both are use to read OPM output files; while resdata is easier to
-    install in macOS, opm seems to be faster), execute in the terminal
+    install in macOS, opm seems to be faster; the default is `-u resdata`), execute in the terminal
 
     **pip install opm**
 
@@ -67,7 +71,8 @@ You also need to install:
 
 Source build in Linux/Windows
 +++++++++++++++++++++++++++++
-If you are a Linux user (including the Windows subsystem for Linux), then you could try to build Flow (after installing the `prerequisites <https://opm-project.org/?page_id=239>`_) from the master branches with mpi support by running
+If you are a Linux user (including the Windows subsystem for Linux, see `this link <https://learn.microsoft.com/en-us/windows/python/web-frameworks>`_ 
+for a nice tutorial for setting Python environments in WSL), then you could try to build Flow (after installing the `prerequisites <https://opm-project.org/?page_id=239>`_) from the master branches with mpi support by running
 in the terminal the following lines (which in turn should build flow in the folder ./build/opm-simulators/bin/flow): 
 
 .. code-block:: console
@@ -106,9 +111,22 @@ in the terminal the following lines (which in turn should build flow in the fold
 Source build in macOS
 +++++++++++++++++++++
 For macOS, there are no available binary packages, so OPM Flow needs to be built from source, in addition to the dune libraries 
-(see the `prerequisites <https://opm-project.org/?page_id=239>`_, which can be installed using macports or brew). This can be achieved by the following lines:
+(see the `prerequisites <https://opm-project.org/?page_id=239>`_, which can be installed using macports or brew). For example,
+with brew the prerequisites can be installed by:
 
 .. code-block:: console
+
+    brew install boost cmake openblas suite-sparse python@3.12
+
+In addition, it is recommended to uprade and update your macOS to the latest available versions (the following steps have 
+worked for macOS Sequoia 15.4.1 with Apple clang version 17.0.0).
+After the prerequisites are installed and the vpyocpm Python environment is created (see :ref:`vpycopm`), 
+then building OPM Flow and the opm Python package can be achieved with the following lines:
+
+.. code-block:: console
+
+    deactivate
+    source vpycopm/bin/activate
 
     CURRENT_DIRECTORY="$PWD"
 
@@ -124,8 +142,6 @@ For macOS, there are no available binary packages, so OPM Flow needs to be built
     do
         git clone https://github.com/OPM/opm-$repo.git
     done
-
-    source vpycopm/bin/activate
 
     mkdir build
 
@@ -147,3 +163,9 @@ For macOS, there are no available binary packages, so OPM Flow needs to be built
     echo "export PYTHONPATH=\$PYTHONPATH:$CURRENT_DIRECTORY/build/opm-common/python" >> $CURRENT_DIRECTORY/vpycopm/bin/activate
 
 This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH. Then after execution, deactivate and activate the Python virtual environment.
+
+.. note::
+    You can test if flow works by typing in the terminal `./build/opm-simulators/bin/flow --help`. In addition, you can add `build/opm-simulators/bin` to your path 
+    to execute it as flow. You can also test that the Python package opm works by executing `python -c "import opm"`. If for any reason the installation of the Python 
+    opm package was not sucessful, still all functionality of **pycopm** is available, just do not execute **pycopm** with the flag `-u opm` (see the note in 
+    :ref:`opmflow` for a brief comment about the Python packages resdata and opm).  
