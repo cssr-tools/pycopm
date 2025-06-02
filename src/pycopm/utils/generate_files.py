@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911,R0801
+# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911,R0801,E1102
 
 """
 Create modified (coarser, finner, submodels, transformations) OPM files.
@@ -11,6 +11,7 @@ import csv
 import sys
 import subprocess
 import numpy as np
+from alive_progress import alive_bar
 from resdata.grid import Grid
 from resdata.resfile import ResdataFile
 from mako.template import Template
@@ -125,7 +126,9 @@ def create_deck(dic):
                         f".DATA\n"
                     )
                 sys.exit()
-        print(f"\nThe initial/dry run of {dic['deck']}.DATA succeeded")
+        print(
+            f"\nThe initial/dry run of {dic['deck']}.DATA succeeded (see {dic['fol']}/)"
+        )
     if dic["mode"] in ["prep_deck", "deck", "deck_dry", "all"]:
         coarsening_dir(dic)
         dic["deck"] = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN"
@@ -150,17 +153,17 @@ def create_deck(dic):
         dic["nrptsrtc"] = 0
         dic["hasnnc"] = False
         if dic["refinement"]:
-            print("\nInitializing pycopm to generate the refinned files, please wait")
+            print("\nInitializing pycopm to generate the refinned files, please wait.")
         elif dic["vicinity"]:
-            print("\nInitializing pycopm to generate the submodel files, please wait")
+            print("\nInitializing pycopm to generate the submodel files, please wait.")
         elif dic["transform"]:
             print(
-                "\nInitializing pycopm to generate the transformed files, please wait"
+                "\nInitializing pycopm to generate the transformed files, please wait."
             )
             dic["rcijk"] = np.array([0, 0, 0])
             dic["refinement"] = True
         elif not dic["ijk"]:
-            print("\nInitializing pycopm to generate the coarsened files, please wait")
+            print("\nInitializing pycopm to generate the coarsened files, please wait.")
         initialize_variables(dic)
         dic["tc"] = dic["xn"] * dic["yn"] * dic["zn"]
         dic["con"] = np.array([0 for _ in range(dic["tc"])])
@@ -192,44 +195,56 @@ def create_deck(dic):
         z_t = np.array([np.nan for _ in range(dic["tc"])])
         z_b = np.array([np.nan for _ in range(dic["tc"])])
         z_b_t = np.array([np.nan for _ in range(dic["tc"])])
+        print("Processing the mappings")
         if dic["refinement"]:
-            for name in (
+            names = (
                 dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]
-            ):
-                dic[name] = np.zeros(dic["tc"])
-                if dic["resdata"]:
-                    if name == "porv":
-                        dic[name] = np.divide(
-                            np.array(dic["ini"].iget_kw(name.upper())[0]), dic["nc"]
-                        )
-                    elif name in dic["rptrst"]:
-                        dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
+            )
+            with alive_bar(len(names)) as bar_animation:
+                for name in names:
+                    bar_animation()
+                    dic[name] = np.zeros(dic["tc"])
+                    if dic["resdata"]:
+                        if name == "porv":
+                            dic[name] = np.divide(
+                                np.array(dic["ini"].iget_kw(name.upper())[0]), dic["nc"]
+                            )
+                        elif name in dic["rptrst"]:
+                            dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[
+                                0
+                            ]
+                        else:
+                            dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[
+                                0
+                            ]
                     else:
-                        dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
-                else:
-                    if name == "porv":
-                        dic[name] = np.divide(
-                            np.array(dic["ini"][name.upper()]), dic["nc"]
-                        )
-                    elif name in dic["rptrst"]:
-                        dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
-                    else:
-                        dic[name][dic["actind"]] = dic["ini"][name.upper()]
-                dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
-                n = 0
-                for k in range(dic["zn"]):
-                    for _ in range(dic["Z"][k] + 1):
-                        for j in range(dic["yn"]):
-                            for _ in range(dic["Y"][j] + 1):
-                                for i in range(dic["xn"]):
-                                    ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                                    for _ in range(dic["X"][i] + 1):
-                                        dic[f"{name}_c"][n] = str(
-                                            int(dic[name][ind])
-                                            if "num" in name
-                                            else dic[name][ind]
+                        if name == "porv":
+                            dic[name] = np.divide(
+                                np.array(dic["ini"][name.upper()]), dic["nc"]
+                            )
+                        elif name in dic["rptrst"]:
+                            dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
+                        else:
+                            dic[name][dic["actind"]] = dic["ini"][name.upper()]
+                    dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
+                    n = 0
+                    for k in range(dic["zn"]):
+                        for _ in range(dic["Z"][k] + 1):
+                            for j in range(dic["yn"]):
+                                for _ in range(dic["Y"][j] + 1):
+                                    for i in range(dic["xn"]):
+                                        ind = (
+                                            i
+                                            + j * dic["xn"]
+                                            + k * dic["xn"] * dic["yn"]
                                         )
-                                        n += 1
+                                        for _ in range(dic["X"][i] + 1):
+                                            dic[f"{name}_c"][n] = str(
+                                                int(dic[name][ind])
+                                                if "num" in name
+                                                else dic[name][ind]
+                                            )
+                                            n += 1
             dic["actnum_c"] = ["1" if float(val) > 0 else "0" for val in dic["porv_c"]]
         elif dic["vicinity"]:
             map_vicinity(dic)
@@ -243,32 +258,40 @@ def create_deck(dic):
                     dic[name][dic["actind"]] = dic["ini"][name.upper()]
                 for name in dic["rptrst"]:
                     dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
-                for k in range(dic["zn"]):
-                    for j in range(dic["yn"]):
-                        for i in range(dic["xn"]):
-                            ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                            cxyz = dic["grid"].xyz_from_ijk(i, j, k)
-                            x_0, y_0, z_0 = 0.0, 0.0, 0.0
-                            x_1, y_1 = 0.0, 0.0
-                            for m, o, p in zip(range(4), [0, 0, 1, 1], [0, 1, 0, 1]):
-                                x_0 += abs(cxyz[0][1 + 2 * m] - cxyz[0][2 * m]) / 4.0
-                                x_1 += abs(cxyz[1][1 + 2 * m] - cxyz[1][2 * m]) / 4.0
-                                y_0 += (
-                                    abs(cxyz[0][p + o * 4 + 2] - cxyz[0][p + o * 4])
-                                    / 4.0
-                                )
-                                y_1 += (
-                                    abs(cxyz[1][p + o * 4 + 2] - cxyz[1][p + o * 4])
-                                    / 4.0
-                                )
-                                z_0 += abs(cxyz[2][m + 4] - cxyz[2][m]) / 4.0
-                            dic["d_x"][ind] = (x_0**2 + x_1**2) ** 0.5
-                            dic["d_y"][ind] = (y_0**2 + y_1**2) ** 0.5
-                            dic["d_z"][ind] = z_0
-                            z_t[ind] = min(cxyz[2][i] for i in zti)
-                            z_b[ind] = max(cxyz[2][i] for i in zti)
-                            tmp = max(cxyz[2][i] for i in zbi)
-                            z_b_t[ind] = tmp - z_t[ind]
+                with alive_bar(dic["tc"]) as bar_animation:
+                    for k in range(dic["zn"]):
+                        for j in range(dic["yn"]):
+                            for i in range(dic["xn"]):
+                                bar_animation()
+                                ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                                cxyz = dic["grid"].xyz_from_ijk(i, j, k)
+                                x_0, y_0, z_0 = 0.0, 0.0, 0.0
+                                x_1, y_1 = 0.0, 0.0
+                                for m, o, p in zip(
+                                    range(4), [0, 0, 1, 1], [0, 1, 0, 1]
+                                ):
+                                    x_0 += (
+                                        abs(cxyz[0][1 + 2 * m] - cxyz[0][2 * m]) / 4.0
+                                    )
+                                    x_1 += (
+                                        abs(cxyz[1][1 + 2 * m] - cxyz[1][2 * m]) / 4.0
+                                    )
+                                    y_0 += (
+                                        abs(cxyz[0][p + o * 4 + 2] - cxyz[0][p + o * 4])
+                                        / 4.0
+                                    )
+                                    y_1 += (
+                                        abs(cxyz[1][p + o * 4 + 2] - cxyz[1][p + o * 4])
+                                        / 4.0
+                                    )
+                                    z_0 += abs(cxyz[2][m + 4] - cxyz[2][m]) / 4.0
+                                dic["d_x"][ind] = (x_0**2 + x_1**2) ** 0.5
+                                dic["d_y"][ind] = (y_0**2 + y_1**2) ** 0.5
+                                dic["d_z"][ind] = z_0
+                                z_t[ind] = min(cxyz[2][i] for i in zti)
+                                z_b[ind] = max(cxyz[2][i] for i in zti)
+                                tmp = max(cxyz[2][i] for i in zbi)
+                                z_b_t[ind] = tmp - z_t[ind]
             else:
                 zti = [2, 5, 8, 11]
                 zbi = [14, 17, 20, 23]
@@ -277,28 +300,30 @@ def create_deck(dic):
                     dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
                 for name in dic["rptrst"]:
                     dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
-                for cell in dic["grid"].cells():
-                    dic["d_x"][cell.global_index] = dic["grid"].get_cell_dims(
-                        ijk=(cell.i, cell.j, cell.k)
-                    )[0]
-                    dic["d_y"][cell.global_index] = dic["grid"].get_cell_dims(
-                        ijk=(cell.i, cell.j, cell.k)
-                    )[1]
-                    actnum[cell.global_index] = cell.active
-                    z_t[cell.global_index] = min(
-                        cxyz[cell.global_index][i] for i in zti
-                    )
-                    z_b[cell.global_index] = max(
-                        cxyz[cell.global_index][i] for i in zti
-                    )
-                    tmp = max(cxyz[cell.global_index][i] for i in zbi)
-                    z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
-                    dic["d_z"][cell.global_index] = dic["grid"].cell_dz(
-                        ijk=(cell.i, cell.j, cell.k)
-                    )
-                    v_c[cell.global_index] = dic["grid"].cell_volume(
-                        ijk=(cell.i, cell.j, cell.k)
-                    )
+                with alive_bar(dic["tc"]) as bar_animation:
+                    for cell in dic["grid"].cells():
+                        bar_animation()
+                        dic["d_x"][cell.global_index] = dic["grid"].get_cell_dims(
+                            ijk=(cell.i, cell.j, cell.k)
+                        )[0]
+                        dic["d_y"][cell.global_index] = dic["grid"].get_cell_dims(
+                            ijk=(cell.i, cell.j, cell.k)
+                        )[1]
+                        actnum[cell.global_index] = cell.active
+                        z_t[cell.global_index] = min(
+                            cxyz[cell.global_index][i] for i in zti
+                        )
+                        z_b[cell.global_index] = max(
+                            cxyz[cell.global_index][i] for i in zti
+                        )
+                        tmp = max(cxyz[cell.global_index][i] for i in zbi)
+                        z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
+                        dic["d_z"][cell.global_index] = dic["grid"].cell_dz(
+                            ijk=(cell.i, cell.j, cell.k)
+                        )
+                        v_c[cell.global_index] = dic["grid"].cell_volume(
+                            ijk=(cell.i, cell.j, cell.k)
+                        )
             dic["d_ax"][dic["actind"]] = dic["d_x"][dic["actind"]]
             dic["d_ay"][dic["actind"]] = dic["d_y"][dic["actind"]]
             dic["d_az"][dic["actind"]] = dic["d_z"][dic["actind"]]
@@ -369,6 +394,10 @@ def create_deck(dic):
             ) as file:
                 for row in dic["deckcorr"]:
                     file.write(row + "\n")
+            print(
+                f"\nRunning {dic['fol']}/{dic['write']}_2DAYS.DATA and "
+                f"{dic['fol']}/{dic['write']}_CORR.DATA to correct the pore volume\n"
+            )
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
             )
@@ -440,12 +469,16 @@ def create_deck(dic):
                 file.write("PORV\n")
                 file.write("\n".join(f"{val}" for val in cor_pv))
                 file.write("\n/")
+            print(
+                f"\nRunning {dic['fol']}/{dic['write']}_CORR.DATA with the corrected "
+                "pore volume\n"
+            )
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
             )
         if dic["hasnnc"] > 0:
-            print("\nCall OPM Flow for a dry run of the generated model\n")
-            print("\nThis is needed for the nnctrans, please wait\n")
+            print("\nCall OPM Flow for a dry run of the generated model.\n")
+            print("\nThis is needed for the nnctrans, please wait.\n")
             os.chdir(dic["fol"])
             os.system(f"{dic['flow']} {dic['fol']}/{dic['write']}.DATA {dic['flags']}")
             handle_nnc_trans(dic)
@@ -455,24 +488,30 @@ def create_deck(dic):
         )
 
     if dic["mode"] in ["deck_dry", "dry", "all"]:
-        print("\nCall OPM Flow for a dry run of the generated model\n")
+        print("\nCall OPM Flow for a dry run of the generated model.\n")
         os.chdir(dic["fol"])
-        prosc = subprocess.run(
+        subprocess.run(
             [dic["flow"], f"{dic['write']}.DATA"] + dic["flags"].split(" "), check=False
         )
-        if prosc.returncode != 0:
-            print(
-                "\nThe dry run of the generated model "
-                f"{dic['fol']}/{dic['write']}.DATA failed. Check the Flow output in the "
-                "terminal for the error which might be possible to fix by correcting the "
-                f"input deck {dic['pth']}.DATA or the generated deck; otherwise, please raise an "
-                "issue at https://github.com/cssr-tools/pycopm/issues"
-            )
-        else:
-            print(
-                "\nThe dry run of the generated model "
-                f"{dic['fol']}/{dic['write']}.DATA succeeded.\n"
-            )
+        # It seems there is a bug for dryruns in flow, commenting the following until fixing this
+        # prosc = subprocess.run(
+        #     [dic["flow"], f"{dic['write']}.DATA"] + dic["flags"].split(" "), check=False
+        # )
+        # It seems there is a bug for dryruns in flow, commenting the following until fixing this
+        # if prosc.returncode != 0:
+        #     print(
+        #         "\nThe dry run of the generated model "
+        #         f"{dic['fol']}/{dic['write']}.DATA failed. Check the Flow output in the "
+        #         "terminal for the error which might be possible to fix by correcting the "
+        #         f"input deck {dic['pth']}.DATA or the generated deck; otherwise, please raise an "
+        #         "issue at https://github.com/cssr-tools/pycopm/issues"
+        #     )
+        # else:
+        #     print(
+        #         "\nThe dry run of the generated model "
+        #         f"{dic['fol']}/{dic['write']}.DATA succeeded.\n"
+        #     )
+        print(f"\nThe dryrun results have been written to {dic['fol']}/")
 
 
 def initialize_variables(dic):
@@ -829,16 +868,20 @@ def write_props(dic):
         None
 
     """
-    for name in dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]:
-        dic[f"{name}_c"].insert(0, f"{name.upper()}")
-        dic[f"{name}_c"].insert(
-            0,
-            "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm",
-        )
-        dic[f"{name}_c"].append("/")
-        with open(
-            f"{dic['fol']}/{dic['label']}{name.upper()}.INC",
-            "w",
-            encoding="utf8",
-        ) as file:
-            file.write("\n".join(dic[f"{name}_c"]))
+    names = dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]
+    print("Writing the files")
+    with alive_bar(len(names)) as bar_animation:
+        for name in names:
+            bar_animation()
+            dic[f"{name}_c"].insert(0, f"{name.upper()}")
+            dic[f"{name}_c"].insert(
+                0,
+                "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm",
+            )
+            dic[f"{name}_c"].append("/")
+            with open(
+                f"{dic['fol']}/{dic['label']}{name.upper()}.INC",
+                "w",
+                encoding="utf8",
+            ) as file:
+                file.write("\n".join(dic[f"{name}_c"]))

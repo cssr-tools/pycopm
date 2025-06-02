@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911
+# pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911,E1102
 
 """
 Methods to create modified (coarser, finner, submodels, transformations) OPM files.
@@ -9,6 +9,7 @@ Methods to create modified (coarser, finner, submodels, transformations) OPM fil
 import sys
 import numpy as np
 import pandas as pd
+from alive_progress import alive_bar
 from shapely import Polygon, prepare, contains_xy
 from pycopm.utils.parser_deck import get_wells_for_vicinity
 
@@ -1101,42 +1102,47 @@ def map_vicinity(dic):
     nc = dic["xn"] * dic["yn"] * dic["zn"]
     dic["actind"] = dic["porv"] > 0
     dic["freqsub"] = [0.0] * dic["nz"]
-    for name in dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]:
-        if name != "porv":
-            dic[name] = np.zeros(nc)
-            if dic["resdata"]:
-                if name in dic["rptrst"]:
-                    dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
+    names = dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]
+    with alive_bar(len(names)) as bar_animation:
+        for name in names:
+            bar_animation()
+            if name != "porv":
+                dic[name] = np.zeros(nc)
+                if dic["resdata"]:
+                    if name in dic["rptrst"]:
+                        dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
+                    else:
+                        dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
                 else:
-                    dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
-            else:
-                if name in dic["rptrst"]:
-                    dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
-                else:
-                    dic[name][dic["actind"]] = dic["ini"][name.upper()]
-        dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
-        n = 0
-        for k in range(dic["zn"]):
-            for j in range(dic["yn"]):
-                for i in range(dic["xn"]):
-                    ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                    if (
-                        dic["mini"] <= i + 1
-                        and i + 1 <= dic["maxi"]
-                        and dic["minj"] <= j + 1
-                        and j + 1 <= dic["maxj"]
-                        and dic["mink"] <= k + 1
-                        and k + 1 <= dic["maxk"]
-                    ):
-                        if dic["actind"][ind] and dic["subm"][ind]:
-                            dic[f"{name}_c"][n] = str(
-                                int(dic[name][ind]) if "num" in name else dic[name][ind]
-                            )
-                            if name == "porv":
-                                dic["freqsub"][k + 1 - dic["mink"]] += 1.0
-                        else:
-                            dic[f"{name}_c"][n] = "0"
-                        n += 1
+                    if name in dic["rptrst"]:
+                        dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
+                    else:
+                        dic[name][dic["actind"]] = dic["ini"][name.upper()]
+            dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
+            n = 0
+            for k in range(dic["zn"]):
+                for j in range(dic["yn"]):
+                    for i in range(dic["xn"]):
+                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                        if (
+                            dic["mini"] <= i + 1
+                            and i + 1 <= dic["maxi"]
+                            and dic["minj"] <= j + 1
+                            and j + 1 <= dic["maxj"]
+                            and dic["mink"] <= k + 1
+                            and k + 1 <= dic["maxk"]
+                        ):
+                            if dic["actind"][ind] and dic["subm"][ind]:
+                                dic[f"{name}_c"][n] = str(
+                                    int(dic[name][ind])
+                                    if "num" in name
+                                    else dic[name][ind]
+                                )
+                                if name == "porv":
+                                    dic["freqsub"][k + 1 - dic["mink"]] += 1.0
+                            else:
+                                dic[f"{name}_c"][n] = "0"
+                            n += 1
     if "opernum" not in dic["regions"]:
         dic["regions"] += ["opernum"]
     dic["actnum_c"] = ["1" if float(val) > 0 else "0" for val in dic["porv_c"]]

@@ -106,6 +106,7 @@ def pycopm():
 
     # Open pycopm.utils.inputvalues to see the dic name abbreviations meaning
     process_input(dic, file)
+    print(f"\npycopm is generating the input files for {dic['field']}, please wait.")
 
     for folder in ["preprocessing", "parameters", "jobs", "observations"]:
         if not os.path.exists(f"{dic['fol']}/{folder}"):
@@ -135,7 +136,9 @@ def pycopm():
             f" {dic['fol']}/preprocessing/INCLUDE & wait"
         )
 
+    print(f"\nThe generated files have been written to {dic['fol']}")
     if dic["mode"] in ["single-run", "ert"]:
+        print("\nRunning the simulations, please wait.")
         # Run Flow or selected ERT functionality
         simulations(dic)
 

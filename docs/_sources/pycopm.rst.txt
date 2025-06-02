@@ -15,6 +15,6 @@ Module contents
 
 .. automodule:: pycopm
    :members:
-   :undoc-members:
-   :show-inheritance:
    :private-members:
+   :show-inheritance:
+   :undoc-members:
