@@ -548,9 +548,10 @@ def visualizeData():
         ax.legend()
         fig.savefig(f"{output_folder}/postprocessing/cumulative_misfit_mass_normalized_ite-{iter}.png", bbox_inches="tight")
 
+    print(f"\nThe postprocessing files have been written to {output_folder}/postprocessing")
     if N > 1:
         with open(f"{output_folder}/postprocessing/errors.txt", 'w') as f:
-            f.write(f'\nClosest final realization to all obs:{eobs[-1][0][0]}\n')
+            f.write(f'Closest final realization to all obs:{eobs[-1][0][0]}\n')
             f.write(f'Number of parameters to HM: {len(csvData)}\n')
             f.write(f'Mean simulation time of a single ensemble : {timedelta(seconds=meant)}\n')
             f.write(f'Total execution time : {timedelta(seconds=${'{0:.2f}'.format(time)})}\n')
@@ -559,7 +560,7 @@ def visualizeData():
                 f.write(f'Iteration {i}; Number of ensembles {int(n_e[i])}\n')
                 f.write(f'Missmatch (mean): {sum(error_hist[i])/(len(error_hist[i])) : .4e} \n')
                 f.write(f'Missmatch (closest realization to all obs): {error_ens[i][eobs[i][0][0]]: .4e}\n')
-        print(f'Closest final realization to all obs:{eobs[-1][0][0]}')
+        print(f'\nClosest final realization to all obs:{eobs[-1][0][0]}')
         print(f'Number of parameters to HM: {len(csvData)}')
         print(f'Mean simulation time of a single ensemble: {timedelta(seconds=meant)}')
         print(f'Total execution time: {timedelta(seconds=${'{0:.2f}'.format(time)})}')
@@ -572,7 +573,7 @@ def visualizeData():
         with open(f"{output_folder}/postprocessing/errors.txt", 'w') as f:
             f.write(f'Missmatch (standard simulation from opm-test deck) : {error_standard : .4e}\n')
             f.write(f'Missmatch (single simulation): {error_ens[0][eobs[0][0][0]] : .4e}\n')
-        print(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}')
+        print(f'\nMissmatch (standard simulation from opm-test deck): {error_standard : .4e}')
         print(f'Missmatch (single simulation): {error_ens[0][eobs[0][0][0]] : .4e}')
     % if dic['field']=='drogon':
     print(f'Difference (webviz - pycopm): {goal : .2f} (a positive number (percentage) is the goal)')

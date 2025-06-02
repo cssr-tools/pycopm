@@ -4,8 +4,6 @@ Installation
 
 The following steps work installing the dependencies in Linux via apt-get or in macOS using brew or macports.
 While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
-In addition, the current supported Python versions are 3.11 to 3.12. We will update the documentation when Python3.13 is supported (e.g., the resdata Python package is not yet available
-via pip install in Python 3.13).
 
 .. _vpycopm:
 
@@ -50,7 +48,7 @@ OPM Flow
 --------
 You also need to install:
 
-* OPM Flow (https://opm-project.org, Release 2024.10 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2025.04 or current master branches)
 
 .. tip::
 

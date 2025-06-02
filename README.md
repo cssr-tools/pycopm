@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/cssr-tools/pycopm/actions/workflows/CI.yml/badge.svg)](https://github.com/cssr-tools/pycopm/actions/workflows/CI.yml)
-<a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20to%203.12-blue.svg"></a>
+<a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20to%203.13-blue.svg"></a>
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <img src="docs/text/figs/pycopm.png" width="900" height="380">
@@ -11,7 +11,7 @@ Creation of OPM Flow geological models from provided input decks with options fo
 
 ## Installation
 You will first need to install
-* OPM Flow (https://opm-project.org, Release 2024.10 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2025.04 or current master branches)
 
 To install the _pycopm_ executable from the development version:
 
@@ -28,7 +28,7 @@ git clone https://github.com/cssr-tools/pycopm.git
 cd pycopm
 # For a specific version (e.g., v2024.10), or skip this step (i.e., edge version)
 git checkout v2024.10
-# Create virtual environment (to specific Python, python3.12 -m venv vpycopm)
+# Create virtual environment (to specific Python, python3.13 -m venv vpycopm)
 python3 -m venv vpycopm
 # Activate virtual environment
 source vpycopm/bin/activate

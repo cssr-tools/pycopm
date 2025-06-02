@@ -44,6 +44,7 @@ def simulations(dic):
         os.chdir(f"{dic['fol']}")
     elif dic["mode"] == "ert":
         os.system(f"ert {dic['ert'][0]} ert.ert & wait")
+    print(f"\nThe simulation results have been written to {dic['fol']}")
 
 
 def plotting(dic, time):
@@ -73,6 +74,7 @@ def plotting(dic, time):
     filledtemplate = mytemplate.render(**var)
     with open(f"{dic['fol']}/jobs/plotting.py", "w", encoding="utf8") as file:
         file.write(filledtemplate)
+    print("\nRunning the postprocessing methods, please wait.")
     task = subprocess.run(["python", f"{dic['fol']}/jobs/plotting.py"], check=True)
     if task.returncode != 0:
         raise ValueError(f"Invalid result: { task.returncode }")
