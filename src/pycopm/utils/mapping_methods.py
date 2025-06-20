@@ -356,7 +356,7 @@ def add_pv_bc(dic):
                 )
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["opernum_c"][ins] = "2"
+                dic["opernum_c"][ins] = f"{ind+dic['xn']}"
                 nums += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvy)
@@ -374,7 +374,7 @@ def add_pv_bc(dic):
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["opernum_c"][ins] = "2"
+                        dic["opernum_c"][ins] = f"{ind}"
                         ijs[i] = j + 1
                         nums += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -401,7 +401,7 @@ def add_pv_bc(dic):
                     inb = ind - dic["xn"]
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["opernum_c"][ins] = "2"
+                dic["opernum_c"][ins] = f"{inb}"
                 numn += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvy)
@@ -422,7 +422,7 @@ def add_pv_bc(dic):
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["opernum_c"][ins] = "2"
+                        dic["opernum_c"][ins] = f"{ind}"
                         ijn[i] = j + 1
                         numn += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -446,7 +446,7 @@ def add_pv_bc(dic):
                 )
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["opernum_c"][ins] = "2"
+                dic["opernum_c"][ins] = f"{ind+1}"
                 nume += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
@@ -464,7 +464,7 @@ def add_pv_bc(dic):
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["opernum_c"][ins] = "2"
+                        dic["opernum_c"][ins] = f"{ind+1}"
                         ije[j] = i + 1
                         nume += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -491,7 +491,7 @@ def add_pv_bc(dic):
                     inb = ind - 1
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["opernum_c"][ins] = "2"
+                dic["opernum_c"][ins] = f"{inb}"
                 numw += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
@@ -514,7 +514,7 @@ def add_pv_bc(dic):
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["opernum_c"][ins] = "2"
+                        dic["opernum_c"][ins] = f"{ind-1}"
                         ijw[j] = i + 1
                         numw += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -529,7 +529,7 @@ def add_pv_bc(dic):
                 pvw += pvx
         nbc = 0
         for i in range(k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]):
-            if dic["opernum_c"][i] == "2":
+            if dic["opernum_c"][i] != "0":
                 nbc += 1
         if dic["pvcorr"] == 3:
             if dic["hvicinity"] == "diamond":
@@ -540,7 +540,7 @@ def add_pv_bc(dic):
                 for i in range(
                     k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]
                 ):
-                    if dic["opernum_c"][i] == "2":
+                    if dic["opernum_c"][i] != "0":
                         dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
         elif dic["pvcorr"] == 4:
             if dic["hvicinity"] == "diamond":
@@ -622,7 +622,7 @@ def add_pv_bc(dic):
                     for i in range(
                         k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]
                     ):
-                        if dic["opernum_c"][i] == "2":
+                        if dic["opernum_c"][i] != "0":
                             dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
         nbct += nbc
     if dic["hvicinity"] != "diamond" and dic["pvcorr"] not in [3, 4]:
@@ -678,7 +678,7 @@ def add_pv_bc(dic):
                         * (dic["maxj"] - dic["minj"] + 1)
                     )
                     if float(dic["porv_c"][ind]) > 0:
-                        dic["opernum_c"][ind] = "2"
+                        dic["opernum_c"][ind] = f"{ind}"
                         break
                 for k in range(dic["nz"], 0, -1):
                     ind = (
@@ -689,14 +689,14 @@ def add_pv_bc(dic):
                         * (dic["maxj"] - dic["minj"] + 1)
                     )
                     if float(dic["porv_c"][ind]) > 0:
-                        dic["opernum_c"][ind] = "2"
+                        dic["opernum_c"][ind] = f"{ind}"
                         break
     porv = sum(float(val) for val in dic["porv_c"])
     if dic["pvcorr"] in [1, 2, 3]:
-        freq = sum(1 for val in dic["opernum_c"] if val == "2")
+        freq = sum(1 for val in dic["opernum_c"] if val != "0")
         corr = (sum(dic["porvk"]) + sum(dic["porvij"]) - porv) / freq
         for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
-            if dic["opernum_c"][i] == "2":
+            if dic["opernum_c"][i] != "0":
                 dic["porv_c"][i] = str(float(dic["porv_c"][i]) + corr)
     else:
         freq = sum(dic["freqsub"])
@@ -1146,7 +1146,7 @@ def map_vicinity(dic):
     if "opernum" not in dic["regions"]:
         dic["regions"] += ["opernum"]
     dic["actnum_c"] = ["1" if float(val) > 0 else "0" for val in dic["porv_c"]]
-    dic["opernum_c"] = ["1"] * len(dic["porv_c"])
+    dic["opernum_c"] = ["0"] * len(dic["porv_c"])
 
 
 def map_ijk(dic):
