@@ -183,4 +183,4 @@ def test_complex():
             bpv = np.array(bini.iget_kw("PORV")[0])
             cpv = np.array(cini.iget_kw("PORV")[0])
             assert abs(sum(bpv) - sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
-            assert sum(cpv > 0) == [20, 77, 151, 260][i]
+            assert sum(cpv > 0) == [20, 77, 731, 260][i]

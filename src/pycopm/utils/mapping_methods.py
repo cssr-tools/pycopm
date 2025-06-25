@@ -288,6 +288,18 @@ def add_pv_bc(dic):
         dic (dict): Modified global dictionary
 
     """
+    if (
+        dic["hvicinity"] in ["diamond", "diamondxy"]
+        and int(dic["vicinity"].split(" ")[2]) > 0
+    ):
+        for well in dic["wvicinity"]:
+            dic["subgind"].append(
+                well[0]
+                - dic["mini"]
+                + (well[1] - dic["minj"] + 1) * dic["nx"]
+                + (well[2] - dic["mink"] + 1) * dic["nx"] * dic["ny"]
+                + 1
+            )
     nbct = 0
     for k in range(dic["nz"]):
         k_r = k + dic["mink"] - 1
@@ -356,7 +368,8 @@ def add_pv_bc(dic):
                 )
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["subtoglob_c"][ins] = f"{ind+dic['xn']}"
+                if ins not in dic["subgind"]:
+                    dic["subtoglob_c"][ins] = f"{ind+dic['xn']}"
                 nums += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvy)
@@ -374,7 +387,8 @@ def add_pv_bc(dic):
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["subtoglob_c"][ins] = f"{ind}"
+                        if ins not in dic["subgind"]:
+                            dic["subtoglob_c"][ins] = f"{ind}"
                         ijs[i] = j + 1
                         nums += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -401,7 +415,8 @@ def add_pv_bc(dic):
                     inb = ind - dic["xn"]
                 pvy += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["subtoglob_c"][ins] = f"{inb}"
+                if j_n == 0 and ins not in dic["subgind"]:
+                    dic["subtoglob_c"][ins] = f"{inb}"
                 numn += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvy)
@@ -422,7 +437,8 @@ def add_pv_bc(dic):
                     )
                     pvy += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["subtoglob_c"][ins] = f"{ind}"
+                        if ins not in dic["subgind"]:
+                            dic["subtoglob_c"][ins] = f"{ind-dic['xn']}"
                         ijn[i] = j + 1
                         numn += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -446,35 +462,44 @@ def add_pv_bc(dic):
                 )
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["subtoglob_c"][ins] = f"{ind+1}"
+                if ins not in dic["subgind"]:
+                    dic["subtoglob_c"][ins] = f"{ind+1}"
                 nume += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
                 else:
                     pve += pvx
-            elif dic["porv"][ind + 1] > 0:
-                for i in range(dic["nx"] - 1 - i_0):
-                    ins = (
-                        i + i_0 + 1 + (j + j_0) * dic["nx"] + k * dic["nx"] * dic["ny"]
-                    )
-                    ind = (
-                        (i + dic["minki"][k_r] - 1)
-                        + (j + dic["minkj"][k_r] - 1) * dic["xn"]
-                        + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
-                    )
-                    pvx += 0.5 * dic["porv"][ind]
-                    if int(dic["actnum_c"][ins]) > 0:
-                        dic["subtoglob_c"][ins] = f"{ind+1}"
-                        ije[j] = i + 1
-                        nume += 1.0
-                        if dic["pvcorr"] in [1, 2]:
-                            dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
-                        else:
+            elif len(dic["porv"]) < ind + 1:
+                if dic["porv"][ind + 1] > 0:
+                    for i in range(dic["nx"] - 1 - i_0):
+                        ins = (
+                            i
+                            + i_0
+                            + 1
+                            + (j + j_0) * dic["nx"]
+                            + k * dic["nx"] * dic["ny"]
+                        )
+                        ind = (
+                            (i + dic["minki"][k_r] - 1)
+                            + (j + dic["minkj"][k_r] - 1) * dic["xn"]
+                            + (k + dic["mink"] - 1) * dic["xn"] * dic["yn"]
+                        )
+                        pvx += 0.5 * dic["porv"][ind]
+                        if int(dic["actnum_c"][ins]) > 0:
+                            if ins not in dic["subgind"]:
+                                dic["subtoglob_c"][ins] = f"{ind+1}"
+                            ije[j] = i + 1
+                            nume += 1.0
+                            if dic["pvcorr"] in [1, 2]:
+                                dic["porv_c"][ins] = str(
+                                    float(dic["porv_c"][ins]) + pvx
+                                )
+                            else:
+                                pve += pvx
+                            break
+                        if i == dic["nx"] - 2 - i_0:
                             pve += pvx
-                        break
-                    if i == dic["nx"] - 2 - i_0:
-                        pve += pvx
-                        break
+                            break
             else:
                 pve += pvx
             ins = (
@@ -491,7 +516,8 @@ def add_pv_bc(dic):
                     inb = ind - 1
                 pvx += dic["porv"][ind]
             if int(dic["actnum_c"][ins]) > 0:
-                dic["subtoglob_c"][ins] = f"{inb}"
+                if i_n == 0 and ins not in dic["subgind"]:
+                    dic["subtoglob_c"][ins] = f"{inb}"
                 numw += 1.0
                 if dic["pvcorr"] in [1, 2]:
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
@@ -514,7 +540,8 @@ def add_pv_bc(dic):
                     )
                     pvx += 0.5 * dic["porv"][ind]
                     if int(dic["actnum_c"][ins]) > 0:
-                        dic["subtoglob_c"][ins] = f"{ind-1}"
+                        if ins not in dic["subgind"]:
+                            dic["subtoglob_c"][ins] = f"{ind-1}"
                         ijw[j] = i + 1
                         numw += 1.0
                         if dic["pvcorr"] in [1, 2]:
@@ -666,31 +693,6 @@ def add_pv_bc(dic):
             pvt /= len(inds)
             for ind in inds:
                 dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
-    if dic["zn"] != dic["nz"]:
-        for j in range(0, dic["maxj"] - dic["minj"] + 1):
-            for i in range(0, dic["maxi"] - dic["mini"] + 1):
-                for k in range(0, dic["maxk"] - dic["mink"] + 1):
-                    ind = (
-                        i
-                        + j * (dic["maxi"] - dic["mini"] + 1)
-                        + k
-                        * (dic["maxi"] - dic["mini"] + 1)
-                        * (dic["maxj"] - dic["minj"] + 1)
-                    )
-                    if float(dic["porv_c"][ind]) > 0 and ind > -1:
-                        dic["subtoglob_c"][ind] = f"{ind}"
-                        break
-                for k in range(dic["nz"], 0, -1):
-                    ind = (
-                        i
-                        + j * (dic["maxi"] - dic["mini"] + 1)
-                        + (dic["nz"] - k - 1)
-                        * (dic["maxi"] - dic["mini"] + 1)
-                        * (dic["maxj"] - dic["minj"] + 1)
-                    )
-                    if float(dic["porv_c"][ind]) > 0 and ind > -1:
-                        dic["subtoglob_c"][ind] = f"{ind}"
-                        break
     porv = sum(float(val) for val in dic["porv_c"])
     if dic["pvcorr"] in [1, 2, 3]:
         freq = sum(1 for val in dic["subtoglob_c"] if val != "0")
@@ -1014,12 +1016,14 @@ def handle_vicinity(dic):
                             or abs(i + j) > inter
                         ):
                             continue
-                        ind = (
-                            (well[0] + i)
-                            + (well[1] + j) * dic["xn"]
-                            + well[2] * dic["xn"] * dic["yn"]
-                        )
-                        dic["subm"][ind] = True
+                        # All cells above and below are included in the submodel
+                        for k in range(dic["zn"]):
+                            ind = (
+                                (well[0] + i)
+                                + (well[1] + j) * dic["xn"]
+                                + k * dic["xn"] * dic["yn"]
+                            )
+                            dic["subm"][ind] = True
         else:
             inter = np.array(
                 [
@@ -1068,6 +1072,7 @@ def handle_vicinity(dic):
     dic["maxkj"] = [1] * dic["zn"]
     dic["porvk"] = np.zeros(dic["zn"])
     dic["porvij"] = np.zeros(dic["zn"])
+    dic["subgind"] = []
     for k in range(dic["zn"]):
         for j in range(dic["yn"]):
             for i in range(dic["xn"]):
