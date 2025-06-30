@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #!/usr/bin/env python3
 
-""""
+"""
 Script to visualize the time series quantities
 after the hm
 """

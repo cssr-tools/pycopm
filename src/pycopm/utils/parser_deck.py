@@ -6,7 +6,10 @@
 Methods to parser the input OPM deck.
 """
 
+import sys
 import csv
+
+csv.field_size_limit(sys.maxsize)
 
 
 def process_the_deck(dic):

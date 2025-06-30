@@ -734,8 +734,9 @@ def handle_nnc_trans(dic):
         coa_dz[coapv > 0] = np.array(coa["DZ"])
         ref_dz[refpv > 0] = np.array(dic["ini"]["DZ"])
     dic["coa_editnnc"] = []
+    dic["nnct"] = [[[] for _ in range(dic["yn"])] for _ in range(dic["xn"])]
     indel = []
-    for i, (r1, r2) in enumerate(zip(rnnc1, rnnc2)):
+    for r1, r2, trn in zip(rnnc1, rnnc2, rnnct):
         if dic["resdata"]:
             rijk1 = dic["grid"].get_ijk(global_index=r1 - 1)
             rijk2 = dic["grid"].get_ijk(global_index=r2 - 1)
@@ -752,7 +753,7 @@ def handle_nnc_trans(dic):
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
-                    dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
+                    dic["coa_tranx"][ind] += trn * ref_dz[r1 - 1] / coa_dz[ind]
             elif rijk1[1] + 1 == rijk2[1]:
                 ind = (
                     (dic["ic"][rijk1[0] + 1] - 1)
@@ -760,7 +761,7 @@ def handle_nnc_trans(dic):
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
-                    dic["coa_trany"][ind] += rnnct[i] * ref_dz[r1 - 1] / coa_dz[ind]
+                    dic["coa_trany"][ind] += trn * ref_dz[r1 - 1] / coa_dz[ind]
             elif rijk1[0] == rijk2[0] + 1:
                 ind = (
                     (dic["ic"][rijk2[0] + 1] - 1)
@@ -768,7 +769,7 @@ def handle_nnc_trans(dic):
                     + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
-                    dic["coa_tranx"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
+                    dic["coa_tranx"][ind] += trn * ref_dz[r2 - 1] / coa_dz[ind]
             elif rijk1[1] == rijk2[1] + 1:
                 ind = (
                     (dic["ic"][rijk2[0] + 1] - 1)
@@ -776,10 +777,9 @@ def handle_nnc_trans(dic):
                     + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
                 if coa_dz[ind] > 0:
-                    dic["coa_trany"][ind] += rnnct[i] * ref_dz[r2 - 1] / coa_dz[ind]
-            indel.append(i)
-    rnnc1 = np.delete(rnnc1, indel)
-    rnnc2 = np.delete(rnnc2, indel)
+                    dic["coa_trany"][ind] += trn * ref_dz[r2 - 1] / coa_dz[ind]
+        else:
+            dic["nnct"][rijk1[0]][rijk1[1]].append([rijk1[2], rijk2[2], trn])
     print("Processing the transmissibilities")
     with alive_bar(len(cnnc1)) as bar_animation:
         for n, (n1, n2) in enumerate(zip(cnnc1, cnnc2)):
@@ -790,42 +790,26 @@ def handle_nnc_trans(dic):
             else:
                 ijk1 = coag.ijk_from_global_index(n1 - 1)
                 ijk2 = coag.ijk_from_global_index(n2 - 1)
-            fip1 = ijk1[2] + 1
-            fip2 = ijk2[2] + 1
-            rtran = 0
-            found = 0
-            indel = []
-            for i, (r1, r2) in enumerate(zip(rnnc1, rnnc2)):
-                if dic["resdata"]:
-                    rijk1 = dic["grid"].get_ijk(global_index=r1 - 1)
-                    rijk2 = dic["grid"].get_ijk(global_index=r2 - 1)
+            fip1, fip2 = ijk1[2] + 1, ijk2[2] + 1
+            rtran, found, indel = 0, 0, []
+            if fip1 != fip2 and (ijk1[0] != ijk2[0] or ijk1[1] != ijk2[1]):
+                for i, val in enumerate(dic["nnct"][ijk1[0]][ijk1[1]]):
+                    rfip1 = dic["kc"][val[0] + 1]
+                    rfip2 = dic["kc"][val[1] + 1]
+                    if fip1 == rfip1 and fip2 == rfip2:
+                        rtran += val[2]
+                        found = 1
+                        indel.append(i)
+                for ind in indel[::-1]:
+                    del dic["nnct"][ijk1[0]][ijk1[1]][ind]
+                if found == 1:
+                    mult = rtran / cnnct[n]
                 else:
-                    rijk1 = dic["grid"].ijk_from_global_index(r1 - 1)
-                    rijk2 = dic["grid"].ijk_from_global_index(r2 - 1)
-                rfip1 = dic["kc"][rijk1[2] + 1]
-                rfip2 = dic["kc"][rijk2[2] + 1]
-                if (
-                    ijk1[0] == rijk1[0]
-                    and ijk2[0] == rijk2[0]
-                    and ijk1[1] == rijk1[1]
-                    and ijk2[1] == rijk2[1]
-                    and fip1 == rfip1
-                    and fip2 == rfip2
-                    and fip1 != fip2
-                    and (ijk1[0] != ijk2[0] or ijk1[1] != ijk2[1])
-                ):
-                    rtran += rnnct[i]
-                    found = 1
-                    indel.append(i)
-            rnnc1 = np.delete(rnnc1, indel)
-            rnnc2 = np.delete(rnnc2, indel)
-            if found == 1:
-                mult = rtran / cnnct[n]
-            else:
-                mult = 0
-            dic["coa_editnnc"].append(
-                f"{ijk1[0]+1} {ijk1[1]+1} {ijk1[2]+1} {ijk2[0]+1} {ijk2[1]+1} {ijk2[2]+1} {mult} /"
-            )
+                    mult = 0
+                dic["coa_editnnc"].append(
+                    f"{ijk1[0]+1} {ijk1[1]+1} {ijk1[2]+1} {ijk2[0]+1} "
+                    f"{ijk2[1]+1} {ijk2[2]+1} {mult} /"
+                )
     for name in ["tranx", "trany", "editnnc"]:
         dic[f"coa_{name}"] = [f"{val}" for val in dic[f"coa_{name}"]]
         dic[f"coa_{name}"].insert(0, name.upper())
@@ -878,13 +862,14 @@ def write_props(dic):
     with alive_bar(len(names)) as bar_animation:
         for name in names:
             bar_animation()
+            dic[f"{name}_c"] = compact_format(dic[f"{name}_c"])
             if name == "subtoglob":
-                dic[f"{name}_c"].insert(0, "OPERNUM")
+                dic[f"{name}_c"].insert(0, "OPERNUM\n")
             else:
-                dic[f"{name}_c"].insert(0, f"{name.upper()}")
+                dic[f"{name}_c"].insert(0, f"{name.upper()}\n")
             dic[f"{name}_c"].insert(
                 0,
-                "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm",
+                "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm\n",
             )
             dic[f"{name}_c"].append("/")
             with open(
@@ -892,4 +877,28 @@ def write_props(dic):
                 "w",
                 encoding="utf8",
             ) as file:
-                file.write("\n".join(dic[f"{name}_c"]))
+                file.write("".join(dic[f"{name}_c"]))
+
+
+def compact_format(values):
+    """
+    Use the 'n*x' notation to write repited values to save storage
+
+    Args:
+        values (list): List with the variable values
+
+    Returns:
+        values (list): List with the compacted variable values
+
+    """
+    n, value0, tmp = 0, values[0], []
+    for value in values:
+        if value0 != value or len(values) == 1:
+            tmp.append(f"{n}*{value0} " if n > 1 else f"{value0} ")
+            n = 1
+            value0 = value
+        else:
+            n += 1
+    if value0 == values[-1] and len(values) > 1:
+        tmp.append(f"{n}*{value0} " if n > 1 else f"{value0} ")
+    return tmp

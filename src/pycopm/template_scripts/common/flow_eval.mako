@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2025 NORCE
 # SPDX-License-Identifier: GPL-3.0
 
-""""
+"""
 Script to execute flow
 """
 
