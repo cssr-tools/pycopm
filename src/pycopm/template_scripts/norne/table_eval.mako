@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-""""
+"""
 Script to write the LET saturation functions
 """
 

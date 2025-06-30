@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2024 NORCE
 # SPDX-License-Identifier: GPL-3.0
 
-""""
+"""
 Script to get the simulation time
 """
 
