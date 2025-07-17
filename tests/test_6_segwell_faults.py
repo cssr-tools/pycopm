@@ -24,6 +24,7 @@ OPERNUM 2 30 38 47 52 2* /
 import os
 import pathlib
 import subprocess
+import warnings
 import numpy as np
 from resdata.resfile import ResdataFile
 
@@ -31,7 +32,13 @@ OPM = False
 try:
     OPM = bool(__import__("opm"))
 except ImportError:
-    pass
+    warnings.warn(
+        UserWarning(
+            "The optional OPM Python package for postprocessing "
+            "the simulation files is not found; then, test_6_segwell_faults.py is only run "
+            "using resdata."
+        )
+    )
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
