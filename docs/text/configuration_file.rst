@@ -21,7 +21,7 @@ The first input parameter is:
     flow = "flow --newton-min-iterations=1"
     
 If **flow** is not in your path, then write the full path to the executable, as well as adding mpirun
-if this is supported in your machine (e.g., flow = "mpirun -np 8 /Users/dmar/Github/opm/build/opm-simulators/bin/flow --newton-min-iterations=1").
+if this is supported in your machine (e.g., flow = "mpirun -np 8 /Users/dmar/Github/opm/build/opm-simulators/bin/flow -\-newton-min-iterations=1").
 
 The next entries define the following parameters:
 
@@ -109,7 +109,8 @@ The LET saturation function parameters for each of the coarsened cells are given
     ["eog",       1, 1, "UNIFORM", -1,    2], 
     ["tog",       1, 1, "UNIFORM", 1.1,   5], 
     ["lmlto",   1.5, 1, "UNIFORM", 1,     2],
-    ["emlto",     1, 1, "UNIFORM", 0.9, 2.1], 
+    ["emlto",     1, 1, "UNIFORM", 0.9, 2.1],
+    ["tmlto",   1.5, 1, "UNIFORM", 1,     2], 
     ["lmltg",   1.5, 1, "UNIFORM", 1,     2], 
     ["emltg",     1, 1, "UNIFORM", 0.9, 2.1], 
     ["tmltg",   1.5, 1, "UNIFORM",   1,   2]]
@@ -120,7 +121,7 @@ Finally, we set if the permeabilities will be considered for the hm:
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 47
+    :lineno-start: 48
 
     # Coarser rock properties: name, use dist in hm?, coarsing approach (max or mean)
     rock = [["PERMX", 1, "max"],

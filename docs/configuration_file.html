@@ -100,7 +100,7 @@ The first input parameter is:</p>
 </pre></div>
 </div>
 <p>If <strong>flow</strong> is not in your path, then write the full path to the executable, as well as adding mpirun
-if this is supported in your machine (e.g., flow = “mpirun -np 8 /Users/dmar/Github/opm/build/opm-simulators/bin/flow –newton-min-iterations=1”).</p>
+if this is supported in your machine (e.g., flow = “mpirun -np 8 /Users/dmar/Github/opm/build/opm-simulators/bin/flow --newton-min-iterations=1”).</p>
 <p>The next entries define the following parameters:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 4</span><span class="c1"># Set the model parameters</span>
 <span class="linenos"> 5</span><span class="n">field</span> <span class="o">=</span> <span class="s2">&quot;norne&quot;</span>  <span class="c1"># Geological model (norne or drogon)</span>
@@ -173,17 +173,18 @@ Confer to the <a class="reference external" href="https://ert.readthedocs.io/en/
 <span class="linenos">40</span><span class="p">[</span><span class="s2">&quot;tog&quot;</span><span class="p">,</span>       <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span>   <span class="mi">5</span><span class="p">],</span>
 <span class="linenos">41</span><span class="p">[</span><span class="s2">&quot;lmlto&quot;</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">],</span>
 <span class="linenos">42</span><span class="p">[</span><span class="s2">&quot;emlto&quot;</span><span class="p">,</span>     <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">],</span>
-<span class="linenos">43</span><span class="p">[</span><span class="s2">&quot;lmltg&quot;</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">],</span>
-<span class="linenos">44</span><span class="p">[</span><span class="s2">&quot;emltg&quot;</span><span class="p">,</span>     <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">],</span>
-<span class="linenos">45</span><span class="p">[</span><span class="s2">&quot;tmltg&quot;</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">2</span><span class="p">]]</span>
+<span class="linenos">43</span><span class="p">[</span><span class="s2">&quot;tmlto&quot;</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">],</span>
+<span class="linenos">44</span><span class="p">[</span><span class="s2">&quot;lmltg&quot;</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">],</span>
+<span class="linenos">45</span><span class="p">[</span><span class="s2">&quot;emltg&quot;</span><span class="p">,</span>     <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">],</span>
+<span class="linenos">46</span><span class="p">[</span><span class="s2">&quot;tmltg&quot;</span><span class="p">,</span>   <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;UNIFORM&quot;</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">2</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>The ‘use dist in hm?’ defines if the property will be history match (1) or the provided value in the second entry will be used (0).</p>
 <p>Finally, we set if the permeabilities will be considered for the hm:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">47</span><span class="c1"># Coarser rock properties: name, use dist in hm?, coarsing approach (max or mean)</span>
-<span class="linenos">48</span><span class="n">rock</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;PERMX&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">],</span>
-<span class="linenos">49</span><span class="p">[</span><span class="s2">&quot;PERMY&quot;</span><span class="p">,</span>         <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">],</span>
-<span class="linenos">50</span><span class="p">[</span><span class="s2">&quot;PERMZ&quot;</span><span class="p">,</span>         <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">]]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">48</span><span class="c1"># Coarser rock properties: name, use dist in hm?, coarsing approach (max or mean)</span>
+<span class="linenos">49</span><span class="n">rock</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;PERMX&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">],</span>
+<span class="linenos">50</span><span class="p">[</span><span class="s2">&quot;PERMY&quot;</span><span class="p">,</span>         <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">],</span>
+<span class="linenos">51</span><span class="p">[</span><span class="s2">&quot;PERMZ&quot;</span><span class="p">,</span>         <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>If option 1 is selected, then the distributions are UNIFORM with interval values of [perm_min, perm_max], corresponding to the
@@ -208,7 +209,7 @@ calling directly the ert executable. If you are not familiar with the format of 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024-2025, NORCE Norwegian Research Centre AS.</p>
+    <p>&#169; Copyright 2024-2025, NORCE Research AS.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

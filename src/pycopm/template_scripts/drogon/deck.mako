@@ -140,23 +140,23 @@ INCLUDE
  
 INCLUDE
 % if dic['rock'][0][1] > 0 and dic['mode'] in ["files","ert"]:
-'PERMX.inc' /
+'permx.inc' /
 % else :
-'${dic['fol']}/preprocessing/PERMX.inc' /
+'${dic['fol']}/preprocessing/permx.inc' /
 % endif
 
 INCLUDE
 % if dic['rock'][1][1] > 0 and dic['mode'] in ["files","ert"]:
-'PERMY.inc' /
+'permy.inc' /
 % else :
-'${dic['fol']}/preprocessing/PERMY.inc' /
+'${dic['fol']}/preprocessing/permy.inc' /
 % endif
 
 INCLUDE
 % if dic['rock'][2][1] > 0 and dic['mode'] in ["files","ert"]:
-'PERMZ.inc' /
+'permz.inc' /
 % else :
-'${dic['fol']}/preprocessing/PERMZ.inc' /
+'${dic['fol']}/preprocessing/permz.inc' /
 % endif
  
 INCLUDE
