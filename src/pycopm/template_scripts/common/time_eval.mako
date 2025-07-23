@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-FileCopyrightText: 2024 NORCE
+# SPDX-FileCopyrightText: 2024-2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 
 """

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 NORCE
+# SPDX-FileCopyrightText: 2024-2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 # pylint: disable=R0912,R0913,R0914,R0915,C0302,R0917,R1702,R0916,R0911,E1102
 
@@ -129,7 +129,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
             c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
             if name in ["permx", "permy"]:
                 dic[f"{name}_c"] = [
-                    f"{val/h_t}" if h_t * val > 0 else "0"
+                    f"{val/h_t:E}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, dic["z_tot"])
                 ]
             elif name == "tranx":
@@ -137,7 +137,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                     if dic["trans"] == 1:
                         c_m = pd.Series(dic[name]).groupby(dic["con"]).min()
                         dic[f"{name}_c"] = [
-                            f"{l_t/val}" if m_v * val > 0 else "0"
+                            f"{l_t/val:E}" if m_v * val > 0 else "0"
                             for val, m_v, l_t in zip(c_c, c_m, dic[f"{drc}_tot"])
                         ]
                     else:
@@ -153,11 +153,12 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                         # dic[f"{name}_c"] = [f"{val*d_l/l_t}" if val*conx*cony > 0 else "0" for
                         # val, d_l, l_t, conx, cony in zip(c_ls, d_ls, dic[f"x_tot"], conxs, conys)]
                         dic[f"{name}_c"] = [
-                            f"{val}" if d_l > 0 else "0" for val, d_l in zip(c_ls, d_ls)
+                            f"{val:E}" if d_l > 0 else "0"
+                            for val, d_l in zip(c_ls, d_ls)
                         ]
                 else:
                     dic[f"{name}_c"] = [
-                        f"{val*l_a/l_t}" if val > 0 else "0"
+                        f"{val*l_a/l_t:E}" if val > 0 else "0"
                         for val, l_a, l_t in zip(
                             c_c, dic[f"{drc}a_tot"], dic[f"{drc}_tot"]
                         )
@@ -167,7 +168,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                     if dic["trans"] == 1:
                         c_m = pd.Series(dic[name]).groupby(dic["con"]).min()
                         dic[f"{name}_c"] = [
-                            f"{l_t/val}" if m_v * val > 0 else "0"
+                            f"{l_t/val:E}" if m_v * val > 0 else "0"
                             for val, m_v, l_t in zip(c_c, c_m, dic[f"{drc}_tot"])
                         ]
                     else:
@@ -184,11 +185,12 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                         # else "0" for val, d_l, l_t, conx, cony in zip(c_ls, d_ls,
                         # dic[f"y_tot"], conxs, conys)]
                         dic[f"{name}_c"] = [
-                            f"{val}" if d_l > 0 else "0" for val, d_l in zip(c_ls, d_ls)
+                            f"{val:E}" if d_l > 0 else "0"
+                            for val, d_l in zip(c_ls, d_ls)
                         ]
                 else:
                     dic[f"{name}_c"] = [
-                        f"{val*l_a/l_t}" if val > 0 else "0"
+                        f"{val*l_a/l_t:E}" if val > 0 else "0"
                         for val, l_a, l_t in zip(
                             c_c, dic[f"{drc}a_tot"], dic[f"{drc}_tot"]
                         )
@@ -207,52 +209,52 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                             * (np.array(c_m[dic["nx"] * dic["ny"] :] > 0))
                         )
                         dic[f"{name}_c"] = [
-                            f"{1.*l_a/(val * l_t)}" if val > 0 else "0"
+                            f"{1.*l_a/(val * l_t):E}" if val > 0 else "0"
                             for val, l_t, l_a in zip(c_c, dic[f"{drc}_tot"], l_as)
                         ]
                     else:
                         c_ls = pd.Series(dic[name]).groupby(dic["con"]).last()
                         d_ls = pd.Series(dic["d_z"]).groupby(dic["con"]).last()
                         dic[f"{name}_c"] = [
-                            f"{val*d_l/l_t}" if val > 0 else "0"
+                            f"{val*d_l/l_t:E}" if val > 0 else "0"
                             for val, d_l, l_t in zip(c_ls, d_ls, dic[f"{drc}_tot"])
                         ]
                 else:
                     dic[f"{name}_c"] = [
-                        f"{val*l_a/l_t}" if val > 0 else "0"
+                        f"{val*l_a/l_t:E}" if val > 0 else "0"
                         for val, l_a, l_t in zip(
                             c_c, dic[f"{drc}a_tot"], dic[f"{drc}_tot"]
                         )
                     ]
             elif name == "permz":
                 dic["permz_c"] = [
-                    f"{h_t/val}" if h_t * val > 0 else "0"
+                    f"{h_t/val:E}" if h_t * val > 0 else "0"
                     for val, h_t in zip(c_c, dic["za_tot"])
                 ]
             elif name in ["poro", "swatinit", "disperc", "thconr"] + dic["rptrst"]:
                 dic[f"{name}_c"] = [
-                    f"{val/p_v}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
+                    f"{val/p_v:E}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
                 ]
             else:
                 dic[f"{name}_c"] = [
-                    f"{val/v_t}" if v_t > 0 else "0" for val, v_t in zip(c_c, v_tot)
+                    f"{val/v_t:E}" if v_t > 0 else "0" for val, v_t in zip(c_c, v_tot)
                 ]
         else:
             if dic["show"] == "min":
                 c_c = pd.Series(dic[name]).groupby(dic["con"]).min()
-                dic[f"{name}_c"] = [f"{val}" for val in c_c]
+                dic[f"{name}_c"] = [f"{val:E}" for val in c_c]
             elif dic["show"] == "max":
                 c_c = pd.Series(dic[name]).groupby(dic["con"]).max()
-                dic[f"{name}_c"] = [f"{val}" for val in c_c]
+                dic[f"{name}_c"] = [f"{val:E}" for val in c_c]
             elif dic["show"] == "pvmean":
                 c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
                 dic[f"{name}_c"] = [
-                    f"{val/p_v}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
+                    f"{val/p_v:E}" if p_v > 0 else "0" for val, p_v in zip(c_c, p_vs)
                 ]
             else:
                 c_c = pd.Series(dic[name]).groupby(dic["con"]).sum()
                 dic[f"{name}_c"] = [
-                    f"{val/fre}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
+                    f"{val/fre:E}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
                 ]
     for name in dic["regions"] + dic["grids"]:
         if dic["nhow"] == "min":
@@ -1138,10 +1140,10 @@ def map_vicinity(dic):
                             and k + 1 <= dic["maxk"]
                         ):
                             if dic["actind"][ind] and dic["subm"][ind]:
-                                dic[f"{name}_c"][n] = str(
-                                    int(dic[name][ind])
+                                dic[f"{name}_c"][n] = (
+                                    f"{int(dic[name][ind])}"
                                     if "num" in name
-                                    else dic[name][ind]
+                                    else f"{dic[name][ind]:E}"
                                 )
                                 if name == "porv":
                                     dic["freqsub"][k + 1 - dic["mink"]] += 1.0
