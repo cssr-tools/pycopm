@@ -67,9 +67,12 @@ def pycopm():
                         ent = val.split(":")
                         for _ in range(ind, int(ent[0])):
                             dic[f"{i}{tag}"] += [0]
-                        for _ in range(int(ent[0]), int(ent[1])):
-                            dic[f"{i}{tag}"] += [2]
-                        ind = int(ent[1])
+                        if len(ent) > 1:
+                            for _ in range(int(ent[0]), int(ent[1])):
+                                dic[f"{i}{tag}"] += [2]
+                            ind = int(ent[1])
+                        else:
+                            ind = int(ent[0])
                     dic[f"{i}{tag}"] += [0]
                 else:
                     dic[f"{i}{tag}"] = list(
