@@ -150,7 +150,7 @@ def create_deck(dic):
         dic["fip"] = ""
         dic["nrptsrt"] = 0
         dic["nrptsrtc"] = 0
-        dic["hasnnc"] = False
+        dic["hasnnc"], dic["coarsening"] = False, False
         if dic["refinement"]:
             print("\nInitializing pycopm to generate the refinned files, please wait.")
         elif dic["vicinity"]:
@@ -162,6 +162,7 @@ def create_deck(dic):
             dic["rcijk"] = np.array([0, 0, 0])
             dic["refinement"] = True
         elif not dic["ijk"]:
+            dic["coarsening"] = True
             print("\nInitializing pycopm to generate the coarsened files, please wait.")
         initialize_variables(dic)
         dic["tc"] = dic["xn"] * dic["yn"] * dic["zn"]
@@ -361,8 +362,7 @@ def create_deck(dic):
             refine_grid(dic)
         elif dic["vicinity"]:
             chop_grid(dic)
-            if dic["pvcorr"] > 0:
-                add_pv_bc(dic)
+            add_pv_bc(dic)
         else:
             clusmin, clusmax, rmv = map_properties(dic, actnum, z_t, z_b, z_b_t, v_c)
             if dic["pvcorr"] == 1:
@@ -477,12 +477,20 @@ def create_deck(dic):
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
             )
-        if dic["hasnnc"] > 0:
+        if dic["hasnnc"] > 0 and dic["coarsening"]:
             print("\nCall OPM Flow for a dry run of the generated model.\n")
             print("\nThis is needed for the nnctrans, please wait.\n")
             os.chdir(dic["fol"])
             os.system(f"{dic['flow']} {dic['fol']}/{dic['write']}.DATA {dic['flags']}")
-            handle_nnc_trans(dic)
+            if dic["resdata"]:
+                temp = ResdataFile(dic["write"] + ".EGRID")
+                if temp.has_kw("NNC1") and dic["trans"] > 0:
+                    handle_nnc_trans(dic)
+            else:
+                dic["ogrid"] = OpmFile(dic["write"] + ".EGRID")
+                if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
+                    handle_nnc_trans(dic)
+            print("\nNo nnctrans found.")
         print(
             f"\nThe generation of files succeeded, see {dic['fol']}/"
             f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC\n"
@@ -673,14 +681,21 @@ def handle_nnc_trans(dic):
         dic (dict): Modified global dictionary
 
     """
-    nncdeck = []
+    nncdeck, withlines = [], False
     with open(dic["write"] + ".DATA", "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
             nncdeck.append(nrwo)
-            if nrwo == "EDIT":
+            if withlines:
                 nncdeck.append("INCLUDE")
-                nncdeck.append(f"'{dic['label']}EDITNNC.INC' /")
+                nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
+                withlines = False
+            elif nrwo == "EDIT":
+                if not dic["lines"]:
+                    nncdeck.append("INCLUDE")
+                    nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
+                else:
+                    withlines = True
     with open(
         f"{dic['fol']}/{dic['write']}.DATA",
         "w",

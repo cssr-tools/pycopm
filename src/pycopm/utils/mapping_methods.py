@@ -303,6 +303,8 @@ def add_pv_bc(dic):
                 + 1
             )
     nbct = 0
+    if dic["pvcorr"] == 0:
+        pv0 = dic["porv_c"].copy()
     for k in range(dic["nz"]):
         k_r = k + dic["mink"] - 1
         j_0 = dic["minkj"][k_r] - dic["minj"]
@@ -696,7 +698,9 @@ def add_pv_bc(dic):
             for ind in inds:
                 dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
     porv = sum(float(val) for val in dic["porv_c"])
-    if dic["pvcorr"] in [1, 2, 3]:
+    if dic["pvcorr"] == 0:
+        dic["porv_c"] = pv0.copy()
+    elif dic["pvcorr"] in [1, 2, 3]:
         freq = sum(1 for val in dic["subtoglob_c"] if val != "0")
         corr = (sum(dic["porvk"]) + sum(dic["porvij"]) - porv) / freq
         for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
@@ -936,7 +940,7 @@ def handle_vicinity(dic):
             for k in range(dic["zn"]):
                 for j in range(dic["yn"]):
                     for i in range(dic["xn"]):
-                        xyz = dic["grid"].xyz_from_ijk(i, j, k)
+                        xyz = dic["grid"].xyz_from_ijk(i, j, k, True)
                         coords.append(
                             [sum(xyz[0]) / 8.0, sum(xyz[1]) / 8, sum(xyz[2]) / 8]
                         )

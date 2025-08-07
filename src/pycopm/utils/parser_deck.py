@@ -54,11 +54,13 @@ def process_the_deck(dic):
     dic["bwpr"] = False
     dic["source"] = False
     dic["pinch"] = False
+    dic["kedit"] = False
     dic["edit0"] = ""
     dic["nsegw"] = []
     dic["nwells"] = []
     dic["awells"] = []
     dic["swells"] = []
+    dic["lines"] = []
     if dic["refinement"]:
         names_segwells(dic)
     elif dic["vicinity"]:
@@ -68,6 +70,8 @@ def process_the_deck(dic):
             nrwo = str(row)[2:-2].strip()
             nrwo = nrwo.replace("\\t", " ")
             nrwo = nrwo.replace("', '", ",")
+            if not dic["lines"] and sum("-" == line for line in nrwo) > 70:
+                dic["lines"] = nrwo
             if not dic["schedule"]:
                 dic["lolc"].append(nrwo)
             if handle_dimens(dic, nrwo):
@@ -395,6 +399,8 @@ def handle_props(dic, nrwo):
     """
     if nrwo == "PROPS" and not dic["prop"]:
         dic["prop"] = True
+        if dic["lines"]:
+            dic["lol"].append(dic["lines"])
         dic["lol"].append(nrwo)
         return True
     if dic["prop"]:
@@ -582,6 +588,8 @@ def handle_regions(dic, nrwo):
     if nrwo == "REGIONS" and not dic["region"]:
         dic["region"] = True
         dic["lol"].append(nrwo)
+        if dic["lol"][-2][:3] == "---":
+            dic["lol"].append(dic["lol"][-2])
         return True
     if dic["region"]:
         if nrwo == "SOLUTION":
@@ -589,6 +597,8 @@ def handle_regions(dic, nrwo):
             for name in dic["regions"]:
                 dic["lol"].append("INCLUDE")
                 dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
+            if dic["lines"]:
+                dic["lol"].append(dic["lines"])
         else:
             return True
     return False
@@ -663,6 +673,8 @@ def handle_grid_props(dic, nrwo):
     if nrwo == "GRID" and not dic["removeg"]:
         dic["removeg"] = True
         dic["lol"].append(nrwo)
+        if dic["lol"][-2][:3] == "---":
+            dic["lol"].append(dic["lol"][-2])
         dic["lol"].append("INIT")
         for name in dic["base"] + dic["grids"] + dic["mults"]:
             dic["lol"].append("INCLUDE")
@@ -681,6 +693,13 @@ def handle_grid_props(dic, nrwo):
             return True
         # if handle_oper(dic, nrwo):
         #    return True
+        if nrwo == "EDIT":
+            dic["kedit"] = True
+            if dic["lines"]:
+                dic["lol"].append(dic["lines"])
+            dic["lol"].append(nrwo)
+            if dic["lines"]:
+                dic["lol"].append(dic["lines"])
         if dic["trans"] == 0:
             if handle_pinch(dic, nrwo):
                 return True
@@ -690,20 +709,24 @@ def handle_grid_props(dic, nrwo):
                 return True
             if nrwo == "EDIT":
                 dic["edit"] = True
-                dic["lol"].append(nrwo)
                 dic["lol"].append("INCLUDE")
                 dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
         if nrwo == "PROPS":
             dic["removeg"] = False
             if not dic["edit"]:
-                dic["lol"].append("EDIT\n")
+                if not dic["kedit"]:
+                    if dic["lines"]:
+                        dic["lol"].append(dic["lines"])
+                    dic["lol"].append("EDIT")
+                    if dic["lines"]:
+                        dic["lol"].append(dic["lines"])
                 dic["lol"].append("INCLUDE")
                 dic["lol"].append(f"'{dic['label']}PORV.INC' /\n")
                 if dic["trans"] > 0:
                     for name in ["tranx", "trany", "tranz"]:
                         dic["lol"].append("INCLUDE")
                         dic["lol"].append(f"'{dic['label']}{name.upper()}.INC' /\n")
-        elif dic["edit"]:
+        elif dic["edit"] or (dic["kedit"] and (dic["refinement"] or dic["vicinity"])):
             if handle_editnnc(dic, nrwo):
                 return True
             if handle_multiply(dic, nrwo):
