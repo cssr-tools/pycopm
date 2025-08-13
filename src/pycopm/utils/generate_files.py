@@ -486,11 +486,14 @@ def create_deck(dic):
                 temp = ResdataFile(dic["write"] + ".EGRID")
                 if temp.has_kw("NNC1") and dic["trans"] > 0:
                     handle_nnc_trans(dic)
+                else:
+                    print("\nNo nnctrans found.")
             else:
                 dic["ogrid"] = OpmFile(dic["write"] + ".EGRID")
                 if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
                     handle_nnc_trans(dic)
-            print("\nNo nnctrans found.")
+                else:
+                    print("\nNo nnctrans found.")
         print(
             f"\nThe generation of files succeeded, see {dic['fol']}/"
             f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC\n"
