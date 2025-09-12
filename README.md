@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/cssr-tools/pycopm/actions/workflows/CI.yml/badge.svg)](https://github.com/cssr-tools/pycopm/actions/workflows/CI.yml)
+[![Build Status](https://github.com/daavid00/OPM-Flow_macOS/actions/workflows/pycopm.yml/badge.svg)](https://github.com/daavid00/OPM-Flow_macOS/actions/workflows/pycopm.yml)
 <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20to%203.13-blue.svg"></a>
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
