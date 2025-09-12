@@ -114,12 +114,16 @@ with brew the prerequisites can be installed by:
 
 .. code-block:: console
 
-    brew install boost cmake openblas suite-sparse python@3.12
+    brew install boost@1.85 cmake openblas suite-sparse python@3.12
+
+.. note::
+    boost 1.89.0 was made available recently (August 14th, 2025), which it is not compatible with OPM Flow (yet).
+    Then, we install boost 1.85, and add the cmake path to the boost include folder, as shown in the bash lines below. 
 
 In addition, it is recommended to uprade and update your macOS to the latest available versions (the following steps have 
 worked for macOS Sequoia 15.4.1 with Apple clang version 17.0.0).
 After the prerequisites are installed and the vpyocpm Python environment is created (see :ref:`vpycopm`), 
-then building OPM Flow and the opm Python package can be achieved with the following lines:
+then building OPM Flow and the opm Python package can be achieved with the following bash lines:
 
 .. code-block:: console
 
@@ -147,14 +151,14 @@ then building OPM Flow and the opm Python package can be achieved with the follo
     do
         mkdir build/opm-$repo
         cd build/opm-$repo
-        cmake -DPYTHON_EXECUTABLE=$(which python) -DWITH_NDEBUG=1 -DUSE_MPI=0 -DOPM_ENABLE_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common" $CURRENT_DIRECTORY/opm-$repo
+        cmake -DPYTHON_EXECUTABLE=$(which python) -DWITH_NDEBUG=1 -DUSE_MPI=0 -DOPM_ENABLE_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85/include;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common" $CURRENT_DIRECTORY/opm-$repo
         make -j5 opm$repo
         cd ../..
     done    
 
     mkdir build/opm-simulators
     cd build/opm-simulators
-    cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid" $CURRENT_DIRECTORY/opm-simulators
+    cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85/include;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid" $CURRENT_DIRECTORY/opm-simulators
     make -j5 flow
     cd ../..
 
@@ -166,4 +170,8 @@ This builds OPM Flow as well as the OPM Python library, and it exports the requi
     You can test if flow works by typing in the terminal `./build/opm-simulators/bin/flow --help`. In addition, you can add `build/opm-simulators/bin` to your path 
     to execute it as flow. You can also test that the Python package opm works by executing `python -c "import opm"`. If for any reason the installation of the Python 
     opm package was not sucessful, still all functionality of **pycopm** is available, just do not execute **pycopm** with the flag `-u opm` (see the note in 
-    :ref:`opmflow` for a brief comment about the Python packages resdata and opm).  
+    :ref:`opmflow` for a brief comment about the Python packages resdata and opm).
+
+.. tip::
+    See this repository dedicated to build OPM Flow from source in the latest macOS (GitHub actions), and tested with **pycopm**.
+    If you still face problems, raise an issue in the GitHub repository, or you could also send an email to dmar@norceresearch.no
