@@ -173,5 +173,5 @@ This builds OPM Flow as well as the OPM Python library, and it exports the requi
     :ref:`opmflow` for a brief comment about the Python packages resdata and opm).
 
 .. tip::
-    See this repository dedicated to build OPM Flow from source in the latest macOS (GitHub actions), and tested with **pycopm**.
+    See `this repository <https://github.com/daavid00/OPM-Flow_macOS>`_ dedicated to build OPM Flow from source in the latest macOS (GitHub actions), and tested with **pycopm**.
     If you still face problems, raise an issue in the GitHub repository, or you could also send an email to dmar@norceresearch.no
