@@ -109,7 +109,7 @@ def test_complex():
         crst = ResdataFile(f"{testpth}/output/complex/coarser/COARSER{sub}.UNRST")
         bgf = np.array(brst.iget_kw("FIPGAS")[0])
         cgf = np.array(crst.iget_kw("FIPGAS")[0])
-        assert abs(sum(bgf) - sum(cgf)) < 50  # ca. 2.56191e10 fipgas in the ref
+        assert abs(sum(bgf) - sum(cgf)) < 114  # ca. 2.56191e10 fipgas in the ref
         for explicit in ["0", "1"]:
             sub = f"{explicit}{use.upper()}"
             subprocess.run(

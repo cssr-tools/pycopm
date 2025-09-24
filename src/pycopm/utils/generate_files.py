@@ -130,6 +130,7 @@ def create_deck(dic):
         )
     if dic["mode"] in ["prep_deck", "deck", "deck_dry", "all"]:
         coarsening_dir(dic)
+        dic["deckn"] = dic["deck"]
         dic["deck"] = f"{dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN"
         for name in types:
             files = dic["deck"] + name
@@ -903,6 +904,16 @@ def write_props(dic):
     names = dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]
     if dic["vicinity"]:
         names += ["subtoglob"]
+        fips = [f"{int(val)+1} " for val in dic["subm"]]
+        fips = compact_format("".join(f"{3-int(val)} " for val in fips).split())
+        with open(
+            f"{dic['fol']}/{dic['deckn']}_FIPNUM_PYCOPM_SUBMODEL.INC",
+            "w",
+            encoding="utf8",
+        ) as file:
+            file.write("FIPNUM\n")
+            file.write("".join(fips))
+            file.write("/")
     print("Writing the files")
     with alive_bar(len(names)) as bar_animation:
         for name in names:
