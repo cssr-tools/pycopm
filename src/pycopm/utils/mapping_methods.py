@@ -1054,10 +1054,20 @@ def handle_vicinity(dic):
                             )
                             dic["subm"][ind] = True
     else:
-        if dic["ini"].has_kw(dic["optvic"].upper()):
-            dic["subm"] = np.ones(dic["xn"] * dic["yn"] * dic["zn"])
-            dic["subm"][dic["actind"]] = dic["ini"].iget_kw(dic["optvic"].upper())[0]
-            quans = [int(val) for val in vicinity[1].split(",")]
+        found = False
+        dic["subm"] = np.ones(dic["xn"] * dic["yn"] * dic["zn"])
+        quans = [int(val) for val in vicinity[1].split(",")]
+        if dic["resdata"]:
+            if dic["ini"].has_kw(dic["optvic"].upper()):
+                dic["subm"][dic["actind"]] = dic["ini"].iget_kw(dic["optvic"].upper())[
+                    0
+                ]
+                found = True
+        else:
+            if dic["ini"].count(dic["optvic"].upper()):
+                dic["subm"][dic["actind"]] = dic["ini"][dic["optvic"].upper()]
+                found = True
+        if found:
             dic["subm"] = [val in quans for val in dic["subm"]]
         else:
             print(
