@@ -25,7 +25,7 @@ testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
-def test_coarsening():
+def test_coarsening(flow):
     """See examples/decks/HELLO_WORLD.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
@@ -37,6 +37,10 @@ def test_coarsening():
         subprocess.run(
             [
                 "pycopm",
+                "-f",
+                flow,
+                "-f",
+                flow,
                 "-c",
                 "5,5,1",
                 "-i",
@@ -64,6 +68,8 @@ def test_coarsening():
                     subprocess.run(
                         [
                             "pycopm",
+                            "-f",
+                            flow,
                             "-i",
                             f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
                             "-o",
@@ -92,6 +98,8 @@ def test_coarsening():
         subprocess.run(
             [
                 "pycopm",
+                "-f",
+                flow,
                 "-i",
                 f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
                 "-o",
@@ -120,6 +128,8 @@ def test_coarsening():
         subprocess.run(
             [
                 "pycopm",
+                "-f",
+                flow,
                 "-i",
                 f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
                 "-o",
@@ -144,6 +154,8 @@ def test_coarsening():
         subprocess.run(
             [
                 "pycopm",
+                "-f",
+                flow,
                 "-i",
                 f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
                 "-o",

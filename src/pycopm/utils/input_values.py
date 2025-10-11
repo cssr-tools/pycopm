@@ -28,6 +28,7 @@ def process_input(dic, in_file):
     """
     dic["letsatn"] = 0
     dic["suffixes"] = ""
+    dic["flowflag"] = dic["flow"]
     with open(in_file, "rb") as file:
         dic.update(tomllib.load(file))
     if dic["field"] == "norne":
@@ -63,23 +64,35 @@ def check_flow(dic, in_file):
             "See the pycopm documentation.\n"
         )
         sys.exit()
-    if (
-        subprocess.call(
-            dic["flowpth"].strip(),
-            shell=True,
-            stderr=subprocess.STDOUT,
-            stdout=subprocess.DEVNULL,
-        )
-        != 1
-    ):
+    flowtoml = subprocess.call(
+        dic["flowpth"].strip(),
+        shell=True,
+        stderr=subprocess.STDOUT,
+        stdout=subprocess.DEVNULL,
+    )
+    flowflag = subprocess.call(
+        dic["flowflag"],
+        shell=True,
+        stderr=subprocess.STDOUT,
+        stdout=subprocess.DEVNULL,
+    )
+    if flowtoml != 1 and flowflag != 1:
         print(
             f"\nThe OPM flow executable '{dic['flowpth'].strip()}' is not found; "
             "try to install it following the pycopm documentation.\nIf it was "
             "built from source, then either add the folder location to your path, "
             "or write the path\nto flow in the toml configuration file "
-            "(e.g., flow = '/home/pycopm/build/opm-simulators/bin/flow').\n"
+            "(e.g., flow = '/home/pycopm/build/opm-simulators/bin/flow'),\n"
+            "or using the command flag -f or --flow.\n"
         )
         sys.exit()
+    if flowtoml != 1:
+        dic["flow"] = dic["flow"].split()
+        for i, value in enumerate(dic["flow"]):
+            if "flow" in value:
+                dic["flow"][i] = dic["flowflag"]
+                break
+        dic["flow"] = " ".join(dic["flow"])
 
 
 def read_reference(dic):

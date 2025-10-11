@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 NORCE
+# SPDX-FileCopyrightText: 2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 # pylint: disable=R0801
 
@@ -26,7 +26,7 @@ testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
-def test_transform():
+def test_transform(flow):
     """See examples/decks/MODEL0.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
@@ -42,6 +42,8 @@ def test_transform():
             subprocess.run(
                 [
                     "pycopm",
+                    "-f",
+                    flow,
                     "-i",
                     f"{mainpth}/examples/decks/MODEL0.DATA",
                     "-o",

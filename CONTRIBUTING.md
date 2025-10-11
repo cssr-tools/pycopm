@@ -33,4 +33,4 @@ Contributions are more than welcome using the fork and pull request approach ðŸ™
 
 1. The preferred approach to seek support is to raise an Issue as described in the previous lines.
 1. We will try to answer as soon as possible, but also any user is more than welcome to answer.
-- An alternative approach is to send an email to any of the [_mantainers_](https://github.com/cssr-tools/pycopm/blob/main/pyproject.toml). 
+- An alternative approach is to send an email to any of the [_mantainers_](https://github.com/cssr-tools/pycopm/blob/main/pyproject.toml).
