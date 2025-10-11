@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 NORCE
+# SPDX-FileCopyrightText: 2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 # pylint: disable=R0801
 
@@ -27,7 +27,7 @@ mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 
 
-def test_refinement():
+def test_refinement(flow):
     """See examples/decks/MODEL2.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
@@ -39,6 +39,8 @@ def test_refinement():
         subprocess.run(
             [
                 "pycopm",
+                "-f",
+                flow,
                 "-i",
                 f"{mainpth}/examples/decks/MODEL2.DATA",
                 "-o",

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 NORCE
+# SPDX-FileCopyrightText: 2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 # pylint: disable=R0801,R0914
 
@@ -44,13 +44,13 @@ testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
-def test_complex():
+def test_complex(flow):
     """See examples/decks/MODEL3.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
     subprocess.run(
         [
-            "flow",
+            flow,
             f"{mainpth}/examples/decks/MODEL3.DATA",
             f"--output-dir={testpth}/output/complex/reference",
         ],
@@ -64,6 +64,8 @@ def test_complex():
         subprocess.run(
             [
                 "pycopm",
+                "-f",
+                flow,
                 "-o",
                 f"{testpth}/output/complex",
                 "-i",
@@ -93,7 +95,7 @@ def test_complex():
         assert os.path.exists(f"{testpth}/output/complex/COARSER{sub}.EGRID")
         subprocess.run(
             [
-                "flow",
+                flow,
                 f"{testpth}/output/complex/COARSER{sub}.DATA",
                 f"--output-dir={testpth}/output/complex/coarser",
             ],
@@ -115,6 +117,8 @@ def test_complex():
             subprocess.run(
                 [
                     "pycopm",
+                    "-f",
+                    flow,
                     "-o",
                     f"{testpth}/output/complex",
                     "-i",
@@ -142,7 +146,7 @@ def test_complex():
             assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.EGRID")
             subprocess.run(
                 [
-                    "flow",
+                    flow,
                     f"{testpth}/output/complex/FINER{sub}.DATA",
                     f"--output-dir={testpth}/output/complex/finer",
                 ],
@@ -162,6 +166,8 @@ def test_complex():
             subprocess.run(
                 [
                     "pycopm",
+                    "-f",
+                    flow,
                     "-o",
                     f"{testpth}/output/complex",
                     "-i",

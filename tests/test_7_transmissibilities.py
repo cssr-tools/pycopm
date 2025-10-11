@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 NORCE
+# SPDX-FileCopyrightText: 2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 # pylint: disable=R0801,R0914
 
@@ -26,13 +26,13 @@ testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
-def test_transmissibilities():
+def test_transmissibilities(flow):
     """See examples/decks/MODEL4.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
     subprocess.run(
         [
-            "flow",
+            flow,
             f"{mainpth}/examples/decks/MODEL4.DATA",
             f"--output-dir={testpth}/output/transmissibilities",
         ],
@@ -51,6 +51,8 @@ def test_transmissibilities():
             subprocess.run(
                 [
                     "pycopm",
+                    "-f",
+                    flow,
                     "-o",
                     f"{testpth}/output/transmissibilities",
                     "-i",
