@@ -179,12 +179,14 @@ opm-common/
 opm-grid/
 opm-simulators/
 
-# Developing
-developing/
-studies/
-prototyping/
+# pycopm
 cssr/
-presentation/
+developing/
+examples/configurations/drogon/drogon_coarser
+output/
 playground/
+presentation/
+prototyping/
 project/
+studies/
 .vscode/

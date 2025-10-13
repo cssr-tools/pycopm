@@ -1,5 +1,5 @@
-[![Build Status](https://github.com/cssr-tools/pycopm/actions/workflows/CI.yml/badge.svg)](https://github.com/cssr-tools/pycopm/actions/workflows/CI.yml)
-[![Build Status](https://github.com/daavid00/OPM-Flow_macOS/actions/workflows/pycopm.yml/badge.svg)](https://github.com/daavid00/OPM-Flow_macOS/actions/workflows/pycopm.yml)
+[![Build Status](https://github.com/cssr-tools/pycopm/actions/workflows/ci_pycopm_ubuntu.yml/badge.svg)](https://github.com/cssr-tools/pycopm/actions/workflows/ci_pycopm_ubuntu.yml)
+[![Build Status](https://github.com/daavid00/OPM-Flow_macOS/actions/workflows/ci_pycopm_macos.yml/badge.svg)](https://github.com/daavid00/OPM-Flow_macOS/actions/workflows/ci_pycopm_macos.yml)
 <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%20to%203.13-blue.svg"></a>
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -20,15 +20,15 @@ To install the _pycopm_ executable from the development version:
 pip install git+https://github.com/cssr-tools/pycopm.git
 ```
 
-If you are interested in a specific version (e.g., v2024.10) or in modifying the source code, then you can clone the repository and install the Python requirements in a virtual environment with the following commands:
+If you are interested in a specific version (e.g., v2025.04) or in modifying the source code, then you can clone the repository and install the Python requirements in a virtual environment with the following commands:
 
 ```bash
 # Clone the repo
 git clone https://github.com/cssr-tools/pycopm.git
 # Get inside the folder
 cd pycopm
-# For a specific version (e.g., v2024.10), or skip this step (i.e., edge version)
-git checkout v2024.10
+# For a specific version (e.g., v2025.04), or skip this step (i.e., edge version)
+git checkout v2025.04
 # Create virtual environment (to specific Python, python3.13 -m venv vpycopm)
 python3 -m venv vpycopm
 # Activate virtual environment
@@ -39,9 +39,9 @@ pip install --upgrade pip setuptools wheel
 pip install -e .
 # For contributions/testing/linting, install the dev-requirements
 pip install -r dev-requirements.txt
-``` 
+```
 
-See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) for further details on building OPM Flow from the master branches in Linux, Windows, and macOS, as well as the opm Python package.
+See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) for further details on building OPM Flow from the master branches in Linux, Windows (via [_WSL_](https://learn.microsoft.com/en-us/windows/wsl/)), and macOS, as well as the (optional) [_opm Python package_](https://pypi.org/project/opm/).
 
 ## Running pycopm
 You can run _pycopm_ as a single command line:
@@ -62,6 +62,7 @@ The following is a list of manuscripts in which _pycopm_ is used:
 
 1. Sandve, T.H., Lorentzen, R.J., Landa-Marbán, D., Fossum, K., 2024. Closed-loop reservoir management using fast data-calibrated coarse models. European Association of Geoscientists & Engineers, ECMOR 2024, Volume 202, ISSN 2214-4609. https://doi.org/10.3997/2214-4609.202437071.
 1. Landa-Marbán, D., Sandve, T.H., and Gasda, S.E., 2025. A Coarsening Approach to the Troll Aquifer Model. https://arxiv.org/abs/2508.08670.
+1. Nilsen, M.M., Lorentzen, R.J., Leeuwenburgh, O., Barros, E., Stordal, A.S., 2025. Closed-loop Workflow for Short-term Optimization of Wind-powered Reservoir Management. European Association of Geoscientists & Engineers, 86th EAGE Annual Conference & Exhibition, ISSN 2214-4609. https://www.earthdoc.org/content/papers/10.3997/2214-4609.202510947.
 
 ## About pycopm
 The _pycopm_ package is being funded by the [_Center for Sustainable Subsurface Resources (CSSR)_](https://cssr.no) 

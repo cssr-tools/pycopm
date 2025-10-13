@@ -1,7 +1,7 @@
-black
-numpydoc
-mypy
-pylint
-pytest-cov
-sphinx
-sphinx-rtd-theme
+black<=25.9.0
+numpydoc<=1.9.0
+mypy<=1.18.2
+pylint<=4.0.0
+pytest-cov<=7.0.0
+sphinx<=8.2.3
+sphinx-rtd-theme<=3.0.2

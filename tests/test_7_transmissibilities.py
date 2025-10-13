@@ -10,9 +10,9 @@ import subprocess
 import warnings
 from resdata.resfile import ResdataFile
 
-OPM = False
+has_opm = False
 try:
-    OPM = bool(__import__("opm"))
+    has_opm = bool(__import__("opm"))
 except ImportError:
     warnings.warn(
         UserWarning(
@@ -39,7 +39,7 @@ def test_transmissibilities(flow):
         check=True,
     )
     readers = ["resdata"]
-    if OPM:
+    if has_opm:
         readers += ["opm"]
     values = [
         [523.75178, 706.33996, 5008.1327, 106.21933],

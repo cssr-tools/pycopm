@@ -19,9 +19,9 @@ from pycopm.utils.files_writer import coarser_files
 from pycopm.utils.runs_executer import simulations, plotting
 from pycopm.utils.generate_files import create_deck
 
-OPM = False
+has_opm = False
 try:
-    OPM = bool(__import__("opm"))
+    has_opm = bool(__import__("opm"))
 except ImportError:
     pass
 
@@ -175,7 +175,9 @@ def load_parser():
         "-f",
         "--flow",
         default="flow",
-        help="OPM Flow path to executable or just 'flow' ('flow' by default).",
+        help="OPM Flow path to executable (e.g., /home/pycopm/build/opm-simulators/bin/flow), "
+        "or just 'flow' if this was installed via binaries or if the folder where flow is "
+        "built has been added to your path ('flow' by default).",
     )
     parser.add_argument(
         "-m",
@@ -408,7 +410,7 @@ def check_cmdargs(cmdargs):
             "valid extensions are .DATA or .toml\n"
         )
         sys.exit()
-    if (cmdargs["use"].strip()).lower() == "opm" and not OPM:
+    if (cmdargs["use"].strip()).lower() == "opm" and not has_opm:
         print(
             "\nThe Python package opm cannot be import. Either try to install it "
             "following the pycopm documentation, or remove the flag '-u opm'.\n"
