@@ -11,9 +11,9 @@ import warnings
 import numpy as np
 from resdata.resfile import ResdataFile
 
-OPM = False
+has_opm = False
 try:
-    OPM = bool(__import__("opm"))
+    has_opm = bool(__import__("opm"))
 except ImportError:
     warnings.warn(
         UserWarning(
@@ -32,7 +32,7 @@ def test_refinement(flow):
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
     readers = ["resdata"]
-    if OPM:
+    if has_opm:
         readers += ["opm"]
     for use in readers:
         sub = f"FINER{use.upper()}"

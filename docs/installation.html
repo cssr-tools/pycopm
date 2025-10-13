@@ -91,22 +91,24 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<p>The following steps work installing the dependencies in Linux via apt-get or in macOS using brew or macports.
-While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.</p>
+<p>The following steps work installing the dependencies in Ubuntu via apt-get or in macOS using brew or macports.
+While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
+The supported Python versions are 3.11 to 3.13. We will update the documentation when Python3.14 is supported
+(e.g., the resdata Python package is not yet available via pip install in Python 3.14).</p>
 <section id="python-package">
 <span id="vpycopm"></span><h2>Python package<a class="headerlink" href="#python-package" title="Link to this heading"></a></h2>
 <p>To install the <strong>pycopm</strong> executable from the development version:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/cssr-tools/pycopm.git
 </pre></div>
 </div>
-<p>If you are interested in a specific version (e.g., v2024.10) or in modifying the source code, then you can clone the repository and
+<p>If you are interested in a specific version (e.g., v2025.04) or in modifying the source code, then you can clone the repository and
 install the Python requirements in a virtual environment with the following commands:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Clone<span class="w"> </span>the<span class="w"> </span>repo
 <span class="go">git clone https://github.com/cssr-tools/pycopm.git</span>
 <span class="gp"># </span>Get<span class="w"> </span>inside<span class="w"> </span>the<span class="w"> </span>folder
 <span class="go">cd pycopm</span>
-<span class="gp"># </span>For<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>version<span class="w"> </span><span class="o">(</span>e.g.,<span class="w"> </span>v2024.10<span class="o">)</span>,<span class="w"> </span>or<span class="w"> </span>skip<span class="w"> </span>this<span class="w"> </span>step<span class="w"> </span><span class="o">(</span>i.e.,<span class="w"> </span>edge<span class="w"> </span>version<span class="o">)</span>
-<span class="go">git checkout v2024.10</span>
+<span class="gp"># </span>For<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>version<span class="w"> </span><span class="o">(</span>e.g.,<span class="w"> </span>v2025.04<span class="o">)</span>,<span class="w"> </span>or<span class="w"> </span>skip<span class="w"> </span>this<span class="w"> </span>step<span class="w"> </span><span class="o">(</span>i.e.,<span class="w"> </span>edge<span class="w"> </span>version<span class="o">)</span>
+<span class="go">git checkout v2025.04</span>
 <span class="gp"># </span>Create<span class="w"> </span>virtual<span class="w"> </span>environment<span class="w"> </span><span class="o">(</span>to<span class="w"> </span>specific<span class="w"> </span>Python,<span class="w"> </span>python3.12<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>vpycopm<span class="o">)</span>
 <span class="go">python3 -m venv vpycopm</span>
 <span class="gp"># </span>Activate<span class="w"> </span>virtual<span class="w"> </span>environment
@@ -132,12 +134,12 @@ install the Python requirements in a virtual environment with the following comm
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/CI.yml">CI.yml</a> script
+<p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml">ci_pycopm_ubuntu.yml</a> script
 for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For not macOS users, to install the Python opm package (this is an alternative
+<p>For not macOS users, to install the optional Python opm package (this is an alternative
 to <a class="reference external" href="https://github.com/equinor/resdata">resdata</a>, both are use to read OPM output files; while resdata is easier to
 install in macOS, opm seems to be faster; the default is <cite>-u resdata</cite>), execute in the terminal</p>
 <p><strong>pip install opm</strong></p>
@@ -151,27 +153,20 @@ for a nice tutorial for setting Python environments in WSL), then you could try 
 in the terminal the following lines (which in turn should build flow in the folder ./build/opm-simulators/bin/flow):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
 
-<span class="go">for repo in common grid simulators</span>
-<span class="go">do</span>
-<span class="go">    git clone https://github.com/OPM/opm-$repo.git</span>
-<span class="go">done</span>
-
 <span class="go">mkdir build</span>
 
 <span class="go">for repo in common grid</span>
-<span class="go">do</span>
+<span class="go">do  git clone https://github.com/OPM/opm-$repo.git</span>
 <span class="go">    mkdir build/opm-$repo</span>
 <span class="go">    cd build/opm-$repo</span>
-<span class="go">    cmake -DUSE_MPI=1 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;$CURRENT_DIRECTORY/build/opm-common&quot; $CURRENT_DIRECTORY/opm-$repo</span>
-<span class="go">    make -j5 opm$repo</span>
+<span class="go">    cmake -DUSE_MPI=1 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid&quot; $CURRENT_DIRECTORY/opm-$repo</span>
+<span class="go">    if [[ $repo == simulators ]]; then</span>
+<span class="go">        make -j5 flow</span>
+<span class="go">    else</span>
+<span class="go">        make -j5 opm$repo</span>
+<span class="go">    fi</span>
 <span class="go">    cd ../..</span>
 <span class="go">done</span>
-
-<span class="go">mkdir build/opm-simulators</span>
-<span class="go">cd build/opm-simulators</span>
-<span class="go">cmake -DUSE_MPI=1 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid&quot; $CURRENT_DIRECTORY/opm-simulators</span>
-<span class="go">make -j5 flow</span>
-<span class="go">cd ../..</span>
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -184,7 +179,7 @@ in the terminal the following lines (which in turn should build flow in the fold
 <p>For macOS, there are no available binary packages, so OPM Flow needs to be built from source, in addition to the dune libraries
 (see the <a class="reference external" href="https://opm-project.org/?page_id=239">prerequisites</a>, which can be installed using macports or brew). For example,
 with brew the prerequisites can be installed by:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install boost@1.85 cmake openblas suite-sparse python@3.12</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install boost@1.85 cmake openblas suite-sparse python@3.13</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -193,48 +188,46 @@ with brew the prerequisites can be installed by:</p>
 Then, we install boost 1.85, and add the cmake path to the boost include folder, as shown in the bash lines below.</p>
 </div>
 <p>In addition, it is recommended to uprade and update your macOS to the latest available versions (the following steps have
-worked for macOS Sequoia 15.4.1 with Apple clang version 17.0.0).
+worked for macOS Tahoe 26.0.1 with Apple clang version 17.0.0).
 After the prerequisites are installed and the vpyocpm Python environment is created (see <a class="reference internal" href="#vpycopm"><span class="std std-ref">Python package</span></a>),
 then building OPM Flow and the opm Python package can be achieved with the following bash lines:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">deactivate</span>
-<span class="go">source vpycopm/bin/activate</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
 
-<span class="go">CURRENT_DIRECTORY=&quot;$PWD&quot;</span>
+<span class="go">deactivate</span>
+<span class="go">source vpycopm/bin/activate</span>
 
 <span class="go">for module in common geometry grid istl</span>
 <span class="go">do   git clone https://gitlab.dune-project.org/core/dune-$module.git --branch v2.9.1</span>
-<span class="go">done</span>
-<span class="go">for module in common geometry grid istl</span>
-<span class="go">do   ./dune-common/bin/dunecontrol --only=dune-$module cmake -DCMAKE_DISABLE_FIND_PACKAGE_MPI=1</span>
-<span class="go">     ./dune-common/bin/dunecontrol --only=dune-$module make -j5</span>
-<span class="go">done</span>
-
-<span class="go">for repo in common grid simulators</span>
-<span class="go">do</span>
-<span class="go">    git clone https://github.com/OPM/opm-$repo.git</span>
+<span class="go">    ./dune-common/bin/dunecontrol --only=dune-$module cmake -DCMAKE_DISABLE_FIND_PACKAGE_MPI=1</span>
+<span class="go">    ./dune-common/bin/dunecontrol --only=dune-$module make -j5</span>
 <span class="go">done</span>
 
 <span class="go">mkdir build</span>
 
-<span class="go">for repo in common grid</span>
-<span class="go">do</span>
+<span class="go">for repo in common grid simulators</span>
+<span class="go">do  git clone https://github.com/OPM/opm-$repo.git</span>
 <span class="go">    mkdir build/opm-$repo</span>
 <span class="go">    cd build/opm-$repo</span>
-<span class="go">    cmake -DPYTHON_EXECUTABLE=$(which python) -DWITH_NDEBUG=1 -DUSE_MPI=0 -DOPM_ENABLE_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;/opt/homebrew/opt/boost@1.85/include;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common&quot; $CURRENT_DIRECTORY/opm-$repo</span>
-<span class="go">    make -j5 opm$repo</span>
+<span class="go">    cmake -DPYTHON_EXECUTABLE=$(which python) -DOPM_ENABLE_PYTHON=ON -DWITH_NDEBUG=1 -DUSE_MPI=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;/opt/homebrew/opt/boost@1.85/include;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid&quot; $CURRENT_DIRECTORY/opm-$repo</span>
+<span class="go">    if [[ $repo == common ]]; then</span>
+<span class="go">        make -j5 opm$repo</span>
+<span class="go">        make -j5 opmcommon_python</span>
+<span class="go">    elif [[ $repo == simulators ]]; then</span>
+<span class="go">        make -j5 flow</span>
+<span class="go">    else</span>
+<span class="go">        make -j5 opm$repo</span>
+<span class="go">    fi</span>
 <span class="go">    cd ../..</span>
 <span class="go">done</span>
 
-<span class="go">mkdir build/opm-simulators</span>
-<span class="go">cd build/opm-simulators</span>
-<span class="go">cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=&quot;/opt/homebrew/opt/boost@1.85/include;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid&quot; $CURRENT_DIRECTORY/opm-simulators</span>
-<span class="go">make -j5 flow</span>
-<span class="go">cd ../..</span>
-
 <span class="go">echo &quot;export PYTHONPATH=\$PYTHONPATH:$CURRENT_DIRECTORY/build/opm-common/python&quot; &gt;&gt; $CURRENT_DIRECTORY/vpycopm/bin/activate</span>
+<span class="go">echo &quot;export PATH=\$PATH:$CURRENT_DIRECTORY/build/opm-simulators/bin&quot; &gt;&gt; $CURRENT_DIRECTORY/vpycopm/bin/activate</span>
+
+<span class="go">deactivate</span>
+<span class="go">source vpycopm/bin/activate</span>
 </pre></div>
 </div>
-<p>This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH. Then after execution, deactivate and activate the Python virtual environment.</p>
+<p>This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH to the opm Python package and the path to the flow executable.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can test if flow works by typing in the terminal <cite>./build/opm-simulators/bin/flow –help</cite>. In addition, you can add <cite>build/opm-simulators/bin</cite> to your path
@@ -245,7 +238,7 @@ opm package was not sucessful, still all functionality of <strong>pycopm</strong
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>See <a class="reference external" href="https://github.com/daavid00/OPM-Flow_macOS">this repository</a> dedicated to build OPM Flow from source in the latest macOS (GitHub actions), and tested with <strong>pycopm</strong>.
-If you still face problems, raise an issue in the GitHub repository, or you could also send an email to <a class="reference external" href="mailto:dmar&#37;&#52;&#48;norceresearch&#46;no">dmar<span>&#64;</span>norceresearch<span>&#46;</span>no</a></p>
+If you still face problems, raise an issue in the GitHub repository, or you could also send an email to the maintainers.</p>
 </div>
 </section>
 </section>

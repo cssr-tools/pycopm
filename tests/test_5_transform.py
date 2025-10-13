@@ -10,9 +10,9 @@ import subprocess
 import warnings
 from resdata.grid import Grid
 
-OPM = False
+has_opm = False
 try:
-    OPM = bool(__import__("opm"))
+    has_opm = bool(__import__("opm"))
 except ImportError:
     warnings.warn(
         UserWarning(
@@ -31,7 +31,7 @@ def test_transform(flow):
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
     readers = ["resdata"]
-    if OPM:
+    if has_opm:
         readers += ["opm"]
     for use in readers:
         flags = ["translate", "scale", "rotatexy", "rotatexz", "rotateyz"]

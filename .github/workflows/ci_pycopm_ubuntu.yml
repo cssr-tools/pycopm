@@ -1,4 +1,4 @@
-name: Run pycopm
+name: Run pycopm in Ubuntu
 
 on:
  push:
@@ -40,11 +40,10 @@ jobs:
       run: |
         pip install --upgrade pip setuptools wheel
         pip install -r dev-requirements.txt
-        pip install opm
         
     - name: Install pycopm
       run: |
-        pip install .
+        pip install -e .[opm]
         
     - name: Check code style and linting 
       run: |
@@ -52,9 +51,23 @@ jobs:
         pylint src/ tests/
         mypy --ignore-missing-imports src/ tests/
       
-    - name: Run the tests
+    - name: Run tests
       run: |
         pytest --cov=pycopm --cov-report term-missing tests/
+
+    - name: Run hello world example
+      run: |
+        pycopm -i examples/decks/HELLO_WORLD.DATA -c 5,5,1 -m all -o output
+
+    - name: Check if hello world example succeded
+      run: |
+        file="/home/runner/work/pycopm/pycopm/output/HELLO_WORLD_PYCOPM.EGRID"
+        if [[ -f "$file" ]]; then
+          echo "pycopm succeeded"
+        else
+          echo "pycopm failed"
+          exit 1
+        fi
         
     - name: Build documentation
       run: |

@@ -35,7 +35,7 @@ where
 
 -i          The base name of the :doc:`toml configuration file <./configuration_file>` or the name of the deck, e.g., 'DROGON.DATA', ('input.toml' by default).
 -o          The base name of the :doc:`output folder <./output_folder>` ('.' by default, i.e., the folder where pycopm is executed).
--f          OPM Flow full path to executable or just 'flow' ('flow' by default).
+-f          OPM Flow path to executable (e.g., /home/pycopm/build/opm-simulators/bin/flow), or just 'flow' if this was installed via binaries or if the folder where flow is built has been added to your path ('flow' by default).
 -m          Execute a dry run of the input deck to generate the static properties ('prep'), generate only the modified files ('deck'), only exectute a dry run on the generated model ('dry'), 'prep_deck', 'deck_dry', or do all ('all') ('prep_deck' by default).
 -v          The location to extract the sub model which can be assigned by region values, e.g., 'fipnum 2,4' extracts the cells with fipnums equal to 2 or 4, by a polygon given the xy locations in meters, e.g., 'xypolygon [0,0] [30,0] [30,30] [0,0]', or by the name of the well and three different options for the neighbourhood: box, diamond, and diamondxy, where for box the i, j, and k interval around the connections are given, e.g., 'welln box [-1,1] [-2,2] [0,3]' results in a vicinity with 1 pm cell in the x direction, 2 pm cells in the y direction and only 3 cells in the k positive direction, while the diamond considers only the given number of cells around the well connections (e.g., 'welln diamond 2') and diamondxy it is restricted to the xy plane ('' by default).
 -c          Level of coarsening in the x, y, and z dir ('2,2,2' by default; either use this flag or the -x, -y, and -z ones).

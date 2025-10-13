@@ -21,10 +21,10 @@ are generated in the postprocessing folder. The OPM simulation results can be vi
 
 Via an OPM Flow input deck
 --------------------------
-The current development of **pycopm** focuces on creating modified models, i.e., all needed input files to run OPM Flow, by using the input deck and 
+The current development of **pycopm** focuses on creating modified models, i.e., all needed input files to run OPM Flow, by using the input deck and 
 defining the approach (grid refinement, grid coarsening, submodels, and transformations including scalings, rotations, and translations).
 
-The following screenshot shows the input deck and generated files in the selected output folder (coarser for this example) after executing **pycopm** on the SPE10 model
+The following screenshot shows the input deck and generated files in the selected output folder (coarser for this example) after executing **pycopm** on the :ref:`generic`
 
 .. figure:: figs/output_generic.png
 

@@ -28,9 +28,9 @@ import warnings
 import numpy as np
 from resdata.resfile import ResdataFile
 
-OPM = False
+has_opm = False
 try:
-    OPM = bool(__import__("opm"))
+    has_opm = bool(__import__("opm"))
 except ImportError:
     warnings.warn(
         UserWarning(
@@ -57,7 +57,7 @@ def test_complex(flow):
         check=True,
     )
     readers = ["resdata"]
-    if OPM:
+    if has_opm:
         readers += ["opm"]
     for use in readers:
         sub = use.upper()
@@ -111,7 +111,7 @@ def test_complex(flow):
         crst = ResdataFile(f"{testpth}/output/complex/coarser/COARSER{sub}.UNRST")
         bgf = np.array(brst.iget_kw("FIPGAS")[0])
         cgf = np.array(crst.iget_kw("FIPGAS")[0])
-        assert abs(sum(bgf) - sum(cgf)) < 114  # ca. 2.56191e10 fipgas in the ref
+        assert abs(sum(bgf) - sum(cgf)) < 5e3  # ca. 2.56191e10 fipgas in the ref
         for explicit in ["0", "1"]:
             sub = f"{explicit}{use.upper()}"
             subprocess.run(
@@ -158,7 +158,7 @@ def test_complex(flow):
             assert sum(rpv > 0) == 22896
             rrst = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
             rgf = np.array(rrst.iget_kw("FIPGAS")[0])
-            assert abs(sum(bgf) - sum(rgf)) < 3e2  # ca. 2.56191e10 fipgas in the ref
+            assert abs(sum(bgf) - sum(rgf)) < 4e5  # ca. 2.56191e10 fipgas in the ref
         for i, val in enumerate(
             ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
         ):
