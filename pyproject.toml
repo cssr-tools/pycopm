@@ -24,7 +24,8 @@ classifiers = [
 ]
 dependencies = [
     "alive_progress<=3.3.0",
-    "ert<=14.5.13",
+    "ert==13.0.4",
+    "h5py<=3.14.0",
     "mako<=1.3.10",
     "resdata<=6.0.1"
 ]
