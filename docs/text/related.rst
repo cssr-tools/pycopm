@@ -13,6 +13,14 @@ pyopmspe11
 
 `A Python framework using OPM Flow for the CSP SPE11 benchmark project <https://github.com/OPM/pyopmspe11>`_.
 
+*****
+pofff
+*****
+
+.. image:: ./figs/pofff.png
+
+`An image-based history-matching framework for the FluidFlower Benchmark using OPM Flow <https://github.com/cssr-tools/pofff>`_.
+
 *************
 pyopmnearwell
 *************

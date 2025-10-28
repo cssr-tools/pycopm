@@ -59,6 +59,6 @@ where
 -e          Use 'utf8' or 'ISO-8859-1' encoding to read the deck ('ISO-8859-1' by default).
 -ijk        Given i,j,k indices in the input model, return the modified i,j,k corresponding positions ('' by default; if not empty, e.g., '1,2,3', then there will not be generation of modified files, only the i,j,k mapped indices in the terminal).
 -d          Options to transform the x,y,z coordinates: 'translate [10,-5,4]' adds the values in meters to the coordinates, 'scale [1,2,3]' multiplies the coordinates by the given values respectively, and 'rotatexy 45' applies a rotation in degrees in the xy plane (rotatexz and rotateyz applies a rotation around the y and x axis respectively) ('' by default).
--u          Use the resdata or opm Python libraries ('resdata' by default).
+-u          Use the resdata or opm Python libraries ('opm' by default).
 -explicit   Set to 1 to explicitly write the cell values in the SOLUTION section in the deck ('0' by default).
 -warnings   Set to 1 to show Python warnings ('0' by default).

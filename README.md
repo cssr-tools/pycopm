@@ -12,7 +12,7 @@ Creation of OPM Flow geological models from provided input decks with options fo
 
 ## Installation
 You will first need to install
-* OPM Flow (https://opm-project.org, Release 2025.04 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2025.10 or current master branches)
 
 To install the _pycopm_ executable from the development version:
 
@@ -41,7 +41,7 @@ pip install -e .
 pip install -r dev-requirements.txt
 ```
 
-See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) for further details on building OPM Flow from the master branches in Linux, Windows (via [_WSL_](https://learn.microsoft.com/en-us/windows/wsl/)), and macOS, as well as the (optional) [_opm Python package_](https://pypi.org/project/opm/).
+See the [_installation_](https://cssr-tools.github.io/pycopm/installation.html) for further details on building OPM Flow from the master branches in Linux, Windows (via [_WSL_](https://learn.microsoft.com/en-us/windows/wsl/)), and macOS.
 
 ## Running pycopm
 You can run _pycopm_ as a single command line:

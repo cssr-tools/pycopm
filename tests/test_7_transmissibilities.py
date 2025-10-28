@@ -7,20 +7,7 @@
 import os
 import pathlib
 import subprocess
-import warnings
 from resdata.resfile import ResdataFile
-
-has_opm = False
-try:
-    has_opm = bool(__import__("opm"))
-except ImportError:
-    warnings.warn(
-        UserWarning(
-            "The optional OPM Python package for postprocessing "
-            "the simulation files is not found; then, test_7_transmissibilities.py is only run "
-            "using resdata."
-        )
-    )
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
@@ -38,14 +25,11 @@ def test_transmissibilities(flow):
         ],
         check=True,
     )
-    readers = ["resdata"]
-    if has_opm:
-        readers += ["opm"]
     values = [
         [523.75178, 706.33996, 5008.1327, 106.21933],
         [523.75178, 706.33996, 0, 106.21933],
     ]
-    for use in readers:
+    for use in ["opm", "resdata"]:
         for i, m in enumerate(["1", "2"]):
             sub = use.upper() + m
             subprocess.run(

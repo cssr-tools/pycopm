@@ -374,8 +374,8 @@ def load_parser():
     parser.add_argument(
         "-u",
         "--use",
-        default="resdata",
-        help="Use the resdata or opm Python libraries ('resdata' by default).",
+        default="opm",
+        help="Use the resdata or opm Python libraries ('opm' by default).",
     )
     parser.add_argument(
         "-explicit",

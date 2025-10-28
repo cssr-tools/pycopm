@@ -50,24 +50,12 @@ OPM Flow
 --------
 You also need to install:
 
-* OPM Flow (https://opm-project.org, Release 2025.04 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2025.10 or current master branches)
 
 .. tip::
 
     See the `ci_pycopm_ubuntu.yml <https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml>`_ script 
     for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu.
-
-.. note::
-
-    For not macOS users, to install the optional Python opm package (this is an alternative
-    to `resdata <https://github.com/equinor/resdata>`_, both are use to read OPM output files; while resdata is easier to
-    install in macOS, opm seems to be faster; the default is `-u resdata`), execute in the terminal
-
-    **pip install opm**
-
-    This is equivalent to execute **pip install -e .[opm]** in the installation process.
-
-    For macOS users, see :ref:`macOS`.
 
 Source build in Linux/Windows
 +++++++++++++++++++++++++++++
@@ -109,16 +97,12 @@ with brew the prerequisites can be installed by:
 
 .. code-block:: console
 
-    brew install boost@1.85 cmake openblas suite-sparse python@3.13
-
-.. note::
-    boost 1.89.0 was made available recently (August 14th, 2025), which it is not compatible with OPM Flow (yet).
-    Then, we install boost 1.85, and add the cmake path to the boost include folder, as shown in the bash lines below. 
+    brew install boost openblas suite-sparse python@3.13 cmake 
 
 In addition, it is recommended to uprade and update your macOS to the latest available versions (the following steps have 
 worked for macOS Tahoe 26.0.1 with Apple clang version 17.0.0).
 After the prerequisites are installed and the vpyocpm Python environment is created (see :ref:`vpycopm`), 
-then building OPM Flow and the opm Python package can be achieved with the following bash lines:
+then building OPM Flow can be achieved with the following bash lines:
 
 .. code-block:: console
 
@@ -139,11 +123,8 @@ then building OPM Flow and the opm Python package can be achieved with the follo
     do  git clone https://github.com/OPM/opm-$repo.git
         mkdir build/opm-$repo
         cd build/opm-$repo
-        cmake -DPYTHON_EXECUTABLE=$(which python) -DOPM_ENABLE_PYTHON=ON -DWITH_NDEBUG=1 -DUSE_MPI=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/boost@1.85/include;$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid" $CURRENT_DIRECTORY/opm-$repo
-        if [[ $repo == common ]]; then
-            make -j5 opm$repo
-            make -j5 opmcommon_python
-        elif [[ $repo == simulators ]]; then
+        cmake -DUSE_MPI=0 -DWITH_NDEBUG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$CURRENT_DIRECTORY/dune-common/build-cmake;$CURRENT_DIRECTORY/dune-grid/build-cmake;$CURRENT_DIRECTORY/dune-geometry/build-cmake;$CURRENT_DIRECTORY/dune-istl/build-cmake;$CURRENT_DIRECTORY/build/opm-common;$CURRENT_DIRECTORY/build/opm-grid" $CURRENT_DIRECTORY/opm-$repo
+        if [[ $repo == simulators ]]; then
             make -j5 flow
         else
             make -j5 opm$repo
@@ -151,19 +132,12 @@ then building OPM Flow and the opm Python package can be achieved with the follo
         cd ../..
     done
 
-    echo "export PYTHONPATH=\$PYTHONPATH:$CURRENT_DIRECTORY/build/opm-common/python" >> $CURRENT_DIRECTORY/vpycopm/bin/activate
     echo "export PATH=\$PATH:$CURRENT_DIRECTORY/build/opm-simulators/bin" >> $CURRENT_DIRECTORY/vpycopm/bin/activate
 
     deactivate
     source vpycopm/bin/activate
 
-This builds OPM Flow as well as the OPM Python library, and it exports the required PYTHONPATH to the opm Python package and the path to the flow executable.
-
-.. note::
-    You can test if flow works by typing in the terminal `./build/opm-simulators/bin/flow --help`. In addition, you can add `build/opm-simulators/bin` to your path 
-    to execute it as flow. You can also test that the Python package opm works by executing `python -c "import opm"`. If for any reason the installation of the Python 
-    opm package was not sucessful, still all functionality of **pycopm** is available, just do not execute **pycopm** with the flag `-u opm` (see the note in 
-    :ref:`opmflow` for a brief comment about the Python packages resdata and opm).
+This builds OPM Flow, and it exports the path to the flow executable.
 
 .. tip::
     See `this repository <https://github.com/daavid00/OPM-Flow_macOS>`_ dedicated to build OPM Flow from source in the latest macOS (GitHub actions), and tested with **pycopm**.
