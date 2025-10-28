@@ -60,6 +60,7 @@ def create_deck(dic):
     )
     dic["flags1"] = (
         "--parsing-strictness=low --check-satfunc-consistency=false --output-mode=none "
+        "--solver-max-restarts=20 --solver-continue-on-convergence-failure=true "
         f"--output-dir={dic['fol']}"
     )
     types = [".INIT", ".EGRID"]
@@ -385,7 +386,7 @@ def create_deck(dic):
         if dic["fipcorr"] == 1:
             thr = 1e-1
             with open(
-                f"{dic['fol']}/{dic['write']}_2DAYS.DATA",
+                f"{dic['fol']}/{dic['write']}_1STEP.DATA",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -399,17 +400,17 @@ def create_deck(dic):
                 for row in dic["deckcorr"]:
                     file.write(row + "\n")
             print(
-                f"\nRunning {dic['fol']}/{dic['write']}_2DAYS.DATA and "
+                f"\nRunning {dic['fol']}/{dic['write']}_1STEP.DATA and "
                 f"{dic['fol']}/{dic['write']}_CORR.DATA to correct the pore volume\n"
             )
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
             )
             os.system(
-                f"{dic['flow']} {dic['fol']}/{dic['write']}_2DAYS.DATA {dic['flags1']}"
+                f"{dic['flow']} {dic['fol']}/{dic['write']}_1STEP.DATA {dic['flags1']}"
             )
             if dic["resdata"]:
-                ref = ResdataFile(f"{dic['fol']}/{dic['write']}_2DAYS.UNRST")
+                ref = ResdataFile(f"{dic['fol']}/{dic['write']}_1STEP.UNRST")
                 cor = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
                 cori = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
                 ref_fipg = np.array(ref.iget_kw("FIPGAS")[0])
@@ -418,7 +419,7 @@ def create_deck(dic):
                 cor_fipg = np.array(cor.iget_kw("FIPGAS")[0])
                 cor_fipo = np.array(cor.iget_kw("FIPOIL")[0])
             else:
-                ref = OpmFile(f"{dic['fol']}/{dic['write']}_2DAYS.UNRST")
+                ref = OpmFile(f"{dic['fol']}/{dic['write']}_1STEP.UNRST")
                 cor = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
                 cori = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
                 ref_fipg = np.array(ref["FIPGAS", 0])
@@ -433,6 +434,7 @@ def create_deck(dic):
             )
             cor_pa[cor_fipo > thr] *= 1 + fact
             cor_pv[cor_pv > 0] = cor_pa
+            cor_pv[np.isnan(cor_pv)] = 0
             cor_pv = compact_format("".join(f"{val} " for val in cor_pv).split())
             with open(
                 f"{dic['fol']}/{dic['label']}PORV.INC",
@@ -466,6 +468,7 @@ def create_deck(dic):
             )
             cor_pa[cor_sgas > thr] *= 1 + fact
             cor_pv[cor_pv > 0] = cor_pa
+            cor_pv[np.isnan(cor_pv)] = 0
             cor_pv = compact_format("".join(f"{val} " for val in cor_pv).split())
             with open(
                 f"{dic['fol']}/{dic['label']}PORV.INC",
@@ -538,15 +541,18 @@ def initialize_variables(dic):
         dic (dict): Modified global dictionary
 
     """
+    speciales = ["swatinit", "sowcr", "sogcr", "swcr", "sgu", "swl"]
+    speciales += ["krwr", "krw", "krorw", "krorg", "kro", "krgr", "krg"]
     if dic["resdata"]:
         temp = ResdataFile(dic["deck"] + ".EGRID")
         if temp.has_kw("NNC1") and dic["trans"] > 0:
             dic["hasnnc"] = True
         dic["grid"] = Grid(dic["deck"] + ".EGRID")
         dic["ini"] = ResdataFile(dic["deck"] + ".INIT")
-        if dic["ini"].has_kw("SWATINIT"):
-            dic["props"] += ["swatinit"]
-            dic["special"] += ["swatinit"]
+        for name in speciales:
+            if dic["ini"].has_kw(name.upper()):
+                dic["props"] += [name]
+                dic["special"] += [name]
         for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
             if dic["ini"].has_kw(name.upper()):
                 tmp = np.array(dic["ini"].iget_kw(name.upper())[0])
@@ -613,9 +619,10 @@ def initialize_variables(dic):
             dic["hasnnc"] = True
         dic["grid"] = OpmGrid(dic["deck"] + ".EGRID")
         dic["ini"] = OpmFile(dic["deck"] + ".INIT")
-        if dic["ini"].count("SWATINIT"):
-            dic["props"] += ["swatinit"]
-            dic["special"] += ["swatinit"]
+        for name in speciales:
+            if dic["ini"].count(name.upper()):
+                dic["props"] += [name]
+                dic["special"] += [name]
         for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
             if dic["ini"].count(name.upper()):
                 tmp = np.array(dic["ini"][name.upper()])
