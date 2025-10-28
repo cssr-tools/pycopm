@@ -12,6 +12,8 @@ import sys
 import subprocess
 import numpy as np
 from alive_progress import alive_bar
+from opm.io.ecl import EclFile as OpmFile
+from opm.io.ecl import EGrid as OpmGrid
 from resdata.grid import Grid
 from resdata.resfile import ResdataFile
 from pycopm.utils.parser_deck import process_the_deck
@@ -30,12 +32,6 @@ from pycopm.utils.mapping_methods import (
     refine_grid,
     transform_grid,
 )
-
-try:
-    from opm.io.ecl import EclFile as OpmFile
-    from opm.io.ecl import EGrid as OpmGrid
-except ImportError:
-    pass
 
 
 def create_deck(dic):

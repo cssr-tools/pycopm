@@ -7,20 +7,7 @@
 import os
 import pathlib
 import subprocess
-import warnings
 from resdata.grid import Grid
-
-has_opm = False
-try:
-    has_opm = bool(__import__("opm"))
-except ImportError:
-    warnings.warn(
-        UserWarning(
-            "The optional OPM Python package for postprocessing "
-            "the simulation files is not found; then, test_5_transform.py is only run "
-            "using resdata."
-        )
-    )
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
@@ -30,10 +17,7 @@ def test_transform(flow):
     """See examples/decks/MODEL0.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    readers = ["resdata"]
-    if has_opm:
-        readers += ["opm"]
-    for use in readers:
+    for use in ["opm", "resdata"]:
         flags = ["translate", "scale", "rotatexy", "rotatexz", "rotateyz"]
         values = ["[5,-3,2]", "[2,.5,4]", "45", "-10", "15"]
         checks = [3, 4, 1, 3.5899, 4.848]

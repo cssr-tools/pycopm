@@ -1088,7 +1088,7 @@ def handle_multregt(dic, nrwo):
         dic (dict): Modified global dictionary
 
     """
-    if "MULTREGT" in nrwo:
+    if "MULTREGT" in nrwo and "/" not in nrwo:
         edit = nrwo.split()
         if edit[0] != "MULTREGT":
             return False

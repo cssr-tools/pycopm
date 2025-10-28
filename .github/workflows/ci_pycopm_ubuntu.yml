@@ -43,7 +43,7 @@ jobs:
         
     - name: Install pycopm
       run: |
-        pip install -e .[opm]
+        pip install -e .
         
     - name: Check code style and linting 
       run: |

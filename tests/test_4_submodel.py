@@ -7,21 +7,8 @@
 import os
 import pathlib
 import subprocess
-import warnings
 import numpy as np
 from resdata.resfile import ResdataFile
-
-has_opm = False
-try:
-    has_opm = bool(__import__("opm"))
-except ImportError:
-    warnings.warn(
-        UserWarning(
-            "The optional OPM Python package for postprocessing "
-            "the simulation files is not found; then, test_4_submodel.py is only run "
-            "using resdata."
-        )
-    )
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
@@ -31,10 +18,7 @@ def test_submodel(flow):
     """See examples/decks/MODEL0.DATA and MODEL1.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    readers = ["resdata"]
-    if has_opm:
-        readers += ["opm"]
-    for use in readers:
+    for use in ["opm", "resdata"]:
         for i in range(2):
             sub = f"MODEL{i}_FINER{use.upper()}"
             os.chdir(f"{testpth}/output")

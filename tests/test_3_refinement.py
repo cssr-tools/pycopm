@@ -7,21 +7,8 @@
 import os
 import pathlib
 import subprocess
-import warnings
 import numpy as np
 from resdata.resfile import ResdataFile
-
-has_opm = False
-try:
-    has_opm = bool(__import__("opm"))
-except ImportError:
-    warnings.warn(
-        UserWarning(
-            "The optional OPM Python package for postprocessing "
-            "the simulation files is not found; then, test_3_refinement.py is only run "
-            "using resdata."
-        )
-    )
 
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 testpth: pathlib.Path = pathlib.Path(__file__).parent
@@ -31,10 +18,7 @@ def test_refinement(flow):
     """See examples/decks/MODEL2.DATA"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
-    readers = ["resdata"]
-    if has_opm:
-        readers += ["opm"]
-    for use in readers:
+    for use in ["opm", "resdata"]:
         sub = f"FINER{use.upper()}"
         subprocess.run(
             [
