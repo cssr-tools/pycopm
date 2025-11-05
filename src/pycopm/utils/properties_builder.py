@@ -21,31 +21,14 @@ def initialize_properties(dic):
         dic (dict): Modified global dictionary
 
     """
+    names = ["poro", "porv", "vol", "permx", "permy", "permz", "ntg", "fipzon"]
+    names += ["swl", "sgu", "swcr", "fluxnum", "fipnum", "eqlnum", "pvtnum"]
+    names += ["swat", "sgas", "pressure", "rs", "rv", "multz", "multnum"]
+    for name in names:
+        dic[f"{name}_c"] = [0.0 for _ in range(dic["num_cells"])]
     dic["actnum_c"] = [0 for _ in range(dic["num_cells"])]
     dic["index"] = [[] for _ in range(dic["num_cells"])]
-    dic["poro_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["porv_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["vol_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["permx_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["permy_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["permz_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["ntg_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["swl_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["sgu_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["swcr_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["fluxnum_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["fipnum_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["eqlnum_c"] = [0.0 for _ in range(dic["num_cells"])]
     dic["satnum_c"] = [1 for _ in range(dic["num_cells"])]
-    dic["swat_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["sgas_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["pressure_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["rs_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["rv_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["multz_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["multnum_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["pvtnum_c"] = [0.0 for _ in range(dic["num_cells"])]
-    dic["fipzon_c"] = [0.0 for _ in range(dic["num_cells"])]
     for name in ["permx", "permy", "permz"]:
         dic[name + "_c_min_max"] = [[0.0, 0.0] for _ in range(dic["num_cells"])]
 
@@ -362,32 +345,32 @@ def identify_removed_pilars(dic):
     """
     dic["mr"] = []
     dic["ir"] = []
-    for i in range(dic["grid"].nx + 1):
+    for i in range(dic["nd"][0] + 1):
         if (dic["X"][i]) > 1:
             for k in range(
-                i, (dic["grid"].nx + 1) * (dic["grid"].ny + 1), dic["grid"].nx + 1
+                i, (dic["nd"][0] + 1) * (dic["nd"][1] + 1), dic["nd"][0] + 1
             ):
                 for j in range(6):
                     dic["mr"].append(k * 6 + j)
             for num in range(
                 2 * i - 1,
-                8 * dic["grid"].nx * dic["grid"].ny * dic["grid"].nz,
-                2 * dic["grid"].nx,
+                8 * dic["nc"],
+                2 * dic["nd"][0],
             ):
                 dic["ir"].append(num)
                 dic["ir"].append(num + 1)
 
-    for j in range(dic["grid"].ny + 1):
+    for j in range(dic["nd"][1] + 1):
         if (dic["Y"][j]) > 1:
-            for k in range(j * (dic["grid"].nx + 1), (j + 1) * (dic["grid"].nx + 1)):
+            for k in range(j * (dic["nd"][0] + 1), (j + 1) * (dic["nd"][0] + 1)):
                 for i in range(6):
                     dic["mr"].append(k * 6 + i)
             for num in range(
-                (2 * j - 1) * 2 * dic["grid"].nx,
-                8 * dic["grid"].nx * dic["grid"].ny * dic["grid"].nz,
-                4 * dic["grid"].nx * dic["grid"].ny,
+                (2 * j - 1) * 2 * dic["nd"][0],
+                8 * dic["nc"],
+                4 * dic["nd"][0] * dic["nd"][1],
             ):
-                for i in range(4 * dic["grid"].nx):
+                for i in range(4 * dic["nd"][0]):
                     dic["ir"].append(num + i)
     identify_removed_pilars_zdir(dic)
 
@@ -403,10 +386,10 @@ def identify_removed_pilars_zdir(dic):
         dic (dict): Modified global dictionary
 
     """
-    for k in range(dic["grid"].nz + 1):
+    for k in range(dic["nd"][2] + 1):
         if (dic["Z"][k]) > 1:
             for num in range(
-                (2 * k - 1) * 4 * dic["grid"].nx * dic["grid"].ny,
-                (2 * k + 1) * 4 * dic["grid"].nx * dic["grid"].ny,
+                (2 * k - 1) * 4 * dic["nd"][0] * dic["nd"][1],
+                (2 * k + 1) * 4 * dic["nd"][0] * dic["nd"][1],
             ):
                 dic["ir"].append(num)

@@ -11,8 +11,9 @@ import tomllib
 import subprocess
 from itertools import islice
 import numpy as np
-from resdata.grid import Grid
-from resdata.resfile import ResdataFile
+from opm.io.ecl import EclFile as OpmFile
+from opm.io.ecl import EGrid as OpmGrid
+from opm.io.ecl import ERst as OpmRestart
 
 
 def process_input(dic, in_file):
@@ -106,21 +107,7 @@ def read_reference(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic1 = initialize_values(dic)
-    j = 0
-    for cell in dic["grid"].cells():
-        dic["vol"][cell.global_index] = cell.volume + 1e-10
-        dic["actnum"][cell.global_index] = cell.active
-        if cell.active == 1:
-            dic["swat"][cell.global_index] = dic1["swat"][0][j]
-            dic["sgas"][cell.global_index] = dic1["sgas"][0][j]
-            dic["pressure"][cell.global_index] = dic1["pressure"][0][j]
-            dic["rs"][cell.global_index] = dic1["rs"][0][j]
-            dic["rv"][cell.global_index] = dic1["rv"][0][j]
-
-            for name in dic1["names"]:
-                dic[name.lower()][cell.global_index] = dic1[name][0][j]
-            j += 1
+    initialize_values(dic)
     if dic["field"] == "norne":
         dic["multz"] = np.load(
             f"{dic['pat']}/reference_simulation/{dic['field']}/multz.npy"
@@ -174,20 +161,13 @@ def initialize_values(dic):
 
     """
     dic["case"] = dic["pat"] + f"/reference_simulation/{dic['field']}/{dic['name']}"
-    grid, ini = dic["case"] + ".EGRID", dic["case"] + ".INIT"
+    gri, ini = dic["case"] + ".EGRID", dic["case"] + ".INIT"
     rst = dic["case"] + ".UNRST"
-    dic["grid"], ini, rst = Grid(grid), ResdataFile(ini), ResdataFile(rst)
-    dic1 = {
-        "swat": rst.iget_kw("SWAT"),
-        "sgas": rst.iget_kw("SGAS"),
-        "pressure": rst.iget_kw("PRESSURE"),
-        "rs": rst.iget_kw("RS"),
-        "rv": rst.iget_kw("RV"),
-    }
+    grid, gridf, ini, rst = OpmGrid(gri), OpmFile(gri), OpmFile(ini), OpmRestart(rst)
     if dic["field"] == "norne":
-        dic1["names"] = ["PORO", "NTG", "SWL", "SGU", "SWCR", "FLUXNUM", "FIPNUM"]
+        values = ["PORO", "NTG", "SWL", "SGU", "SWCR", "FLUXNUM", "FIPNUM"]
     else:
-        dic1["names"] = [
+        values = [
             "PORO",
             "NTG",
             "SWL",
@@ -197,29 +177,28 @@ def initialize_values(dic):
             "MULTNUM",
             "PVTNUM",
         ]
-    dic1["names"] += ["EQLNUM", "PERMX", "PERMY", "PERMZ", "SATNUM"]
-    for ent in dic1["names"]:
-        dic1[ent] = ini.iget_kw(ent)
-    dic["nc"] = dic["grid"].nx * dic["grid"].ny * dic["grid"].nz
-    dic["i_f_c"] = np.array([0 for _ in range(dic["grid"].nx + 1)])
-    dic["j_f_c"] = np.array([0 for _ in range(dic["grid"].ny + 1)])
-    dic["k_f_c"] = np.array([0 for _ in range(dic["grid"].nz + 1)])
+    values += ["EQLNUM", "PERMX", "PERMY", "PERMZ", "SATNUM"]
+    dic["nc"] = grid.dimension[0] * grid.dimension[1] * grid.dimension[2]
+    dic["nd"] = [grid.dimension[0], grid.dimension[1], grid.dimension[2]]
+    dic["i_f_c"] = np.array([0 for _ in range(dic["nd"][0] + 1)])
+    dic["j_f_c"] = np.array([0 for _ in range(dic["nd"][1] + 1)])
+    dic["k_f_c"] = np.array([0 for _ in range(dic["nd"][2] + 1)])
     for name in ["vol", "poro", "permx", "permy", "permz", "ntg", "swl"]:
         dic[f"{name}"] = np.array([0.0 for _ in range(dic["nc"])])
+    dic["sgu"] = np.array([0.0 for _ in range(dic["nc"])])
+    dic["swcr"] = np.array([0.0 for _ in range(dic["nc"])])
     for name in ["con", "actnum", "fluxnum", "multnum", "fipnum"]:
         dic[f"{name}"] = np.array([0 for _ in range(dic["nc"])])
     dic["eqlnum"] = np.array([0 for _ in range(dic["nc"])])
-    dic["sgu"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["swcr"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["swat"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["sgas"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["rs"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["rv"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["pressure"] = np.array([0.0 for _ in range(dic["nc"])])
-
     dic["multz"] = np.array([1.0 for _ in range(dic["nc"])])
     dic["satnum"] = np.array([1 for _ in range(dic["nc"])])
     dic["pvtnum"] = np.array([1 for _ in range(dic["nc"])])
     dic["fipzon"] = np.array([1 for _ in range(dic["nc"])])
-    dic["zc"], dic["cr"] = dic["grid"].export_zcorn(), dic["grid"].export_coord()
-    return dic1
+    dic["zc"], dic["cr"] = gridf["ZCORN"], gridf["COORD"]
+    dic["vol"] = np.array(grid.cellvolumes()) + 1e-10
+    dic["actnum"] = np.array(ini["PORV"]) > 0
+    for name in ["swat", "sgas", "pressure", "rs", "rv"]:
+        dic[name] = np.array([0.0 for _ in range(dic["nc"])])
+        dic[name][dic["actnum"]] = rst[name.upper(), 0]
+    for name in values:
+        dic[name.lower()][dic["actnum"]] = ini[name]

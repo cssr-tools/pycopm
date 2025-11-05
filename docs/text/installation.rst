@@ -5,7 +5,7 @@ Installation
 The following steps work installing the dependencies in Ubuntu via apt-get or in macOS using brew or macports.
 While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
 The supported Python versions are 3.11 to 3.13. We will update the documentation when Python3.14 is supported
-(e.g., the resdata Python package is not yet available via pip install in Python 3.14).
+(e.g., the ert Python package is not yet available via pip install in Python 3.14).
 
 .. _vpycopm:
 

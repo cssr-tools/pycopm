@@ -14,8 +14,6 @@ import numpy as np
 from alive_progress import alive_bar
 from opm.io.ecl import EclFile as OpmFile
 from opm.io.ecl import EGrid as OpmGrid
-from resdata.grid import Grid
-from resdata.resfile import ResdataFile
 from pycopm.utils.parser_deck import process_the_deck
 from pycopm.utils.mapping_methods import (
     add_pv_bc,
@@ -206,28 +204,14 @@ def create_deck(dic):
                 for name in names:
                     bar_animation()
                     dic[name] = np.zeros(dic["tc"])
-                    if dic["resdata"]:
-                        if name == "porv":
-                            dic[name] = np.divide(
-                                np.array(dic["ini"].iget_kw(name.upper())[0]), dic["nc"]
-                            )
-                        elif name in dic["rptrst"]:
-                            dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[
-                                0
-                            ]
-                        else:
-                            dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[
-                                0
-                            ]
+                    if name == "porv":
+                        dic[name] = np.divide(
+                            np.array(dic["ini"][name.upper()]), dic["nc"]
+                        )
+                    elif name in dic["rptrst"]:
+                        dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
                     else:
-                        if name == "porv":
-                            dic[name] = np.divide(
-                                np.array(dic["ini"][name.upper()]), dic["nc"]
-                            )
-                        elif name in dic["rptrst"]:
-                            dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
-                        else:
-                            dic[name][dic["actind"]] = dic["ini"][name.upper()]
+                        dic[name][dic["actind"]] = dic["ini"][name.upper()]
                     dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
                     n = 0
                     for k in range(dic["zn"]):
@@ -251,81 +235,42 @@ def create_deck(dic):
         elif dic["vicinity"]:
             map_vicinity(dic)
         else:
-            if not dic["resdata"]:
-                zti = [0, 1, 2, 3]
-                zbi = [4, 5, 6, 7]
-                actnum = 1 * (dic["porv"] > 0)
-                v_c = np.array(dic["grid"].cellvolumes())
-                for name in dic["props"] + dic["regions"] + dic["grids"]:
-                    dic[name][dic["actind"]] = dic["ini"][name.upper()]
-                for name in dic["rptrst"]:
-                    dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
-                with alive_bar(dic["tc"]) as bar_animation:
-                    for k in range(dic["zn"]):
-                        for j in range(dic["yn"]):
-                            for i in range(dic["xn"]):
-                                bar_animation()
-                                ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                                cxyz = dic["grid"].xyz_from_ijk(i, j, k)
-                                x_0, y_0, z_0 = 0.0, 0.0, 0.0
-                                x_1, y_1 = 0.0, 0.0
-                                for m, o, p in zip(
-                                    range(4), [0, 0, 1, 1], [0, 1, 0, 1]
-                                ):
-                                    x_0 += (
-                                        abs(cxyz[0][1 + 2 * m] - cxyz[0][2 * m]) / 4.0
-                                    )
-                                    x_1 += (
-                                        abs(cxyz[1][1 + 2 * m] - cxyz[1][2 * m]) / 4.0
-                                    )
-                                    y_0 += (
-                                        abs(cxyz[0][p + o * 4 + 2] - cxyz[0][p + o * 4])
-                                        / 4.0
-                                    )
-                                    y_1 += (
-                                        abs(cxyz[1][p + o * 4 + 2] - cxyz[1][p + o * 4])
-                                        / 4.0
-                                    )
-                                    z_0 += abs(cxyz[2][m + 4] - cxyz[2][m]) / 4.0
-                                dic["d_x"][ind] = (x_0**2 + x_1**2) ** 0.5
-                                dic["d_y"][ind] = (y_0**2 + y_1**2) ** 0.5
-                                dic["d_z"][ind] = z_0
-                                z_t[ind] = min(cxyz[2][i] for i in zti)
-                                z_b[ind] = max(cxyz[2][i] for i in zti)
-                                tmp = max(cxyz[2][i] for i in zbi)
-                                z_b_t[ind] = tmp - z_t[ind]
-            else:
-                zti = [2, 5, 8, 11]
-                zbi = [14, 17, 20, 23]
-                cxyz = dic["grid"].export_corners(dic["grid"].export_index())
-                for name in dic["props"] + dic["regions"] + dic["grids"]:
-                    dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
-                for name in dic["rptrst"]:
-                    dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
-                with alive_bar(dic["tc"]) as bar_animation:
-                    for cell in dic["grid"].cells():
-                        bar_animation()
-                        dic["d_x"][cell.global_index] = dic["grid"].get_cell_dims(
-                            ijk=(cell.i, cell.j, cell.k)
-                        )[0]
-                        dic["d_y"][cell.global_index] = dic["grid"].get_cell_dims(
-                            ijk=(cell.i, cell.j, cell.k)
-                        )[1]
-                        actnum[cell.global_index] = cell.active
-                        z_t[cell.global_index] = min(
-                            cxyz[cell.global_index][i] for i in zti
-                        )
-                        z_b[cell.global_index] = max(
-                            cxyz[cell.global_index][i] for i in zti
-                        )
-                        tmp = max(cxyz[cell.global_index][i] for i in zbi)
-                        z_b_t[cell.global_index] = tmp - z_t[cell.global_index]
-                        dic["d_z"][cell.global_index] = dic["grid"].cell_dz(
-                            ijk=(cell.i, cell.j, cell.k)
-                        )
-                        v_c[cell.global_index] = dic["grid"].cell_volume(
-                            ijk=(cell.i, cell.j, cell.k)
-                        )
+            zti = [0, 1, 2, 3]
+            zbi = [4, 5, 6, 7]
+            actnum = 1 * (dic["porv"] > 0)
+            v_c = np.array(dic["grid"].cellvolumes())
+            for name in dic["props"] + dic["regions"] + dic["grids"]:
+                dic[name][dic["actind"]] = dic["ini"][name.upper()]
+            for name in dic["rptrst"]:
+                dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
+            with alive_bar(dic["tc"]) as bar_animation:
+                for k in range(dic["zn"]):
+                    for j in range(dic["yn"]):
+                        for i in range(dic["xn"]):
+                            bar_animation()
+                            ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
+                            cxyz = dic["grid"].xyz_from_ijk(i, j, k)
+                            x_0, y_0, z_0 = 0.0, 0.0, 0.0
+                            x_1, y_1 = 0.0, 0.0
+                            for m, o, p in zip(range(4), [0, 0, 1, 1], [0, 1, 0, 1]):
+                                x_0 += abs(cxyz[0][1 + 2 * m] - cxyz[0][2 * m]) / 4.0
+                                x_1 += abs(cxyz[1][1 + 2 * m] - cxyz[1][2 * m]) / 4.0
+                                y_0 += (
+                                    abs(cxyz[0][p + o * 4 + 2] - cxyz[0][p + o * 4])
+                                    / 4.0
+                                )
+                                y_1 += (
+                                    abs(cxyz[1][p + o * 4 + 2] - cxyz[1][p + o * 4])
+                                    / 4.0
+                                )
+                                z_0 += abs(cxyz[2][m + 4] - cxyz[2][m]) / 4.0
+                            dic["d_x"][ind] = (x_0**2 + x_1**2) ** 0.5
+                            dic["d_y"][ind] = (y_0**2 + y_1**2) ** 0.5
+                            dic["d_z"][ind] = z_0
+                            z_t[ind] = min(cxyz[2][i] for i in zti)
+                            z_b[ind] = max(cxyz[2][i] for i in zti)
+                            tmp = max(cxyz[2][i] for i in zbi)
+                            z_b_t[ind] = tmp - z_t[ind]
             dic["d_ax"][dic["actind"]] = dic["d_x"][dic["actind"]]
             dic["d_ay"][dic["actind"]] = dic["d_y"][dic["actind"]]
             dic["d_az"][dic["actind"]] = dic["d_z"][dic["actind"]]
@@ -405,24 +350,14 @@ def create_deck(dic):
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_1STEP.DATA {dic['flags1']}"
             )
-            if dic["resdata"]:
-                ref = ResdataFile(f"{dic['fol']}/{dic['write']}_1STEP.UNRST")
-                cor = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
-                cori = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
-                ref_fipg = np.array(ref.iget_kw("FIPGAS")[0])
-                ref_fipo = np.array(ref.iget_kw("FIPOIL")[0])
-                cor_pv = np.array(cori.iget_kw("PORV")[0])
-                cor_fipg = np.array(cor.iget_kw("FIPGAS")[0])
-                cor_fipo = np.array(cor.iget_kw("FIPOIL")[0])
-            else:
-                ref = OpmFile(f"{dic['fol']}/{dic['write']}_1STEP.UNRST")
-                cor = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
-                cori = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
-                ref_fipg = np.array(ref["FIPGAS", 0])
-                ref_fipo = np.array(ref["FIPOIL", 0])
-                cor_pv = np.array(cori["PORV"])
-                cor_fipg = np.array(cor["FIPGAS", 0])
-                cor_fipo = np.array(cor["FIPOIL", 0])
+            ref = OpmFile(f"{dic['fol']}/{dic['write']}_1STEP.UNRST")
+            cor = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
+            cori = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
+            ref_fipg = np.array(ref["FIPGAS", 0])
+            ref_fipo = np.array(ref["FIPOIL", 0])
+            cor_pv = np.array(cori["PORV"])
+            cor_fipg = np.array(cor["FIPGAS", 0])
+            cor_fipo = np.array(cor["FIPOIL", 0])
             cor_pa = cor_pv[cor_pv > 0]
             fact = sum(ref_fipo) / sum(cor_fipo) - 1
             cor_pa[cor_fipo <= thr] -= (
@@ -443,20 +378,12 @@ def create_deck(dic):
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
             )
-            if dic["resdata"]:
-                cor = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
-                cori = ResdataFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
-                cor_pv = np.array(cori.iget_kw("PORV")[0])
-                cor_fipg = np.array(cor.iget_kw("FIPGAS")[0])
-                cor_fipo = np.array(cor.iget_kw("FIPOIL")[0])
-                cor_sgas = np.array(cor.iget_kw("SGAS")[0])
-            else:
-                cor = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
-                cori = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
-                cor_pv = np.array(cori["PORV"])
-                cor_fipg = np.array(cor["FIPGAS", 0])
-                cor_fipo = np.array(cor["FIPOIL", 0])
-                cor_sgas = np.array(cor["SGAS", 0])
+            cor = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.UNRST")
+            cori = OpmFile(f"{dic['fol']}/{dic['write']}_CORR.INIT")
+            cor_pv = np.array(cori["PORV"])
+            cor_fipg = np.array(cor["FIPGAS", 0])
+            cor_fipo = np.array(cor["FIPOIL", 0])
+            cor_sgas = np.array(cor["SGAS", 0])
             cor_pa = cor_pv[cor_pv > 0]
             fact = (sum(ref_fipg) - sum(cor_fipg)) / sum(cor_fipg[cor_sgas > thr])
             cor_pa[cor_fipo <= thr] -= (
@@ -486,18 +413,11 @@ def create_deck(dic):
             print("\nThis is needed for the nnctrans, please wait.\n")
             os.chdir(dic["fol"])
             os.system(f"{dic['flow']} {dic['fol']}/{dic['write']}.DATA {dic['flags']}")
-            if dic["resdata"]:
-                temp = ResdataFile(dic["write"] + ".EGRID")
-                if temp.has_kw("NNC1") and dic["trans"] > 0:
-                    handle_nnc_trans(dic)
-                else:
-                    print("\nNo nnctrans found.")
+            dic["ogrid"] = OpmFile(dic["write"] + ".EGRID")
+            if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
+                handle_nnc_trans(dic)
             else:
-                dic["ogrid"] = OpmFile(dic["write"] + ".EGRID")
-                if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
-                    handle_nnc_trans(dic)
-                else:
-                    print("\nNo nnctrans found.")
+                print("\nNo nnctrans found.")
         print(
             f"\nThe generation of files succeeded, see {dic['fol']}/"
             f"{dic['write']}.DATA and {dic['fol']}/{dic['label']}*.INC\n"
@@ -528,7 +448,7 @@ def create_deck(dic):
 
 def initialize_variables(dic):
     """
-    Use resdata or opm to read the dry run
+    Use opm to read the dry run
 
     Args:
         dic (dict): Global dictionary
@@ -539,146 +459,72 @@ def initialize_variables(dic):
     """
     speciales = ["swatinit", "sowcr", "sogcr", "swcr", "sgu", "swl"]
     speciales += ["krwr", "krw", "krorw", "krorg", "kro", "krgr", "krg"]
-    if dic["resdata"]:
-        temp = ResdataFile(dic["deck"] + ".EGRID")
-        if temp.has_kw("NNC1") and dic["trans"] > 0:
-            dic["hasnnc"] = True
-        dic["grid"] = Grid(dic["deck"] + ".EGRID")
-        dic["ini"] = ResdataFile(dic["deck"] + ".INIT")
-        for name in speciales:
-            if dic["ini"].has_kw(name.upper()):
+    dic["ogrid"] = OpmFile(dic["deck"] + ".EGRID")
+    if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
+        dic["hasnnc"] = True
+    dic["grid"] = OpmGrid(dic["deck"] + ".EGRID")
+    dic["ini"] = OpmFile(dic["deck"] + ".INIT")
+    for name in speciales:
+        if dic["ini"].count(name.upper()):
+            dic["props"] += [name]
+            dic["special"] += [name]
+    for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
+        if dic["ini"].count(name.upper()):
+            tmp = np.array(dic["ini"][name.upper()])
+            if 0 < sum(tmp != 1):
                 dic["props"] += [name]
-                dic["special"] += [name]
-        for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
-            if dic["ini"].has_kw(name.upper()):
-                tmp = np.array(dic["ini"].iget_kw(name.upper())[0])
-                if 0 < sum(tmp != 1):
-                    dic["props"] += [name]
-                    dic["mults"] += [name]
-        for name in ["multnum", "fluxnum"]:
-            if dic["ini"].has_kw(name.upper()):
-                if max(dic["ini"].iget_kw(name.upper())[0]) > 1:
-                    dic["grids"] += [name]
-        for name in ["thconr", "disperc"]:
-            if dic["ini"].has_kw(name.upper()):
+                dic["mults"] += [name]
+    for name in ["multnum", "fluxnum"]:
+        if dic["ini"].count(name.upper()):
+            if max(dic["ini"][name.upper()]) > 1:
                 dic["grids"] += [name]
+    for name in ["thconr", "disperc"]:
+        if dic["ini"].count(name.upper()):
+            dic["grids"] += [name]
+    for name in [
+        "endnum",
+        "eqlnum",
+        "fipnum",
+        "imbnum",
+        "miscnum",
+        "opernum",
+        "pvtnum",
+        "rocknum",
+        "satnum",
+    ]:
+        if dic["ini"].count(name.upper()):
+            if max(dic["ini"][name.upper()]) > 1 or min(dic["ini"][name.upper()]) < 1:
+                dic["regions"] += [name]
+    dic["xn"] = dic["grid"].dimension[0]
+    dic["yn"] = dic["grid"].dimension[1]
+    dic["zn"] = dic["grid"].dimension[2]
+    dic["porv"] = np.array(dic["ini"]["PORV"])
+    if dic["explicit"]:
+        dic["solution"] = []
+        dic["rst"] = OpmFile(dic["deck"] + ".UNRST")
         for name in [
-            "endnum",
-            "eqlnum",
-            "fipnum",
-            "imbnum",
-            "miscnum",
-            "opernum",
-            "pvtnum",
-            "rocknum",
-            "satnum",
+            "sgas",
+            "soil",
+            "swat",
+            "rs",
+            "rv",
+            "rsw",
+            "rvw",
+            "pressure",
+            "sbiof",
+            "scalc",
+            "smicr",
+            "soxyg",
+            "surea",
+            "ssol",
+            "spoly",
+            "surf",
+            "spoly",
+            "saltp",
+            "salt",
         ]:
-            if dic["ini"].has_kw(name.upper()):
-                if (
-                    max(dic["ini"].iget_kw(name.upper())[0]) > 1
-                    or min(dic["ini"].iget_kw(name.upper())[0]) < 1
-                ):
-                    dic["regions"] += [name]
-        dic["xn"] = dic["grid"].nx
-        dic["yn"] = dic["grid"].ny
-        dic["zn"] = dic["grid"].nz
-        dic["porv"] = np.array(dic["ini"].iget_kw("PORV")[0])
-        if dic["explicit"]:
-            dic["solution"] = []
-            dic["rst"] = ResdataFile(dic["deck"] + ".UNRST")
-            for name in [
-                "sgas",
-                "soil",
-                "swat",
-                "rs",
-                "rv",
-                "rsw",
-                "rvw",
-                "pressure",
-                "sbiof",
-                "scalc",
-                "smicr",
-                "soxyg",
-                "surea",
-                "ssol",
-                "spoly",
-                "surf",
-                "spoly",
-                "saltp",
-                "salt",
-            ]:
-                if dic["rst"].has_kw(name.upper()):
-                    dic["rptrst"] += [name]
-    else:
-        dic["ogrid"] = OpmFile(dic["deck"] + ".EGRID")
-        if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
-            dic["hasnnc"] = True
-        dic["grid"] = OpmGrid(dic["deck"] + ".EGRID")
-        dic["ini"] = OpmFile(dic["deck"] + ".INIT")
-        for name in speciales:
-            if dic["ini"].count(name.upper()):
-                dic["props"] += [name]
-                dic["special"] += [name]
-        for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
-            if dic["ini"].count(name.upper()):
-                tmp = np.array(dic["ini"][name.upper()])
-                if 0 < sum(tmp != 1):
-                    dic["props"] += [name]
-                    dic["mults"] += [name]
-        for name in ["multnum", "fluxnum"]:
-            if dic["ini"].count(name.upper()):
-                if max(dic["ini"][name.upper()]) > 1:
-                    dic["grids"] += [name]
-        for name in ["thconr", "disperc"]:
-            if dic["ini"].count(name.upper()):
-                dic["grids"] += [name]
-        for name in [
-            "endnum",
-            "eqlnum",
-            "fipnum",
-            "imbnum",
-            "miscnum",
-            "opernum",
-            "pvtnum",
-            "rocknum",
-            "satnum",
-        ]:
-            if dic["ini"].count(name.upper()):
-                if (
-                    max(dic["ini"][name.upper()]) > 1
-                    or min(dic["ini"][name.upper()]) < 1
-                ):
-                    dic["regions"] += [name]
-        dic["xn"] = dic["grid"].dimension[0]
-        dic["yn"] = dic["grid"].dimension[1]
-        dic["zn"] = dic["grid"].dimension[2]
-        dic["porv"] = np.array(dic["ini"]["PORV"])
-        if dic["explicit"]:
-            dic["solution"] = []
-            dic["rst"] = OpmFile(dic["deck"] + ".UNRST")
-            for name in [
-                "sgas",
-                "soil",
-                "swat",
-                "rs",
-                "rv",
-                "rsw",
-                "rvw",
-                "pressure",
-                "sbiof",
-                "scalc",
-                "smicr",
-                "soxyg",
-                "surea",
-                "ssol",
-                "spoly",
-                "surf",
-                "spoly",
-                "saltp",
-                "salt",
-            ]:
-                if dic["rst"].count(name.upper()):
-                    dic["rptrst"] += [name]
+            if dic["rst"].count(name.upper()):
+                dic["rptrst"] += [name]
 
 
 def handle_nnc_trans(dic):
@@ -714,58 +560,32 @@ def handle_nnc_trans(dic):
     ) as file:
         for row in nncdeck:
             file.write(row + "\n")
-    if dic["resdata"]:
-        temp = ResdataFile(dic["deck"] + ".EGRID")
-        coa = ResdataFile(dic["write"] + ".INIT")
-        coag = ResdataFile(dic["write"] + ".EGRID")
-        rnnc1 = np.array(temp.iget_kw("NNC1")[0])
-        rnnc2 = np.array(temp.iget_kw("NNC2")[0])
-        rnnct = np.array(dic["ini"].iget_kw("TRANNNC")[0])
-        cnnc1 = np.array(coag.iget_kw("NNC1")[0])
-        cnnc2 = np.array(coag.iget_kw("NNC2")[0])
-        cnnct = np.array(coa.iget_kw("TRANNNC")[0])
-        coag = Grid(dic["write"] + ".EGRID")
-        refpv = np.array(dic["ini"].iget_kw("PORV")[0])
-        coapv = np.array(coa.iget_kw("PORV")[0])
-        coa_dz = np.zeros(len(coapv))
-        ref_dz = np.zeros(len(refpv))
-        dic["coa_tranx"] = np.zeros(len(coapv))
-        dic["coa_trany"] = np.zeros(len(coapv))
-        dic["coa_tranx"][coapv > 0] = np.array(coa.iget_kw("TRANX")[0])
-        dic["coa_trany"][coapv > 0] = np.array(coa.iget_kw("TRANY")[0])
-        coa_dz[coapv > 0] = np.array(coa.iget_kw("DZ")[0])
-        ref_dz[refpv > 0] = np.array(dic["ini"].iget_kw("DZ")[0])
-    else:
-        temp = OpmFile(dic["deck"] + ".EGRID")
-        coa = OpmFile(dic["write"] + ".INIT")
-        coag = OpmFile(dic["write"] + ".EGRID")
-        rnnc1 = np.array(temp["NNC1"])
-        rnnc2 = np.array(temp["NNC2"])
-        rnnct = np.array(dic["ini"]["TRANNNC"])
-        cnnc1 = np.array(coag["NNC1"])
-        cnnc2 = np.array(coag["NNC2"])
-        cnnct = np.array(coa["TRANNNC"])
-        coag = OpmGrid(dic["write"] + ".EGRID")
-        refpv = np.array(dic["ini"]["PORV"])
-        coapv = np.array(coa["PORV"])
-        coa_dz = np.zeros(len(coapv))
-        ref_dz = np.zeros(len(refpv))
-        dic["coa_tranx"] = np.zeros(len(coapv))
-        dic["coa_trany"] = np.zeros(len(coapv))
-        dic["coa_tranx"][coapv > 0] = np.array(coa["TRANX"])
-        dic["coa_trany"][coapv > 0] = np.array(coa["TRANY"])
-        coa_dz[coapv > 0] = np.array(coa["DZ"])
-        ref_dz[refpv > 0] = np.array(dic["ini"]["DZ"])
+    temp = OpmFile(dic["deck"] + ".EGRID")
+    coa = OpmFile(dic["write"] + ".INIT")
+    coag = OpmFile(dic["write"] + ".EGRID")
+    rnnc1 = np.array(temp["NNC1"])
+    rnnc2 = np.array(temp["NNC2"])
+    rnnct = np.array(dic["ini"]["TRANNNC"])
+    cnnc1 = np.array(coag["NNC1"])
+    cnnc2 = np.array(coag["NNC2"])
+    cnnct = np.array(coa["TRANNNC"])
+    coag = OpmGrid(dic["write"] + ".EGRID")
+    refpv = np.array(dic["ini"]["PORV"])
+    coapv = np.array(coa["PORV"])
+    coa_dz = np.zeros(len(coapv))
+    ref_dz = np.zeros(len(refpv))
+    dic["coa_tranx"] = np.zeros(len(coapv))
+    dic["coa_trany"] = np.zeros(len(coapv))
+    dic["coa_tranx"][coapv > 0] = np.array(coa["TRANX"])
+    dic["coa_trany"][coapv > 0] = np.array(coa["TRANY"])
+    coa_dz[coapv > 0] = np.array(coa["DZ"])
+    ref_dz[refpv > 0] = np.array(dic["ini"]["DZ"])
     dic["coa_editnnc"] = []
     dic["nnct"] = [[[] for _ in range(dic["yn"])] for _ in range(dic["xn"])]
     indel = []
     for r1, r2, trn in zip(rnnc1, rnnc2, rnnct):
-        if dic["resdata"]:
-            rijk1 = dic["grid"].get_ijk(global_index=r1 - 1)
-            rijk2 = dic["grid"].get_ijk(global_index=r2 - 1)
-        else:
-            rijk1 = dic["grid"].ijk_from_global_index(r1 - 1)
-            rijk2 = dic["grid"].ijk_from_global_index(r2 - 1)
+        rijk1 = dic["grid"].ijk_from_global_index(r1 - 1)
+        rijk2 = dic["grid"].ijk_from_global_index(r2 - 1)
         if dic["kc"][rijk1[2] + 1] == dic["kc"][rijk2[2] + 1] and (
             rijk1[0] != rijk2[0] or rijk1[1] != rijk2[1]
         ):
@@ -807,12 +627,8 @@ def handle_nnc_trans(dic):
     with alive_bar(len(cnnc1)) as bar_animation:
         for n, (n1, n2) in enumerate(zip(cnnc1, cnnc2)):
             bar_animation()
-            if dic["resdata"]:
-                ijk1 = coag.get_ijk(global_index=n1 - 1)
-                ijk2 = coag.get_ijk(global_index=n2 - 1)
-            else:
-                ijk1 = coag.ijk_from_global_index(n1 - 1)
-                ijk2 = coag.ijk_from_global_index(n2 - 1)
+            ijk1 = coag.ijk_from_global_index(n1 - 1)
+            ijk2 = coag.ijk_from_global_index(n2 - 1)
             fip1, fip2 = ijk1[2] + 1, ijk2[2] + 1
             rtran, found, indel = 0, 0, []
             if fip1 != fip2 and (ijk1[0] != ijk2[0] or ijk1[1] != ijk2[1]):

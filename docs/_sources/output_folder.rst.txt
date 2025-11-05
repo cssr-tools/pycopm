@@ -35,4 +35,4 @@ favourite history matching/optimization tool (e.g., `ERT <https://ert.readthedoc
     For input decks that include other files without giving the full path (e.g., './include/summary...'), then we recommend
     to use the default output folder (-o .), i.e., the modified deck and files would be generated in the same location as
     the input deck and no errors would appear for not finding the include files; otherwise, you might need to copy all needed folders
-    with the include files to the output folder, or set the correct path to the include files in the generated deck. 
+    with the include files to the output folder, or set the correct path to the include files in the generated deck.
