@@ -11,13 +11,12 @@ import os
 import csv
 import numpy as np
 import warnings
-from datetime import datetime
-from resdata.summary import Summary
-from resdata.grid import Grid
-from resdata.resfile import ResdataFile
+import datetime
+from opm.io.ecl import EGrid as OpmGrid
+from opm.io.ecl import EclFile as OpmFile
+from opm.io.ecl import ESmry as OpmSummary
 import matplotlib
 import matplotlib.pyplot as plt
-from datetime import timedelta
 
 def visualizeData():
     """Visualize time series"""
@@ -48,7 +47,7 @@ def visualizeData():
 
     N = ${dic['net']}
     I = ${dic['Ni']}
-    training=datetime.fromisoformat("${dic['date']}")
+    training = datetime.datetime.fromisoformat("${dic['date']}")
 
     wtab_sgof = [[],[]]
     wtab_swof = [[],[]]
@@ -56,27 +55,27 @@ def visualizeData():
         for r in range(N):
             ok_file = f"{output_folder}/output/simulations/realisation-{r}/iter-{i}/OK"
             if os.path.exists(ok_file) == 1:
-                ini = ResdataFile(f'{output_folder}/output/simulations/realisation-{r}/iter-{i}/${dic['name']}_COARSER.INIT')
-                tabdim = ini.iget_kw("TABDIMS")
-                iswof = tabdim[0][20]
-                nswe = tabdim[0][21]
-                nsatnum = tabdim[0][22]
-                isgof = tabdim[0][23]
-                isgofn = tabdim[0][26] + 2*nswe*nsatnum + (nsatnum-1)*(2*nswe) + (2*nswe) + 2
-                iswofn = tabdim[0][26] + 2*nswe*nsatnum
-                table = np.array(ini.iget_kw("TAB"))
-                tab_sgof = np.array(table[0][isgof-1:isgof+(3*nsatnum)*(nswe-1)+(3*nsatnum-1)])
-                tab_swof = np.array(table[0][iswof-1:iswof+(3*nsatnum)*(nswe-1)+(3*nsatnum-1)])
+                ini = OpmFile(f'{output_folder}/output/simulations/realisation-{r}/iter-{i}/${dic['name']}_COARSER.INIT')
+                tabdim = ini["TABDIMS"]
+                iswof = tabdim[20]
+                nswe = tabdim[21]
+                nsatnum = tabdim[22]
+                isgof = tabdim[23]
+                isgofn = tabdim[26] + 2*nswe*nsatnum + (nsatnum-1)*(2*nswe) + (2*nswe) + 2
+                iswofn = tabdim[26] + 2*nswe*nsatnum
+                table = np.array(ini["TAB"])
+                tab_sgof = np.array(table[isgof-1:isgof+(3*nsatnum)*(nswe-1)+(3*nsatnum-1)])
+                tab_swof = np.array(table[iswof-1:iswof+(3*nsatnum)*(nswe-1)+(3*nsatnum-1)])
                 tab_sgof_kn = []
                 tab_swof_kn = []
                 for n in range(nsatnum):
-                    avg_arr = np.mean(np.array(table[0][isgofn-1+2*n*nswe-2:isgofn+2*nswe-3+2*n*nswe]).reshape(-1,2), axis = 1)
-                    avg_arr[0] = table[0][isgofn-1+2*n*nswe-2:isgofn+2*nswe-3+2*n*nswe][0]
-                    avg_arr[-1] = table[0][isgofn-1+2*n*nswe-2:isgofn+2*nswe-3+2*n*nswe][-1]            
+                    avg_arr = np.mean(np.array(table[isgofn-1+2*n*nswe-2:isgofn+2*nswe-3+2*n*nswe]).reshape(-1,2), axis = 1)
+                    avg_arr[0] = table[isgofn-1+2*n*nswe-2:isgofn+2*nswe-3+2*n*nswe][0]
+                    avg_arr[-1] = table[isgofn-1+2*n*nswe-2:isgofn+2*nswe-3+2*n*nswe][-1]            
                     tab_sgof_kn.append(avg_arr)
-                    avg_arr = np.mean(np.array(table[0][iswofn-1+2*n*nswe:iswofn+2*nswe-1+2*n*nswe]).reshape(-1,2), axis = 1)
-                    avg_arr[0] = table[0][iswofn-1+2*n*nswe:iswofn+2*nswe-1+2*n*nswe][0]
-                    avg_arr[-1] = table[0][iswofn-1+2*n*nswe:iswofn+2*nswe-1+2*n*nswe][-1]
+                    avg_arr = np.mean(np.array(table[iswofn-1+2*n*nswe:iswofn+2*nswe-1+2*n*nswe]).reshape(-1,2), axis = 1)
+                    avg_arr[0] = table[iswofn-1+2*n*nswe:iswofn+2*nswe-1+2*n*nswe][0]
+                    avg_arr[-1] = table[iswofn-1+2*n*nswe:iswofn+2*nswe-1+2*n*nswe][-1]
                     tab_swof_kn.append(avg_arr)
                 wtab_sgof[ind].append(np.append(tab_sgof, np.array(tab_sgof_kn).flatten()).reshape(4,nsatnum,nswe))
                 wtab_swof[ind].append(np.append(tab_swof, np.array(tab_swof_kn).flatten()).reshape(4,nsatnum,nswe))
@@ -171,16 +170,8 @@ def visualizeData():
         error_ens.append([0 for _ in range(N)])
         error_hist.append([])
         time_ens.append([])
-    numCellsDefault = 0
-    numCellsHm = 0
-    grid = Grid(f"{pycopm_path}/reference_simulation/${dic['field']}/${dic['name']}.EGRID")
-    for cell in grid.cells():
-        if cell.active == 1:
-            numCellsDefault += 1
-    grid = Grid(f"{output_folder}/output/simulations/realisation-0/iter-0/${dic['name']}_COARSER.EGRID")
-    for cell in grid.cells():
-        if cell.active == 1:
-            numCellsHm += 1
+    numCellsDefault = OpmGrid(f"{pycopm_path}/reference_simulation/${dic['field']}/${dic['name']}.EGRID").active_cells
+    numCellsHm = OpmGrid(f"{output_folder}/output/simulations/realisation-0/iter-0/${dic['name']}_COARSER.EGRID").active_cells
     smspecName = f"{pycopm_path}/reference_simulation/${dic['field']}/${dic['name']}.SMSPEC" 
     dbg = f"{pycopm_path}/reference_simulation/${dic['field']}/${dic['name']}.DBG"
     with open(dbg, "r", encoding="utf8") as file:
@@ -188,20 +179,29 @@ def visualizeData():
         for row in csv.reader(file, delimiter=":"):
             sol.append(row)
     time_standard = float(sol[-23][-1])
-    smspec = Summary(smspecName)
+    smspec = OpmSummary(smspecName)
     j = 0
+    nwells = []
+    for key in smspec.keys():
+        if key[0]=="W" and ":" in key and key.split(":")[-1] not in nwells:
+            nwells.append(key.split(":")[-1])
     for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
-        fmass[ftype] = dens*smspec[ftype+"H"].values[-1]
-        for well in smspec.wells():
-            if sum(smspec[type+"H:"+well].values)>0:
+        fmass[ftype] = dens*smspec[ftype+"H"][-1]
+        for well in nwells:
+            if sum(smspec[type+"H:"+well])>0:
                 wells[type].append(type+":"+well)
                 j += 1
     linei = [[ ] for _ in range(j)]
     linef = [[ ] for _ in range(j)]
     meant = 0
     n_e = [0 for _ in range(I)]
-    for i in range(len(smspec.dates)):
-        if smspec.dates[i] > training:
+    smsp_dates = 86400.0 * smspec["TIME"]
+    smsp_dates = [
+        smspec.start_date + datetime.timedelta(seconds=float(seconds))
+        for seconds in smsp_dates
+    ]
+    for i in range(len(smsp_dates)):
+        if smsp_dates[i] > training:
             n_t = i
             break
     %if dic['field']=='drogon':
@@ -209,12 +209,12 @@ def visualizeData():
     %endif
 
     for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
-        rfcum[ftype].append(dens*abs(smspec[ftype].values[-1]-smspec[ftype+"H"].values[-1]))
+        rfcum[ftype].append(dens*abs(smspec[ftype][-1]-smspec[ftype+"H"][-1]))
         rcum[type].append(0)
         for i in range(len(wells[type])):
             data = smspec[wells[type][i]]
             datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
-            for d_1, d_2 in zip(data.values[n_t:], datah.values[n_t:]):
+            for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                 rcum[type][-1] += dens*abs(d_1-d_2)
 
     fig, ax = plt.subplots()
@@ -227,7 +227,7 @@ def visualizeData():
             axs.append(ax)
             figs.append(fig)
             figs[j], axs[j] = plt.subplots()
-            for d_1, d_2 in zip(data.values[n_t:], datah.values[n_t:]):
+            for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                 error_standard += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                 k += 1
             j += 1
@@ -238,22 +238,27 @@ def visualizeData():
             if os.path.exists(ok_file) == 1:
                 n_e[0] += 1
                 smspecName = f"{output_folder}/output/simulations/realisation-{r}/iter-0/${dic['name']}_COARSER.SMSPEC"
-                smspec = Summary(smspecName)
-                for i in range(len(smspec.dates)):
-                    if smspec.dates[i] > training:
+                smspec = OpmSummary(smspecName)
+                smsp_dates = 86400.0 * smspec["TIME"]
+                smsp_dates = [
+                    smspec.start_date + datetime.timedelta(seconds=float(seconds))
+                    for seconds in smsp_dates
+                ]
+                for i in range(len(smsp_dates)):
+                    if smsp_dates[i] > training:
                         n_t = i
                         break
                 j = 0
                 k = 0
                 error_hist[0].append(0)
                 for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
-                    fcum[ftype][0].append(dens*abs(smspec[ftype].values[-1]-smspec[ftype+"H"].values[-1]))
+                    fcum[ftype][0].append(dens*abs(smspec[ftype][-1]-smspec[ftype+"H"][-1]))
                     cum[type][0].append(0)
                     for i in range(len(wells[type])):
                         data = smspec[wells[type][i]]
-                        linei[j], = axs[j].plot(data.dates, data.values, color=[51 / 255.0, 153 / 255.0, 255 / 255.0])
+                        linei[j], = axs[j].plot(smsp_dates, data, color=[51 / 255.0, 153 / 255.0, 255 / 255.0])
                         datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
-                        for d_1, d_2 in zip(data.values[n_t:], datah.values[n_t:]):
+                        for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                             error_ens[0][r] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                             error_hist[0][-1] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                             cum[type][0][-1] += dens*abs(d_1-d_2)
@@ -287,9 +292,14 @@ def visualizeData():
             if os.path.exists(ok_file) == 1:
                 n_e[ite+1] += 1
                 smspecName = f"{output_folder}/output/simulations/realisation-{r}/iter-{ite+1}/${dic['name']}_COARSER.SMSPEC"
-                smspec = Summary(smspecName)
-                for i in range(len(smspec.dates)):
-                    if smspec.dates[i] > training:
+                smspec = OpmSummary(smspecName)
+                smsp_dates = 86400.0 * smspec["TIME"]
+                smsp_dates = [
+                    smspec.start_date + datetime.timedelta(seconds=float(seconds))
+                    for seconds in smsp_dates
+                ]
+                for i in range(len(smsp_dates)):
+                    if smsp_dates[i] > training:
                         n_t = i
                         break
                 k = 0
@@ -298,7 +308,7 @@ def visualizeData():
                     for i in range(len(wells[type])):
                         data = smspec[wells[type][i]]
                         datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
-                        for d_1, d_2 in zip(data.values[n_t:], datah.values[n_t:]):
+                        for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                             error_ens[ite+1][r] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                             error_hist[ite+1][-1] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                             k += 1
@@ -318,27 +328,32 @@ def visualizeData():
         if os.path.exists(ok_file) == 1:
             n_e[I-1] += 1
             smspecName = f"{output_folder}/output/simulations/realisation-{r}/iter-{I-1}/${dic['name']}_COARSER.SMSPEC"
-            smspec = Summary(smspecName)
-            for i in range(len(smspec.dates)):
-                if smspec.dates[i] > training:
+            smspec = OpmSummary(smspecName)
+            smsp_dates = 86400.0 * smspec["TIME"]
+            smsp_dates = [
+                smspec.start_date + datetime.timedelta(seconds=float(seconds))
+                for seconds in smsp_dates
+            ]
+            for i in range(len(smsp_dates)):
+                if smsp_dates[i] > training:
                     n_t = i
                     break
             j = 0
             k = 0
             error_hist[-1].append(0)
             for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
-                fcum[ftype][-1].append(dens*abs(smspec[ftype].values[-1]-smspec[ftype+"H"].values[-1]))
+                fcum[ftype][-1].append(dens*abs(smspec[ftype][-1]-smspec[ftype+"H"][-1]))
                 cum[type][-1].append(0)
                 for i in range(len(wells[type])):
                     data = smspec[wells[type][i]]
-                    linef[j], = axs[j].plot(data.dates, data.values, color=[0 / 255.0, 204 / 255.0, 0 / 255.0])
+                    linef[j], = axs[j].plot(smsp_dates, data, color=[0 / 255.0, 204 / 255.0, 0 / 255.0])
                     datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
-                    for d_1, d_2 in zip(data.values[n_t:], datah.values[n_t:]):
+                    for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                         error_ens[-1][r] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                         error_hist[-1][-1] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                         cum[type][-1][-1] += dens*abs(d_1-d_2)
                         k += 1
-                    FO[r].append([data.dates,data.values])
+                    FO[r].append([smsp_dates,data])
                     j += 1
             error_ens[-1][r] /= (2.*k)
             error_hist[-1][-1] /= (2.*k)
@@ -365,7 +380,7 @@ def visualizeData():
         else:
             for type in ["WOPR","WGPR","WWPR"]:
                 for i in range(len(wells[type])):
-                    FO[r].append([data.dates,0*data.values])
+                    FO[r].append([smsp_dates,0*data])
                     error_ens[-1][r] += 1e10
 
     if n_e[I-1] > 0:
@@ -380,7 +395,12 @@ def visualizeData():
         csvData = []
     
     smspecName = f"{pycopm_path}/reference_simulation/${dic['field']}/${dic['name']}.SMSPEC" 
-    smspec = Summary(smspecName)
+    smspec = OpmSummary(smspecName)
+    smsp_dates = 86400.0 * smspec["TIME"]
+    smsp_dates = [
+        smspec.start_date + datetime.timedelta(seconds=float(seconds))
+        for seconds in smsp_dates
+    ]
     j = 0
     for type in ["WWPR","WOPR","WGPR"]:
         for i in range(len(wells[type])):
@@ -396,15 +416,15 @@ def visualizeData():
                 linef[j].set_label('Single run')
             data = smspec[wells[type][i]]
             datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
-            axs[j].plot(data.dates, data.values, color='m', label = 'opm-tests')
-            if sum(datah.values>0):
-                axs[j].errorbar(datah.dates, datah.values, yerr= [max(minerr[type],var[type]*d_2) for d_2 in datah.values], color=[128 / 255.0, 128 / 255.0, 128 / 255.0], markersize='.5', elinewidth=.5, fmt='o', linestyle='', label = 'Data')
+            axs[j].plot(smsp_dates, data, color='m', label = 'opm-tests')
+            if sum(datah>0):
+                axs[j].errorbar(smsp_dates, datah, yerr= [max(minerr[type],var[type]*d_2) for d_2 in datah], color=[128 / 255.0, 128 / 255.0, 128 / 255.0], markersize='.5', elinewidth=.5, fmt='o', linestyle='', label = 'Data')
             axs[j].set_ylabel(f'{wells[type][i]} [SM3/day]', fontsize=12)
             axs[j].set_xlabel('Time [years]', fontsize=12)
             axs[j].xaxis.set_tick_params(size=6, rotation=45)
             axs[j].legend()
             axs[j].set_ylim(bottom=0)
-            if sum(datah.values>0):
+            if sum(datah>0):
                 figs[j].savefig(f"{output_folder}/postprocessing/wells/HISTO_DATA_{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
             else:
                 figs[j].savefig(f"{output_folder}/postprocessing/wells/{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
@@ -446,7 +466,7 @@ def visualizeData():
     figs, ax = plt.subplots()
     ax.boxplot([time_ens[i] for i in range(I)], positions=[i for i in range(I)])
     ax.axhline(y=time_standard, color="black", ls="--", lw=1, label='opm-tests')
-    ax.set_title(f"Total time of the HM: {timedelta(seconds=${'{0:.2f}'.format(time)})}")
+    ax.set_title(f"Total time of the HM: {datetime.timedelta(seconds=${'{0:.2f}'.format(time)})}")
     ax.set_xlabel("# iteration [-]")
     ax.set_xticks(range(I))
     ax.set_ylabel("Simulation time [s]")
@@ -553,8 +573,8 @@ def visualizeData():
         with open(f"{output_folder}/postprocessing/errors.txt", 'w') as f:
             f.write(f'Closest final realization to all obs:{eobs[-1][0][0]}\n')
             f.write(f'Number of parameters to HM: {len(csvData)}\n')
-            f.write(f'Mean simulation time of a single ensemble : {timedelta(seconds=meant)}\n')
-            f.write(f'Total execution time : {timedelta(seconds=${'{0:.2f}'.format(time)})}\n')
+            f.write(f'Mean simulation time of a single ensemble : {datetime.timedelta(seconds=meant)}\n')
+            f.write(f'Total execution time : {datetime.timedelta(seconds=${'{0:.2f}'.format(time)})}\n')
             f.write(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}\n')
             for i in range(I):
                 f.write(f'Iteration {i}; Number of ensembles {int(n_e[i])}\n')
@@ -562,8 +582,8 @@ def visualizeData():
                 f.write(f'Missmatch (closest realization to all obs): {error_ens[i][eobs[i][0][0]]: .4e}\n')
         print(f'\nClosest final realization to all obs:{eobs[-1][0][0]}')
         print(f'Number of parameters to HM: {len(csvData)}')
-        print(f'Mean simulation time of a single ensemble: {timedelta(seconds=meant)}')
-        print(f'Total execution time: {timedelta(seconds=${'{0:.2f}'.format(time)})}')
+        print(f'Mean simulation time of a single ensemble: {datetime.timedelta(seconds=meant)}')
+        print(f'Total execution time: {datetime.timedelta(seconds=${'{0:.2f}'.format(time)})}')
         print(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}')
         for i in range(I):
             print(f'Iteration {i}; Number of ensembles {int(n_e[i])}')

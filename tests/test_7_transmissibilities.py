@@ -7,7 +7,7 @@
 import os
 import pathlib
 import subprocess
-from resdata.resfile import ResdataFile
+from opm.io.ecl import EclFile as OpmFile
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
@@ -29,37 +29,33 @@ def test_transmissibilities(flow):
         [523.75178, 706.33996, 5008.1327, 106.21933],
         [523.75178, 706.33996, 0, 106.21933],
     ]
-    for use in ["opm", "resdata"]:
-        for i, m in enumerate(["1", "2"]):
-            sub = use.upper() + m
-            subprocess.run(
-                [
-                    "pycopm",
-                    "-f",
-                    flow,
-                    "-o",
-                    f"{testpth}/output/transmissibilities",
-                    "-i",
-                    f"{mainpth}/examples/decks/MODEL4.DATA",
-                    "-z",
-                    "1:30,31:56,57:111,112:116,117:217",
-                    "-w",
-                    f"COARSER{sub}",
-                    "-l",
-                    f"C0{sub}",
-                    "-t",
-                    m,
-                    "-a",
-                    "max",
-                    "-m",
-                    "all",
-                    "-u",
-                    use,
-                ],
-                check=True,
-            )
-            init = ResdataFile(f"{testpth}/output/transmissibilities/COARSER{sub}.INIT")
-            for j, n in enumerate(["X", "Y", "Z", "NNC"]):
-                assert (
-                    abs(sum(init.iget_kw(f"TRAN{n}")[0]) - values[i][j]) < 1e-2
-                ), f"Issue in TRAN{n} with -u {use} -t {i}"
+    for i, sub in enumerate(["1", "2"]):
+        subprocess.run(
+            [
+                "pycopm",
+                "-f",
+                flow,
+                "-o",
+                f"{testpth}/output/transmissibilities",
+                "-i",
+                f"{mainpth}/examples/decks/MODEL4.DATA",
+                "-z",
+                "1:30,31:56,57:111,112:116,117:217",
+                "-w",
+                f"COARSER{sub}",
+                "-l",
+                f"C0{sub}",
+                "-t",
+                sub,
+                "-a",
+                "max",
+                "-m",
+                "all",
+            ],
+            check=True,
+        )
+        init = OpmFile(f"{testpth}/output/transmissibilities/COARSER{sub}.INIT")
+        for j, n in enumerate(["X", "Y", "Z", "NNC"]):
+            assert (
+                abs(sum(init[f"TRAN{n}"]) - values[i][j]) < 1e-2
+            ), f"Issue in TRAN{n} with -t {i}"

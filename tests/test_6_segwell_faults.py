@@ -25,7 +25,8 @@ import os
 import pathlib
 import subprocess
 import numpy as np
-from resdata.resfile import ResdataFile
+from opm.io.ecl import EclFile as OpmFile
+from opm.io.ecl import ERst as OpmRestart
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
 mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
@@ -43,8 +44,56 @@ def test_complex(flow):
         ],
         check=True,
     )
-    for use in ["opm", "resdata"]:
-        sub = use.upper()
+    subprocess.run(
+        [
+            "pycopm",
+            "-f",
+            flow,
+            "-o",
+            f"{testpth}/output/complex",
+            "-i",
+            f"{mainpth}/examples/decks/MODEL3.DATA",
+            "-x",
+            "0,2,0,2,0,0,0,0,0,0",
+            "-z",
+            "0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,2,0",
+            "-w",
+            "COARSER",
+            "-l",
+            "C0",
+            "-p",
+            "1",
+            "-q",
+            "1",
+            "-a",
+            "max",
+            "-m",
+            "all",
+        ],
+        check=True,
+    )
+    assert os.path.exists(f"{testpth}/output/complex/COARSER.INIT")
+    assert os.path.exists(f"{testpth}/output/complex/COARSER.EGRID")
+    subprocess.run(
+        [
+            flow,
+            f"{testpth}/output/complex/COARSER.DATA",
+            f"--output-dir={testpth}/output/complex/coarser",
+        ],
+        check=True,
+    )
+    bini = OpmFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
+    cini = OpmFile(f"{testpth}/output/complex/coarser/COARSER.INIT")
+    bpv = np.array(bini["PORV"])
+    cpv = np.array(cini["PORV"])
+    assert abs(sum(bpv) - sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
+    assert sum(cpv > 0) == 255
+    brst = OpmRestart(f"{testpth}/output/complex/reference/MODEL3.UNRST")
+    crst = OpmRestart(f"{testpth}/output/complex/coarser/COARSER.UNRST")
+    bgf = np.array(brst["FIPGAS", 0])
+    cgf = np.array(crst["FIPGAS", 0])
+    assert abs(sum(bgf) - sum(cgf)) < 5e3  # ca. 2.56191e10 fipgas in the ref
+    for sub in ["0", "1"]:
         subprocess.run(
             [
                 "pycopm",
@@ -54,130 +103,72 @@ def test_complex(flow):
                 f"{testpth}/output/complex",
                 "-i",
                 f"{mainpth}/examples/decks/MODEL3.DATA",
-                "-x",
-                "0,2,0,2,0,0,0,0,0,0",
-                "-z",
-                "0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,2,0",
-                "-w",
-                f"COARSER{sub}",
-                "-l",
-                f"C0{sub}",
-                "-p",
+                "-warnings",
                 "1",
+                "-g",
+                "2,2,2",
+                "-w",
+                f"FINER{sub}",
+                "-l",
+                f"R0{sub}",
                 "-q",
                 "1",
-                "-a",
-                "max",
                 "-m",
                 "all",
-                "-u",
-                use,
+                "-explicit",
+                sub,
             ],
             check=True,
         )
-        assert os.path.exists(f"{testpth}/output/complex/COARSER{sub}.INIT")
-        assert os.path.exists(f"{testpth}/output/complex/COARSER{sub}.EGRID")
+        assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.INIT")
+        assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.EGRID")
         subprocess.run(
             [
                 flow,
-                f"{testpth}/output/complex/COARSER{sub}.DATA",
-                f"--output-dir={testpth}/output/complex/coarser",
+                f"{testpth}/output/complex/FINER{sub}.DATA",
+                f"--output-dir={testpth}/output/complex/finer",
             ],
             check=True,
         )
-        bini = ResdataFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
-        cini = ResdataFile(f"{testpth}/output/complex/coarser/COARSER{sub}.INIT")
-        bpv = np.array(bini.iget_kw("PORV")[0])
-        cpv = np.array(cini.iget_kw("PORV")[0])
+        rini = OpmFile(f"{testpth}/output/complex/finer/FINER{sub}.INIT")
+        rpv = np.array(rini["PORV"])
+        assert abs(sum(bpv) - sum(rpv)) < 50  # ca. 4.61992e8 porv in the ref
+        assert sum(rpv > 0) == 22896
+        rrst = OpmRestart(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
+        rgf = np.array(rrst["FIPGAS", 0])
+        assert abs(sum(bgf) - sum(rgf)) < 4e5  # ca. 2.56191e10 fipgas in the ref
+    for i, val in enumerate(
+        ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
+    ):
+        subprocess.run(
+            [
+                "pycopm",
+                "-f",
+                flow,
+                "-o",
+                f"{testpth}/output/complex",
+                "-i",
+                f"{mainpth}/examples/decks/MODEL3.DATA",
+                "-v",
+                f"A4 {val}",
+                "-w",
+                f"SUBMODEL{i}",
+                "-warnings",
+                "1",
+                "-l",
+                f"S{i}",
+                "-p",
+                f"{[1,3,3,4][i]}",
+                "-m",
+                "deck_dry",
+            ],
+            check=True,
+        )
+        assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{i}.INIT")
+        assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{i}.EGRID")
+        bini = OpmFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
+        cini = OpmFile(f"{testpth}/output/complex/SUBMODEL{i}.INIT")
+        bpv = np.array(bini["PORV"])
+        cpv = np.array(cini["PORV"])
         assert abs(sum(bpv) - sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
-        assert sum(cpv > 0) == 255
-        brst = ResdataFile(f"{testpth}/output/complex/reference/MODEL3.UNRST")
-        crst = ResdataFile(f"{testpth}/output/complex/coarser/COARSER{sub}.UNRST")
-        bgf = np.array(brst.iget_kw("FIPGAS")[0])
-        cgf = np.array(crst.iget_kw("FIPGAS")[0])
-        assert abs(sum(bgf) - sum(cgf)) < 5e3  # ca. 2.56191e10 fipgas in the ref
-        for explicit in ["0", "1"]:
-            sub = f"{explicit}{use.upper()}"
-            subprocess.run(
-                [
-                    "pycopm",
-                    "-f",
-                    flow,
-                    "-o",
-                    f"{testpth}/output/complex",
-                    "-i",
-                    f"{mainpth}/examples/decks/MODEL3.DATA",
-                    "-warnings",
-                    "1",
-                    "-g",
-                    "2,2,2",
-                    "-w",
-                    f"FINER{sub}",
-                    "-l",
-                    f"R0{sub}",
-                    "-q",
-                    "1",
-                    "-m",
-                    "all",
-                    "-u",
-                    use,
-                    "-explicit",
-                    explicit,
-                ],
-                check=True,
-            )
-            assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.INIT")
-            assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.EGRID")
-            subprocess.run(
-                [
-                    flow,
-                    f"{testpth}/output/complex/FINER{sub}.DATA",
-                    f"--output-dir={testpth}/output/complex/finer",
-                ],
-                check=True,
-            )
-            rini = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.INIT")
-            rpv = np.array(rini.iget_kw("PORV")[0])
-            assert abs(sum(bpv) - sum(rpv)) < 50  # ca. 4.61992e8 porv in the ref
-            assert sum(rpv > 0) == 22896
-            rrst = ResdataFile(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
-            rgf = np.array(rrst.iget_kw("FIPGAS")[0])
-            assert abs(sum(bgf) - sum(rgf)) < 4e5  # ca. 2.56191e10 fipgas in the ref
-        for i, val in enumerate(
-            ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
-        ):
-            sub = f"{i}{use.upper()}"
-            subprocess.run(
-                [
-                    "pycopm",
-                    "-f",
-                    flow,
-                    "-o",
-                    f"{testpth}/output/complex",
-                    "-i",
-                    f"{mainpth}/examples/decks/MODEL3.DATA",
-                    "-v",
-                    f"A4 {val}",
-                    "-w",
-                    f"SUBMODEL{sub}",
-                    "-warnings",
-                    "1",
-                    "-l",
-                    f"S{sub}",
-                    "-p",
-                    f"{[1,3,3,4][i]}",
-                    "-m",
-                    "deck_dry",
-                    "-u",
-                    use,
-                ],
-                check=True,
-            )
-            assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{sub}.INIT")
-            assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{sub}.EGRID")
-            bini = ResdataFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
-            cini = ResdataFile(f"{testpth}/output/complex/SUBMODEL{sub}.INIT")
-            bpv = np.array(bini.iget_kw("PORV")[0])
-            cpv = np.array(cini.iget_kw("PORV")[0])
-            assert abs(sum(bpv) - sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
-            assert sum(cpv > 0) == [20, 77, 731, 260][i]
+        assert sum(cpv > 0) == [20, 77, 731, 260][i]

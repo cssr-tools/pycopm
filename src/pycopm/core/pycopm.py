@@ -19,12 +19,6 @@ from pycopm.utils.files_writer import coarser_files
 from pycopm.utils.runs_executer import simulations, plotting
 from pycopm.utils.generate_files import create_deck
 
-has_opm = False
-try:
-    has_opm = bool(__import__("opm"))
-except ImportError:
-    pass
-
 
 def pycopm():
     """Main function for the pycopm executable"""
@@ -44,7 +38,6 @@ def pycopm():
     dic["label"] = cmdargs["label"].strip()  # Prefix to the generted inc files
     dic["ijk"] = cmdargs["ijk"].strip()  # ijk indices to map to the modified model
     dic["remove"] = int(cmdargs["remove"].strip())  # Remove CONFACT and KH
-    dic["resdata"] = (cmdargs["use"].strip()).lower() == "resdata"  # Use resdata or opm
     dic["encoding"] = cmdargs["encoding"].strip()  # Use utf8 or ISO-8859-1
     dic["pvcorr"] = int(cmdargs["pvcorr"])  # Correct for removed pore volume
     dic["fipcorr"] = int(cmdargs["fipcorr"])  # Correct for total mass of fluids
@@ -97,7 +90,7 @@ def pycopm():
     if not os.path.exists(f"{dic['fol']}"):
         os.system(f"mkdir {dic['fol']}")
 
-    # When a deck, only coarser/refined/submodel/transformed files are generated
+    # When a deck, only coarsened/refined/submodel/transformed files are generated
     if "DATA" in file:
         # if "/" in file:
         dic["deck"] = file.split("/")[-1][:-5]
@@ -372,12 +365,6 @@ def load_parser():
         "('' by default).",
     )
     parser.add_argument(
-        "-u",
-        "--use",
-        default="opm",
-        help="Use the resdata or opm Python libraries ('opm' by default).",
-    )
-    parser.add_argument(
         "-explicit",
         "--explicit",
         default=0,
@@ -408,12 +395,6 @@ def check_cmdargs(cmdargs):
         print(
             f"\nInvalid extension for input file '-i {cmdargs['input'].strip()}', "
             "valid extensions are .DATA or .toml\n"
-        )
-        sys.exit()
-    if (cmdargs["use"].strip()).lower() == "opm" and not has_opm:
-        print(
-            "\nThe Python package opm cannot be import. Either try to install it "
-            "following the pycopm documentation, or remove the flag '-u opm'.\n"
         )
         sys.exit()
     if (cmdargs["input"].strip()).endswith(".DATA"):

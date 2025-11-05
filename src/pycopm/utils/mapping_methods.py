@@ -933,18 +933,13 @@ def handle_vicinity(dic):
     dic["wvicinity"] = []
     dic["hvicinity"] = []
     if dic["optvic"].upper() == "XYPOLYGON":
-        if dic["resdata"]:
-            coords = dic["grid"].export_position(dic["grid"].export_index())
-        else:
-            coords = []
-            for k in range(dic["zn"]):
-                for j in range(dic["yn"]):
-                    for i in range(dic["xn"]):
-                        xyz = dic["grid"].xyz_from_ijk(i, j, k, True)
-                        coords.append(
-                            [sum(xyz[0]) / 8.0, sum(xyz[1]) / 8, sum(xyz[2]) / 8]
-                        )
-            coords = np.array(coords)
+        coords = []
+        for k in range(dic["zn"]):
+            for j in range(dic["yn"]):
+                for i in range(dic["xn"]):
+                    xyz = dic["grid"].xyz_from_ijk(i, j, k, True)
+                    coords.append([sum(xyz[0]) / 8.0, sum(xyz[1]) / 8, sum(xyz[2]) / 8])
+        coords = np.array(coords)
         nxy = dic["xn"] * dic["yn"]
         nxyz = nxy * dic["zn"]
         dic["subm"] = []
@@ -1057,16 +1052,9 @@ def handle_vicinity(dic):
         found = False
         dic["subm"] = np.ones(dic["xn"] * dic["yn"] * dic["zn"])
         quans = [int(val) for val in vicinity[1].split(",")]
-        if dic["resdata"]:
-            if dic["ini"].has_kw(dic["optvic"].upper()):
-                dic["subm"][dic["actind"]] = dic["ini"].iget_kw(dic["optvic"].upper())[
-                    0
-                ]
-                found = True
-        else:
-            if dic["ini"].count(dic["optvic"].upper()):
-                dic["subm"][dic["actind"]] = dic["ini"][dic["optvic"].upper()]
-                found = True
+        if dic["ini"].count(dic["optvic"].upper()):
+            dic["subm"][dic["actind"]] = dic["ini"][dic["optvic"].upper()]
+            found = True
         if found:
             dic["subm"] = [val in quans for val in dic["subm"]]
         else:
@@ -1129,16 +1117,10 @@ def map_vicinity(dic):
             bar_animation()
             if name != "porv":
                 dic[name] = np.zeros(nc)
-                if dic["resdata"]:
-                    if name in dic["rptrst"]:
-                        dic[name][dic["actind"]] = dic["rst"].iget_kw(name.upper())[0]
-                    else:
-                        dic[name][dic["actind"]] = dic["ini"].iget_kw(name.upper())[0]
+                if name in dic["rptrst"]:
+                    dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
                 else:
-                    if name in dic["rptrst"]:
-                        dic[name][dic["actind"]] = dic["rst"][name.upper(), 0]
-                    else:
-                        dic[name][dic["actind"]] = dic["ini"][name.upper()]
+                    dic[name][dic["actind"]] = dic["ini"][name.upper()]
             dic[f"{name}_c"] = [""] * (dic["nx"] * dic["ny"] * dic["nz"])
             n = 0
             for k in range(dic["zn"]):
@@ -1278,12 +1260,8 @@ def handle_cp_grid(dic):
     """
     ir = []
     mr = []
-    if dic["resdata"]:
-        zc = dic["grid"].export_zcorn()
-        cr = dic["grid"].export_coord()
-    else:
-        zc = dic["ogrid"]["ZCORN"]
-        cr = dic["ogrid"]["COORD"]
+    zc = dic["ogrid"]["ZCORN"]
+    cr = dic["ogrid"]["COORD"]
     for i in range(dic["xn"] + 1):
         if (dic["X"][i]) > 1:
             for m in range(i, (dic["xn"] + 1) * (dic["yn"] + 1), dic["xn"] + 1):
@@ -1349,12 +1327,8 @@ def chop_grid(dic):
 
     """
     dic["zc"], dic["cr"] = [], []
-    if dic["resdata"]:
-        zc = list(dic["grid"].export_zcorn())
-        cr = list(dic["grid"].export_coord())
-    else:
-        zc = list(dic["ogrid"]["ZCORN"])
-        cr = list(dic["ogrid"]["COORD"])
+    zc = list(dic["ogrid"]["ZCORN"])
+    cr = list(dic["ogrid"]["COORD"])
     for j in range(dic["yn"] + 1):
         l = 6 * (dic["xn"] + 1) * j
         added = False
@@ -1408,51 +1382,25 @@ def transform_grid(dic):
         txyz = np.array([float(txyz[0][1:]), float(txyz[1]), float(txyz[-1][:-1])])
     else:
         txyz = float(trans[1])
-    if dic["resdata"]:
-        zc = list(dic["grid"].export_zcorn())
-        cr = list(dic["grid"].export_coord())
-    else:
-        zc = list(dic["ogrid"]["ZCORN"])
-        cr = list(dic["ogrid"]["COORD"])
+    zc = list(dic["ogrid"]["ZCORN"])
+    cr = list(dic["ogrid"]["COORD"])
     if trans[0] in ["rotatexz", "rotateyz"]:
-        if dic["resdata"]:
-            xyz = dic["grid"].export_corners(dic["grid"].export_index())
-            for k in range(dic["zn"]):
-                for j in range(dic["yn"]):
-                    for i in range(dic["xn"]):
-                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                        cxy.append([xyz[ind][0], xyz[ind][1]])
-                        cxy.append([xyz[ind][3], xyz[ind][4]])
-                    for i in range(dic["xn"]):
-                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                        cxy.append([xyz[ind][6], xyz[ind][7]])
-                        cxy.append([xyz[ind][9], xyz[ind][10]])
-                for j in range(dic["yn"]):
-                    for i in range(dic["xn"]):
-                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                        cxy.append([xyz[ind][12], xyz[ind][13]])
-                        cxy.append([xyz[ind][15], xyz[ind][16]])
-                    for i in range(dic["xn"]):
-                        ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
-                        cxy.append([xyz[ind][18], xyz[ind][19]])
-                        cxy.append([xyz[ind][21], xyz[ind][22]])
-        else:
-            for k in range(dic["zn"]):
-                for j in range(dic["yn"]):
-                    for i in range(dic["xn"]):
-                        xyz = dic["grid"].xyz_from_ijk(i, j, k)
-                        cxy.append([xyz[0][0], xyz[1][0]])
-                        cxy.append([xyz[0][1], xyz[1][1]])
-                    for i in range(dic["xn"]):
-                        cxy.append([xyz[0][2], xyz[1][2]])
-                        cxy.append([xyz[0][3], xyz[1][3]])
-                for j in range(dic["yn"]):
-                    for i in range(dic["xn"]):
-                        cxy.append([xyz[0][4], xyz[1][4]])
-                        cxy.append([xyz[0][5], xyz[1][5]])
-                    for i in range(dic["xn"]):
-                        cxy.append([xyz[0][6], xyz[1][6]])
-                        cxy.append([xyz[0][7], xyz[1][7]])
+        for k in range(dic["zn"]):
+            for j in range(dic["yn"]):
+                for i in range(dic["xn"]):
+                    xyz = dic["grid"].xyz_from_ijk(i, j, k)
+                    cxy.append([xyz[0][0], xyz[1][0]])
+                    cxy.append([xyz[0][1], xyz[1][1]])
+                for i in range(dic["xn"]):
+                    cxy.append([xyz[0][2], xyz[1][2]])
+                    cxy.append([xyz[0][3], xyz[1][3]])
+            for j in range(dic["yn"]):
+                for i in range(dic["xn"]):
+                    cxy.append([xyz[0][4], xyz[1][4]])
+                    cxy.append([xyz[0][5], xyz[1][5]])
+                for i in range(dic["xn"]):
+                    cxy.append([xyz[0][6], xyz[1][6]])
+                    cxy.append([xyz[0][7], xyz[1][7]])
     for j in range(dic["yn"] + 1):
         l = 6 * (dic["xn"] + 1) * j
         for i in range(dic["xn"] + 1):
@@ -1529,12 +1477,8 @@ def refine_grid(dic):
 
     """
     crx, dic["zc"], dic["cr"] = [], [], []
-    if dic["resdata"]:
-        zc = list(dic["grid"].export_zcorn())
-        cr = list(dic["grid"].export_coord())
-    else:
-        zc = list(dic["ogrid"]["ZCORN"])
-        cr = list(dic["ogrid"]["COORD"])
+    zc = list(dic["ogrid"]["ZCORN"])
+    cr = list(dic["ogrid"]["COORD"])
     for j in range(dic["yn"] + 1):
         l = 6 * (dic["xn"] + 1) * j
         for n in range(6):
