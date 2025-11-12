@@ -28,7 +28,7 @@ def process_the_deck(dic):
     dic["removeg"] = False
     dic["welspecs"] = False
     dic["welsegs"] = False
-    dic["wconhist"] = False
+    dic["complump"] = False
     dic["compdat"] = False
     dic["compsegs"] = False
     dic["mapaxes"] = False
@@ -254,6 +254,7 @@ def names_wells(dic):
                                 dic["swells"].append(swell)
     dic["kw"] = [
         "wconhist",
+        "wdfac",
         "weltarg",
         "wrftplt",
         "weltarg",
@@ -267,6 +268,7 @@ def names_wells(dic):
         "wsegvalv",
         "wecon",
         "cskin",
+        "wpavedep",
     ]
     for name in dic["kw"]:
         dic[name] = False
@@ -1663,6 +1665,58 @@ def handle_segmented_wells(dic, nrwo):
                 return True
             else:
                 return True
+    if dic["complump"]:
+        edit = nrwo.split()
+        if edit:
+            if edit[0] == "/":
+                dic["complump"] = False
+                if dic["lol"][-1].split()[0] in dic["awells"]:
+                    del dic["lol"][-1]
+                    del dic["lol"][-1]
+                    return True
+            if (
+                len(edit) > 1
+                and edit[0][:2] != "--"
+                and dic["lol"][-1].split()[0] == "COMPLUMP"
+                and dic["vicinity"]
+            ):
+                well = edit[0].replace("'", "")
+                if well not in dic["nwells"] or well not in dic["swells"]:
+                    del dic["lol"][-1]
+                    del dic["lol"][-1]
+                    return True
+        if len(edit) > 2:
+            if edit[0][:2] != "--":
+                tmp = edit.copy()
+                whr = 0
+                for i, val in enumerate(tmp):
+                    if "*" in val:
+                        edit.pop(i + whr)
+                        for _ in range(int(val[0])):
+                            edit.insert(i + whr, "1*")
+                        whr += int(val[0]) - 1
+                if dic["vicinity"]:
+                    well = edit[0].replace("'", "")
+                    for val, x in zip(edit[1:5], ["i", "j", "k", "k"]):
+                        if "*" not in val:
+                            if dic[f"{x}c"][int(val)] == 0:
+                                return True
+                    if well not in dic["nwells"]:
+                        return True
+                    else:
+                        for i, x in zip(range(1, 5), ["i", "j", "k", "k"]):
+                            if "*" not in edit[i]:
+                                edit[i] = str(dic[f"{x}c"][int(edit[i])])
+                        dic["lol"].append(" ".join(edit))
+                        return True
+                else:
+                    for i, x in zip(range(1, 5), ["i", "j", "k", "k"]):
+                        if "*" not in edit[i]:
+                            edit[i] = str(dic[f"{x}c"][int(edit[i])])
+                    dic["lol"].append(" ".join(edit))
+                return True
+            else:
+                return True
     return False
 
 
@@ -1724,6 +1778,10 @@ def handle_wells(dic, nrwo):
                 dic["welspecs"] = False
     if nrwo == "COMPDAT":
         dic["compdat"] = True
+        dic["lol"].append(nrwo)
+        return True
+    if nrwo == "COMPLUMP":
+        dic["complump"] = True
         dic["lol"].append(nrwo)
         return True
     return False
