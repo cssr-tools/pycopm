@@ -7,6 +7,14 @@ While using package managers such as Anaconda, Miniforge, or Mamba might work, t
 The supported Python versions are 3.11 to 3.13. We will update the documentation when Python3.14 is supported
 (e.g., the ert Python package is not yet available via pip install in Python 3.14).
 
+.. note::
+
+    In Ubuntu, one also needs to install freeglut3-dev:
+
+    .. code-block:: bash
+        
+        sudo apt-get install freeglut3-dev
+
 .. _vpycopm:
 
 Python package

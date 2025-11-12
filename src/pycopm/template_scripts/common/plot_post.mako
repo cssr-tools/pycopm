@@ -188,7 +188,7 @@ def visualizeData():
     for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
         fmass[ftype] = dens*smspec[ftype+"H"][-1]
         for well in nwells:
-            if sum(smspec[type+"H:"+well])>0:
+            if np.sum(smspec[type+"H:"+well])>0:
                 wells[type].append(type+":"+well)
                 j += 1
     linei = [[ ] for _ in range(j)]
@@ -417,14 +417,14 @@ def visualizeData():
             data = smspec[wells[type][i]]
             datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
             axs[j].plot(smsp_dates, data, color='m', label = 'opm-tests')
-            if sum(datah>0):
+            if np.sum(datah>0):
                 axs[j].errorbar(smsp_dates, datah, yerr= [max(minerr[type],var[type]*d_2) for d_2 in datah], color=[128 / 255.0, 128 / 255.0, 128 / 255.0], markersize='.5', elinewidth=.5, fmt='o', linestyle='', label = 'Data')
             axs[j].set_ylabel(f'{wells[type][i]} [SM3/day]', fontsize=12)
             axs[j].set_xlabel('Time [years]', fontsize=12)
             axs[j].xaxis.set_tick_params(size=6, rotation=45)
             axs[j].legend()
             axs[j].set_ylim(bottom=0)
-            if sum(datah>0):
+            if np.sum(datah>0):
                 figs[j].savefig(f"{output_folder}/postprocessing/wells/HISTO_DATA_{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
             else:
                 figs[j].savefig(f"{output_folder}/postprocessing/wells/{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
@@ -455,7 +455,7 @@ def visualizeData():
     figs, ax = plt.subplots()
     tab20s = matplotlib.colormaps['tab20']
     for i in range(I):
-        ax.plot(i,sum(error_hist[i])/(len(error_hist[i])), markersize='10', marker='o', label=r"$N_{ens}=$"+f"{n_e[i]}", c=tab20s.colors[i])
+        ax.plot(i,np.sum(error_hist[i])/(len(error_hist[i])), markersize='10', marker='o', label=r"$N_{ens}=$"+f"{n_e[i]}", c=tab20s.colors[i])
     ax.axhline(y=error_standard, color="black", ls="--", lw=1, label=f'opm-tests (#Active cells:{numCellsDefault})')
     ax.set_title(r"$O_i=\frac{1}{N_{ens}}\sum_{j}^{N_{e}}O_{i,j}$, "+f"#HM parameters: {len(csvData)}, #Active cells: {numCellsHm}")
     ax.legend()
@@ -578,7 +578,7 @@ def visualizeData():
             f.write(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}\n')
             for i in range(I):
                 f.write(f'Iteration {i}; Number of ensembles {int(n_e[i])}\n')
-                f.write(f'Missmatch (mean): {sum(error_hist[i])/(len(error_hist[i])) : .4e} \n')
+                f.write(f'Missmatch (mean): {np.sum(error_hist[i])/(len(error_hist[i])) : .4e} \n')
                 f.write(f'Missmatch (closest realization to all obs): {error_ens[i][eobs[i][0][0]]: .4e}\n')
         print(f'\nClosest final realization to all obs:{eobs[-1][0][0]}')
         print(f'Number of parameters to HM: {len(csvData)}')
@@ -587,7 +587,7 @@ def visualizeData():
         print(f'Missmatch (standard simulation from opm-test deck): {error_standard : .4e}')
         for i in range(I):
             print(f'Iteration {i}; Number of ensembles {int(n_e[i])}')
-            print(f'Missmatch (mean): {sum(error_hist[i])/(len(error_hist[i])) : .4e}')
+            print(f'Missmatch (mean): {np.sum(error_hist[i])/(len(error_hist[i])) : .4e}')
             print(f'Missmatch (closest realization to all obs): {error_ens[i][eobs[i][0][0]] : .4e}')
     else:
         with open(f"{output_folder}/postprocessing/errors.txt", 'w') as f:

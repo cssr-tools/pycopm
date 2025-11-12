@@ -72,5 +72,5 @@ def test_submodel(flow):
                 check=True,
             )
             porv = np.array(OpmFile(f"{sub}SUBMODEL.INIT")["PORV"])
-            assert abs(sum(porv) - 150) < 1e-6
-            assert sum(porv > 0) == 21
+            assert abs(np.sum(porv) - 150) < 1e-6
+            assert np.sum(porv > 0) == 21

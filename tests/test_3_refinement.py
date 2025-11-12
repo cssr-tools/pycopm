@@ -45,5 +45,5 @@ def test_refinement(flow):
     assert os.path.exists(f"{testpth}/output/finer/{sub}.EGRID")
     os.chdir(f"{testpth}/output/finer")
     porv = np.array(OpmFile(f"{sub}.INIT")["PORV"])
-    assert abs(sum(porv) - 6506.25) < 1e-4
-    assert sum(porv > 0) == 2430
+    assert abs(np.sum(porv) - 6506.25) < 1e-4
+    assert np.sum(porv > 0) == 2430

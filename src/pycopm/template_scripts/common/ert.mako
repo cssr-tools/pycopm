@@ -19,7 +19,7 @@ RUNPATH output/simulations/realisation-<IENS>/iter-<ITER>
 ENSPATH output/storage
 
 ECLBASE ${dic['name']}_COARSER
-RUN_TEMPLATE preprocessing/${dic['name']}_COARSER.DATA <ECLBASE>.DATA
+DATA_FILE preprocessing/${dic['name']}_COARSER.DATA
 
 % if dic['rock'][0][1] > 0 and dic['mode'] in ["files","ert"]:
 GEN_KW PERMX ./parameters/PERMX.tmpl PERMX.json ./parameters/PERMX_priors.data

@@ -359,9 +359,9 @@ def create_deck(dic):
             cor_fipg = np.array(cor["FIPGAS", 0])
             cor_fipo = np.array(cor["FIPOIL", 0])
             cor_pa = cor_pv[cor_pv > 0]
-            fact = sum(ref_fipo) / sum(cor_fipo) - 1
+            fact = np.sum(ref_fipo) / np.sum(cor_fipo) - 1
             cor_pa[cor_fipo <= thr] -= (
-                fact * sum(cor_pa[cor_fipo > thr]) / len(cor_pa[cor_fipo <= thr])
+                fact * np.sum(cor_pa[cor_fipo > thr]) / len(cor_pa[cor_fipo <= thr])
             )
             cor_pa[cor_fipo > thr] *= 1 + fact
             cor_pv[cor_pv > 0] = cor_pa
@@ -385,9 +385,11 @@ def create_deck(dic):
             cor_fipo = np.array(cor["FIPOIL", 0])
             cor_sgas = np.array(cor["SGAS", 0])
             cor_pa = cor_pv[cor_pv > 0]
-            fact = (sum(ref_fipg) - sum(cor_fipg)) / sum(cor_fipg[cor_sgas > thr])
+            fact = (np.sum(ref_fipg) - np.sum(cor_fipg)) / np.sum(
+                cor_fipg[cor_sgas > thr]
+            )
             cor_pa[cor_fipo <= thr] -= (
-                fact * sum(cor_pa[cor_sgas > thr]) / len(cor_pa[cor_fipo <= thr])
+                fact * np.sum(cor_pa[cor_sgas > thr]) / len(cor_pa[cor_fipo <= thr])
             )
             cor_pa[cor_sgas > thr] *= 1 + fact
             cor_pv[cor_pv > 0] = cor_pa
@@ -471,7 +473,7 @@ def initialize_variables(dic):
     for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
         if dic["ini"].count(name.upper()):
             tmp = np.array(dic["ini"][name.upper()])
-            if 0 < sum(tmp != 1):
+            if 0 < np.sum(tmp != 1):
                 dic["props"] += [name]
                 dic["mults"] += [name]
     for name in ["multnum", "fluxnum"]:
