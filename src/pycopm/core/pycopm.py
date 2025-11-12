@@ -80,7 +80,7 @@ def pycopm():
             )
     if (
         not isinstance(dic["rcijk"], str)
-        or sum(len(dic[f"{i}ref"]) for i in ["x", "y", "z"]) > 0
+        or np.sum(len(dic[f"{i}ref"]) for i in ["x", "y", "z"]) > 0
     ):
         dic["refinement"] = True
     else:

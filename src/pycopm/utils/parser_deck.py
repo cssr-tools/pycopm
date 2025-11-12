@@ -8,6 +8,7 @@ Methods to parser the input OPM deck.
 
 import sys
 import csv
+import numpy as np
 
 csv.field_size_limit(sys.maxsize)
 
@@ -73,7 +74,7 @@ def process_the_deck(dic):
             nrwo = nrwo.replace("', '", ",")
             nrwo = nrwo.replace("-- Generated : Petrel", "")
             nrwo = nrwo.strip()
-            if not dic["lines"] and sum("-" == line for line in nrwo) > 70:
+            if not dic["lines"] and np.sum("-" == line for line in nrwo) > 70:
                 dic["lines"] = nrwo
             if not dic["schedule"]:
                 dic["lolc"].append(nrwo)

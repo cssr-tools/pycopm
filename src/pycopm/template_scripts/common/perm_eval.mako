@@ -1,3 +1,6 @@
+<%!
+import numpy as np
+%>\
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2024-2025 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
@@ -23,7 +26,7 @@ def perm_evaluation():
     % for k in range(len(dic['actnum_c'])):
     % if dic['rock'][i][1] > 0 and dic['mode'] in ["files","ert"]:
     % if dic['actnum_c'][k] == 1:
-    P[${k}] = max(1e1,min(C["${dic['rock'][i][0]}${sum(dic['actnum_c'][0:k])}"],1e9))
+    P[${k}] = max(1e1,min(C["${dic['rock'][i][0]}${np.sum(dic['actnum_c'][0:k])}"],1e9))
     % endif
     % else:
     P[${k}] = ${k_c[k]}

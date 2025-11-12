@@ -657,7 +657,7 @@ def add_pv_bc(dic):
                             dic["porv_c"][i] = str(float(dic["porv_c"][i]) + totpv)
         nbct += nbc
     if dic["hvicinity"] != "diamond" and dic["pvcorr"] not in [3, 4]:
-        pvt = sum(dic["porv"][: (dic["mink"] - 2) * dic["xn"] * dic["yn"]])
+        pvt = np.sum(dic["porv"][: (dic["mink"] - 2) * dic["xn"] * dic["yn"]])
         inds = []
         for j in range(0, dic["maxj"] - dic["minj"] + 1):
             for i in range(0, dic["maxi"] - dic["mini"] + 1):
@@ -677,7 +677,7 @@ def add_pv_bc(dic):
             pvt /= len(inds)
             for ind in inds:
                 dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
-        pvt = sum(dic["porv"][dic["maxk"] * dic["xn"] * dic["yn"] :])
+        pvt = np.sum(dic["porv"][dic["maxk"] * dic["xn"] * dic["yn"] :])
         inds = []
         for j in range(0, dic["maxj"] - dic["minj"] + 1):
             for i in range(0, dic["maxi"] - dic["mini"] + 1):
@@ -697,19 +697,19 @@ def add_pv_bc(dic):
             pvt /= len(inds)
             for ind in inds:
                 dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
-    porv = sum(float(val) for val in dic["porv_c"])
+    porv = np.sum(float(val) for val in dic["porv_c"])
     if dic["pvcorr"] == 0:
         dic["porv_c"] = pv0.copy()
     elif dic["pvcorr"] in [1, 2, 3]:
-        freq = sum(1 for val in dic["subtoglob_c"] if val != "0")
-        corr = (sum(dic["porvk"]) + sum(dic["porvij"]) - porv) / freq
+        freq = np.sum(1 for val in dic["subtoglob_c"] if val != "0")
+        corr = (np.sum(dic["porvk"]) + np.sum(dic["porvij"]) - porv) / freq
         for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
             if dic["subtoglob_c"][i] != "0":
                 dic["porv_c"][i] = str(float(dic["porv_c"][i]) + corr)
     else:
-        freq = sum(dic["freqsub"])
+        freq = np.sum(dic["freqsub"])
         if freq > 0:
-            corr = (sum(dic["porvk"]) + sum(dic["porvij"]) - porv) / freq
+            corr = (np.sum(dic["porvk"]) + np.sum(dic["porvij"]) - porv) / freq
             for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
                 dic["porv_c"][i] = str(float(dic["porv_c"][i]) + corr)
 
@@ -885,9 +885,9 @@ def handle_clusters(dic):
                     dic["con"][n + dic["xn"] * dic["yn"]] = dic["con"][n]
                 n += 1
 
-    dic["nx"] = dic["xn"] - int(sum(dic["X"] == 2))
-    dic["ny"] = dic["yn"] - int(sum(dic["Y"] == 2))
-    dic["nz"] = dic["zn"] - int(sum(dic["Z"] == 2))
+    dic["nx"] = dic["xn"] - int(np.sum(dic["X"] == 2))
+    dic["ny"] = dic["yn"] - int(np.sum(dic["Y"] == 2))
+    dic["nz"] = dic["zn"] - int(np.sum(dic["Z"] == 2))
 
 
 def handle_refinement(dic):
@@ -912,9 +912,9 @@ def handle_refinement(dic):
         for i in ["x", "y", "z"]:
             if dic[f"{i}ref"]:
                 dic[i.upper()] = np.array(dic[f"{i}ref"])
-    dic["nx"] = dic["xn"] + int(sum(dic["X"]))
-    dic["ny"] = dic["yn"] + int(sum(dic["Y"]))
-    dic["nz"] = dic["zn"] + int(sum(dic["Z"]))
+    dic["nx"] = dic["xn"] + int(np.sum(dic["X"]))
+    dic["ny"] = dic["yn"] + int(np.sum(dic["Y"]))
+    dic["nz"] = dic["zn"] + int(np.sum(dic["Z"]))
 
 
 def handle_vicinity(dic):
@@ -938,7 +938,9 @@ def handle_vicinity(dic):
             for j in range(dic["yn"]):
                 for i in range(dic["xn"]):
                     xyz = dic["grid"].xyz_from_ijk(i, j, k, True)
-                    coords.append([sum(xyz[0]) / 8.0, sum(xyz[1]) / 8, sum(xyz[2]) / 8])
+                    coords.append(
+                        [np.sum(xyz[0]) / 8.0, np.sum(xyz[1]) / 8, np.sum(xyz[2]) / 8]
+                    )
         coords = np.array(coords)
         nxy = dic["xn"] * dic["yn"]
         nxyz = nxy * dic["zn"]

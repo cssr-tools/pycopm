@@ -7,6 +7,7 @@
 import os
 import pathlib
 import subprocess
+import numpy as np
 from opm.io.ecl import EclFile as OpmFile
 
 testpth: pathlib.Path = pathlib.Path(__file__).parent
@@ -57,5 +58,5 @@ def test_transmissibilities(flow):
         init = OpmFile(f"{testpth}/output/transmissibilities/COARSER{sub}.INIT")
         for j, n in enumerate(["X", "Y", "Z", "NNC"]):
             assert (
-                abs(sum(init[f"TRAN{n}"]) - values[i][j]) < 1e-2
+                abs(np.sum(np.array(init[f"TRAN{n}"])) - values[i][j]) < 1e-2
             ), f"Issue in TRAN{n} with -t {i}"

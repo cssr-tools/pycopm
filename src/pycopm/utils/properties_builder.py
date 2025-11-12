@@ -56,7 +56,7 @@ def coarser_properties(dic):
             dic["fluxnum_c"][num] = int(min(dic["fluxnum"][inx]))
             dic["fipnum_c"][num] = int(min(dic["fipnum"][inx]))
             dic["eqlnum_c"][num] = int(min(dic["eqlnum"][inx]))
-            dic["vol_c"][num] = sum(dic["vol"][inx])
+            dic["vol_c"][num] = np.sum(dic["vol"][inx])
             if dic["field"] == "drogon":
                 dic["multnum_c"][num] = int(min(dic["multnum"][inx]))
                 dic["pvtnum_c"][num] = int(min(dic["pvtnum"][inx]))
@@ -65,12 +65,12 @@ def coarser_properties(dic):
             if dic["deck"] == 1 and (dic["letsatn"] == 1 or dic["letsatn"] == 3):
                 dic["satnum_c"][num] = int(min(dic["satnum"][inx]))
             if dic["deck"] == 1 and dic["letsatn"] == 2:
-                if sum(dic["actnum_c"][0:num]) > 1:
-                    dic["satnum_c"][num] += int(sum(dic["actnum_c"][0:num])) - 1
+                if np.sum(dic["actnum_c"][0:num]) > 1:
+                    dic["satnum_c"][num] += int(np.sum(dic["actnum_c"][0:num])) - 1
 
-            if sum(dic["actnum"][inx]) > 0:
+            if np.sum(dic["actnum"][inx]) > 0:
                 dic["poro_c"][num] = (
-                    sum(dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx])
+                    np.sum(dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx])
                     / dic["vol_c"][num]
                 )
                 for i, name in zip(range(3), ["permx", "permy", "permz"]):
@@ -78,11 +78,13 @@ def coarser_properties(dic):
                         dic[name + "_c"][num] = max(dic[name][inx])
                     else:
                         dic[name + "_c"][num] = (
-                            sum(dic[name][inx] * dic["vol"][inx] * dic["actnum"][inx])
+                            np.sum(
+                                dic[name][inx] * dic["vol"][inx] * dic["actnum"][inx]
+                            )
                             / dic["vol_c"][num]
                         )
                 dic["ntg_c"][num] = (
-                    sum(dic["ntg"][inx] * dic["vol"][inx] * dic["actnum"][inx])
+                    np.sum(dic["ntg"][inx] * dic["vol"][inx] * dic["actnum"][inx])
                     / dic["vol_c"][num]
                 )
                 pv_f = (
@@ -91,16 +93,16 @@ def coarser_properties(dic):
                     * dic["actnum"][inx]
                     * dic["ntg"][inx]
                 )
-                pv_c = sum(pv_f)
+                pv_c = np.sum(pv_f)
                 dic["porv_c"][num] = pv_c
-                dic["swl_c"][num] = sum(dic["swl"][inx] * pv_f) / pv_c
-                dic["sgu_c"][num] = sum(dic["sgu"][inx] * pv_f) / pv_c
-                dic["swcr_c"][num] = sum(dic["swcr"][inx] * pv_f) / pv_c
-                dic["swat_c"][num] = sum(dic["swat"][inx] * pv_f) / pv_c
-                dic["sgas_c"][num] = sum(dic["sgas"][inx] * pv_f) / pv_c
-                dic["pressure_c"][num] = sum(dic["pressure"][inx] * pv_f) / pv_c
-                dic["rs_c"][num] = sum(dic["rs"][inx] * pv_f) / pv_c
-                dic["rv_c"][num] = sum(dic["rv"][inx] * pv_f) / pv_c
+                dic["swl_c"][num] = np.sum(dic["swl"][inx] * pv_f) / pv_c
+                dic["sgu_c"][num] = np.sum(dic["sgu"][inx] * pv_f) / pv_c
+                dic["swcr_c"][num] = np.sum(dic["swcr"][inx] * pv_f) / pv_c
+                dic["swat_c"][num] = np.sum(dic["swat"][inx] * pv_f) / pv_c
+                dic["sgas_c"][num] = np.sum(dic["sgas"][inx] * pv_f) / pv_c
+                dic["pressure_c"][num] = np.sum(dic["pressure"][inx] * pv_f) / pv_c
+                dic["rs_c"][num] = np.sum(dic["rs"][inx] * pv_f) / pv_c
+                dic["rv_c"][num] = np.sum(dic["rv"][inx] * pv_f) / pv_c
                 dic["multz_c"][num] = min(dic["multz"][inx])
             for name in ["permx", "permy", "permz"]:
                 dic[name + "_c_min_max"][num] = [
@@ -140,21 +142,21 @@ def add_lost_pv_to_boundary_cells(dic, inx, num):
                 )
             inxb = np.where(dic["BI"])
             dic["index"][indic].append(indic)
-            dic["porv_c"][indic] = sum(
+            dic["porv_c"][indic] = np.sum(
                 dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx]
-            ) + sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
+            ) + np.sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
             if dic["ntg_c"][indic] > 1.0:
                 dic["ntg_c"][indic] = 1.0
                 dic["poro_c"][indic] = min(
                     1.0,
                     (
-                        sum(
+                        np.sum(
                             dic["poro"][inx]
                             * dic["vol"][inx]
                             * dic["ntg"][inx]
                             * dic["actnum"][inx]
                         )
-                        + sum(
+                        + np.sum(
                             dic["poro"][inxb]
                             * dic["vol"][inxb]
                             * dic["ntg"][inxb]
@@ -173,21 +175,21 @@ def add_lost_pv_to_boundary_cells(dic, inx, num):
                 )
             inxb = np.where(dic["BI"])
             dic["index"][indic].append(indic)
-            dic["porv_c"][indic] = sum(
+            dic["porv_c"][indic] = np.sum(
                 dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx]
-            ) + sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
+            ) + np.sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
             if dic["ntg_c"][indic] > 1.0:
                 dic["ntg_c"][indic] = 1.0
                 dic["poro_c"][indic] = min(
                     1.0,
                     (
-                        sum(
+                        np.sum(
                             dic["poro"][inx]
                             * dic["vol"][inx]
                             * dic["ntg"][inx]
                             * dic["actnum"][inx]
                         )
-                        + sum(
+                        + np.sum(
                             dic["poro"][inxb]
                             * dic["vol"][inxb]
                             * dic["ntg"][inxb]
@@ -206,21 +208,21 @@ def add_lost_pv_to_boundary_cells(dic, inx, num):
                 )
             inxb = np.where(dic["BI"])
             dic["index"][indic].append(indic)
-            dic["porv_c"][indic] = sum(
+            dic["porv_c"][indic] = np.sum(
                 dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx]
-            ) + sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
+            ) + np.sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
             if dic["ntg_c"][indic] > 1.0:
                 dic["ntg_c"][indic] = 1.0
                 dic["poro_c"][indic] = min(
                     1.0,
                     (
-                        sum(
+                        np.sum(
                             dic["poro"][inx]
                             * dic["vol"][inx]
                             * dic["ntg"][inx]
                             * dic["actnum"][inx]
                         )
-                        + sum(
+                        + np.sum(
                             dic["poro"][inxb]
                             * dic["vol"][inxb]
                             * dic["ntg"][inxb]
@@ -245,13 +247,13 @@ def add_lost_pv_to_all_cells(dic):
     """
     if dic["cporv"] != 2:
         return
-    pv_c = sum(
+    pv_c = np.sum(
         np.array(dic["poro_c"])
         * np.array(dic["vol_c"])
         * np.array(dic["ntg_c"])
         * np.array(dic["actnum_c"])
     )
-    corr = sum(dic["poro"] * dic["vol"] * dic["ntg"] * dic["actnum"]) / pv_c
+    corr = np.sum(dic["poro"] * dic["vol"] * dic["ntg"] * dic["actnum"]) / pv_c
     for i in range(dic["num_cells"]):
         dic["porv_c"][i] *= corr
 
@@ -272,7 +274,7 @@ def add_lost_pv_to_all_eq_cells(dic):
         return
 
     for i in range(1, 8):
-        pv_c = sum(
+        pv_c = np.sum(
             np.array(dic["poro_c"])
             * np.array(dic["vol_c"])
             * np.array(dic["ntg_c"])
@@ -280,7 +282,7 @@ def add_lost_pv_to_all_eq_cells(dic):
             * np.equal(np.array(dic["eqlnum_c"]), i)
         )
         corr = (
-            sum(
+            np.sum(
                 dic["poro"]
                 * dic["vol"]
                 * dic["ntg"]
@@ -310,7 +312,7 @@ def add_lost_pv_to_all_fip_cells(dic):
         return
 
     for i in range(1, 22):
-        pv_c = sum(
+        pv_c = np.sum(
             np.array(dic["poro_c"])
             * np.array(dic["vol_c"])
             * np.array(dic["ntg_c"])
@@ -318,7 +320,7 @@ def add_lost_pv_to_all_fip_cells(dic):
             * np.equal(np.array(dic["fipnum_c"]), i)
         )
         corr = (
-            sum(
+            np.sum(
                 dic["poro"]
                 * dic["vol"]
                 * dic["ntg"]

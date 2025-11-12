@@ -5,6 +5,8 @@
 Utiliy functions for coarsened corner-point grids from toml configuration files.
 """
 
+import numpy as np
+
 
 def coarser_grid(dic):
     """
@@ -31,9 +33,9 @@ def coarser_grid(dic):
                 if (dic["Z"][k + 1]) > 1:
                     dic["con"][num + dic["nd"][0] * dic["nd"][1]] = dic["con"][num]
                 num += 1
-    dic["nx"] = dic["nd"][0] - int(sum(dic["X"] == 2))
-    dic["ny"] = dic["nd"][1] - int(sum(dic["Y"] == 2))
-    dic["nz"] = dic["nd"][2] - int(sum(dic["Z"] == 2))
+    dic["nx"] = dic["nd"][0] - int(np.sum(dic["X"] == 2))
+    dic["ny"] = dic["nd"][1] - int(np.sum(dic["Y"] == 2))
+    dic["nz"] = dic["nd"][2] - int(np.sum(dic["Z"] == 2))
 
     dic["num_cells"] = dic["nx"] * dic["ny"] * dic["nz"]
 
