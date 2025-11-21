@@ -147,6 +147,7 @@ def create_deck(dic):
         dic["rptrst"] = []
         dic["mults"] = []
         dic["special"] = []
+        dic["reftocoa"] = []
         dic["fip"] = ""
         dic["nrptsrt"] = 0
         dic["nrptsrtc"] = 0
@@ -248,6 +249,11 @@ def create_deck(dic):
                     for j in range(dic["yn"]):
                         for i in range(dic["xn"]):
                             bar_animation()
+                            dic["reftocoa"].append(
+                                dic["ic"][i + 1]
+                                + (dic["jc"][j + 1] - 1) * dic["nx"]
+                                + (dic["kc"][k + 1] - 1) * dic["nx"] * dic["ny"]
+                            )
                             ind = i + j * dic["xn"] + k * dic["xn"] * dic["yn"]
                             cxyz = dic["grid"].xyz_from_ijk(i, j, k)
                             x_0, y_0, z_0 = 0.0, 0.0, 0.0
@@ -740,6 +746,17 @@ def write_props(dic):
         ) as file:
             file.write("FIPNUM\n")
             file.write("".join(fips))
+            file.write("/")
+    elif dic["coarsening"]:
+        oprs = [f"{int(val)} " for val in dic["reftocoa"]]
+        oprs = compact_format("".join(f"{int(val)} " for val in oprs).split())
+        with open(
+            f"{dic['fol']}/{dic['deckn']}_OPERNUM_PYCOPM_REFTOCOA.INC",
+            "w",
+            encoding="utf8",
+        ) as file:
+            file.write("OPERNUM\n")
+            file.write("".join(oprs))
             file.write("/")
     print("Writing the files")
     with alive_bar(len(names)) as bar_animation:
