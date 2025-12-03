@@ -50,7 +50,7 @@ TRACERS
 
 TABDIMS
 -- NTSFUN  NTPVT  NSSFUN  NPPVT  NTFIP  NRPVT   
-    ${round(max(dic['satnum_c']))}      2      200     24     6      20    /
+    ${round(dic['satnum_cmax'])}      2      200     24     6      20    /
 
 -- Dimension of equilibration tables
 INCLUDE

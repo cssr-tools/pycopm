@@ -56,7 +56,7 @@ WELLDIMS
 
 TABDIMS
 --ntsfun ntpvt nssfun nppvt ntfip nrpvt ntendp
-   ${2*int(max(dic['satnum_c']))}     2     33     60   16    60 /
+   ${2*int(dic['satnum_cmax'])}     2     33     60   16    60 /
 
 -- WI_VFP_TABLES_080905.INC = 10-20
 VFPIDIMS
@@ -370,7 +370,7 @@ COPY
 /
 
 ADD
- IMBNUM ${int(max(dic['satnum_c']))} 1  ${dic['nx']}  1   ${dic['ny']}    1  ${dic['nz']} /
+ IMBNUM ${int(dic['satnum_cmax'])} 1  ${dic['nx']}  1   ${dic['ny']}    1  ${dic['nz']} /
 /
 
 INCLUDE

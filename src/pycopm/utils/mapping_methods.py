@@ -952,20 +952,26 @@ def handle_vicinity(dic):
             ]
         )
         npoly = len(poly)
-        minpp = poly.min(axis=0)
-        maxpp = poly.max(axis=0)
+        minpp = np.min(poly, axis=0)
+        maxpp = np.max(poly, axis=0)
         pts = coords[:nxy][:, 0:2]
-        minx = pts.min(axis=0)
-        maxx = pts.max(axis=0)
+        minx = np.min(pts, axis=0)
+        maxx = np.max(pts, axis=0)
         minx = np.array([min(minx[0], minpp[0]), min(minx[1], minpp[1])])
         maxx = np.array([max(maxx[0], maxpp[0]), max(maxx[1], maxpp[1])])
         for k in range(dic["zn"] - 1):
             pts = coords[(k + 1) * nxy : (k + 2) * nxy][:, 0:2]
             minx = np.array(
-                [min(minx[0], pts.min(axis=0)[0]), min(minx[1], pts.min(axis=0)[1])]
+                [
+                    min(minx[0], np.min(pts, axis=0)[0]),
+                    min(minx[1], np.min(pts, axis=0)[1]),
+                ]
             )
             maxx = np.array(
-                [max(maxx[0], pts.max(axis=0)[0]), max(maxx[1], pts.max(axis=0)[1])]
+                [
+                    max(maxx[0], np.max(pts, axis=0)[0]),
+                    max(maxx[1], np.max(pts, axis=0)[1]),
+                ]
             )
         minp = np.array(list([minx]) * nxyz)
         maxp = np.array(list([maxx]) * nxyz)

@@ -272,7 +272,7 @@ def write_let_tables(dic):
         file.write(dic["git"])
         if dic["field"] == "norne":
             file.write("SWOFLET\n")
-            for _ in range(max(dic["satnum_c"])):
+            for _ in range(dic["satnum_cmax"]):
                 file.write(
                     f"0 0.0001 {max(1.1,dic['LET'][0][1])}"
                     f" {pow(10.0,dic['LET'][1][1])} {max(1.1,dic['LET'][2][1])}"
@@ -281,7 +281,7 @@ def write_let_tables(dic):
                     f" {pow(10.0,dic['LET'][4][1])} { max(1.1,dic['LET'][5][1])}"
                     f" 1 0.69977 17.56167 0.95615 3.76138 0.03819 /\n"
                 )
-            for _ in range(max(dic["satnum_c"])):
+            for _ in range(dic["satnum_cmax"]):
                 file.write(
                     f"0 0.0001 {max(1.1,dic['LET'][0][1])}"
                     f" {pow(10.0,dic['LET'][1][1])} {max(1.1,dic['LET'][2][1])}"
@@ -291,7 +291,7 @@ def write_let_tables(dic):
                     f" 1 0.69977 17.56167 0.95615 3.76138 0.03819 /\n"
                 )
             file.write("SGOFLET\n")
-            for _ in range(max(dic["satnum_c"])):
+            for _ in range(dic["satnum_cmax"]):
                 file.write(
                     f"0 0"
                     f" {max(1.0,dic['LET'][15][1])*max(1.1,dic['LET'][6][1])}"
@@ -300,7 +300,7 @@ def write_let_tables(dic):
                     f" {pow(10.0,dic['LET'][10][1])} {max(1.1,dic['LET'][11][1])}"
                     f" 0.99997432 1 1 1 0 0 /\n"
                 )
-            for _ in range(max(dic["satnum_c"])):
+            for _ in range(dic["satnum_cmax"]):
                 file.write(
                     f"0 0 {max(1.1,dic['LET'][6][1])}"
                     f" { max(1.0,dic['LET'][16][1])*pow(10.0,dic['LET'][7][1])}"
@@ -311,7 +311,7 @@ def write_let_tables(dic):
                 )
         elif dic["field"] == "drogon":
             file.write("SWOFLET\n")
-            for _ in range(max(dic["satnum_c"])):
+            for _ in range(dic["satnum_cmax"]):
                 file.write(
                     f"0 0.0001 {max(1.1,dic['LET'][0][1])}"
                     f" {pow(10.0,dic['LET'][1][1])} {max(1.1,dic['LET'][2][1])}"
@@ -321,7 +321,7 @@ def write_let_tables(dic):
                     f" {dic['LET'][15][1]} 0.69977 17.56167 0.95615 3.76138 0.03819 /\n"
                 )
             file.write("SGOFLET\n")
-            for _ in range(max(dic["satnum_c"])):
+            for _ in range(dic["satnum_cmax"]):
                 file.write(
                     f"0 0"
                     f" {max(1.0,dic['LET'][13][1])*max(1.1,dic['LET'][6][1])}"

@@ -26,7 +26,7 @@ def visualizeData():
     % endif
     output_folder = '${dic['fol']}'
     pycopm_path = '${dic['pat']}'
-    num_satn = ${max(dic['satnum_c'])}
+    num_satn = ${dic['satnum_cmax']}
     num_para = ${len(dic["LET"])}
     name_para = [
     % for i in range(len(dic["LET"])):
@@ -387,7 +387,7 @@ def visualizeData():
         meant /= n_e[I-1]
     eobs = []
     for i in range(I):
-        eobs.append(np.where(np.array(error_ens[i])==min(error_ens[i])))
+        eobs.append(np.where(np.array(error_ens[i])==np.min(error_ens[i])))
     paraName = f"{output_folder}/output/simulations/realisation-0/iter-0/parameters.txt"
     if os.path.exists(paraName) == 1:
         csvData = np.genfromtxt(paraName, delimiter=" ")
@@ -497,11 +497,11 @@ def visualizeData():
         rallw = np.array(rallw)
         indc = np.argsort(allw)
         allw = np.sort(allw)
-        ax.axhline(y=rallw.mean(), color="black", ls="--", lw=1, label=f'opm-tests: {rallw.mean():.3e}')
+        ax.axhline(y=np.mean(rallw), color="black", ls="--", lw=1, label=f'opm-tests: {np.mean(rallw):.3e}')
         % if dic['field']=='drogon':
         ax.axhline(y=webviz, color="black", ls=":", lw=1, marker="*", markevery=0.2, label=f'Mean (webviz): {webviz:.3e}')
         % endif
-        ax.axhline(y=allw.mean(), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {allw.mean():.3e}')
+        ax.axhline(y=np.mean(allw), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {np.mean(allw):.3e}')
         ax.bar(range(len(allw)), allw, color=color[0], label=names[0])
         for i, type in enumerate(names[:-1]):
             allw -= np.array([cum[type][iter][r] for r in indc])
@@ -524,11 +524,11 @@ def visualizeData():
         rallw = np.array(rallw)
         indc = np.argsort(allw)
         allw = np.sort(allw)
-        ax.axhline(y=rallw.mean(), color="black", ls="--", lw=1, label=f'opm-tests: {rallw.mean():.3e} kg')
+        ax.axhline(y=np.mean(rallw), color="black", ls="--", lw=1, label=f'opm-tests: {np.mean(rallw):.3e} kg')
         % if dic['field']=='drogon':
         ax.axhline(y=webviz, color="black", ls=":", lw=1, marker="*", markevery=0.2, label=f'Mean (webviz): {webviz:.3e} kg')
         % endif
-        ax.axhline(y=allw.mean(), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {allw.mean():.3e} kg')
+        ax.axhline(y=np.mean(allw), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {np.mean(allw):.3e} kg')
         ax.bar(range(len(allw)), allw, color=color[0], label=names[0])
         for i, type in enumerate(names[:-1]):
             allw -= np.array([fcum[type][iter][r] for r in indc])
@@ -553,12 +553,12 @@ def visualizeData():
         rallw = np.array(rallw)
         indc = np.argsort(allw)
         allw = np.sort(allw)
-        goal = 4.88 - allw.mean()
-        ax.axhline(y=rallw.mean(), color="black", ls="--", lw=1, label=f'opm-tests: {rallw.mean():.2f} %')
+        goal = 4.88 - np.mean(allw)
+        ax.axhline(y=np.mean(rallw), color="black", ls="--", lw=1, label=f'opm-tests: {np.mean(rallw):.2f} %')
         % if dic['field']=='drogon':
         ax.axhline(y=webviz, color="black", ls=":", lw=1, marker="*", markevery=0.2, label=f'Mean (webviz): {webviz:.2f} %')
         % endif
-        ax.axhline(y=allw.mean(), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {allw.mean():.2f} %')
+        ax.axhline(y=np.mean(allw), color="black", ls="-", marker="o", markevery=0.2, lw=1, label=f'Mean (pycopm): {np.mean(allw):.2f} %')
         ax.bar(range(len(allw)), allw, color=color[0], label=names[0]+f' ({fmass[names[0]]:.3e} kg)')
         for i, type in enumerate(names[:-1]):
             allw -= np.array([fcum[type][iter][r] for r in indc])/totalMass

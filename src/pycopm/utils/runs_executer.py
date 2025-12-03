@@ -43,7 +43,7 @@ def simulations(dic):
         )
         os.chdir(f"{dic['fol']}")
     elif dic["mode"] == "ert":
-        os.system(f"ert {dic['ert'][0]} ert.ert & wait")
+        os.system(f"ert {dic['ert']} ert.ert & wait")
     print(f"\nThe simulation results have been written to {dic['fol']}")
 
 

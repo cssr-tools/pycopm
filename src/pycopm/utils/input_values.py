@@ -38,7 +38,6 @@ def process_input(dic, in_file):
         dic["name"] = "DROGON"
     for val in ["X", "Y", "Z"]:
         dic[val] = np.array(dic[val])
-    dic["ert"] = dic["ert"].split(" ")
     dic["suffixes"] = ",".join(["'" + val + "'" for val in dic["suffixes"]])
     check_flow(dic, in_file)
 
