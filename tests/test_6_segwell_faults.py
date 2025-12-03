@@ -92,7 +92,7 @@ def test_complex(flow):
     crst = OpmRestart(f"{testpth}/output/complex/coarser/COARSER.UNRST")
     bgf = np.array(brst["FIPGAS", 0])
     cgf = np.array(crst["FIPGAS", 0])
-    assert abs(np.sum(bgf) - np.sum(cgf)) < 5e3  # ca. 2.56191e10 fipgas in the ref
+    assert abs(np.sum(bgf) - np.sum(cgf)) < 50  # ca. 2.56191e10 fipgas in the ref
     for sub in ["0", "1"]:
         subprocess.run(
             [
@@ -136,7 +136,7 @@ def test_complex(flow):
         assert np.sum(rpv > 0) == 22896
         rrst = OpmRestart(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
         rgf = np.array(rrst["FIPGAS", 0])
-        assert abs(np.sum(bgf) - np.sum(rgf)) < 4e5  # ca. 2.56191e10 fipgas in the ref
+        assert abs(np.sum(bgf) - np.sum(rgf)) < 50  # ca. 2.56191e10 fipgas in the ref
     for i, val in enumerate(
         ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
     ):
@@ -170,5 +170,5 @@ def test_complex(flow):
         cini = OpmFile(f"{testpth}/output/complex/SUBMODEL{i}.INIT")
         bpv = np.array(bini["PORV"])
         cpv = np.array(cini["PORV"])
-        assert abs(np.sum(bpv) - np.sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
+        assert abs(np.sum(bpv) - np.sum(cpv)) < 1  # ca. 4.61992e8 porv in the ref
         assert np.sum(cpv > 0) == [20, 77, 731, 260][i]

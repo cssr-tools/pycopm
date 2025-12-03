@@ -484,7 +484,7 @@ def initialize_variables(dic):
                 dic["mults"] += [name]
     for name in ["multnum", "fluxnum"]:
         if dic["ini"].count(name.upper()):
-            if max(dic["ini"][name.upper()]) > 1:
+            if np.max(dic["ini"][name.upper()]) > 1:
                 dic["grids"] += [name]
     for name in ["thconr", "disperc"]:
         if dic["ini"].count(name.upper()):
@@ -501,7 +501,10 @@ def initialize_variables(dic):
         "satnum",
     ]:
         if dic["ini"].count(name.upper()):
-            if max(dic["ini"][name.upper()]) > 1 or min(dic["ini"][name.upper()]) < 1:
+            if (
+                np.max(dic["ini"][name.upper()]) > 1
+                or np.min(dic["ini"][name.upper()]) < 1
+            ):
                 dic["regions"] += [name]
     dic["xn"] = dic["grid"].dimension[0]
     dic["yn"] = dic["grid"].dimension[1]

@@ -62,7 +62,7 @@ The following is a list of manuscripts in which _pycopm_ is used:
 
 1. Sandve, T.H., Lorentzen, R.J., Landa-Marbán, D., Fossum, K., 2024. Closed-loop reservoir management using fast data-calibrated coarse models. European Association of Geoscientists & Engineers, ECMOR 2024, Volume 202, ISSN 2214-4609. https://doi.org/10.3997/2214-4609.202437071.
 1. Landa-Marbán, D., Sandve, T.H., and Gasda, S.E., 2025. A Coarsening Approach to the Troll Aquifer Model. https://arxiv.org/abs/2508.08670.
-1. Nilsen, M.M., Lorentzen, R.J., Leeuwenburgh, O., Barros, E., Stordal, A.S., 2025. Closed-loop Workflow for Short-term Optimization of Wind-powered Reservoir Management. European Association of Geoscientists & Engineers, 86th EAGE Annual Conference & Exhibition, ISSN 2214-4609. https://www.earthdoc.org/content/papers/10.3997/2214-4609.202510947.
+1. Nilsen, M.M., Lorentzen, R.J., Leeuwenburgh, O., Stordal, A.S., Barros, E., 2025. Closed-loop Workflow for Short-term Optimization of Wind-powered Reservoir Management. Cleaner Energy Systems 12, 100213. https://doi.org/10.1016/j.cles.2025.100213.
 
 ## About pycopm
 The _pycopm_ package is being funded by the [_Center for Sustainable Subsurface Resources (CSSR)_](https://cssr.no) 

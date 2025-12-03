@@ -51,19 +51,19 @@ def coarser_properties(dic):
         for num in range(dic["num_cells"]):
             bar_animation()
             inx = np.where(dic["con"] == num + 1)
-            dic["actnum_c"][num] = int(min(dic["actnum"][inx]))
-            actnum_m[num] = int(max(dic["actnum"][inx]))
-            dic["fluxnum_c"][num] = int(min(dic["fluxnum"][inx]))
-            dic["fipnum_c"][num] = int(min(dic["fipnum"][inx]))
-            dic["eqlnum_c"][num] = int(min(dic["eqlnum"][inx]))
+            dic["actnum_c"][num] = int(np.min(dic["actnum"][inx]))
+            actnum_m[num] = int(np.max(dic["actnum"][inx]))
+            dic["fluxnum_c"][num] = int(np.min(dic["fluxnum"][inx]))
+            dic["fipnum_c"][num] = int(np.min(dic["fipnum"][inx]))
+            dic["eqlnum_c"][num] = int(np.min(dic["eqlnum"][inx]))
             dic["vol_c"][num] = np.sum(dic["vol"][inx])
             if dic["field"] == "drogon":
-                dic["multnum_c"][num] = int(min(dic["multnum"][inx]))
-                dic["pvtnum_c"][num] = int(min(dic["pvtnum"][inx]))
-                dic["fipzon_c"][num] = int(min(dic["fipzon"][inx]))
-                dic["satnum_c"][num] = int(min(dic["satnum"][inx]))
+                dic["multnum_c"][num] = int(np.min(dic["multnum"][inx]))
+                dic["pvtnum_c"][num] = int(np.min(dic["pvtnum"][inx]))
+                dic["fipzon_c"][num] = int(np.min(dic["fipzon"][inx]))
+                dic["satnum_c"][num] = int(np.min(dic["satnum"][inx]))
             if dic["deck"] == 1 and (dic["letsatn"] == 1 or dic["letsatn"] == 3):
-                dic["satnum_c"][num] = int(min(dic["satnum"][inx]))
+                dic["satnum_c"][num] = int(np.min(dic["satnum"][inx]))
             if dic["deck"] == 1 and dic["letsatn"] == 2:
                 if np.sum(dic["actnum_c"][0:num]) > 1:
                     dic["satnum_c"][num] += int(np.sum(dic["actnum_c"][0:num])) - 1
@@ -75,7 +75,7 @@ def coarser_properties(dic):
                 )
                 for i, name in zip(range(3), ["permx", "permy", "permz"]):
                     if dic["rock"][i][2] == "max":
-                        dic[name + "_c"][num] = max(dic[name][inx])
+                        dic[name + "_c"][num] = np.max(dic[name][inx])
                     else:
                         dic[name + "_c"][num] = (
                             np.sum(
@@ -103,11 +103,11 @@ def coarser_properties(dic):
                 dic["pressure_c"][num] = np.sum(dic["pressure"][inx] * pv_f) / pv_c
                 dic["rs_c"][num] = np.sum(dic["rs"][inx] * pv_f) / pv_c
                 dic["rv_c"][num] = np.sum(dic["rv"][inx] * pv_f) / pv_c
-                dic["multz_c"][num] = min(dic["multz"][inx])
+                dic["multz_c"][num] = np.min(dic["multz"][inx])
             for name in ["permx", "permy", "permz"]:
                 dic[name + "_c_min_max"][num] = [
-                    min(dic[name][inx]),
-                    1.1 * max(dic[name][inx]),
+                    np.min(dic[name][inx]),
+                    1.1 * np.max(dic[name][inx]),
                 ]
             if (actnum_m[num] - dic["actnum_c"][num]) > 0 and dic["cporv"] == 1:
                 add_lost_pv_to_boundary_cells(dic, inx, num)
@@ -116,6 +116,7 @@ def coarser_properties(dic):
     add_lost_pv_to_all_eq_cells(dic)
     add_lost_pv_to_all_fip_cells(dic)
     identify_removed_pilars(dic)
+    dic["satnum_cmax"] = np.max(dic["satnum_c"])
 
 
 def add_lost_pv_to_boundary_cells(dic, inx, num):
