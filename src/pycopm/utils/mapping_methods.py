@@ -697,11 +697,11 @@ def add_pv_bc(dic):
             pvt /= len(inds)
             for ind in inds:
                 dic["porv_c"][ind] = str(float(dic["porv_c"][ind]) + pvt)
-    porv = np.sum(float(val) for val in dic["porv_c"])
+    porv = sum(float(val) for val in dic["porv_c"])
     if dic["pvcorr"] == 0:
         dic["porv_c"] = pv0.copy()
     elif dic["pvcorr"] in [1, 2, 3]:
-        freq = np.sum(1 for val in dic["subtoglob_c"] if val != "0")
+        freq = sum(1 for val in dic["subtoglob_c"] if val != "0")
         corr = (np.sum(dic["porvk"]) + np.sum(dic["porvij"]) - porv) / freq
         for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
             if dic["subtoglob_c"][i] != "0":

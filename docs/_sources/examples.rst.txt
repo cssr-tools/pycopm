@@ -3,12 +3,18 @@ Examples
 ********
 
 For additional examples demonstrating the applicability of **pycopm**, see the `tests <https://github.com/cssr-tools/pycopm/tree/main/tests>`_.
+
 `ResInsight <https://resinsight.org>`_ and `plopm <https://github.com/cssr-tools/plopm>`_ are used for the visualization of the results.
 
 .. note::
 
-    For macOS users, you could try to install ResInsight following `this <https://github.com/SoilRos/homebrew-OPM>`_. If you have issues
-    installing ResInsight, `ParaView <https://www.paraview.org>`_ can be also used. However, you need to add the flag **\-\-enable-vtk-output=true**
+    There are binary packages for Linux and Windows to install Resinsight, see the `ResInsight Documentation <https://resinsight.org/releases/>`_. For macOS users, you could try to install it using `brew <https://brew.sh>`_ by executing:
+
+    .. code-block:: bash
+
+        brew install cssr-tools/opm/resinsight
+    
+    Then, you should be able to open resinsight by typing in the terminal **resinsight**. If you have issues installing ResInsight, `ParaView <https://www.paraview.org>`_ can be also used. However, you need to add the flag **\-\-enable-vtk-output=true**
     to OPM Flow.
 
 =======================
@@ -24,7 +30,7 @@ to perform HM studies in drogon and norne using `ERT <https://ert.readthedocs.io
     cd examples/configurations/drogon
     pycopm -i input.toml -o drogon_coarser
 
-The following are the drogon model from `opm-tests <https://github.com/OPM/opm-tests/tree/master/drogon>`_ and coarsened model generated using **pycopm**:
+The following are the drogon model from `opm-tests <https://github.com/OPM/opm-tests/tree/master/drogon>`_ and coarsened model generated using **pycopm** using ResInsight for the visualization:
 
 .. figure:: figs/drogon_coarser.png
 
