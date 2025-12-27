@@ -95,12 +95,15 @@
              
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
-<p>For additional examples demonstrating the applicability of <strong>pycopm</strong>, see the <a class="reference external" href="https://github.com/cssr-tools/pycopm/tree/main/tests">tests</a>.
-<a class="reference external" href="https://resinsight.org">ResInsight</a> and <a class="reference external" href="https://github.com/cssr-tools/plopm">plopm</a> are used for the visualization of the results.</p>
+<p>For additional examples demonstrating the applicability of <strong>pycopm</strong>, see the <a class="reference external" href="https://github.com/cssr-tools/pycopm/tree/main/tests">tests</a>.</p>
+<p><a class="reference external" href="https://resinsight.org">ResInsight</a> and <a class="reference external" href="https://github.com/cssr-tools/plopm">plopm</a> are used for the visualization of the results.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For macOS users, you could try to install ResInsight following <a class="reference external" href="https://github.com/SoilRos/homebrew-OPM">this</a>. If you have issues
-installing ResInsight, <a class="reference external" href="https://www.paraview.org">ParaView</a> can be also used. However, you need to add the flag <strong>--enable-vtk-output=true</strong>
+<p>There are binary packages for Linux and Windows to install Resinsight, see the <a class="reference external" href="https://resinsight.org/releases/">ResInsight Documentation</a>. For macOS users, you could try to install it using <a class="reference external" href="https://brew.sh">brew</a> by executing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>cssr-tools/opm/resinsight
+</pre></div>
+</div>
+<p>Then, you should be able to open resinsight by typing in the terminal <strong>resinsight</strong>. If you have issues installing ResInsight, <a class="reference external" href="https://www.paraview.org">ParaView</a> can be also used. However, you need to add the flag <strong>--enable-vtk-output=true</strong>
 to OPM Flow.</p>
 </div>
 <section id="via-configuration-files">
@@ -112,7 +115,7 @@ to perform HM studies in drogon and norne using <a class="reference external" hr
 pycopm<span class="w"> </span>-i<span class="w"> </span>input.toml<span class="w"> </span>-o<span class="w"> </span>drogon_coarser
 </pre></div>
 </div>
-<p>The following are the drogon model from <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">opm-tests</a> and coarsened model generated using <strong>pycopm</strong>:</p>
+<p>The following are the drogon model from <a class="reference external" href="https://github.com/OPM/opm-tests/tree/master/drogon">opm-tests</a> and coarsened model generated using <strong>pycopm</strong> using ResInsight for the visualization:</p>
 <figure class="align-default">
 <img alt="_images/drogon_coarser.png" src="_images/drogon_coarser.png" />
 </figure>
