@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 NORCE Research AS
+# SPDX-FileCopyrightText: 2025-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 
 """Command flag to pycopm for the path of the OPM Flow executable"""
