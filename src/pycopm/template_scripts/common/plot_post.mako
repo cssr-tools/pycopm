@@ -10,7 +10,6 @@ after the hm
 import os
 import csv
 import numpy as np
-import warnings
 import datetime
 from opm.io.ecl import EGrid as OpmGrid
 from opm.io.ecl import EclFile as OpmFile
@@ -21,9 +20,6 @@ import matplotlib.pyplot as plt
 def visualizeData():
     """Visualize time series"""
 
-    % if not dic["warnings"]:
-    warnings.warn = lambda *args, **kwargs: None
-    % endif
     output_folder = '${dic['fol']}'
     pycopm_path = '${dic['pat']}'
     num_satn = ${dic['satnum_cmax']}

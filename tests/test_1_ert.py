@@ -12,12 +12,10 @@ mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
 def test_ert(flow):
-    """See examples/configurations/norne/input.toml"""
+    """See examples/configurations/drogon/input.toml"""
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
     os.chdir(f"{testpth}/output")
-    confi = f"{mainpth}/examples/configurations/norne/input.toml"
-    subprocess.run(
-        ["pycopm", "-i", confi, "-o", "ert", "-warnings", "1", "-f", flow], check=True
-    )
+    confi = f"{mainpth}/examples/configurations/drogon/input.toml"
+    subprocess.run(["pycopm", "-i", confi, "-o", "ert", "-f", flow], check=True)
     assert os.path.exists(f"{testpth}/output/ert/postprocessing/hm_missmatch.png")
