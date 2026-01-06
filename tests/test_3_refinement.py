@@ -36,8 +36,6 @@ def test_refinement(flow):
             sub,
             "-m",
             "all",
-            "-warnings",
-            "1",
         ],
         check=True,
     )

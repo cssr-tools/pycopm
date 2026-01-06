@@ -35,8 +35,6 @@ def test_transform(flow):
                 f"{flag} {val}",
                 "-m",
                 "all",
-                "-warnings",
-                "1",
                 "-w",
                 sub,
                 "-l",

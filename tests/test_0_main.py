@@ -12,8 +12,8 @@ mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
 
 def test_main():
-    """See examples/configurations/drogon/input.toml"""
-    confi = f"{mainpth}/examples/configurations/drogon/input.toml"
+    """See examples/configurations/norne/input.toml"""
+    confi = f"{mainpth}/examples/configurations/norne/input.toml"
     if not os.path.exists(f"{testpth}/output"):
         os.system(f"mkdir {testpth}/output")
         os.system(f"mkdir {testpth}/output/main")
@@ -26,5 +26,5 @@ def test_main():
     os.chdir(f"{testpth}/output/main")
     main()
     assert os.path.exists(
-        f"{testpth}/output/main/postprocessing/wells/HISTO_DATA_WWPR_A4.png"
+        f"{testpth}/output/main/postprocessing/wells/HISTO_DATA_WWPR_E-1H.png"
     )

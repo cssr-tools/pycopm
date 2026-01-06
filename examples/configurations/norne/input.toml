@@ -3,7 +3,7 @@ flow = "flow --newton-min-iterations=1"
 
 # Set the model parameters
 field = "norne"  # Geological model (norne or drogon)
-mode = "ert" # Mode to run (single-run, files, or ert)
+mode = "single-run" # Mode to run (single-run, files, or ert)
 X = [0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0] # Array of x-coarsening 
 Y = [0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0] # Array of y-coarsening 
 Z = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0] # Array of z-coarsening

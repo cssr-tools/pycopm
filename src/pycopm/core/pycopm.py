@@ -8,7 +8,6 @@ import os
 import time
 import sys
 import argparse
-import warnings
 from io import StringIO
 import subprocess
 import numpy as np
@@ -45,9 +44,6 @@ def pycopm():
     dic["vicinity"] = cmdargs["vicinity"].strip()  # Extract sub models
     dic["transform"] = cmdargs["displace"].strip()  # Apply affine transformations
     dic["explicit"] = int(cmdargs["explicit"]) == 1  # Write cell values in the SOLUTION
-    dic["warnings"] = int(cmdargs["warnings"]) == 1  # Show or hidde python warnings
-    if not dic["warnings"]:
-        warnings.warn = lambda *args, **kwargs: None
     for label, name, tag in zip(["", "r"], ["coarsening", "gridding"], ["coar", "ref"]):
         dic[f"{label}cijk"] = "yes"
         for i in ["x", "y", "z"]:
@@ -370,12 +366,6 @@ def load_parser():
         default=0,
         help="Set to 1 to explicitly write the cell values in the SOLUTION section in the "
         "deck ('0' by default).",
-    )
-    parser.add_argument(
-        "-warnings",
-        "--warnings",
-        default=0,
-        help="Set to 1 to show Python warnings ('0' by default).",
     )
     return vars(parser.parse_known_args()[0])
 

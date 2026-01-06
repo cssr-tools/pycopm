@@ -51,7 +51,7 @@ jobs:
       
     - name: Run tests
       run: |
-        pytest --cov=pycopm --cov-report term-missing tests/
+        pytest --cov=pycopm --exitfirst --cov-report term-missing tests/
 
     - name: Run hello world example
       run: |
