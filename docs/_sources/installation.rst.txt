@@ -84,7 +84,7 @@ in the terminal the following lines (which in turn should build flow in the fold
 
     mkdir build
 
-    for repo in common grid
+    for repo in common grid simulators
     do  git clone https://github.com/OPM/opm-$repo.git
         mkdir build/opm-$repo
         cd build/opm-$repo
