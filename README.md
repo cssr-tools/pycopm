@@ -55,7 +55,7 @@ See the [_examples_](https://cssr-tools.github.io/pycopm/examples.html) in the [
 
 ## Citing
 
-* Landa-Marbán, D. pycopm: An open-source tool to tailor OPM Flow geological models. Submitted.
+* Landa-Marbán, D., 2026. pycopm: An open-source tool to tailor OPM Flow geological models. [https://arxiv.org/abs/2602.11777](https://arxiv.org/abs/2602.11777).
 
 ## Publications
 The following is a list of manuscripts in which _pycopm_ is used:
