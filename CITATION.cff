@@ -1,10 +1,21 @@
 cff-version: "1.2.0"
-message: "If you use this software, please cite it as below."
+title: "pycopm: An open-source tool to tailor OPM Flow geological models"
 authors:
 - family-names: Landa-Marbán
   given-names: David
   orcid: "https://orcid.org/0000-0002-3343-1005"
-title: "pycopm: An open-source tool to tailor OPM Flow 
-  geological models"
-year: 2025
-url: "https://github.com/cssr-tools/pycopm"
+contact:
+- family-names: Landa-Marbán
+  given-names: David
+  orcid: "https://orcid.org/0000-0002-3343-1005"
+message: "If you use this software, please cite it as below."
+preferred-citation:
+  authors:
+  - family-names: Landa-Marbán
+    given-names: David
+    orcid: "https://orcid.org/0000-0002-3343-1005"
+  title: "pycopm: An open-source tool to tailor OPM Flow geological models"
+  year: 2026
+  doi: 10.48550/arXiv.2602.11777
+  journal: arXiv preprint
+  type: article
