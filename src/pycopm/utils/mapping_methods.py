@@ -257,15 +257,18 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                     f"{val/fre:E}" if fre > 0 else "0" for val, fre in zip(c_c, freq)
                 ]
     for name in dic["regions"] + dic["grids"]:
+        default = "0"
+        if np.nanmax(dic[name]) == np.nanmin(dic[name]):
+            default = f"{np.nanmax(dic[name])}"
         if dic["nhow"] == "min":
             c_c = pd.Series(dic[name]).groupby(dic["con"]).min()
             dic[f"{name}_c"] = [
-                f"{int(val)}" if not np.isnan(val) else "0" for val in c_c
+                f"{int(val)}" if not np.isnan(val) else default for val in c_c
             ]
         elif dic["nhow"] == "max":
             c_c = pd.Series(dic[name]).groupby(dic["con"]).max()
             dic[f"{name}_c"] = [
-                f"{int(val)}" if not np.isnan(val) else "0" for val in c_c
+                f"{int(val)}" if not np.isnan(val) else default for val in c_c
             ]
         else:
             c_c = (
@@ -274,7 +277,7 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                 .agg(lambda x: list(pd.Series.mode(x)))
             )
             dic[f"{name}_c"] = [
-                f"{int(val[0])}" if len(val) > 0 else "0" for val in c_c
+                f"{int(val[0])}" if len(val) > 0 else default for val in c_c
             ]
     return clusmin, clusmax, rmv
 
@@ -853,24 +856,16 @@ def handle_clusters(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["X"] = np.zeros(dic["xn"] + 1)
-    dic["Y"] = np.zeros(dic["yn"] + 1)
-    dic["Z"] = np.zeros(dic["zn"] + 1)
-    if len(dic["cijk"]) > 2:
-        dic["X"] = 2 * np.ones(dic["xn"] + 1)
-        dic["Y"] = 2 * np.ones(dic["yn"] + 1)
-        dic["Z"] = 2 * np.ones(dic["zn"] + 1)
-        dic["X"][range(0, dic["xn"], dic["cijk"][0])] = 0
-        dic["Y"][range(0, dic["yn"], dic["cijk"][1])] = 0
-        dic["Z"][range(0, dic["zn"], dic["cijk"][2])] = 0
-        dic["X"][-1], dic["Y"][-1], dic["Z"][-1] = 0, 0, 0
-    else:
-        for i in ["x", "y", "z"]:
-            if dic[f"{i}coar"]:
-                size = len(dic[f"{i}coar"])
-                dic[i.upper()][:size] = np.array(dic[f"{i}coar"])
-    n = 0
-    m = 1
+    for n, i in enumerate(["x", "y", "z"]):
+        dic[i.upper()] = np.zeros(dic[f"{i}n"] + 1)
+        if len(dic["cijk"]) > 2:
+            dic[i.upper()] = 2 * np.ones(dic[f"{i}n"] + 1)
+            dic[i.upper()][range(0, dic[f"{i}n"], dic["cijk"][n])] = 0
+            dic[i.upper()][-1] = 0
+        elif dic[f"{i}coar"]:
+            size = len(dic[f"{i}coar"])
+            dic[i.upper()][:size] = np.array(dic[f"{i}coar"])
+    n, m = 0, 1
     for k in range(dic["zn"]):
         for j in range(dic["yn"]):
             for i in range(dic["xn"]):
@@ -884,10 +879,8 @@ def handle_clusters(dic):
                 if (dic["Z"][k + 1]) > 1:
                     dic["con"][n + dic["xn"] * dic["yn"]] = dic["con"][n]
                 n += 1
-
-    dic["nx"] = dic["xn"] - int(np.sum(dic["X"] == 2))
-    dic["ny"] = dic["yn"] - int(np.sum(dic["Y"] == 2))
-    dic["nz"] = dic["zn"] - int(np.sum(dic["Z"] == 2))
+    for i in ["x", "y", "z"]:
+        dic[f"n{i}"] = dic[f"{i}n"] - int(np.sum(dic[i.upper()] == 2))
 
 
 def handle_refinement(dic):
@@ -901,20 +894,13 @@ def handle_refinement(dic):
         dic (dict): Modified global dictionary
 
     """
-    dic["X"] = np.zeros(dic["xn"], int)
-    dic["Y"] = np.zeros(dic["yn"], int)
-    dic["Z"] = np.zeros(dic["zn"], int)
-    if len(dic["rcijk"]) > 2:
-        dic["X"] += dic["rcijk"][0]
-        dic["Y"] += dic["rcijk"][1]
-        dic["Z"] += dic["rcijk"][2]
-    else:
-        for i in ["x", "y", "z"]:
-            if dic[f"{i}ref"]:
-                dic[i.upper()] = np.array(dic[f"{i}ref"])
-    dic["nx"] = dic["xn"] + int(np.sum(dic["X"]))
-    dic["ny"] = dic["yn"] + int(np.sum(dic["Y"]))
-    dic["nz"] = dic["zn"] + int(np.sum(dic["Z"]))
+    for n, i in enumerate(["x", "y", "z"]):
+        dic[i.upper()] = np.zeros(dic[f"{i}n"], int)
+        if len(dic["rcijk"]) > 2:
+            dic[i.upper()] += dic["rcijk"][n]
+        elif dic[f"{i}ref"]:
+            dic[i.upper()] = np.array(dic[f"{i}ref"])
+        dic[f"n{i}"] = dic[f"{i}n"] + int(np.sum(dic[i.upper()]))
 
 
 def handle_vicinity(dic):

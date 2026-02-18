@@ -205,7 +205,7 @@ def opm_properties(dic):
         lines = compact_format("".join(f"{val:E} " for val in dic[f"{name}_c"]).split())
         lines.insert(0, name.upper() + "\n")
         lines.insert(0, dic["git"])
-        lines.append("/")
+        lines.append("/\n")
         with open(
             f"{dic['fol']}/preprocessing/{name}.inc", "w", encoding="utf8"
         ) as file:
@@ -213,7 +213,7 @@ def opm_properties(dic):
     lines = compact_format("".join(f"{val:E} " for val in dic["swat_c"]).split())
     lines.insert(0, "SWATINIT\n")
     lines.insert(0, dic["git"])
-    lines.append("/")
+    lines.append("/\n")
     with open(f"{dic['fol']}/preprocessing/swatinit.inc", "w", encoding="utf8") as file:
         file.write("".join(lines))
     lines = [dic["git"]]
@@ -228,7 +228,7 @@ def opm_properties(dic):
     lines = compact_format("".join(f"{val:E} " for val in dic["multz_c"]).split())
     lines.insert(0, "MULTZ\n")
     lines.insert(0, dic["git"])
-    lines.append("/")
+    lines.append("/\n")
     with open(
         f"{dic['fol']}/preprocessing/regionbarriers.inc",
         "w",
