@@ -142,12 +142,8 @@ def create_deck(dic):
         dic["field"] = "generic"
         dic["props"] = ["permx", "permy", "permz", "poro"]
         dic["base"] = dic["props"] + ["grid"]
-        dic["regions"] = []
-        dic["grids"] = []
-        dic["rptrst"] = []
-        dic["mults"] = []
-        dic["special"] = []
-        dic["reftocoa"] = []
+        for name in ["regions", "grids", "rptrst", "mults", "special", "reftocoa"]:
+            dic[name] = []
         dic["fip"] = ""
         dic["nrptsrt"] = 0
         dic["nrptsrtc"] = 0
@@ -380,7 +376,7 @@ def create_deck(dic):
             ) as file:
                 file.write("PORV\n")
                 file.write("".join(cor_pv))
-                file.write("/")
+                file.write("/\n")
             os.system(
                 f"{dic['flow']} {dic['fol']}/{dic['write']}_CORR.DATA {dic['flags1']}"
             )
@@ -408,7 +404,7 @@ def create_deck(dic):
             ) as file:
                 file.write("PORV\n")
                 file.write("".join(cor_pv))
-                file.write("/")
+                file.write("/\n")
             print(
                 f"\nRunning {dic['fol']}/{dic['write']}_CORR.DATA with the corrected "
                 "pore volume\n"
@@ -454,6 +450,84 @@ def create_deck(dic):
         print(f"\nThe dryrun results have been written to {dic['fol']}/")
 
 
+def bool_mult(dic, nrwo, mults):
+    """
+    Set to True if the keyword is found
+
+    Args:
+        dic (dict): Global dictionary\n
+        nrwo (str): Entry of the deck\n
+        mults (list): Name of MULT* keywords
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    keyword = nrwo.split()
+    for name in mults:
+        if nrwo == name.upper() or (len(keyword) > 1 and keyword[0] == name.upper()):
+            dic[f"has{name}"] = True
+
+
+def search_file(dic, path, mults):
+    """
+    Check the file for the keywords
+
+    Args:
+        dic (dict): Global dictionary\n
+        path (str): Path to the file\n
+        mults (list): Name of MULT* keywords
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    includes, include = [], False
+    data = ".DATA" in path
+    with open(path, "r", encoding=dic["encoding"]) as file:
+        for row in csv.reader(file):
+            nrwo = str(row)[2:-2].strip()
+            if include:
+                inc = os.path.join(
+                    os.getcwd(), nrwo.split("/", maxsplit=1)[0].strip().strip("\"'")
+                )
+                if os.path.exists(inc):
+                    includes.append(inc)
+                include = False
+                continue
+            bool_mult(dic, nrwo, mults)
+            if nrwo == "INCLUDE":
+                include = True
+            if data and nrwo == "MULTFLT":
+                dic["maindeckmultflt"] = True
+    return includes
+
+
+def check_mult(dic, mults):
+    """
+    Check for MULT* to avoid writing them if only MULTFLT is used.
+    We look at most for three levels of INCLUDE
+
+    Args:
+        dic (dict): Global dictionary\n
+        mults (list): Name of MULT* keywords
+
+    Returns:
+        dic (dict): Modified global dictionary
+
+    """
+    for name in mults:
+        dic[f"has{name}"] = False
+    includes = search_file(dic, dic["deck"] + ".DATA", mults)
+    includes1, includes2 = [], []
+    for include in includes:
+        includes1.extend(search_file(dic, include, mults))
+    for include in includes1:
+        includes2.extend(search_file(dic, include, mults))
+    for include in includes2:
+        search_file(dic, include, mults)
+
+
 def initialize_variables(dic):
     """
     Use opm to read the dry run
@@ -476,12 +550,16 @@ def initialize_variables(dic):
         if dic["ini"].count(name.upper()):
             dic["props"] += [name]
             dic["special"] += [name]
-    for name in ["multx", "multx-", "multy", "multy-", "multz", "multz-"]:
+    mults = ["multx", "multx-", "multy", "multy-", "multz", "multz-"]
+    dic["maindeckmultflt"] = False
+    check_mult(dic, mults)
+    for name in mults:
         if dic["ini"].count(name.upper()):
             tmp = np.array(dic["ini"][name.upper()])
             if 0 < np.sum(tmp != 1):
-                dic["props"] += [name]
-                dic["mults"] += [name]
+                if dic[f"has{name}"] or not dic["maindeckmultflt"]:
+                    dic["props"] += [name]
+                    dic["mults"] += [name]
     for name in ["multnum", "fluxnum"]:
         if dic["ini"].count(name.upper()):
             if np.max(dic["ini"][name.upper()]) > 1:
@@ -536,6 +614,12 @@ def initialize_variables(dic):
         ]:
             if dic["rst"].count(name.upper()):
                 dic["rptrst"] += [name]
+    dic["facpermz"] = -1.0
+    for i, val in enumerate(dic["ini"]["PERMX"]):
+        if val != 0:
+            if dic["ini"]["PERMZ"][i] != 0:
+                dic["facpermz"] = dic["ini"]["PERMZ"][i] / float(val)
+                break
 
 
 def handle_nnc_trans(dic):
@@ -671,7 +755,7 @@ def handle_nnc_trans(dic):
             0,
             "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm\n",
         )
-        dic[f"coa_{name}"].append("/")
+        dic[f"coa_{name}"].append("/\n")
         with open(
             f"{dic['label']}{name.upper()}.INC",
             "w",
@@ -691,6 +775,7 @@ def write_grid(dic):
         None
 
     """
+    dic["ntot"] = dic["nx"] * dic["ny"] * dic["nz"]
     grid, tmp = [], []
     grid.append(
         "-- This deck was generated by pycopm https://github.com/cssr-tools/pycopm\n"
@@ -714,10 +799,11 @@ def write_grid(dic):
     if dic["field"] == "generic":
         grid.append("\nACTNUM\n")
         grid += compact_format(" ".join(list(map(str, dic["actnum_c"]))).split())
-        grid.append("/")
+        grid.append("/\n")
         with open(f"{dic['fol']}/{dic['label']}GRID.INC", "w", encoding="utf8") as file:
             file.write("".join(grid))
     else:
+        grid.append("\n")
         with open(
             f"{dic['fol']}/preprocessing/{dic['name']}_COARSER.GRDECL",
             "w",
@@ -738,6 +824,7 @@ def write_props(dic):
 
     """
     names = dic["props"] + dic["regions"] + dic["grids"] + dic["rptrst"] + ["porv"]
+    names = compact_perm(dic, names)
     if dic["vicinity"]:
         names += ["subtoglob"]
         fips = [f"{int(val)+1} " for val in dic["subm"]]
@@ -749,7 +836,7 @@ def write_props(dic):
         ) as file:
             file.write("FIPNUM\n")
             file.write("".join(fips))
-            file.write("/")
+            file.write("/\n")
     elif dic["coarsening"]:
         oprs = [f"{int(val)} " for val in dic["reftocoa"]]
         oprs = compact_format("".join(f"{int(val)} " for val in oprs).split())
@@ -760,12 +847,21 @@ def write_props(dic):
         ) as file:
             file.write("OPERNUM\n")
             file.write("".join(oprs))
-            file.write("/")
+            file.write("/\n")
     print("Writing the files")
     with alive_bar(len(names)) as bar_animation:
         for name in names:
             bar_animation()
             dic[f"{name}_c"] = compact_format(dic[f"{name}_c"])
+            if "*" in dic[f"{name}_c"][0]:
+                if int(dic[f"{name}_c"][0].split("*")[0]) == dic["ntot"]:
+                    whr = dic["lol"].index(f"'{dic['label']}{name.upper()}.INC' /\n")
+                    del dic["lol"][whr]
+                    del dic["lol"][whr - 1]
+                    dic["lol"].insert(
+                        whr - 1, f"{name.upper()}\n{dic[f'{name}_c'][0]}/\n"
+                    )
+                    continue
             if name == "subtoglob":
                 dic[f"{name}_c"].insert(0, "OPERNUM\n")
             else:
@@ -774,13 +870,60 @@ def write_props(dic):
                 0,
                 "-- This file was generated by pycopm https://github.com/cssr-tools/pycopm\n",
             )
-            dic[f"{name}_c"].append("/")
+            dic[f"{name}_c"].append("/\n")
             with open(
                 f"{dic['fol']}/{dic['label']}{name.upper()}.INC",
                 "w",
                 encoding="utf8",
             ) as file:
                 file.write("".join(dic[f"{name}_c"]))
+
+
+def compact_perm(dic, names):
+    """
+    Use COPY and MULTIPLY is PERMY and PERMZ can be generated from PERMX
+
+    Args:
+        dic (dict): Global dictionary\n
+        names (list): Properties to write the .INC
+
+    Returns:
+        names (list): Modified properties to write the .INC
+
+    """
+    cpermy, cpermz = False, False
+    if dic["permx_c"] == dic["permy_c"]:
+        names.remove("permy")
+        whr = dic["lol"].index(f"'{dic['label']}PERMY.INC' /\n")
+        del dic["lol"][whr]
+        del dic["lol"][whr]
+        cpermy = True
+    if dic["facpermz"] > 0:
+        delpermz = True
+        for permx, permz in zip(dic["permx_c"], dic["permz_c"]):
+            if abs(float(permz) - dic["facpermz"] * float(permx)) > 1e-12:
+                delpermz = False
+                break
+        if delpermz:
+            names.remove("permz")
+            whr = dic["lol"].index(f"'{dic['label']}PERMZ.INC' /\n")
+            del dic["lol"][whr]
+            del dic["lol"][whr]
+            cpermz = True
+    if cpermy and cpermz:
+        text = "COPY\nPERMX PERMY /\nPERMX PERMZ /\n/\n"
+        if abs(1 - dic["facpermz"]) > 1e-12:
+            text += f"\nMULTIPLY\nPERMZ {dic['facpermz']:.4E} /\n/\n"
+        dic["lol"].insert(whr - 1, text)
+    elif cpermy:
+        text = "COPY\nPERMX PERMY /\n/\n"
+        dic["lol"].insert(whr - 1, text)
+    elif cpermz:
+        text = "COPY\nPERMX PERMZ /\n/"
+        if abs(1 - dic["facpermz"]) > 1e-12:
+            text += f"\nMULTIPLY\nPERMZ {dic['facpermz']:.4E} /\n/\n"
+        dic["lol"].insert(whr - 1, text)
+    return names
 
 
 def compact_format(values):
