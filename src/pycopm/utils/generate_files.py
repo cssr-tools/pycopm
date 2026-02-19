@@ -417,8 +417,10 @@ def create_deck(dic):
             print("\nThis is needed for the nnctrans, please wait.\n")
             os.chdir(dic["fol"])
             os.system(f"{dic['flow']} {dic['fol']}/{dic['write']}.DATA {dic['flags']}")
-            dic["ogrid"] = OpmFile(dic["write"] + ".EGRID")
-            if dic["ogrid"].count("NNC1") and dic["trans"] > 0:
+            if (
+                OpmFile(dic["write"] + ".EGRID").count("NNC1")
+                or OpmFile(dic["deck"] + ".EGRID").count("NNC1")
+            ) and dic["trans"] > 0:
                 handle_nnc_trans(dic)
             else:
                 print("\nNo nnctrans found.")
@@ -562,7 +564,10 @@ def initialize_variables(dic):
                     dic["mults"] += [name]
     for name in ["multnum", "fluxnum"]:
         if dic["ini"].count(name.upper()):
-            if np.max(dic["ini"][name.upper()]) > 1:
+            if (
+                np.max(dic["ini"][name.upper()]) > 1
+                or np.min(dic["ini"][name.upper()]) < 1
+            ):
                 dic["grids"] += [name]
     for name in ["thconr", "disperc"]:
         if dic["ini"].count(name.upper()):
@@ -633,51 +638,47 @@ def handle_nnc_trans(dic):
         dic (dict): Modified global dictionary
 
     """
-    nncdeck, withlines = [], False
-    with open(dic["write"] + ".DATA", "r", encoding=dic["encoding"]) as file:
-        for row in csv.reader(file):
-            nrwo = str(row)[2:-2].strip()
-            nncdeck.append(nrwo)
-            if withlines:
-                nncdeck.append("INCLUDE")
-                nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
-                withlines = False
-            elif nrwo == "EDIT":
-                if not dic["lines"]:
-                    nncdeck.append("INCLUDE")
-                    nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
-                else:
-                    withlines = True
-    with open(
-        f"{dic['fol']}/{dic['write']}.DATA",
-        "w",
-        encoding="utf8",
-    ) as file:
-        for row in nncdeck:
-            file.write(row + "\n")
     temp = OpmFile(dic["deck"] + ".EGRID")
     coa = OpmFile(dic["write"] + ".INIT")
-    coag = OpmFile(dic["write"] + ".EGRID")
+    editnnc = OpmFile(dic["write"] + ".EGRID").count("NNC1")
+    if editnnc:
+        nncdeck, indel, withlines = [], [], False
+        dic["coa_editnnc"] = []
+        dic["nnct"] = [[[] for _ in range(dic["yn"])] for _ in range(dic["xn"])]
+        with open(dic["write"] + ".DATA", "r", encoding=dic["encoding"]) as file:
+            for row in csv.reader(file):
+                nrwo = str(row)[2:-2].strip()
+                nncdeck.append(nrwo)
+                if withlines:
+                    nncdeck.append("INCLUDE")
+                    nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
+                    withlines = False
+                elif nrwo == "EDIT":
+                    if not dic["lines"]:
+                        nncdeck.append("INCLUDE")
+                        nncdeck.append(f"'{dic['label']}EDITNNC.INC' /\n")
+                    else:
+                        withlines = True
+        with open(
+            f"{dic['fol']}/{dic['write']}.DATA",
+            "w",
+            encoding="utf8",
+        ) as file:
+            for row in nncdeck:
+                file.write(row + "\n")
+        coag = OpmFile(dic["write"] + ".EGRID")
+        cnnc1 = np.array(coag["NNC1"])
+        cnnc2 = np.array(coag["NNC2"])
+        cnnct = np.array(coa["TRANNNC"])
+        coag = OpmGrid(dic["write"] + ".EGRID")
     rnnc1 = np.array(temp["NNC1"])
     rnnc2 = np.array(temp["NNC2"])
     rnnct = np.array(dic["ini"]["TRANNNC"])
-    cnnc1 = np.array(coag["NNC1"])
-    cnnc2 = np.array(coag["NNC2"])
-    cnnct = np.array(coa["TRANNNC"])
-    coag = OpmGrid(dic["write"] + ".EGRID")
-    refpv = np.array(dic["ini"]["PORV"])
     coapv = np.array(coa["PORV"])
-    coa_dz = np.zeros(len(coapv))
-    ref_dz = np.zeros(len(refpv))
     dic["coa_tranx"] = np.zeros(len(coapv))
     dic["coa_trany"] = np.zeros(len(coapv))
     dic["coa_tranx"][coapv > 0] = np.array(coa["TRANX"])
     dic["coa_trany"][coapv > 0] = np.array(coa["TRANY"])
-    coa_dz[coapv > 0] = np.array(coa["DZ"])
-    ref_dz[refpv > 0] = np.array(dic["ini"]["DZ"])
-    dic["coa_editnnc"] = []
-    dic["nnct"] = [[[] for _ in range(dic["yn"])] for _ in range(dic["xn"])]
-    indel = []
     for r1, r2, trn in zip(rnnc1, rnnc2, rnnct):
         rijk1 = dic["grid"].ijk_from_global_index(r1 - 1)
         rijk2 = dic["grid"].ijk_from_global_index(r2 - 1)
@@ -690,61 +691,61 @@ def handle_nnc_trans(dic):
                     + (dic["jc"][rijk1[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                if coa_dz[ind] > 0:
-                    dic["coa_tranx"][ind] += trn * ref_dz[r1 - 1] / coa_dz[ind]
+                dic["coa_tranx"][ind] += trn
             elif rijk1[1] + 1 == rijk2[1]:
                 ind = (
                     (dic["ic"][rijk1[0] + 1] - 1)
                     + (dic["jc"][rijk1[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk1[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                if coa_dz[ind] > 0:
-                    dic["coa_trany"][ind] += trn * ref_dz[r1 - 1] / coa_dz[ind]
+                dic["coa_trany"][ind] += trn
             elif rijk1[0] == rijk2[0] + 1:
                 ind = (
                     (dic["ic"][rijk2[0] + 1] - 1)
                     + (dic["jc"][rijk2[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                if coa_dz[ind] > 0:
-                    dic["coa_tranx"][ind] += trn * ref_dz[r2 - 1] / coa_dz[ind]
+                dic["coa_tranx"][ind] += trn
             elif rijk1[1] == rijk2[1] + 1:
                 ind = (
                     (dic["ic"][rijk2[0] + 1] - 1)
                     + (dic["jc"][rijk2[1] + 1] - 1) * dic["nx"]
                     + (dic["kc"][rijk2[2] + 1] - 1) * dic["nx"] * dic["ny"]
                 )
-                if coa_dz[ind] > 0:
-                    dic["coa_trany"][ind] += trn * ref_dz[r2 - 1] / coa_dz[ind]
-        else:
+                dic["coa_trany"][ind] += trn
+        elif editnnc:
             dic["nnct"][rijk1[0]][rijk1[1]].append([rijk1[2], rijk2[2], trn])
-    print("Processing the transmissibilities")
-    with alive_bar(len(cnnc1)) as bar_animation:
-        for n, (n1, n2) in enumerate(zip(cnnc1, cnnc2)):
-            bar_animation()
-            ijk1 = coag.ijk_from_global_index(n1 - 1)
-            ijk2 = coag.ijk_from_global_index(n2 - 1)
-            fip1, fip2 = ijk1[2] + 1, ijk2[2] + 1
-            rtran, found, indel = 0, 0, []
-            if fip1 != fip2 and (ijk1[0] != ijk2[0] or ijk1[1] != ijk2[1]):
-                for i, val in enumerate(dic["nnct"][ijk1[0]][ijk1[1]]):
-                    rfip1 = dic["kc"][val[0] + 1]
-                    rfip2 = dic["kc"][val[1] + 1]
-                    if fip1 == rfip1 and fip2 == rfip2:
-                        rtran += val[2]
-                        found = 1
-                        indel.append(i)
-                for ind in indel[::-1]:
-                    del dic["nnct"][ijk1[0]][ijk1[1]][ind]
-                if found == 1:
-                    mult = rtran / cnnct[n]
-                else:
-                    mult = 0
-                dic["coa_editnnc"].append(
-                    f"{ijk1[0]+1} {ijk1[1]+1} {ijk1[2]+1} {ijk2[0]+1} "
-                    f"{ijk2[1]+1} {ijk2[2]+1} {mult} /"
-                )
-    for name in ["tranx", "trany", "editnnc"]:
+    if editnnc:
+        print("Processing the transmissibilities")
+        with alive_bar(len(cnnc1)) as bar_animation:
+            for n, (n1, n2) in enumerate(zip(cnnc1, cnnc2)):
+                bar_animation()
+                ijk1 = coag.ijk_from_global_index(n1 - 1)
+                ijk2 = coag.ijk_from_global_index(n2 - 1)
+                fip1, fip2 = ijk1[2] + 1, ijk2[2] + 1
+                rtran, found, indel = 0, 0, []
+                if fip1 != fip2 and (ijk1[0] != ijk2[0] or ijk1[1] != ijk2[1]):
+                    for i, val in enumerate(dic["nnct"][ijk1[0]][ijk1[1]]):
+                        rfip1 = dic["kc"][val[0] + 1]
+                        rfip2 = dic["kc"][val[1] + 1]
+                        if fip1 == rfip1 and fip2 == rfip2:
+                            rtran += val[2]
+                            found = 1
+                            indel.append(i)
+                    for ind in indel[::-1]:
+                        del dic["nnct"][ijk1[0]][ijk1[1]][ind]
+                    if found == 1:
+                        mult = rtran / cnnct[n]
+                    else:
+                        mult = 0
+                    dic["coa_editnnc"].append(
+                        f"{ijk1[0]+1} {ijk1[1]+1} {ijk1[2]+1} {ijk2[0]+1} "
+                        f"{ijk2[1]+1} {ijk2[2]+1} {mult} /"
+                    )
+    cases = ["tranx", "trany"]
+    if editnnc:
+        cases += ["editnnc"]
+    for name in cases:
         if name == "editnnc":
             dic[f"coa_{name}"] = [f"{val}\n" for val in dic[f"coa_{name}"]]
         else:
@@ -853,7 +854,9 @@ def write_props(dic):
         for name in names:
             bar_animation()
             dic[f"{name}_c"] = compact_format(dic[f"{name}_c"])
-            if "*" in dic[f"{name}_c"][0]:
+            if "*" in dic[f"{name}_c"][0] and not (
+                dic["trans"] > 0 and name in ["tranx", "trany"]
+            ):
                 if int(dic[f"{name}_c"][0].split("*")[0]) == dic["ntot"]:
                     whr = dic["lol"].index(f"'{dic['label']}{name.upper()}.INC' /\n")
                     del dic["lol"][whr]
