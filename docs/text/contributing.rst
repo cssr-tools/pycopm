@@ -22,7 +22,7 @@ Contribute to the software
 #. In the main repo execute:
 
     #. **pip install -r dev-requirements.txt** (this installs the `dev-requirements.txt <https://github.com/cssr-tools/pycopm/blob/main/dev-requirements.txt>`_)
-    #. **black src/ tests/** (this formats the code)
+    #. **black --target-version py312 src/ tests/** (this formats the code)
     #. **pylint src/ tests/** (this analyses the code, and might rise issues that need to be fixed before the pull request)
     #. **mypy --ignore-missing-imports src/ tests/** (this is a static checker, and might rise issues that need to be fixed before the pull request)
     #. **pytest --cov=pycopm --cov-report term-missing tests/** (this runs locally the tests, and might rise issues that need to be fixed before the pull request)
@@ -30,7 +30,7 @@ Contribute to the software
     #. **pushd docs & make html** (this generates the documentation, and might rise issues that need to be fixed before the pull request; if the build succeeds and if the contribution changes the documentation, then copy all content from the docs/_build/html/ folder and replace the files in the `docs <https://github.com/cssr-tools/pycopm/tree/main/docs>`_ folder)
     
     .. tip::
-        See the `ci_pycopm_ubuntu.yml <https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml>`_ script and the `Actions <https://github.com/cssr-tools/pycopm/actions>`_ for installation of pycopm, OPM Flow (binary packages), and dependencies, as well as the execution of the seven previous steps in Ubuntu 24.04 using Python 3.11.
+        See the `ci_pycopm_ubuntu.yml <https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml>`_ script and the `Actions <https://github.com/cssr-tools/pycopm/actions>`_ for installation of pycopm, OPM Flow (binary packages), and dependencies, as well as the execution of the seven previous steps in Ubuntu 24.04 using Python 3.12.
         For macOS users, see the `ci_pycopm_macos.yml <https://github.com/daavid00/OPM-Flow_macOS/blob/main/.github/workflows/ci_pycopm_macos.yml>`_ script and the `OPM-Flow_macOS Actions <https://github.com/cssr-tools/pycopm/actions>`_ for installation of pycopm, OPM Flow (source build), and dependencies, as well as running the tests and the hello world example in macOS 26 using Python3.13.
         Note that if you do not add the directory containing the OPM Flow executable to your system's PATH environment variable (e.g., export PATH=$PATH:/Users/yourname/pycopm/build/opm-simulators/bin), then you can pass this in the execution of the tests and pycopm using the flags **-f/--flow** (see `this script <https://github.com/daavid00/OPM-Flow_macOS/blob/main/.github/workflows/ci_pycopm_macos.yml#L72>`_).
 
