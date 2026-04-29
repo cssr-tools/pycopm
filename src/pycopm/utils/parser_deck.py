@@ -8,6 +8,7 @@ Methods to parser the input OPM deck.
 
 import sys
 import csv
+import os
 
 csv.field_size_limit(sys.maxsize)
 
@@ -115,6 +116,27 @@ def process_the_deck(dic):
                     elif dic["lol"][-1] == "INCLUDE" and case in nrwo.lower():
                         nrwo = f"{dic['label']}{case.upper()}.INC /"
             dic["lol"].append(nrwo)
+            if len(dic["lol"]) > 1 and dic["lol"][-2] == "INCLUDE":
+                if comment_endbox(dic, nrwo):
+                    dic["lol"][-2] = "--" + dic["lol"][-2]
+                    dic["lol"][-1] = "--" + dic["lol"][-1]
+
+
+def comment_endbox(dic, nrwo):
+    """Do not include the file if ENDBOX (this is handleded from the .INIT)"""
+    path_inc = nrwo.split("/", maxsplit=1)[0].strip().strip("\"'")
+    if path_inc == ".":
+        path_inc = nrwo.split("/", maxsplit=1)[1].strip().strip("\"'")
+    path_inc = path_inc.replace(" /", "")
+    path_inc = path_inc.replace("'", "")
+    path_inc = path_inc.replace('"', "")
+    inc = os.path.join(os.getcwd(), path_inc)
+    with open(inc, "r", encoding=dic["encoding"]) as file:
+        for row in csv.reader(file):
+            nrwo = str(row)[2:-2].strip()
+            if nrwo == "ENDBOX":
+                return True
+    return False
 
 
 def handle_schedulekw(dic, nrwo):
@@ -1777,6 +1799,11 @@ def handle_wells(dic, nrwo):
                         dic["lol"].append(" ".join(edit))
                         return True
                     if dic["ic"][int(edit[2])] * dic["jc"][int(edit[3])] == 0:
+                        # Out of vicinity; set the WELSPECS to the firt cell
+                        # since COMPDATs exist in the vicinity
+                        edit[2] = "1"
+                        edit[3] = "1"
+                        dic["lol"].append(" ".join(edit))
                         return True
                 edit[2] = str(dic["ic"][int(edit[2])])
                 edit[3] = str(dic["jc"][int(edit[3])])
