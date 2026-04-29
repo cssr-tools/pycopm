@@ -530,9 +530,13 @@ def search_file(dic, path, mults):
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
             if include:
-                inc = os.path.join(
-                    os.getcwd(), nrwo.split("/", maxsplit=1)[0].strip().strip("\"'")
-                )
+                path_inc = nrwo.split("/", maxsplit=1)[0].strip().strip("\"'")
+                if path_inc == ".":
+                    path_inc = nrwo.split("/", maxsplit=1)[1].strip().strip("\"'")
+                path_inc = path_inc.replace(" /", "")
+                path_inc = path_inc.replace("'", "")
+                path_inc = path_inc.replace('"', "")
+                inc = os.path.join(os.getcwd(), path_inc)
                 if os.path.exists(inc):
                     includes.append(inc)
                 include = False
