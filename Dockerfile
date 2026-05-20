@@ -3,7 +3,7 @@ FROM openporousmedia/opmreleases:2025.10
 
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  libhdf5-dev git \
+  libhdf5-dev freeglut3-dev git \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=uv /uv /usr/local/bin/uv
