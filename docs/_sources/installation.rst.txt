@@ -4,8 +4,7 @@ Installation
 
 The following steps work installing the dependencies in Ubuntu via apt-get or in macOS using `brew <https://brew.sh>`_ or `macports <https://www.macports.org>`_.
 While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
-The supported Python versions are 3.11 to 3.13. We will update the documentation when Python3.14 is supported
-(e.g., the ert Python package is not yet available via pip install in Python 3.14).
+The supported Python versions are 3.11 to 3.14.
 
 .. note::
 
@@ -52,13 +51,22 @@ install the Python requirements in a virtual environment with the following comm
 
     Typing **git tag -l** writes all available specific versions.
 
+.. note::
+
+    The ert dependency in Python 3.14 and macOS requires building some wheels; then execute the following commands before installing pycopm:
+
+    .. code-block:: bash
+        
+        brew install openblas hdf5 pkg-config
+        export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
+
 .. _opmflow:
 
 OPM Flow
 --------
 You also need to install:
 
-* OPM Flow (https://opm-project.org, Release 2025.10 or current master branches)
+* OPM Flow (https://opm-project.org, Release 2026.04 or current master branches)
 
 Binary packages
 +++++++++++++++
