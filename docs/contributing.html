@@ -108,10 +108,10 @@ documentation about collaborating with pull request; also, looking at previous m
 <blockquote>
 <div><ol class="arabic simple">
 <li><p><strong>pip install -r dev-requirements.txt</strong> (this installs the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/dev-requirements.txt">dev-requirements.txt</a>)</p></li>
-<li><p><strong>black –target-version py312 src/ tests/</strong> (this formats the code)</p></li>
+<li><p><strong>black --target-version py312 src/ tests/</strong> (this formats the code)</p></li>
 <li><p><strong>pylint src/ tests/</strong> (this analyses the code, and might rise issues that need to be fixed before the pull request)</p></li>
-<li><p><strong>mypy –ignore-missing-imports src/ tests/</strong> (this is a static checker, and might rise issues that need to be fixed before the pull request)</p></li>
-<li><p><strong>pytest –cov=pycopm –cov-report term-missing tests/</strong> (this runs locally the tests, and might rise issues that need to be fixed before the pull request)</p></li>
+<li><p><strong>mypy --ignore-missing-imports src/ tests/</strong> (this is a static checker, and might rise issues that need to be fixed before the pull request)</p></li>
+<li><p><strong>pytest --cov=pycopm --cov-report term-missing --basetemp=test_outputs tests/ -n auto</strong> (this runs locally the tests, and might rise issues that need to be fixed before the pull request)</p></li>
 <li><p><strong>pycopm -i examples/decks/HELLO_WORLD.DATA -c 5,5,1 -m all -o output</strong> (this runs the hello world example, which succeeds if the file output/HELLO_WORLD_PYCOPM.EGRID is created)</p></li>
 <li><p><strong>pushd docs &amp; make html</strong> (this generates the documentation, and might rise issues that need to be fixed before the pull request; if the build succeeds and if the contribution changes the documentation, then copy all content from the docs/_build/html/ folder and replace the files in the <a class="reference external" href="https://github.com/cssr-tools/pycopm/tree/main/docs">docs</a> folder)</p></li>
 </ol>
@@ -119,7 +119,7 @@ documentation about collaborating with pull request; also, looking at previous m
 <p class="admonition-title">Tip</p>
 <p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml">ci_pycopm_ubuntu.yml</a> script and the <a class="reference external" href="https://github.com/cssr-tools/pycopm/actions">Actions</a> for installation of pycopm, OPM Flow (binary packages), and dependencies, as well as the execution of the seven previous steps in Ubuntu 24.04 using Python 3.12.
 For macOS users, see the <a class="reference external" href="https://github.com/daavid00/OPM-Flow_macOS/blob/main/.github/workflows/ci_pycopm_macos.yml">ci_pycopm_macos.yml</a> script and the <a class="reference external" href="https://github.com/cssr-tools/pycopm/actions">OPM-Flow_macOS Actions</a> for installation of pycopm, OPM Flow (source build), and dependencies, as well as running the tests and the hello world example in macOS 26 using Python3.14.
-Note that if you do not add the directory containing the OPM Flow executable to your system’s PATH environment variable (e.g., export PATH=$PATH:/Users/yourname/pycopm/build/opm-simulators/bin), then you can pass this in the execution of the tests and pycopm using the flags <strong>-f/–flow</strong> (see <a class="reference external" href="https://github.com/daavid00/OPM-Flow_macOS/blob/main/.github/workflows/ci_pycopm_macos.yml#L72">this script</a>).</p>
+Note that if you do not add the directory containing the OPM Flow executable to your system’s PATH environment variable (e.g., export PATH=$PATH:/Users/yourname/pycopm/build/opm-simulators/bin), then you can pass this in the execution of the tests and pycopm using the flags <strong>-f/--flow</strong> (see <a class="reference external" href="https://github.com/daavid00/OPM-Flow_macOS/blob/main/.github/workflows/ci_pycopm_macos.yml#L72">this script</a>).</p>
 </div>
 </div></blockquote>
 </li>

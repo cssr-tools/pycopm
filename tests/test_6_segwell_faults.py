@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2025-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0801,R0914
+# pylint: disable=R0914
 
 """
 Test on a complex model with a segmented well and faults.
@@ -21,38 +21,32 @@ OPERNUM 2 30 38 47 52 2* /
 /
 """
 
-import os
-import pathlib
+from pathlib import Path
 import subprocess
 import numpy as np
 from opm.io.ecl import EclFile as OpmFile
 from opm.io.ecl import ERst as OpmRestart
 
-testpth: pathlib.Path = pathlib.Path(__file__).parent
-mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
-
-def test_complex(flow):
+def test_6_segwell_faults(flow, tmp_path, monkeypatch):
     """See examples/decks/MODEL3.DATA"""
-    if not os.path.exists(f"{testpth}/output"):
-        os.system(f"mkdir {testpth}/output")
+    repo_root = Path(__file__).parents[1]
+    monkeypatch.chdir(tmp_path)
     subprocess.run(
         [
             flow,
-            f"{mainpth}/examples/decks/MODEL3.DATA",
-            f"--output-dir={testpth}/output/complex/reference",
+            f"{repo_root}/examples/decks/MODEL3.DATA",
+            f"--output-dir={tmp_path}/reference",
         ],
         check=True,
     )
     subprocess.run(
         [
             "pycopm",
+            "-i",
+            f"{repo_root}/examples/decks/MODEL3.DATA",
             "-f",
             flow,
-            "-o",
-            f"{testpth}/output/complex",
-            "-i",
-            f"{mainpth}/examples/decks/MODEL3.DATA",
             "-x",
             "0,2,0,2,0,0,0,0,0,0",
             "-z",
@@ -72,24 +66,24 @@ def test_complex(flow):
         ],
         check=True,
     )
-    assert os.path.exists(f"{testpth}/output/complex/COARSER.INIT")
-    assert os.path.exists(f"{testpth}/output/complex/COARSER.EGRID")
+    assert (tmp_path / "COARSER.INIT").is_file()
+    assert (tmp_path / "COARSER.EGRID").is_file()
     subprocess.run(
         [
             flow,
-            f"{testpth}/output/complex/COARSER.DATA",
-            f"--output-dir={testpth}/output/complex/coarser",
+            "COARSER.DATA",
+            f"--output-dir={tmp_path}/coarser",
         ],
         check=True,
     )
-    bini = OpmFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
-    cini = OpmFile(f"{testpth}/output/complex/coarser/COARSER.INIT")
+    bini = OpmFile("reference/MODEL3.INIT")
+    cini = OpmFile("coarser/COARSER.INIT")
     bpv = np.array(bini["PORV"])
     cpv = np.array(cini["PORV"])
     assert abs(np.sum(bpv) - np.sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
     assert np.sum(cpv > 0) == 255
-    brst = OpmRestart(f"{testpth}/output/complex/reference/MODEL3.UNRST")
-    crst = OpmRestart(f"{testpth}/output/complex/coarser/COARSER.UNRST")
+    brst = OpmRestart("reference/MODEL3.UNRST")
+    crst = OpmRestart("coarser/COARSER.UNRST")
     bgf = np.array(brst["FIPGAS", 0])
     cgf = np.array(crst["FIPGAS", 0])
     assert abs(np.sum(bgf) - np.sum(cgf)) < 50  # ca. 2.56191e10 fipgas in the ref
@@ -97,14 +91,12 @@ def test_complex(flow):
         subprocess.run(
             [
                 "pycopm",
-                "-f",
-                flow,
-                "-o",
-                f"{testpth}/output/complex",
                 "-i",
-                f"{mainpth}/examples/decks/MODEL3.DATA",
+                f"{repo_root}/examples/decks/MODEL3.DATA",
                 "-g",
                 "2,2,2",
+                "-f",
+                flow,
                 "-w",
                 f"FINER{sub}",
                 "-l",
@@ -118,21 +110,21 @@ def test_complex(flow):
             ],
             check=True,
         )
-        assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.INIT")
-        assert os.path.exists(f"{testpth}/output/complex/FINER{sub}.EGRID")
+        assert (tmp_path / f"FINER{sub}.INIT").is_file()
+        assert (tmp_path / f"FINER{sub}.EGRID").is_file()
         subprocess.run(
             [
                 flow,
-                f"{testpth}/output/complex/FINER{sub}.DATA",
-                f"--output-dir={testpth}/output/complex/finer",
+                f"FINER{sub}.DATA",
+                "--output-dir=finer",
             ],
             check=True,
         )
-        rini = OpmFile(f"{testpth}/output/complex/finer/FINER{sub}.INIT")
+        rini = OpmFile(f"finer/FINER{sub}.INIT")
         rpv = np.array(rini["PORV"])
         assert abs(np.sum(bpv) - np.sum(rpv)) < 50  # ca. 4.61992e8 porv in the ref
         assert np.sum(rpv > 0) == 22896
-        rrst = OpmRestart(f"{testpth}/output/complex/finer/FINER{sub}.UNRST")
+        rrst = OpmRestart(f"finer/FINER{sub}.UNRST")
         rgf = np.array(rrst["FIPGAS", 0])
         assert abs(np.sum(bgf) - np.sum(rgf)) < 50  # ca. 2.56191e10 fipgas in the ref
     for i, val in enumerate(
@@ -141,14 +133,12 @@ def test_complex(flow):
         subprocess.run(
             [
                 "pycopm",
-                "-f",
-                flow,
-                "-o",
-                f"{testpth}/output/complex",
                 "-i",
-                f"{mainpth}/examples/decks/MODEL3.DATA",
+                f"{repo_root}/examples/decks/MODEL3.DATA",
                 "-v",
                 f"A4 {val}",
+                "-f",
+                flow,
                 "-w",
                 f"SUBMODEL{i}",
                 "-l",
@@ -160,10 +150,10 @@ def test_complex(flow):
             ],
             check=True,
         )
-        assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{i}.INIT")
-        assert os.path.exists(f"{testpth}/output/complex/SUBMODEL{i}.EGRID")
-        bini = OpmFile(f"{testpth}/output/complex/reference/MODEL3.INIT")
-        cini = OpmFile(f"{testpth}/output/complex/SUBMODEL{i}.INIT")
+        assert (tmp_path / f"SUBMODEL{i}.INIT").is_file()
+        assert (tmp_path / f"SUBMODEL{i}.EGRID").is_file()
+        bini = OpmFile("reference/MODEL3.INIT")
+        cini = OpmFile(f"SUBMODEL{i}.INIT")
         bpv = np.array(bini["PORV"])
         cpv = np.array(cini["PORV"])
         assert abs(np.sum(bpv) - np.sum(cpv)) < 1  # ca. 4.61992e8 porv in the ref

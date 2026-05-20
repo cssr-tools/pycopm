@@ -16,7 +16,7 @@ Contributions are more than welcome using the fork and pull request approach ðŸ™
     1. **black --target-version py312 src/ tests/** (this formats the code)
     1. **pylint src/ tests/** (this analyses the code, and might rise issues that need to be fixed before the pull request)
     1. **mypy --ignore-missing-imports src/ tests/** (this is a static checker, and might rise issues that need to be fixed before the pull request)
-    1. **pytest --cov=pycopm --cov-report term-missing tests/** (this runs locally the tests, and might rise issues that need to be fixed before the pull request)
+    1. **pytest --cov=pycopm --cov-report term-missing --basetemp=test_outputs tests/ -n auto** (this runs locally the tests, and might rise issues that need to be fixed before the pull request)
     1. **pycopm -i examples/decks/HELLO_WORLD.DATA -c 5,5,1 -m all -o output** (this runs the hello world example, which succeeds if the file output/HELLO_WORLD_PYCOPM.EGRID is created)
     1. **pushd docs & make html** (this generates the documentation, and might rise issues that need to be fixed before the pull request; if the build succeeds and if the contribution changes the documentation, then copy all content from the docs/_build/html/ folder and replace the files in the [_docs_](https://github.com/cssr-tools/pycopm/tree/main/docs) folder)
     * Tip for Linux users: See the [_ci_pycopm_ubuntu.yml_](https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml) script and the [_Actions_](https://github.com/cssr-tools/pycopm/actions) for installation of pycopm, OPM Flow (binary packages), and dependencies, as well as the execution of the seven previous steps in Ubuntu 24.04 using Python 3.12.

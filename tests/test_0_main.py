@@ -3,28 +3,21 @@
 
 """Test the configuration files"""
 
-import os
-import pathlib
+from pathlib import Path
+import shutil
+
 from pycopm.core.pycopm import main
 
-testpth: pathlib.Path = pathlib.Path(__file__).parent
-mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
-
-def test_main():
+def test_0_main(tmp_path, monkeypatch):
     """See examples/configurations/norne/input.toml"""
-    confi = f"{mainpth}/examples/configurations/norne/input.toml"
-    if not os.path.exists(f"{testpth}/output"):
-        os.system(f"mkdir {testpth}/output")
-        os.system(f"mkdir {testpth}/output/main")
-        os.system(f"cp {confi} {testpth}/output/main/input.toml")
-    elif not os.path.exists(f"{testpth}/output/main"):
-        os.system(f"mkdir {testpth}/output/main")
-        os.system(f"cp {confi} {testpth}/output/main/input.toml")
-    elif not os.path.isfile(f"{testpth}/output/main/input.toml"):
-        os.system(f"cp {confi} {testpth}/output/main/input.toml")
-    os.chdir(f"{testpth}/output/main")
+    monkeypatch.chdir(tmp_path)
+    repo_root = Path(__file__).parents[1]
+    input_config = repo_root / "examples" / "configurations" / "norne" / "input.toml"
+    shutil.copy(input_config, tmp_path / "input.toml")
+    monkeypatch.chdir(tmp_path)
     main()
-    assert os.path.exists(
-        f"{testpth}/output/main/postprocessing/wells/HISTO_DATA_WWPR_E-1H.png"
-    )
+    assert (tmp_path / "postprocessing" / "errors.txt").is_file()
+    assert (
+        tmp_path / "postprocessing" / "wells" / "HISTO_DATA_WWPR_E-1H.png"
+    ).is_file()
