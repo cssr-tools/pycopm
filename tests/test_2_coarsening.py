@@ -1,46 +1,33 @@
 # SPDX-FileCopyrightText: 2024-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0801
 
 """Test the generic coarsening functionality"""
 
-import os
-import pathlib
+from pathlib import Path
 import subprocess
 
-testpth: pathlib.Path = pathlib.Path(__file__).parent
-mainpth: pathlib.Path = pathlib.Path(__file__).parents[1]
 
-
-def test_coarsening(flow):
+def test_2_coarsening(flow, tmp_path, monkeypatch):
     """See examples/decks/HELLO_WORLD.DATA"""
-    if not os.path.exists(f"{testpth}/output"):
-        os.system(f"mkdir {testpth}/output")
+    repo_root = Path(__file__).parents[1]
+    monkeypatch.chdir(tmp_path)
     sub = "FINER"
     subprocess.run(
         [
             "pycopm",
             "-f",
             flow,
-            "-f",
-            flow,
             "-c",
             "5,5,1",
             "-i",
-            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
-            "-o",
-            f"{testpth}/output/coarser",
+            f"{repo_root}/examples/decks/HELLO_WORLD.DATA",
             "-m",
             "prep",
         ],
         check=True,
     )
-    assert os.path.exists(
-        f"{testpth}/output/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT"
-    )
-    assert os.path.exists(
-        f"{testpth}/output/coarser/HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID"
-    )
+    assert (tmp_path / "HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT").is_file()
+    assert (tmp_path / "HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID").is_file()
     for ahow in ["max", "min", "mode"]:
         for nhow in ["max", "min", "mode"]:
             for show in ["max", "min", "mean", "pvmean"]:
@@ -50,9 +37,7 @@ def test_coarsening(flow):
                         "-f",
                         flow,
                         "-i",
-                        f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
-                        "-o",
-                        f"{testpth}/output/coarser",
+                        f"{repo_root}/examples/decks/HELLO_WORLD.DATA",
                         "-c",
                         "5,5,1",
                         "-m",
@@ -66,19 +51,15 @@ def test_coarsening(flow):
                     ],
                     check=True,
                 )
-                assert os.path.exists(
-                    f"{testpth}/output/coarser/HELLO_WORLD_PYCOPM.DATA"
-                )
-                os.system(f"rm {testpth}/output/coarser/HELLO_WORLD_PYCOPM.DATA")
+                assert (tmp_path / "HELLO_WORLD_PYCOPM.DATA").is_file()
+                subprocess.run(["rm", "HELLO_WORLD_PYCOPM.DATA"], check=True)
     subprocess.run(
         [
             "pycopm",
             "-f",
             flow,
             "-i",
-            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
-            "-o",
-            f"{testpth}/output/coarser",
+            f"{repo_root}/examples/decks/HELLO_WORLD.DATA",
             "-m",
             "deck_dry",
             "-p",
@@ -94,17 +75,15 @@ def test_coarsening(flow):
         ],
         check=True,
     )
-    assert os.path.exists(f"{testpth}/output/coarser/{sub}.INIT")
-    assert os.path.exists(f"{testpth}/output/coarser/{sub}.EGRID")
+    assert (tmp_path / f"{sub}.INIT").is_file()
+    assert (tmp_path / f"{sub}.EGRID").is_file()
     subprocess.run(
         [
             "pycopm",
             "-f",
             flow,
             "-i",
-            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
-            "-o",
-            f"{testpth}/output/coarser",
+            f"{repo_root}/examples/decks/HELLO_WORLD.DATA",
             "-c",
             "1,5,1",
             "-m",
@@ -116,17 +95,15 @@ def test_coarsening(flow):
         ],
         check=True,
     )
-    assert os.path.exists(f"{testpth}/output/coarser/TRANS{sub}.INIT")
-    assert os.path.exists(f"{testpth}/output/coarser/TRANS{sub}.EGRID")
+    assert (tmp_path / f"TRANS{sub}.INIT").is_file()
+    assert (tmp_path / f"TRANS{sub}.EGRID").is_file()
     subprocess.run(
         [
             "pycopm",
             "-f",
             flow,
             "-i",
-            f"{mainpth}/examples/decks/HELLO_WORLD.DATA",
-            "-o",
-            f"{testpth}/output/coarser",
+            f"{repo_root}/examples/decks/HELLO_WORLD.DATA",
             "-c",
             "5,1,4",
             "-m",
@@ -138,5 +115,5 @@ def test_coarsening(flow):
         ],
         check=True,
     )
-    assert os.path.exists(f"{testpth}/output/coarser/TRANS2{sub}.INIT")
-    assert os.path.exists(f"{testpth}/output/coarser/TRANS2{sub}.EGRID")
+    assert (tmp_path / f"TRANS2{sub}.INIT").is_file()
+    assert (tmp_path / f"TRANS2{sub}.EGRID").is_file()
