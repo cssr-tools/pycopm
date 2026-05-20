@@ -95,8 +95,7 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
 <p>The following steps work installing the dependencies in Ubuntu via apt-get or in macOS using <a class="reference external" href="https://brew.sh">brew</a> or <a class="reference external" href="https://www.macports.org">macports</a>.
 While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
-The supported Python versions are 3.11 to 3.13. We will update the documentation when Python3.14 is supported
-(e.g., the ert Python package is not yet available via pip install in Python 3.14).</p>
+The supported Python versions are 3.11 to 3.14.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In Ubuntu, one also needs to install freeglut3-dev:</p>
@@ -134,12 +133,20 @@ install the Python requirements in a virtual environment with the following comm
 <p class="admonition-title">Tip</p>
 <p>Typing <strong>git tag -l</strong> writes all available specific versions.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The ert dependency in Python 3.14 and macOS requires building some wheels; then execute the following commands before installing pycopm:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>openblas<span class="w"> </span>hdf5<span class="w"> </span>pkg-config
+<span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">&quot;/opt/homebrew/opt/openblas/lib/pkgconfig&quot;</span>
+</pre></div>
+</div>
+</div>
 </section>
 <section id="opm-flow">
 <span id="opmflow"></span><h2>OPM Flow<a class="headerlink" href="#opm-flow" title="Link to this heading"></a></h2>
 <p>You also need to install:</p>
 <ul class="simple">
-<li><p>OPM Flow (<a class="reference external" href="https://opm-project.org">https://opm-project.org</a>, Release 2025.10 or current master branches)</p></li>
+<li><p>OPM Flow (<a class="reference external" href="https://opm-project.org">https://opm-project.org</a>, Release 2026.04 or current master branches)</p></li>
 </ul>
 <section id="binary-packages">
 <h3>Binary packages<a class="headerlink" href="#binary-packages" title="Link to this heading"></a></h3>

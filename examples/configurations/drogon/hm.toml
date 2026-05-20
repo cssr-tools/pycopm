@@ -22,7 +22,7 @@ date = 2020-07-01 # Last date to HM
 suffixes = ["EGRID","UNRST"] # Delete files with this suffix to save storage
 
 # Set the command line for the ert executable (gui, test_run, ensemble_experiment, ensemble_smoother, iterative_ensemble_smoother, and es_mda) and flags
-ert = "es_mda --weights 4,2,1"
+ert = "es_mda --weights 8,4,2,1"
 
 # Properties LET saturation functions: name, value, use dist in hm?, dist, distpara, distpara
 LET = [["lw", 3, 1, "UNIFORM", 1.1, 5],
