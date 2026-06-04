@@ -7,6 +7,7 @@
 import os
 import time
 import sys
+import shlex
 import argparse
 from io import StringIO
 import subprocess
@@ -396,20 +397,23 @@ def check_cmdargs(cmdargs):
         )
         sys.exit()
     if (cmdargs["input"].strip()).endswith(".DATA"):
-        if (
-            subprocess.call(
-                cmdargs["flow"].strip(),
-                shell=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.STDOUT,
-            )
-            != 1
-        ):
+        cmd = shlex.split(cmdargs["flow"].strip()) + ["-h"]
+        try:
+            if (
+                subprocess.run(
+                    cmd,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.STDOUT,
+                    check=False,
+                ).returncode
+                != 0
+            ):
+                raise RuntimeError
+        except (FileNotFoundError, RuntimeError):
             print(
-                f"\nThe OPM flow executable '-f {cmdargs['flow'].strip()}' is not found, "
-                f"try to install it following the information in the documentation.\n"
+                f"\nThe OPM flow executable '-f {' '.join(cmd)}' is not available or not working.\n"
             )
-            sys.exit()
+            sys.exit(1)
         for option, flag in zip(["how", "nhow"], ["-a", "-n"]):
             if cmdargs[option].strip() not in ["min", "max", "mode"]:
                 print(

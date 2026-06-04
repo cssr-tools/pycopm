@@ -9,39 +9,43 @@ on:
 jobs:
   run-pycopm-local:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    container:
+      image: ubuntu:26.04
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.12
+    - name: Install system dependencies
+      run: |
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y \
+          python3 python3-pip python3-venv \
+          build-essential git curl ca-certificates \
+          software-properties-common \
+          octave \
+          mpi-default-bin \
+          freeglut3-dev \
+          libhdf5-dev
+
+        ln -s /usr/bin/python3 /usr/bin/python || true
     
     - name: Install Flow Simulator
       run: |
-        sudo apt-get update
-        sudo apt-get install software-properties-common
-        sudo apt-add-repository ppa:opm/ppa
-        sudo apt-get update
-        sudo apt-get install mpi-default-bin
-        sudo apt-get install libopm-simulators-bin
+        apt-get update
+        apt-add-repository ppa:opm/ppa
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y libopm-simulators-bin
 
-    - name: Install ert dependency
+    - name: Install python requirements
       run: |
-        sudo apt-get install freeglut3-dev
-        
-    - name: Install dependecies
-      run: |
+        python3 -m venv vpycopm
+        . vpycopm/bin/activate
+        echo "$PWD/vpycopm/bin" >> $GITHUB_PATH
         pip install --upgrade pip setuptools wheel
-        pip install -r dev-requirements.txt
-        
-    - name: Install pycopm
-      run: |
         pip install -e .
+        pip install -r dev-requirements.txt
         
     - name: Check code style and linting 
       run: |
@@ -59,8 +63,8 @@ jobs:
 
     - name: Check if hello world example succeded
       run: |
-        file="/home/runner/work/pycopm/pycopm/output/HELLO_WORLD_PYCOPM.EGRID"
-        if [[ -f "$file" ]]; then
+        file="output/HELLO_WORLD_PYCOPM.EGRID"
+        if [ -f "$file" ]; then
           echo "pycopm succeeded"
         else
           echo "pycopm failed"
@@ -69,5 +73,5 @@ jobs:
         
     - name: Build documentation
       run: |
-        pushd docs
+        cd docs
         make html

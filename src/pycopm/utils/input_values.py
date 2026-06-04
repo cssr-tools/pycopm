@@ -8,6 +8,7 @@ Utiliy functions to set the input values from the toml configuration file.
 import csv
 import sys
 import tomllib
+import shlex
 import subprocess
 from itertools import islice
 import numpy as np
@@ -64,19 +65,22 @@ def check_flow(dic, in_file):
             "See the pycopm documentation.\n"
         )
         sys.exit()
-    flowtoml = subprocess.call(
-        dic["flowpth"].strip(),
-        shell=True,
-        stderr=subprocess.STDOUT,
-        stdout=subprocess.DEVNULL,
-    )
-    flowflag = subprocess.call(
-        dic["flowflag"],
-        shell=True,
-        stderr=subprocess.STDOUT,
-        stdout=subprocess.DEVNULL,
-    )
-    if flowtoml != 1 and flowflag != 1:
+
+    cmd1 = shlex.split(dic["flowpth"].strip()) + ["-h"]
+    cmd2 = shlex.split(dic["flowflag"]) + ["-h"]
+
+    def run(cmd):
+        try:
+            return subprocess.run(
+                cmd, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, check=False
+            ).returncode
+        except FileNotFoundError:
+            return None
+
+    flowtoml = run(cmd1)
+    flowflag = run(cmd2)
+
+    if not (flowtoml == 0 or flowflag == 0):
         print(
             f"\nThe OPM flow executable '{dic['flowpth'].strip()}' is not found; "
             "try to install it following the pycopm documentation.\nIf it was "
@@ -85,14 +89,15 @@ def check_flow(dic, in_file):
             "(e.g., flow = '/home/pycopm/build/opm-simulators/bin/flow'),\n"
             "or using the command flag -f or --flow.\n"
         )
-        sys.exit()
-    if flowtoml != 1:
-        dic["flow"] = dic["flow"].split()
-        for i, value in enumerate(dic["flow"]):
+        sys.exit(1)
+
+    if flowtoml == 0:
+        parts = shlex.split(dic["flow"])
+        for i, value in enumerate(parts):
             if "flow" in value:
-                dic["flow"][i] = dic["flowflag"]
+                parts[i] = dic["flowflag"]
                 break
-        dic["flow"] = " ".join(dic["flow"])
+        dic["flow"] = " ".join(parts)
 
 
 def read_reference(dic):
