@@ -2,8 +2,11 @@ FROM ghcr.io/astral-sh/uv:0.11.15 AS uv
 FROM openporousmedia/opmreleases:2025.10
 
 USER root
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  libhdf5-dev freeglut3-dev git \
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends software-properties-common libhdf5-dev freeglut3-dev git python3 libpython3-dev \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=uv /uv /usr/local/bin/uv
@@ -13,9 +16,13 @@ ENV UV_CACHE_DIR=/opt/uv/cache
 
 
 RUN uv python install 3.14 && \
-  uv pip install --python 3.14 --system --break-system-packages git+https://github.com/cssr-tools/pycopm.git
+  uv venv /opt/venv --python 3.14 && \
+  uv pip install --python /opt/venv/bin/python git+https://github.com/cssr-tools/pycopm.git
 
-RUN chown -R opm /opt/uv/cache
+ENV PATH="/opt/venv/bin:${PATH}"
+
+RUN chown -R opm:opm /opt/uv /opt/venv
 
 USER opm
+WORKDIR /shared_host
 
