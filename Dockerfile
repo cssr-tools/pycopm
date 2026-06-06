@@ -1,12 +1,12 @@
 FROM ghcr.io/astral-sh/uv:0.11.15 AS uv
-FROM openporousmedia/opmreleases:2025.10
+FROM openporousmedia/opmreleases:2026.04_amd64
 
 USER root
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends software-properties-common libhdf5-dev freeglut3-dev git python3 libpython3-dev \
+  && apt-get install -y --no-install-recommends software-properties-common libhdf5-dev freeglut3-dev git python3 libpython3-dev libxkbcommon0 libxkbcommon-x11-0\
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=uv /uv /usr/local/bin/uv
