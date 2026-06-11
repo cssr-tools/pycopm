@@ -1,0 +1,65 @@
+name: Docker
+
+on:
+ push:
+   branches:
+     - main
+   
+jobs:
+  run-pycopm-docker:
+    permissions:
+      contents: read
+      pull-requests: write
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t test-image .
+
+      - name: Run the hello world example in pycopm
+        run: |
+          docker run --rm \
+            -u root \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            test-image \
+            bash -c "
+              pycopm -i examples/decks/HELLO_WORLD.DATA \
+                    -c 5,5,1 -m all -o output
+          "
+
+      - name: Check if the example run
+        run: |
+          file="${{ github.workspace }}/output/HELLO_WORLD_PYCOPM.EGRID"
+          if [ -f "$file" ]; then
+            echo "pycopm succeeded"
+          else
+            echo "pycopm failed"
+            exit 1
+          fi
+
+      - name: Run input.toml which uses ERT
+        run: |
+          docker run --rm \
+            -u root \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            test-image \
+            bash -c "
+              pycopm -i examples/configurations/drogon/input.toml \
+                    -o ert
+          "
+
+      - name: Check if input.toml using ERT run
+        run: |
+          file="${{ github.workspace }}/ert/postprocessing/hm_missmatch.png"
+          if [ -f "$file" ]; then
+            echo "pycopm using ERT succeeded"
+          else
+            echo "pycopm using ERT failed"
+            exit 1
+          fi

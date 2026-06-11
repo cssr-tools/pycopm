@@ -1,13 +1,13 @@
-name: Run pycopm in Ubuntu
+name: Ubuntu
 
 on:
- push:
-   branches:
-     - main
  pull_request:
    
 jobs:
-  run-pycopm-local:
+  run-pycopm-ubuntu:
+    permissions:
+      contents: read
+      pull-requests: write
     timeout-minutes: 30
     runs-on: ubuntu-24.04
     container:
