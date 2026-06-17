@@ -15,8 +15,8 @@ def test_7_transmissibilities(flow, tmp_path, monkeypatch):
     repo_root = Path(__file__).parents[1]
     monkeypatch.chdir(tmp_path)
     values = [
-        [696.14886, 774.826, 5008.1323, 13739.814453],
-        [696.14886, 774.826, 0, 13739.814453],
+        [827.3911743164062, 968.17822265625, 5008.1323, 13739.814453],
+        [827.3911743164062, 968.17822265625, 8564.0341796875, 13739.814453],
     ]
     for i, sub in enumerate(["1", "2"]):
         subprocess.run(
@@ -45,7 +45,7 @@ def test_7_transmissibilities(flow, tmp_path, monkeypatch):
         for j, n in enumerate(["X", "Y", "Z", "NNC"]):
             assert (
                 abs(np.sum(np.array(init[f"TRAN{n}"])) - values[i][j]) < 1e-5
-            ), f"Issue in TRAN{n} with -t {i}"
+            ), f"Issue in TRAN{n} with -t {sub}"
         subprocess.run(
             [
                 "pycopm",
