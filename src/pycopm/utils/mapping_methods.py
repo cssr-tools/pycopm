@@ -146,12 +146,38 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
         for name in dic["props"] + dic["rptrst"]:
             bar_animation()
             q = dic[name].copy()
-            q[dic["msk"] == 0] = 0.0
-            q1 = dic[name].copy()
-            q1[dic["msk"] == 1] = 0.0
+            if dic["dual"]:
+                q1 = dic[name].copy()
+                q[dic["msk"] == 0] = 0.0
+                q1[dic["msk"] == 1] = 0.0
+                if name == "tranx":
+                    msk = np.roll(
+                        dic["msk"].reshape((dic["zn"], dic["yn"], dic["xn"])),
+                        -1,
+                        axis=2,
+                    ).ravel()
+                    q[msk == 0] = 0.0
+                    q1[msk == 1] = 0.0
+                elif name == "trany":
+                    msk = np.roll(
+                        dic["msk"].reshape((dic["zn"], dic["yn"], dic["xn"])),
+                        -1,
+                        axis=1,
+                    ).ravel()
+                    q[msk == 0] = 0.0
+                    q1[msk == 1] = 0.0
+                elif name == "tranz":
+                    msk = np.roll(
+                        dic["msk"].reshape((dic["zn"], dic["yn"], dic["xn"])),
+                        -1,
+                        axis=0,
+                    ).ravel()
+                    q[msk == 0] = 0.0
+                    q1[msk == 1] = 0.0
             if not dic["show"]:
                 c_c = pd.Series(q).groupby(dic["con"]).sum()
-                c_c1 = pd.Series(q1).groupby(dic["con"]).sum()
+                if dic["dual"]:
+                    c_c1 = pd.Series(q1).groupby(dic["con"]).sum()
                 if name in ["permx", "permy"]:
                     dic[f"{name}_c"] = [
                         f"{val/h_t:E}" if h_t * val > 0 else "0"
@@ -193,17 +219,11 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                             ]
                     else:
                         dic[f"{name}_c"] = [
-                            f"{val*l_a/l_t:E}" if val > 0 else "0"
-                            for val, l_a, l_t in zip(
-                                c_c, dic[f"{drc}_a"], dic[f"{drc}_tot"]
-                            )
+                            f"{val:E}" if val > 0 else "0" for val in c_c
                         ]
                         if dic["dual"]:
                             dic[f"{name}_dual_c"] = [
-                                f"{val*l_a/l_t:E}" if val > 0 else "0"
-                                for val, l_a, l_t in zip(
-                                    c_c1, dic[f"{drc}_a"], dic[f"{drc}_tot"]
-                                )
+                                f"{val:E}" if val > 0 else "0" for val in c_c1
                             ]
                 elif name == "trany":
                     if "y" in dic["coardir"]:
@@ -232,17 +252,11 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                             ]
                     else:
                         dic[f"{name}_c"] = [
-                            f"{val*l_a/l_t:E}" if val > 0 else "0"
-                            for val, l_a, l_t in zip(
-                                c_c, dic[f"{drc}_a"], dic[f"{drc}_tot"]
-                            )
+                            f"{val:E}" if val > 0 else "0" for val in c_c
                         ]
                         if dic["dual"]:
                             dic[f"{name}_dual_c"] = [
-                                f"{val*l_a/l_t:E}" if val > 0 else "0"
-                                for val, l_a, l_t in zip(
-                                    c_c1, dic[f"{drc}_a"], dic[f"{drc}_tot"]
-                                )
+                                f"{val:E}" if val > 0 else "0" for val in c_c1
                             ]
                 elif name == "tranz":
                     if "z" in dic["coardir"]:
@@ -263,11 +277,28 @@ def map_properties(dic, actnum, z_t, z_b, z_b_t, v_c):
                             ]
                         else:
                             c_ls = pd.Series(q).groupby(dic["con"]).last()
-                            d_ls = pd.Series(dic["d_z"]).groupby(dic["con"]).last()
+                            d_ls = pd.Series(v_c).groupby(dic["con"]).last()
+                            d_ld = pd.Series(v_c).groupby(dic["con"]).first()
+                            d_ld = list(d_ld[dic["xn"] * dic["yn"] :]) + list(
+                                d_ld[: dic["xn"] * dic["yn"]]
+                            )
+                            l_dd = list(v_tot[dic["xn"] * dic["yn"] :]) + list(
+                                v_tot[: dic["xn"] * dic["yn"]]
+                            )
                             dic[f"{name}_c"] = [
-                                f"{val*d_l/l_t:E}" if val > 0 else "0"
-                                for val, d_l, l_t in zip(c_ls, d_ls, dic[f"{drc}_tot"])
+                                f"{val*(d_l+d_d)/(l_t + l_d):E}" if val > 0 else "0"
+                                for val, d_l, d_d, l_t, l_d in zip(
+                                    c_ls, d_ls, d_ld, v_tot, l_dd
+                                )
                             ]
+                            if dic["dual"]:
+                                c_ls = pd.Series(q1).groupby(dic["con"]).last()
+                                dic[f"{name}_dual_c"] = [
+                                    f"{val*(d_l+d_d)/(l_t + l_d):E}" if val > 0 else "0"
+                                    for val, d_l, d_d, l_t, l_d in zip(
+                                        c_ls, d_ls, d_ld, v_tot, l_dd
+                                    )
+                                ]
                     else:
                         dic[f"{name}_c"] = [
                             f"{val*l_a/l_t:E}" if val > 0 else "0"
@@ -1384,16 +1415,7 @@ def handle_cp_grid(dic):
 
 
 def handle_dual(dic):
-    """
-    Create the dual grid by extending it in the j-direction
-
-    Args:
-        dic (dict): Global dictionary
-
-    Returns:
-        dic (dict): Modified global dictionary
-
-    """
+    """Create the dual grid by extending it in the j-direction"""
     nxy = dic["nx"] * dic["ny"]
     dic["cr"] = list(dic["cr"])
     dy = 1.075 * max(
@@ -1426,6 +1448,7 @@ def handle_dual(dic):
                             and float(dic["porv_dual_c"][idd]) > 0
                             and float(dic["porv_c"][idd]) > 0
                             and not np.isnan(dic["tranz"][ind])
+                            and dic["dual_vertical_tf"]
                         ):
                             trnz += dic["tranz"][ind]
                         if i < dic["xn"] - 1:
@@ -1461,6 +1484,40 @@ def handle_dual(dic):
                             ):
                                 trnmy += dic["trany"][ind - dic["xn"]]
                         k += 1
+                    ind = i + j * dic["xn"] + k * nxy
+                    idd = i + j * dic["xn"] + n * nxy
+                    if i < dic["xn"] - 1:
+                        if (
+                            dic["msk"][ind] == 1
+                            and dic["msk"][ind + 1] == 0
+                            and float(dic["porv_dual_c"][idd + 1]) > 0
+                            and not np.isnan(dic["tranx"][ind])
+                        ):
+                            trnx += dic["tranx"][ind]
+                    if 0 < i:
+                        if (
+                            dic["msk"][ind - 1] == 0
+                            and dic["msk"][ind] == 1
+                            and float(dic["porv_dual_c"][idd - 1]) > 0
+                            and not np.isnan(dic["tranx"][ind - 1])
+                        ):
+                            trnmx += dic["tranx"][ind - 1]
+                    if j < dic["yn"] - 1:
+                        if (
+                            dic["msk"][ind] == 1
+                            and dic["msk"][ind + dic["xn"]] == 0
+                            and float(dic["porv_dual_c"][idd + dic["xn"]]) > 0
+                            and not np.isnan(dic["trany"][ind])
+                        ):
+                            trny += dic["trany"][ind]
+                    if 0 < j:
+                        if (
+                            dic["msk"][ind - dic["xn"]] == 0
+                            and dic["msk"][ind] == 1
+                            and float(dic["porv_dual_c"][idd - dic["xn"]]) > 0
+                            and not np.isnan(dic["trany"][ind - dic["xn"]])
+                        ):
+                            trnmy += dic["trany"][ind - dic["xn"]]
                     k += 1
                     if trnz > 0:
                         dic[
@@ -1509,12 +1566,10 @@ def handle_dual(dic):
             tmp += [f"{default}" for _ in range(dic["nx"])]
             if prop == "fluxnum":
                 tmp += tmp2
-            elif prop in ["porv", "poro", "tranx", "trany"]:
+            elif prop in ["porv", "poro", "tranx", "trany", "tranz"]:
                 tmp += dic[f"{prop}_dual_c"][i * nxy : (i + 1) * nxy]
             elif prop in ["permx", "permy", "permz"]:
                 tmp += tmp0
-            elif prop in ["tranz"]:
-                tmp += [f"{default}" for _ in range(nxy)]
             else:
                 tmp += dic[f"{prop}_c"][i * nxy : (i + 1) * nxy]
         dic[f"{prop}_c"] = tmp

@@ -49,13 +49,13 @@ jobs:
         
     - name: Check code style and linting 
       run: |
-        black --target-version py312 --check src/ tests/
+        black --target-version py312 src/ tests/ --check
         pylint src/ tests/
         mypy --ignore-missing-imports src/ tests/
       
     - name: Run tests
       run: |
-        pytest --cov=pycopm --exitfirst --cov-report term-missing --basetemp=test_outputs tests/
+        pytest --cov=pycopm --cov-report term-missing --basetemp=test_outputs tests/ --exitfirst
 
     - name: Run hello world example
       run: |

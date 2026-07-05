@@ -670,22 +670,25 @@ def initialize_variables(dic):
                 dic["facpermz"] = dic["ini"]["PERMZ"][i] / float(val)
                 break
     dic["msk"] = np.ones(len(dic["porv"]))
+    dic["dual_vertical_tf"] = True
     if dic["dual"]:
         dual = dic["dual"].split(" ")
+        val = dual[2].replace(",", "")
+        dic["dual_vertical_tf"] = "vertical TF = 0" not in dic["dual"]
         quan = np.array(dic["ini"][dual[0].upper()])
         dic["dual"] = 1
         if dual[1] == "==":
-            dic["msk"][dic["porv"] > 0] = quan != float(dual[2])
+            dic["msk"][dic["porv"] > 0] = quan != float(val)
         elif dual[1] == ">=":
-            dic["msk"][dic["porv"] > 0] = quan < float(dual[2])
+            dic["msk"][dic["porv"] > 0] = quan < float(val)
         elif dual[1] == "<=":
-            dic["msk"][dic["porv"] > 0] = quan > float(dual[2])
+            dic["msk"][dic["porv"] > 0] = quan > float(val)
         elif dual[1] == "<":
-            dic["msk"][dic["porv"] > 0] = quan >= float(dual[2])
+            dic["msk"][dic["porv"] > 0] = quan >= float(val)
         elif dual[1] == ">":
-            dic["msk"][dic["porv"] > 0] = quan <= float(dual[2])
+            dic["msk"][dic["porv"] > 0] = quan <= float(val)
         elif dual[1] == "!=":
-            dic["msk"][dic["porv"] > 0] = quan == float(dual[2])
+            dic["msk"][dic["porv"] > 0] = quan == float(val)
         else:
             print(f"Unknow criterium for non-net cells ({dic['dual']}).")
             sys.exit()
@@ -915,7 +918,7 @@ def write_props(dic, n):
             tmp = compact_format(dic[f"{name}_c"])
         if (
             "*" in tmp[0]
-            and not (dic["trans"] > 0 and name in ["tranx", "trany"])
+            and not (dic["trans"] > 0 and name in ["tranx", "trany", "tranz"])
             and (not dic["dual"] or n > dic["ntot"])
         ):
             if int(tmp[0].split("*")[0]) == n:

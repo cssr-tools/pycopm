@@ -374,7 +374,9 @@ def load_parser():
         "--dual",
         default="",
         help="Set the criterium to differentiate net and non-net in coarsening using a static "
-        "variable, e.g., 'poro <= 0.1' ('' by default).",
+        "variable. To remove the vertical transfer function (FT) between net and not-net cells, "
+        "add to the command ', vertical TF = 0', e.g., 'poro <= 0.1' (which includes vertical TF) "
+        "or 'poro <= 0.1, vertical TF = 0' ('' by default)",
     )
     return vars(parser.parse_known_args()[0])
 
