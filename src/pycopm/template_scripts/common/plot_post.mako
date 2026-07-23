@@ -155,8 +155,6 @@ def visualizeData():
     fmass["FWPT"] = [ ]
     param = [[[[ ] for _ in range(num_satn)] for _ in range(num_para)] for _ in range(I)]
 
-    figs = []
-    axs = []
     FO = [[ ] for _ in range(N)]
     error_standard = 0
     error_ens = []
@@ -187,8 +185,8 @@ def visualizeData():
             if np.sum(smspec[type+"H:"+well])>0:
                 wells[type].append(type+":"+well)
                 j += 1
-    linei = [[ ] for _ in range(j)]
-    linef = [[ ] for _ in range(j)]
+    linei = []
+    linef = []
     meant = 0
     n_e = [0 for _ in range(I)]
     smsp_dates = 86400.0 * smspec["TIME"]
@@ -213,16 +211,11 @@ def visualizeData():
             for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                 rcum[type][-1] += dens*abs(d_1-d_2)
 
-    fig, ax = plt.subplots()
-    j = 0
     k = 0
     for type in ["WOPR","WGPR","WWPR"]:
         for i in range(len(wells[type])):
             data = smspec[wells[type][i]]
             datah = smspec[wells[type][i][:4]+"H"+ wells[type][i][4:]]
-            axs.append(ax)
-            figs.append(fig)
-            figs[j], axs[j] = plt.subplots()
             for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                 error_standard += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                 k += 1
@@ -244,7 +237,6 @@ def visualizeData():
                     if smsp_dates[i] > training:
                         n_t = i
                         break
-                j = 0
                 k = 0
                 error_hist[0].append(0)
                 for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
@@ -252,14 +244,13 @@ def visualizeData():
                     cum[type][0].append(0)
                     for i in range(len(wells[type])):
                         data = smspec[wells[type][i]]
-                        linei[j], = axs[j].plot(smsp_dates, data, color=[51 / 255.0, 153 / 255.0, 255 / 255.0])
+                        linei.append([smsp_dates, data])
                         datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
                         for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                             error_ens[0][r] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                             error_hist[0][-1] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
                             cum[type][0][-1] += dens*abs(d_1-d_2)
                             k += 1
-                        j += 1
                 error_ens[0][r] /= (2.*k)
                 error_hist[0][-1] /= (2.*k)
                 simTime = f"{output_folder}/output/simulations/realisation-{r}/iter-0/time_sim.txt"
@@ -334,7 +325,6 @@ def visualizeData():
                 if smsp_dates[i] > training:
                     n_t = i
                     break
-            j = 0
             k = 0
             error_hist[-1].append(0)
             for type, ftype, dens in zip(["WWPR","WOPR","WGPR"],["FWPT","FOPT","FGPT"],[999.04100, 852.95669, 0.90358]):
@@ -342,7 +332,7 @@ def visualizeData():
                 cum[type][-1].append(0)
                 for i in range(len(wells[type])):
                     data = smspec[wells[type][i]]
-                    linef[j], = axs[j].plot(smsp_dates, data, color=[0 / 255.0, 204 / 255.0, 0 / 255.0])
+                    linef.append([smsp_dates, data])
                     datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
                     for d_1, d_2 in zip(data[n_t:], datah[n_t:]):
                         error_ens[-1][r] += ((d_1-d_2)/max(minerr[type],var[type]*d_2))**2
@@ -350,7 +340,6 @@ def visualizeData():
                         cum[type][-1][-1] += dens*abs(d_1-d_2)
                         k += 1
                     FO[r].append([smsp_dates,data])
-                    j += 1
             error_ens[-1][r] /= (2.*k)
             error_hist[-1][-1] /= (2.*k)
             simTime = f"{output_folder}/output/simulations/realisation-{r}/iter-{I-1}/time_sim.txt"
@@ -400,30 +389,31 @@ def visualizeData():
     j = 0
     for type in ["WWPR","WOPR","WGPR"]:
         for i in range(len(wells[type])):
+            fig, ax = plt.subplots()
             if N > 1 and I == 1:
-                linef[j].set_label('Ensemble')
-                axs[j].plot(FO[eobs[0][0][0]][j][0], FO[eobs[0][0][0]][j][1], color=[255 / 255.0, 87 / 255.0, 51 / 255.0], lw=1.5 , label='Closest to all obs')
+                ax.plot(linef[j][0], linef[j][1], color=[0 / 255.0, 204 / 255.0, 0 / 255.0], label='Ensemble')
+                ax.plot(FO[eobs[0][0][0]][j][0], FO[eobs[0][0][0]][j][1], color=[255 / 255.0, 87 / 255.0, 51 / 255.0], lw=1.5 , label='Closest to all obs')
             elif I > 1:
-                linei[j].set_label('Initial ensemble')
-                linef[j].set_label('Final ensemble')
-                axs[j].plot(FO[eobs[-1][0][0]][j][0], FO[eobs[-1][0][0]][j][1], color=[255 / 255.0, 87 / 255.0, 51 / 255.0], lw=1.5 , label='Closest to all obs')
-                axs[j].axvline(x=training, color="black", ls="--", lw=1)
+                ax.plot(linei[j][0], linei[j][1], color=[51 / 255.0, 153 / 255.0, 255 / 255.0], label='Initial ensemble')
+                ax.plot(linef[j][0], linef[j][1], color=[0 / 255.0, 204 / 255.0, 0 / 255.0], label='Final ensemble')
+                ax.plot(FO[eobs[-1][0][0]][j][0], FO[eobs[-1][0][0]][j][1], color=[255 / 255.0, 87 / 255.0, 51 / 255.0], lw=1.5 , label='Closest to all obs')
+                ax.axvline(x=training, color="black", ls="--", lw=1)
             else:
-                linef[j].set_label('Single run')
+                ax.plot(linef[j][0], linef[j][1], color=[0 / 255.0, 204 / 255.0, 0 / 255.0], label='Single run')
             data = smspec[wells[type][i]]
             datah = smspec[wells[type][i][:4]+"H"+wells[type][i][4:]]
-            axs[j].plot(smsp_dates, data, color='m', label = 'opm-tests')
+            ax.plot(smsp_dates, data, color='m', label = 'opm-tests')
             if np.sum(datah>0):
-                axs[j].errorbar(smsp_dates, datah, yerr= [max(minerr[type],var[type]*d_2) for d_2 in datah], color=[128 / 255.0, 128 / 255.0, 128 / 255.0], markersize='.5', elinewidth=.5, fmt='o', linestyle='', label = 'Data')
-            axs[j].set_ylabel(f'{wells[type][i]} [SM3/day]', fontsize=12)
-            axs[j].set_xlabel('Time [years]', fontsize=12)
-            axs[j].xaxis.set_tick_params(size=6, rotation=45)
-            axs[j].legend()
-            axs[j].set_ylim(bottom=0)
+                ax.errorbar(smsp_dates, datah, yerr= [max(minerr[type],var[type]*d_2) for d_2 in datah], color=[128 / 255.0, 128 / 255.0, 128 / 255.0], markersize='.5', elinewidth=.5, fmt='o', linestyle='', label = 'Data')
+            ax.set_ylabel(f'{wells[type][i]} [SM3/day]', fontsize=12)
+            ax.set_xlabel('Time [years]', fontsize=12)
+            ax.xaxis.set_tick_params(size=6, rotation=45)
+            ax.legend()
+            ax.set_ylim(bottom=0)
             if np.sum(datah>0):
-                figs[j].savefig(f"{output_folder}/postprocessing/wells/HISTO_DATA_{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
+                fig.savefig(f"{output_folder}/postprocessing/wells/HISTO_DATA_{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
             else:
-                figs[j].savefig(f"{output_folder}/postprocessing/wells/{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
+                fig.savefig(f"{output_folder}/postprocessing/wells/{wells[type][i][:4]}_{wells[type][i][5:]}.png", bbox_inches="tight")
             plt.close()
             j += 1
     if N == 1:
