@@ -19,7 +19,9 @@ jobs:
     
     - name: Install OPM Flow
       run: |
-        brew install cssr-tools/opm/opm-simulators
+        brew tap cssr-tools/opm
+        brew trust cssr-tools/opm
+        brew install cssr-tools/opm/opm-simulators -y
 
     - name: Install python requirements
       run: |
