@@ -7,36 +7,19 @@ jobs:
   run-pycopm-ubuntu:
     permissions:
       contents: read
-      pull-requests: write
     timeout-minutes: 30
-    runs-on: ubuntu-24.04
-    container:
-      image: ubuntu:26.04
+    runs-on: ubuntu-26.04
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
-    - name: Install system dependencies
+    - name: Install Flow Simulator and ert dependency
       run: |
-        apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y \
-          python3 python3-pip python3-venv \
-          build-essential git curl ca-certificates \
-          software-properties-common \
-          octave \
-          mpi-default-bin \
-          freeglut3-dev \
-          libhdf5-dev
-
-        ln -s /usr/bin/python3 /usr/bin/python || true
-    
-    - name: Install Flow Simulator
-      run: |
-        apt-get update
-        apt-add-repository ppa:opm/ppa
-        apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y libopm-simulators-bin
+        sudo apt-get update
+        sudo apt-get install software-properties-common mpi-default-bin libhdf5-dev freeglut3-dev
+        sudo apt-add-repository ppa:opm/ppa
+        sudo apt-get update
+        sudo apt-get install libopm-simulators-bin
 
     - name: Install python requirements
       run: |
@@ -49,7 +32,7 @@ jobs:
         
     - name: Check code style and linting 
       run: |
-        black --target-version py312 src/ tests/ --check
+        black --target-version py314 src/ tests/ --check
         pylint src/ tests/
         mypy --ignore-missing-imports src/ tests/
       
@@ -74,4 +57,4 @@ jobs:
     - name: Build documentation
       run: |
         cd docs
-        make html
+        make html SPHINXOPTS="-W"

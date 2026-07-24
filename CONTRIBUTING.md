@@ -4,8 +4,8 @@ Contributions are more than welcome using the fork and pull request approach ðŸ™
 
 ## Ground Rules
 
-- We use Black code formatting
-- We use Pylint
+- We use [_Black code formatting_](https://black.readthedocs.io/en/stable/)
+- We use [_Pylint_](https://pylint.readthedocs.io/en/stable/)
 - We document our code
 
 ## Contribute to the software
@@ -13,7 +13,7 @@ Contributions are more than welcome using the fork and pull request approach ðŸ™
 1. Work on your own fork of the main repo
 1. In the main repo execute:
     1. **pip install -r dev-requirements.txt** (this installs the [_dev-requirements.txt_](https://github.com/cssr-tools/pycopm/blob/main/dev-requirements.txt))
-    1. **black --target-version py312 src/ tests/** (this formats the code)
+    1. **black --target-version py314 src/ tests/** (this formats the code)
     1. **pylint src/ tests/** (this analyses the code, and might rise issues that need to be fixed before the pull request)
     1. **mypy --ignore-missing-imports src/ tests/** (this is a static checker, and might rise issues that need to be fixed before the pull request)
     1. **pytest --cov=pycopm --cov-report term-missing --basetemp=test_outputs tests/ -n auto** (this runs locally the tests, and might rise issues that need to be fixed before the pull request)

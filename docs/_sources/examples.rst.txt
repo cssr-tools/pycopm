@@ -12,7 +12,9 @@ For additional examples demonstrating the applicability of **pycopm**, see the `
 
     .. code-block:: bash
 
-        brew install cssr-tools/opm/resinsight
+        brew tap cssr-tools/opm
+        brew trust cssr-tools/opm
+        brew install cssr-tools/opm/resinsight -y
     
     Then, you should be able to open resinsight by typing in the terminal **resinsight**. If you have issues installing ResInsight, `ParaView <https://www.paraview.org>`_ can be also used. However, you need to add the flag **\-\-enable-vtk-output=true**
     to OPM Flow.
