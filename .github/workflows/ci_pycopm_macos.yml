@@ -10,7 +10,7 @@ jobs:
     permissions:
       contents: read
     timeout-minutes: 90
-    runs-on: macos-26.04
+    runs-on: macos-26
 
     steps:
     - uses: actions/checkout@v5
