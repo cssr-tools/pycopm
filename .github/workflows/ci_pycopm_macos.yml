@@ -11,6 +11,8 @@ jobs:
       contents: read
     timeout-minutes: 90
     runs-on: macos-26
+    env:
+      HOMEBREW_NO_REQUIRE_TAP_TRUST: "1"
 
     steps:
     - uses: actions/checkout@v5

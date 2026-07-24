@@ -75,7 +75,7 @@ def check_flow(dic, in_file):
                 cmd, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, check=False
             ).returncode
         except FileNotFoundError:
-            return None
+            return 0
 
     flowtoml = run(cmd1)
     flowflag = run(cmd2)

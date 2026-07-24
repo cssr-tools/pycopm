@@ -20,10 +20,10 @@ from pycopm.utils.runs_executer import simulations, plotting
 from pycopm.utils.generate_files import create_deck
 
 
-def pycopm():
+def main(argv=None):
     """Main function for the pycopm executable"""
     start_time = time.monotonic()
-    cmdargs = load_parser()
+    cmdargs = load_parser(argv)
     check_cmdargs(cmdargs)
     file = cmdargs["input"].strip()  # Name of the input file
     dic = {"fol": os.path.abspath(cmdargs["output"])}  # Name for the output folder
@@ -140,7 +140,7 @@ def pycopm():
         plotting(dic, time.monotonic() - start_time)
 
 
-def load_parser():
+def load_parser(argv):
     """Argument options"""
     parser = argparse.ArgumentParser(
         description="Main script to tailor the geological model and run "
@@ -378,7 +378,7 @@ def load_parser():
         "add to the command ', vertical TF = 0', e.g., 'poro <= 0.1' (which includes vertical TF) "
         "or 'poro <= 0.1, vertical TF = 0' ('' by default)",
     )
-    return vars(parser.parse_known_args()[0])
+    return vars(parser.parse_known_args(argv)[0])
 
 
 def check_cmdargs(cmdargs):
@@ -453,8 +453,3 @@ def check_cmdargs(cmdargs):
         if cmdargs["displace"].strip() and cmdargs["gridding"].strip():
             print("\nInvalid combination, either set '-d' or '-g'.\n")
             sys.exit()
-
-
-def main():
-    """Main function"""
-    pycopm()
