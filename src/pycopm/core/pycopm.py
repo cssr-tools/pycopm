@@ -411,7 +411,7 @@ def check_cmdargs(cmdargs):
                 != 0
             ):
                 raise RuntimeError
-        except (FileNotFoundError, RuntimeError):
+        except FileNotFoundError, RuntimeError:
             print(
                 f"\nThe OPM flow executable '-f {' '.join(cmd)}' is not available or not working.\n"
             )

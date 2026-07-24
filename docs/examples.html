@@ -101,7 +101,9 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There are binary packages for Linux and Windows to install Resinsight, see the <a class="reference external" href="https://resinsight.org/releases/">ResInsight Documentation</a>. For macOS users, you could try to install it using <a class="reference external" href="https://brew.sh">brew</a> by executing:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>cssr-tools/opm/resinsight
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>tap<span class="w"> </span>cssr-tools/opm
+brew<span class="w"> </span>trust<span class="w"> </span>cssr-tools/opm
+brew<span class="w"> </span>install<span class="w"> </span>cssr-tools/opm/resinsight<span class="w"> </span>-y
 </pre></div>
 </div>
 <p>Then, you should be able to open resinsight by typing in the terminal <strong>resinsight</strong>. If you have issues installing ResInsight, <a class="reference external" href="https://www.paraview.org">ParaView</a> can be also used. However, you need to add the flag <strong>--enable-vtk-output=true</strong>

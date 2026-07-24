@@ -156,7 +156,7 @@ supported either via source builds or through running a virtual machine.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>See the <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/.github/workflows/ci_pycopm_ubuntu.yml">ci_pycopm_ubuntu.yml</a> script
-for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu.</p>
+for installation of OPM Flow (binary packages) and the pycopm package in Ubuntu 26.04 and Python 3.14.</p>
 </div>
 </section>
 <section id="source-build-in-linux-windows">
@@ -191,8 +191,10 @@ in the terminal the following lines (which in turn should build flow in the fold
 <span id="macos"></span><h3>Brew formula for macOS<a class="headerlink" href="#brew-formula-for-macos" title="Link to this heading"></a></h3>
 <p>For macOS, there are no available binary packages, so OPM Flow needs to be built from source. Recently, a formula to build flow using brew has
 been added in <a class="reference external" href="https://github.com/cssr-tools/homebrew-opm">https://github.com/cssr-tools/homebrew-opm</a>.
-Then, you can try to install flow (v2026.02) by simply typing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install cssr-tools/opm/opm-simulators</span>
+Then, you can try to install flow (v2026.07 interim release) by simply typing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew tap cssr-tools/opm</span>
+<span class="go">brew trust cssr-tools/opm</span>
+<span class="go">brew install cssr-tools/opm/opm-simulators -y</span>
 </pre></div>
 </div>
 <p>You can check if the installation of OPM Flow succeded by typing in the terminal <strong>flow --help</strong>.</p>
@@ -203,7 +205,7 @@ Then, you can try to install flow (v2026.02) by simply typing:</p>
 </section>
 <section id="source-build-in-macos">
 <h3>Source build in macOS<a class="headerlink" href="#source-build-in-macos" title="Link to this heading"></a></h3>
-<p>See <a class="reference external" href="https://github.com/daavid00/OPM-Flow_macOS">this repository</a> dedicated to build OPM Flow from source in the latest macOS (GitHub actions), and tested with <strong>pycopm</strong></p>
+<p>See <a class="reference external" href="https://github.com/daavid00/OPM-Flow_macOS">this repository</a> dedicated to build OPM Flow from source in macOS 26 (GitHub actions), and tested with <strong>pycopm</strong></p>
 </section>
 </section>
 </section>
