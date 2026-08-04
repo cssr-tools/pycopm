@@ -127,9 +127,6 @@ INCLUDE
  '${dic['fol']}/preprocessing/DROGON_COARSER.GRDECL' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/actnum.inc' /
-
-INCLUDE
  '${dic['fol']}/preprocessing/fault.inc' / 
 
 INCLUDE
@@ -168,6 +165,8 @@ INCLUDE
 -- =============================================================================
 EDIT
 -- =============================================================================
+INCLUDE
+ '${dic['fol']}/preprocessing/porv.inc' /
 
 INCLUDE
  '${dic['fol']}/preprocessing/trans.inc' /

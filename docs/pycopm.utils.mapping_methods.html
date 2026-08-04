@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pycopm.utils.mapping_methods module &mdash; pycopm  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -91,10 +91,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.add_pv_bc">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">add_pv_bc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.add_pv_bc" title="Link to this definition"></a></dt>
 <dd><p>Add the pore volume from outside the submodel on the xy directions</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -103,10 +108,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.chop_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">chop_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.chop_grid" title="Link to this definition"></a></dt>
 <dd><p>Extract the corresponding subgrid</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -115,10 +125,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.coarsening_dir">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">coarsening_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.coarsening_dir" title="Link to this definition"></a></dt>
 <dd><p>Get the coarsening directions</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -127,15 +142,23 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.find_neighbors">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">find_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.find_neighbors" title="Link to this definition"></a></dt>
 <dd><p>Find the neighbouring cells to distribute the removed pore volume</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>ind (list): Indices os cells to distribute the pore volume</p>
-<p>i_d (int): Index of the removed cell to distribute its pore volume</p>
-<p>n (int): Current increased index for the neighbours search</p>
-<p>s (int): Shift to neighbours cells</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>ind</strong> (<em>list</em>) – Indices os cells to distribute the pore volume</p></li>
+<li><p><strong>i_d</strong> (<em>int</em>) – Index of the removed cell to distribute its pore volume</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Current increased index for the neighbours search</p></li>
+<li><p><strong>s</strong> (<em>int</em>) – Shift to neighbours cells</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>ind (list): Indices os cells to distribute the pore volume</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Indices os cells to distribute the pore volume</p>
 <p>dic (dict): Modified global dictionary</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ind (list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -144,11 +167,18 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.get_ijk">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">get_ijk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.get_ijk" title="Link to this definition"></a></dt>
 <dd><p>Return the i,j, and k index from the global index</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>i_d (int): Index of the removed cell to distribute its pore volume</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>i_d</strong> (<em>int</em>) – Index of the removed cell to distribute its pore volume</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>i,j,k (int): i,j, and k cell indices</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>i,j, and k cell indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>i,j,k (int)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -157,10 +187,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_clusters">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_clusters" title="Link to this definition"></a></dt>
 <dd><p>Create the coarser clusters</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -169,10 +204,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_cp_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_cp_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_cp_grid" title="Link to this definition"></a></dt>
 <dd><p>Handle the pillars and zcord for the coarser grid</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -187,13 +227,20 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_pv">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_pv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_pv" title="Link to this definition"></a></dt>
 <dd><p>Make sure the pore volume is not created nor destroyed, only distributed</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>clusmin (pandas dataFrame): Mask with all active cells in cluster</p>
-<p>clusmax (pandas dataFrame): Mask with at least one active cell in cluster</p>
-<p>rmv (pandas dataFrame): Mask to remove cells by the argument flag jump</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>clusmin</strong> (<em>pandas dataFrame</em>) – Mask with all active cells in cluster</p></li>
+<li><p><strong>clusmax</strong> (<em>pandas dataFrame</em>) – Mask with at least one active cell in cluster</p></li>
+<li><p><strong>rmv</strong> (<em>pandas dataFrame</em>) – Mask to remove cells by the argument flag jump</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -202,10 +249,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_refinement">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_refinement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_refinement" title="Link to this definition"></a></dt>
 <dd><p>Create the refinement objects</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -214,10 +266,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_vicinity">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_vicinity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_vicinity" title="Link to this definition"></a></dt>
 <dd><p>Create the vicinity objects</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -226,11 +283,18 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.handle_zcorn">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">handle_zcorn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.handle_zcorn" title="Link to this definition"></a></dt>
 <dd><p>Process the zcorn</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>ir (list): Z coordinates from the corners</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>ir</strong> (<em>list</em>) – Z coordinates from the corners</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>ir (list): Modified z coordinates</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified z coordinates</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ir (list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,10 +303,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.map_ijk">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">map_ijk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.map_ijk" title="Link to this definition"></a></dt>
 <dd><p>Create the mappings to the new i,j,k indices</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -251,18 +320,26 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.map_properties">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">map_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_b_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.map_properties" title="Link to this definition"></a></dt>
 <dd><p>Mapping to the coarsened properties</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>actnum (array): Integers with the active cells</p>
-<p>z_t (array): Floats with the top cell z-center position</p>
-<p>z_b (array): Floats with the bottom cell z-center position</p>
-<p>z_b_t (array): Floats with the maximum cell z difference</p>
-<p>v_c (array): Floats with the cell volumes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>actnum</strong> (<em>array</em>) – Integers with the active cells</p></li>
+<li><p><strong>z_t</strong> (<em>array</em>) – Floats with the top cell z-center position</p></li>
+<li><p><strong>z_b</strong> (<em>array</em>) – Floats with the bottom cell z-center position</p></li>
+<li><p><strong>z_b_t</strong> (<em>array</em>) – Floats with the maximum cell z difference</p></li>
+<li><p><strong>v_c</strong> (<em>array</em>) – Floats with the cell volumes</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Modified global dictionary</p>
 <p>clusmin (array): True for clusters with at least one inactive cell</p>
 <p>clusmax (array): True for clusters with at least one active cell</p>
 <p>rmv (array): Indices for the cells to remove</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -271,22 +348,38 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.map_vicinity">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">map_vicinity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.map_vicinity" title="Link to this definition"></a></dt>
 <dd><p>Properties to the vicinity</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.mapping_methods.nearest_active_corner">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">nearest_active_corner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_j</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.nearest_active_corner" title="Link to this definition"></a></dt>
+<dd><p>Return the nearest active cell to a corner in layer k.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.refine_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">refine_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.refine_grid" title="Link to this definition"></a></dt>
 <dd><p>Refine the reservoir grid</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -295,10 +388,15 @@
 <dt class="sig sig-object py" id="pycopm.utils.mapping_methods.transform_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.mapping_methods.</span></span><span class="sig-name descname"><span class="pre">transform_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.mapping_methods.transform_grid" title="Link to this definition"></a></dt>
 <dd><p>Transform the reservoir grid</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>

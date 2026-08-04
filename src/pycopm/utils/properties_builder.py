@@ -68,7 +68,7 @@ def coarser_properties(dic):
                 if np.sum(dic["actnum_c"][0:num]) > 1:
                     dic["satnum_c"][num] += int(np.sum(dic["actnum_c"][0:num])) - 1
 
-            if np.sum(dic["actnum"][inx]) > 0:
+            if dic["actnum_c"][num] > 0:
                 dic["poro_c"][num] = (
                     np.sum(dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx])
                     / dic["vol_c"][num]
@@ -87,12 +87,7 @@ def coarser_properties(dic):
                     np.sum(dic["ntg"][inx] * dic["vol"][inx] * dic["actnum"][inx])
                     / dic["vol_c"][num]
                 )
-                pv_f = (
-                    dic["poro"][inx]
-                    * dic["vol"][inx]
-                    * dic["actnum"][inx]
-                    * dic["ntg"][inx]
-                )
+                pv_f = dic["porv"][inx]
                 pv_c = np.sum(pv_f)
                 dic["porv_c"][num] = pv_c
                 dic["swl_c"][num] = np.sum(dic["swl"][inx] * pv_f) / pv_c
@@ -109,130 +104,10 @@ def coarser_properties(dic):
                     np.min(dic[name][inx]),
                     1.1 * np.max(dic[name][inx]),
                 ]
-            if (actnum_m[num] - dic["actnum_c"][num]) > 0 and dic["cporv"] == 1:
-                add_lost_pv_to_boundary_cells(dic, inx, num)
-
-    add_lost_pv_to_all_cells(dic)
-    add_lost_pv_to_all_eq_cells(dic)
-    add_lost_pv_to_all_fip_cells(dic)
+    if dic["cporv"] == 1:
+        add_lost_pv_to_all_cells(dic)
     identify_removed_pilars(dic)
     dic["satnum_cmax"] = np.max(dic["satnum_c"])
-
-
-def add_lost_pv_to_boundary_cells(dic, inx, num):
-    """
-    Function to correct the lost pore volume on the cell boundaries
-
-    Args:
-        dic (dict): Global dictionary with required parameters\n
-        inx (array): Index of the reference cells in the coarser block\n
-        num (int): Global index of the reference cell
-
-    Returns:
-        dic (dict): Modified global dictionary
-
-    """
-    for i in range(dic["nz"]):
-        if dic["actnum_c"][num - (i + 1)] > 0:
-            indic = num - (i + 1)
-            dic["BI"] = dic["con"] == indic + 1
-            for k in range(len(dic["index"][indic])):
-                dic["BI"] = np.logical_or(
-                    dic["BI"],
-                    dic["con"] == (int(dic["index"][indic][k]) + 1),
-                )
-            inxb = np.where(dic["BI"])
-            dic["index"][indic].append(indic)
-            dic["porv_c"][indic] = np.sum(
-                dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx]
-            ) + np.sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
-            if dic["ntg_c"][indic] > 1.0:
-                dic["ntg_c"][indic] = 1.0
-                dic["poro_c"][indic] = min(
-                    1.0,
-                    (
-                        np.sum(
-                            dic["poro"][inx]
-                            * dic["vol"][inx]
-                            * dic["ntg"][inx]
-                            * dic["actnum"][inx]
-                        )
-                        + np.sum(
-                            dic["poro"][inxb]
-                            * dic["vol"][inxb]
-                            * dic["ntg"][inxb]
-                            * dic["actnum"][inxb]
-                        )
-                    )
-                    / (dic["vol_c"][indic] * dic["actnum_c"][indic]),
-                )
-            break
-        if dic["actnum_c"][num - (i + 1) * dic["nx"]] > 0:
-            indic = num - (i + 1) * dic["nx"]
-            dic["BI"] = dic["con"] == indic + 1
-            for k in range(len(dic["index"][indic])):
-                dic["BI"] = np.logical_or(
-                    dic["BI"], dic["con"] == (int(dic["index"][indic][k]) + 1)
-                )
-            inxb = np.where(dic["BI"])
-            dic["index"][indic].append(indic)
-            dic["porv_c"][indic] = np.sum(
-                dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx]
-            ) + np.sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
-            if dic["ntg_c"][indic] > 1.0:
-                dic["ntg_c"][indic] = 1.0
-                dic["poro_c"][indic] = min(
-                    1.0,
-                    (
-                        np.sum(
-                            dic["poro"][inx]
-                            * dic["vol"][inx]
-                            * dic["ntg"][inx]
-                            * dic["actnum"][inx]
-                        )
-                        + np.sum(
-                            dic["poro"][inxb]
-                            * dic["vol"][inxb]
-                            * dic["ntg"][inxb]
-                            * dic["actnum"][inxb]
-                        )
-                    )
-                    / (dic["vol_c"][indic] * dic["actnum_c"][indic]),
-                )
-            break
-        if dic["actnum_c"][num - (i + 1) * dic["nx"] * dic["ny"]] > 0:
-            indic = num - (i + 1) * dic["nx"] * dic["ny"]
-            dic["BI"] = dic["con"] == indic + 1
-            for k in range(len(dic["index"][indic])):
-                dic["BI"] = np.logical_or(
-                    dic["BI"], dic["con"] == (int(dic["index"][indic][k]) + 1)
-                )
-            inxb = np.where(dic["BI"])
-            dic["index"][indic].append(indic)
-            dic["porv_c"][indic] = np.sum(
-                dic["poro"][inx] * dic["vol"][inx] * dic["actnum"][inx]
-            ) + np.sum(dic["poro"][inxb] * dic["vol"][inxb] * dic["actnum"][inxb])
-            if dic["ntg_c"][indic] > 1.0:
-                dic["ntg_c"][indic] = 1.0
-                dic["poro_c"][indic] = min(
-                    1.0,
-                    (
-                        np.sum(
-                            dic["poro"][inx]
-                            * dic["vol"][inx]
-                            * dic["ntg"][inx]
-                            * dic["actnum"][inx]
-                        )
-                        + np.sum(
-                            dic["poro"][inxb]
-                            * dic["vol"][inxb]
-                            * dic["ntg"][inxb]
-                            * dic["actnum"][inxb]
-                        )
-                    )
-                    / (dic["vol_c"][indic] * dic["actnum_c"][indic]),
-                )
-            break
 
 
 def add_lost_pv_to_all_cells(dic):
@@ -246,93 +121,10 @@ def add_lost_pv_to_all_cells(dic):
         dic (dict): Modified global dictionary
 
     """
-    if dic["cporv"] != 2:
-        return
-    pv_c = np.sum(
-        np.array(dic["poro_c"])
-        * np.array(dic["vol_c"])
-        * np.array(dic["ntg_c"])
-        * np.array(dic["actnum_c"])
-    )
-    corr = np.sum(dic["poro"] * dic["vol"] * dic["ntg"] * dic["actnum"]) / pv_c
+    pv_c = np.sum(dic["porv_c"])
+    corr = np.sum(dic["porv"]) / pv_c
     for i in range(dic["num_cells"]):
         dic["porv_c"][i] *= corr
-
-
-def add_lost_pv_to_all_eq_cells(dic):
-    """
-    Method to correct the lost pore volume by distributing it to the
-    same eqlnum
-
-    Args:
-        dic (dict): Global dictionary
-
-    Returns:
-        dic (dict): Modified global dictionary
-
-    """
-    if dic["cporv"] != 3:
-        return
-
-    for i in range(1, 8):
-        pv_c = np.sum(
-            np.array(dic["poro_c"])
-            * np.array(dic["vol_c"])
-            * np.array(dic["ntg_c"])
-            * np.array(dic["actnum_c"])
-            * np.equal(np.array(dic["eqlnum_c"]), i)
-        )
-        corr = (
-            np.sum(
-                dic["poro"]
-                * dic["vol"]
-                * dic["ntg"]
-                * dic["actnum"]
-                * np.equal(np.array(dic["eqlnum"]), i)
-            )
-            / pv_c
-        )
-        for j in range(dic["num_cells"]):
-            if dic["eqlnum_c"][j] == i:
-                dic["porv_c"][j] *= corr
-
-
-def add_lost_pv_to_all_fip_cells(dic):
-    """
-    Method to correct the lost pore volume by distributing it to the
-    same fipnum
-
-    Args:
-        dic (dict): Global dictionary
-
-    Returns:
-        dic (dict): Modified global dictionary
-
-    """
-    if dic["cporv"] != 4:
-        return
-
-    for i in range(1, 22):
-        pv_c = np.sum(
-            np.array(dic["poro_c"])
-            * np.array(dic["vol_c"])
-            * np.array(dic["ntg_c"])
-            * np.array(dic["actnum_c"])
-            * np.equal(np.array(dic["fipnum_c"]), i)
-        )
-        corr = (
-            np.sum(
-                dic["poro"]
-                * dic["vol"]
-                * dic["ntg"]
-                * dic["actnum"]
-                * np.equal(np.array(dic["fipnum"]), i)
-            )
-            / pv_c
-        )
-        for j in range(dic["num_cells"]):
-            if dic["fipnum_c"][j] == i:
-                dic["porv_c"][j] *= corr
 
 
 def identify_removed_pilars(dic):

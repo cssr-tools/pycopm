@@ -1,61 +1,182 @@
 # SPDX-FileCopyrightText: 2025-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
+# pylint: disable=R0914
 
-"""Test the generic submodel functionality"""
+"""Test the generic submodel functionality."""
 
 from pathlib import Path
-import subprocess
+
 import numpy as np
+import pytest
 from opm.io.ecl import EclFile as OpmFile
+from opm.io.ecl import EGrid as OpmGrid
+
+from pycopm.core.pycopm import main
+
+RTOL = 1e-5
+ATOL = 1e-8
+# pylint: disable=C0301
+# fmt: off
+PARTITION_CASES = [
+    (0, 1, [9.0, 9.0, 1.5, 9.0, 9.0, 7.392857074737549, 6.428571701049805, 1.5, 6.428571701049805, 8.35714340209961, 7.392857074737549, 3.5, 8.25, 1.5, 1.5, 11.0, 3.5, 8.25, 10.5, 10.5, 16.5]),
+    (0, 2, [10.5, 9.0, 1.5, 9.0, 7.5, 6.75, 6.0, 1.5, 6.0, 10.5, 6.75, 3.0, 9.75, 1.5, 1.5, 12.0, 3.0, 6.75, 7.5, 7.5, 22.5]),
+    (0, 3, [9.0, 9.0, 1.5, 9.0, 9.0, 7.199999809265137, 7.199999809265137, 1.5, 7.199999809265137, 7.199999809265137, 7.199999809265137, 6.0, 6.0, 6.0, 1.5, 6.0, 6.0, 6.0, 12.5, 12.5, 12.5]),
+    (0, 4, [7.5, 7.5, 7.5, 7.5, 7.5, 6.25, 6.25, 6.25, 6.25, 6.25, 6.25, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 12.5, 12.5, 12.5]),
+    (1, 1, [9.0, 9.0, 1.5, 9.0, 9.0, 6.428571701049805, 7.392857074737549, 1.5, 7.392857074737549, 6.428571701049805, 8.357142448425293, 3.5, 1.5, 3.5, 8.25, 1.5, 8.25, 11.0, 10.5, 10.5, 16.5]),
+    (1, 2, [10.5, 9.0, 1.5, 9.0, 7.5, 6.0, 6.75, 1.5, 6.75, 6.0, 10.5, 3.0, 1.5, 3.0, 9.75, 1.5, 9.75, 9.0, 7.5, 7.5, 22.5]),
+    (1, 3, [9.0, 9.0, 1.5, 9.0, 9.0, 7.199999809265137, 7.199999809265137, 1.5, 7.199999809265137, 7.199999809265137, 7.199999809265137, 6.0, 6.0, 6.0, 6.0, 1.5, 6.0, 6.0, 12.5, 12.5, 12.5]),
+    (1, 4, [7.5, 7.5, 7.5, 7.5, 7.5, 6.25, 6.25, 6.25, 6.25, 6.25, 6.25, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 5.357142925262451, 12.5, 12.5, 12.5]),
+]
+
+BOUNDARY_VALUES = [
+    (1, [1.4375, 0.675000011920929, 0.675000011920929, 0.675000011920929, 0.675000011920929, 0.675000011920929, 0.675000011920929, 0.675000011920929, 0.675000011920929, 1.0749999284744263, 0.8075000047683716, 0.44499996304512024, 0.7775000333786011, 0.41499996185302734, 0.7475000023841858, 0.38499996066093445, 0.7175000309944153, 0.35500001907348633, 0.32500001788139343, 0.29500001668930054, 0.26499998569488525, 0.23499999940395355, 0.24249999225139618, 0.24249999225139618, 0.24249999225139618, 0.24249999225139618, 0.41749995946884155]),
+    (2, [3.3500003814697266, 0.5249999761581421, 0.5249999761581421, 0.5249999761581421, 0.5249999761581421, 0.5249999761581421, 0.5249999761581421, 0.5249999761581421, 0.5249999761581421, 0.8999999761581421, 0.6200000047683716, 0.41999998688697815, 0.5899999737739563, 0.38999998569488525, 0.5600000023841858, 0.35999998450279236, 0.5300000309944153, 0.33000001311302185, 0.30000001192092896, 0.27000001072883606, 0.23999997973442078, 0.20999999344348907, 0.18000000715255737, 0.18000000715255737, 0.18000000715255737, 0.18000000715255737, 0.7049998044967651]),
+    (3, [0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.574999988079071, 0.5699999928474426, 0.5699999928474426, 0.5649999976158142, 0.5649999976158142, 0.5600000023841858, 0.5600000023841858, 0.5550000071525574, 0.5550000071525574, 0.550000011920929, 0.5450000166893005, 0.5400000214576721, 0.5350000262260437, 0.5299999713897705, 0.5299999713897705, 0.5299999713897705, 0.5299999713897705, 0.5299999713897705]),
+    (4, [0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.2526315748691559, 0.24763157963752747, 0.24763157963752747, 0.24263158440589905, 0.24263158440589905, 0.23763157427310944, 0.23763157427310944, 0.23263157904148102, 0.23263157904148102, 0.2276315838098526, 0.222631573677063, 0.21763157844543457, 0.21263158321380615, 0.20763157308101654, 0.20763157308101654, 0.20763157308101654, 0.20763157308101654, 0.20763157308101654]),
+]
+# fmt: on
+# pylint: enable=C0301
 
 
 def test_4_submodel(flow, tmp_path, monkeypatch):
-    """See examples/decks/MODEL0.DATA and MODEL1.DATA"""
+    """See examples/decks/MODEL0.DATA and MODEL1.DATA."""
+
     repo_root = Path(__file__).parents[1]
+
     monkeypatch.chdir(tmp_path)
-    for i in range(2):
-        sub = f"MODEL{i}_FINER"
-        subprocess.run(
+
+    for model in (0, 1):
+        finer = f"MODEL{model}_FINER"
+
+        main(
             [
-                "pycopm",
                 "-i",
-                f"{repo_root}/examples/decks/MODEL{i}.DATA",
+                str(repo_root / "examples" / "decks" / f"MODEL{model}.DATA"),
                 "-g",
                 "4,4,3",
                 "-w",
-                sub,
+                finer,
                 "-m",
                 "all",
                 "-l",
-                sub,
+                finer,
                 "-f",
                 flow,
-            ],
-            check=True,
+            ]
         )
-        assert (tmp_path / f"{sub}.INIT").is_file()
-        assert (tmp_path / f"{sub}.EGRID").is_file()
-        for j in [1, 3, 4]:
-            subprocess.run(
-                [
-                    "pycopm",
-                    "-i",
-                    f"{sub}.DATA",
-                    "-f",
-                    flow,
-                    "-v",
-                    "xypolygon [3,7.5] [7.5,3] [12,7.5] [7.5,12] [3,7.5]",
-                    "-m",
-                    "all",
-                    "-w",
-                    f"{sub}SUBMODEL",
-                    "-l",
-                    f"{sub}SUBMODEL",
-                    "-p",
-                    f"{j}",
-                ],
-                check=True,
-            )
-            porv = np.array(OpmFile(f"{sub}SUBMODEL.INIT")["PORV"])
-            assert abs(np.sum(porv) - 150) < 1e-6
-            assert np.sum(porv > 0) == 21
+
+        assert (tmp_path / f"{finer}.INIT").is_file()
+        assert (tmp_path / f"{finer}.EGRID").is_file()
+
+    ref_total_porv = 150.0
+
+    for model, partitions, expected_porv in PARTITION_CASES:
+        finer = f"MODEL{model}_FINER"
+        submodel = f"{finer}SUBMODEL"
+
+        main(
+            [
+                "-i",
+                f"{finer}.DATA",
+                "-f",
+                flow,
+                "-v",
+                "xypolygon [3,7.5] [7.5,3] [12,7.5] [7.5,12] [3,7.5]",
+                "-m",
+                "all",
+                "-w",
+                f"{submodel}{partitions}",
+                "-l",
+                f"{submodel}{partitions}",
+                "-p",
+                str(partitions),
+            ]
+        )
+
+        porv = OpmFile(f"{submodel}{partitions}.INIT")["PORV"]
+
+        assert np.sum(porv) == pytest.approx(
+            ref_total_porv,
+            rel=RTOL,
+            abs=ATOL,
+        )
+
+        active_porv = porv[porv > 0]
+
+        assert len(active_porv) == 21
+
+        assert active_porv == pytest.approx(
+            expected_porv,
+            rel=RTOL,
+            abs=ATOL,
+        ), f"PORV mismatch for model={model}, partitions={partitions}"
+
+    finner = "HELLO_WORLD_3D"
+    ref_total_porv = 35.57999801635742
+
+    main(
+        [
+            "-i",
+            str(repo_root / "examples" / "decks" / "HELLO_WORLD.DATA"),
+            "-f",
+            flow,
+            "-g",
+            "0,0,1",
+            "-m",
+            "all",
+            "-w",
+            finner,
+            "-l",
+            finner,
+        ]
+    )
+
+    for partitions, expected_boundary_values in BOUNDARY_VALUES:
+        submodel = f"{partitions}SUBMODEL"
+
+        main(
+            [
+                "-i",
+                f"{finner}.DATA",
+                "-f",
+                flow,
+                "-v",
+                "opernum 2",
+                "-m",
+                "all",
+                "-w",
+                submodel,
+                "-l",
+                submodel,
+                "-p",
+                str(partitions),
+            ]
+        )
+
+        porv = OpmFile(f"{submodel}.INIT")["PORV"]
+
+        assert np.sum(porv) == pytest.approx(
+            ref_total_porv,
+            rel=RTOL,
+            abs=ATOL,
+        )
+
+        egrid = OpmGrid(f"{submodel}.EGRID")
+        nx, ny, _ = egrid.dimension
+
+        boundary_values = []
+
+        for j in range(ny):
+            for i in range(nx):
+                if (i == 0 or i == nx - 1 or j == 0 or j == ny - 1) and porv[
+                    i + j * nx
+                ] > 0:
+                    boundary_values.append(float(porv[i + j * nx]))
+
+        assert len(boundary_values) == len(expected_boundary_values)
+
+        assert boundary_values == pytest.approx(
+            expected_boundary_values,
+            rel=RTOL,
+            abs=ATOL,
+        ), f"Boundary PORV mismatch for partitions={partitions}"

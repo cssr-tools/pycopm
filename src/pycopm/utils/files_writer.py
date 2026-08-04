@@ -189,7 +189,6 @@ def opm_properties(dic):
     prop = [
         "poro",
         "porv",
-        "actnum",
         "ntg",
         "fluxnum",
         "satnum",

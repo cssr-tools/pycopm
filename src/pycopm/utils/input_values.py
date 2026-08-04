@@ -191,7 +191,7 @@ def initialize_values(dic):
         dic[f"{name}"] = np.array([0.0 for _ in range(dic["nc"])])
     dic["sgu"] = np.array([0.0 for _ in range(dic["nc"])])
     dic["swcr"] = np.array([0.0 for _ in range(dic["nc"])])
-    for name in ["con", "actnum", "fluxnum", "multnum", "fipnum"]:
+    for name in ["con", "fluxnum", "multnum", "fipnum"]:
         dic[f"{name}"] = np.array([0 for _ in range(dic["nc"])])
     dic["eqlnum"] = np.array([0 for _ in range(dic["nc"])])
     dic["multz"] = np.array([1.0 for _ in range(dic["nc"])])
@@ -200,7 +200,8 @@ def initialize_values(dic):
     dic["fipzon"] = np.array([1 for _ in range(dic["nc"])])
     dic["zc"], dic["cr"] = gridf["ZCORN"], gridf["COORD"]
     dic["vol"] = np.array(grid.cellvolumes()) + 1e-10
-    dic["actnum"] = np.array(ini["PORV"]) > 0
+    dic["porv"] = np.array(ini["PORV"])
+    dic["actnum"] = dic["porv"] > 0
     for name in ["swat", "sgas", "pressure", "rs", "rv"]:
         dic[name] = np.array([0.0 for _ in range(dic["nc"])])
         dic[name][dic["actnum"]] = rst[name.upper(), 0]

@@ -1,9 +1,8 @@
 # SPDX-FileCopyrightText: 2025-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
-# pylint: disable=R0914
+# pylint: disable=R0914,R0801
 
-"""
-Test on a complex model with a segmented well and faults.
+"""Test on a complex model with a segmented well and faults.
 The model is a modified sector from the Drogon data set:
 https://github.com/OPM/opm-tests/tree/master/drogon/model/DROGON_HIST
 
@@ -18,39 +17,254 @@ OPERNUM
 104098*1 /
 EQUALS
 OPERNUM 2 30 38 47 52 2* /
-/
-"""
+/"""
 
 from pathlib import Path
 import subprocess
+
 import numpy as np
 from opm.io.ecl import EclFile as OpmFile
+from opm.io.ecl import EGrid as OpmGrid
 from opm.io.ecl import ERst as OpmRestart
+
+from pycopm.core.pycopm import main
+from .utils import assert_grid_and_init, assert_restart_preserved
+
+REGRESSION_CASES = {
+    "COARSER": {
+        "dimensions": (7, 6, 10),
+        "active": 255,
+        "checks": [
+            ("PORV", np.sum, 461992096.0),
+            ("PERMX", np.sum, 113758.625),
+            ("TRANX", np.sum, 6163.314453125),
+            ("TRANY", np.sum, 9999.611328125),
+            ("TRANZ", np.sum, 57568.62109375),
+            ("TRANNNC", np.sum, 401.2132568359375),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 1200),
+            ("FIPNUM", np.sum, 2134),
+        ],
+        "data": {
+            "length": 2281,
+            "faults": [
+                (7, 7, 5, 5, 1, 10),
+                (6, 6, 4, 4, 1, 10),
+            ],
+            "welspecs": (1, 6),
+            "compdat": ("R_A4", 1, 6, 1),
+            "compsegs": (1, 6, 1, 2),
+        },
+    },
+    "FINER0": {
+        "dimensions": (27, 18, 93),
+        "active": 22896,
+        "checks": [
+            ("PORV", np.sum, 461992064.0),
+            ("PERMX", np.sum, 11981691.0),
+            ("TRANX", np.sum, 112363.359375),
+            ("TRANY", np.sum, 116293.3125),
+            ("TRANZ", np.sum, 98910904.0),
+            ("TRANNNC", np.sum, 1850.608154296875),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 120663),
+            ("FIPNUM", np.sum, 184383),
+        ],
+        "data": {
+            "length": 2348,
+            "faults": [
+                (25, 25, 13, 13, 1, 93),
+                (25, 25, 14, 14, 1, 93),
+                (25, 25, 15, 15, 1, 93),
+                (22, 22, 10, 10, 1, 93),
+                (22, 22, 11, 11, 1, 93),
+                (22, 22, 12, 12, 1, 93),
+                (22, 22, 12, 12, 1, 93),
+                (23, 23, 12, 12, 1, 93),
+                (24, 24, 12, 12, 1, 93),
+                (19, 19, 7, 7, 1, 93),
+                (19, 19, 8, 8, 1, 93),
+            ],
+            "welspecs": (2, 17),
+            "compdat": ("R_A4", 2, 17, 2),
+            "compsegs": (5, 17, 2, 2),
+        },
+    },
+    "FINER1": {
+        "dimensions": (27, 18, 93),
+        "active": 22896,
+        "checks": [
+            ("PORV", np.sum, 461992064.0),
+            ("PERMX", np.sum, 11981691.0),
+            ("TRANX", np.sum, 112363.359375),
+            ("TRANY", np.sum, 116293.3125),
+            ("TRANZ", np.sum, 98910904.0),
+            ("TRANNNC", np.sum, 1850.608154296875),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 120663),
+            ("FIPNUM", np.sum, 184383),
+        ],
+        "data": {
+            "length": 2363,
+            "faults": [
+                (25, 25, 13, 13, 1, 93),
+                (25, 25, 14, 14, 1, 93),
+                (25, 25, 15, 15, 1, 93),
+                (22, 22, 10, 10, 1, 93),
+                (22, 22, 11, 11, 1, 93),
+                (22, 22, 12, 12, 1, 93),
+                (22, 22, 12, 12, 1, 93),
+                (23, 23, 12, 12, 1, 93),
+                (24, 24, 12, 12, 1, 93),
+                (19, 19, 7, 7, 1, 93),
+                (19, 19, 8, 8, 1, 93),
+            ],
+            "welspecs": (2, 17),
+            "compdat": ("R_A4", 2, 17, 2),
+            "compsegs": (5, 17, 2, 2),
+        },
+    },
+    "SUBMODEL0": {
+        "dimensions": (9, 6, 30),
+        "active": 20,
+        "checks": [
+            ("PORV", np.sum, 461992064.0),
+            ("PERMX", np.sum, 12304.6728515625),
+            ("TRANX", np.sum, 57.60111999511719),
+            ("TRANY", np.sum, 74.17974090576172),
+            ("TRANZ", np.sum, 73476.046875),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 67),
+            ("FIPNUM", np.sum, 130),
+        ],
+        "data": {
+            "length": 2243,
+            "compsegs": (2, 6, 1, 2),
+        },
+    },
+    "SUBMODEL1": {
+        "dimensions": (9, 6, 31),
+        "active": 77,
+        "checks": [
+            ("PORV", np.sum, 461992064.0),
+            ("PERMX", np.sum, 47801.9453125),
+            ("TRANX", np.sum, 490.8196716308594),
+            ("TRANY", np.sum, 469.9371032714844),
+            ("TRANZ", np.sum, 361534.75),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 241),
+            ("FIPNUM", np.sum, 550),
+        ],
+        "data": {
+            "length": 2256,
+            "faults": [
+                (9, 9, 5, 5, 1, 31),
+                (8, 8, 4, 4, 1, 31),
+                (8, 8, 4, 4, 1, 31),
+                (7, 7, 3, 3, 1, 31),
+            ],
+            "compsegs": (2, 6, 1, 2),
+        },
+    },
+    "SUBMODEL2": {
+        "dimensions": (9, 6, 31),
+        "active": 731,
+        "checks": [
+            ("PORV", np.sum, 461992064.0),
+            ("PERMX", np.sum, 388622.75),
+            ("TRANX", np.sum, 8444.767578125),
+            ("TRANY", np.sum, 8340.85546875),
+            ("TRANZ", np.sum, 1924865.75),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 3542),
+            ("FIPNUM", np.sum, 5973),
+        ],
+        "data": {
+            "length": 2256,
+            "faults": [
+                (9, 9, 5, 5, 1, 31),
+                (8, 8, 4, 4, 1, 31),
+                (8, 8, 4, 4, 1, 31),
+                (7, 7, 3, 3, 1, 31),
+            ],
+            "compsegs": (2, 6, 1, 2),
+        },
+    },
+    "SUBMODEL3": {
+        "dimensions": (9, 6, 31),
+        "active": 260,
+        "checks": [
+            ("PORV", np.sum, 461992064.0),
+            ("PERMX", np.sum, 149310.84375),
+            ("TRANX", np.sum, 2840.153564453125),
+            ("TRANY", np.sum, 2545.122314453125),
+            ("TRANZ", np.sum, 975203.0),
+        ],
+        "exact": [
+            ("SATNUM", np.sum, 1048),
+            ("FIPNUM", np.sum, 1817),
+        ],
+        "data": {
+            "length": 2256,
+            "faults": [
+                (9, 9, 5, 5, 1, 31),
+                (8, 8, 4, 4, 1, 31),
+                (8, 8, 4, 4, 1, 31),
+                (7, 7, 3, 3, 1, 31),
+            ],
+            "compsegs": (2, 6, 1, 2),
+        },
+    },
+}
+
+FINER_CASES = [
+    ("0", "R00"),
+    ("1", "R01"),
+]
+
+SUBMODEL_CASES = [
+    ("diamond 0", 1),
+    ("diamond 1", 3),
+    ("diamondxy 3", 3),
+    ("box [-3,2] [-1,1] [-1,2]", 4),
+]
 
 
 def test_6_segwell_faults(flow, tmp_path, monkeypatch):
-    """See examples/decks/MODEL3.DATA"""
+    """See examples/decks/MODEL3.DATA."""
+
     repo_root = Path(__file__).parents[1]
+    model = repo_root / "examples" / "decks" / "MODEL3.DATA"
+
     monkeypatch.chdir(tmp_path)
+
     subprocess.run(
         [
             flow,
-            f"{repo_root}/examples/decks/MODEL3.DATA",
+            str(model),
             f"--output-dir={tmp_path}/reference",
         ],
         check=True,
     )
-    subprocess.run(
+
+    reference_rst = OpmRestart("reference/MODEL3.UNRST")
+
+    main(
         [
-            "pycopm",
             "-i",
-            f"{repo_root}/examples/decks/MODEL3.DATA",
+            str(model),
             "-f",
             flow,
             "-x",
             "0,2,0,2,0,0,0,0,0,0",
             "-z",
-            "0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,0,2,2,2,0",
+            ",".join(["0", "2", "2"] * 10 + ["2", "0"]),
             "-w",
             "COARSER",
             "-l",
@@ -63,11 +277,12 @@ def test_6_segwell_faults(flow, tmp_path, monkeypatch):
             "max",
             "-m",
             "all",
-        ],
-        check=True,
+        ]
     )
+
     assert (tmp_path / "COARSER.INIT").is_file()
     assert (tmp_path / "COARSER.EGRID").is_file()
+
     subprocess.run(
         [
             flow,
@@ -76,67 +291,60 @@ def test_6_segwell_faults(flow, tmp_path, monkeypatch):
         ],
         check=True,
     )
-    bini = OpmFile("reference/MODEL3.INIT")
-    cini = OpmFile("coarser/COARSER.INIT")
-    bpv = np.array(bini["PORV"])
-    cpv = np.array(cini["PORV"])
-    assert abs(np.sum(bpv) - np.sum(cpv)) < 50  # ca. 4.61992e8 porv in the ref
-    assert np.sum(cpv > 0) == 255
-    brst = OpmRestart("reference/MODEL3.UNRST")
-    crst = OpmRestart("coarser/COARSER.UNRST")
-    bgf = np.array(brst["FIPGAS", 0])
-    cgf = np.array(crst["FIPGAS", 0])
-    assert abs(np.sum(bgf) - np.sum(cgf)) < 50  # ca. 2.56191e10 fipgas in the ref
-    for sub in ["0", "1"]:
-        subprocess.run(
+
+    assert_restart_preserved(
+        reference_rst,
+        OpmRestart("coarser/COARSER.UNRST"),
+        "FIPGAS",
+    )
+
+    for explicit, label in FINER_CASES:
+        main(
             [
-                "pycopm",
                 "-i",
-                f"{repo_root}/examples/decks/MODEL3.DATA",
+                str(model),
                 "-g",
                 "2,2,2",
                 "-f",
                 flow,
                 "-w",
-                f"FINER{sub}",
+                f"FINER{explicit}",
                 "-l",
-                f"R0{sub}",
+                label,
                 "-q",
                 "1",
                 "-m",
                 "all",
                 "-explicit",
-                sub,
-            ],
-            check=True,
+                explicit,
+            ]
         )
-        assert (tmp_path / f"FINER{sub}.INIT").is_file()
-        assert (tmp_path / f"FINER{sub}.EGRID").is_file()
+
+        assert (tmp_path / f"FINER{explicit}.INIT").is_file()
+        assert (tmp_path / f"FINER{explicit}.EGRID").is_file()
+
         subprocess.run(
             [
                 flow,
-                f"FINER{sub}.DATA",
+                f"FINER{explicit}.DATA",
                 "--output-dir=finer",
             ],
             check=True,
         )
-        rini = OpmFile(f"finer/FINER{sub}.INIT")
-        rpv = np.array(rini["PORV"])
-        assert abs(np.sum(bpv) - np.sum(rpv)) < 50  # ca. 4.61992e8 porv in the ref
-        assert np.sum(rpv > 0) == 22896
-        rrst = OpmRestart(f"finer/FINER{sub}.UNRST")
-        rgf = np.array(rrst["FIPGAS", 0])
-        assert abs(np.sum(bgf) - np.sum(rgf)) < 50  # ca. 2.56191e10 fipgas in the ref
-    for i, val in enumerate(
-        ["diamond 0", "diamond 1", "diamondxy 3", "box [-3,2] [-1,1] [-1,2]"]
-    ):
-        subprocess.run(
+
+        assert_restart_preserved(
+            reference_rst,
+            OpmRestart(f"finer/FINER{explicit}.UNRST"),
+            "FIPGAS",
+        )
+
+    for i, (region, partitions) in enumerate(SUBMODEL_CASES):
+        main(
             [
-                "pycopm",
                 "-i",
-                f"{repo_root}/examples/decks/MODEL3.DATA",
+                str(model),
                 "-v",
-                f"A4 {val}",
+                f"A4 {region}",
                 "-f",
                 flow,
                 "-w",
@@ -144,17 +352,23 @@ def test_6_segwell_faults(flow, tmp_path, monkeypatch):
                 "-l",
                 f"S{i}",
                 "-p",
-                f"{[1,3,3,4][i]}",
+                str(partitions),
                 "-m",
                 "deck_dry",
-            ],
-            check=True,
+            ]
         )
+
         assert (tmp_path / f"SUBMODEL{i}.INIT").is_file()
         assert (tmp_path / f"SUBMODEL{i}.EGRID").is_file()
-        bini = OpmFile("reference/MODEL3.INIT")
-        cini = OpmFile(f"SUBMODEL{i}.INIT")
-        bpv = np.array(bini["PORV"])
-        cpv = np.array(cini["PORV"])
-        assert abs(np.sum(bpv) - np.sum(cpv)) < 1  # ca. 4.61992e8 porv in the ref
-        assert np.sum(cpv > 0) == [20, 77, 731, 260][i]
+
+    for deck, reference in REGRESSION_CASES.items():
+        assert_grid_and_init(
+            OpmGrid(f"{deck}.EGRID"),
+            OpmFile(f"{deck}.INIT"),
+            dimensions=reference["dimensions"],
+            checks=reference["checks"],
+            exact_checks=reference["exact"],
+            active_cells=reference["active"],
+            data_file=f"{deck}.DATA",
+            data_checks=reference.get("data"),
+        )

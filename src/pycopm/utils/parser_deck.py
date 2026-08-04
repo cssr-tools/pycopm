@@ -124,13 +124,18 @@ def process_the_deck(dic):
 
 def comment_endbox(dic, nrwo):
     """Do not include the file if ENDBOX (this is handleded from the .INIT)"""
-    path_inc = nrwo.split("/", maxsplit=1)[0].strip().strip("\"'")
-    if path_inc == ".":
-        path_inc = nrwo.split("/", maxsplit=1)[1].strip().strip("\"'")
+    path_inc = nrwo
+    if "--" in path_inc:
+        path_inc = path_inc.split("--", maxsplit=1)[0]
     path_inc = path_inc.replace(" /", "")
-    path_inc = path_inc.replace("'", "")
-    path_inc = path_inc.replace('"', "")
-    inc = os.path.join(os.getcwd(), path_inc)
+    path_inc = path_inc.rstrip("/")
+    path_inc = path_inc.strip()
+    path_inc = path_inc.strip("'\"")
+    base_dir = os.path.dirname(os.path.abspath(f"{dic['deck']}.DATA"))
+    inc = os.path.normpath(os.path.join(base_dir, path_inc))
+    if not os.path.exists(inc):
+        print(f"Include not found: {inc}")
+        return False
     with open(inc, "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()

@@ -8,6 +8,12 @@ For additional examples demonstrating the applicability of **pycopm**, see the `
 
 .. note::
 
+    You can install `plopm <https://github.com/cssr-tools/plopm>`_ by executing in the terminal:
+    
+    .. code-block:: bash
+        
+        pip install git+https://github.com/cssr-tools/plopm.git
+
     There are binary packages for Linux and Windows to install Resinsight, see the `ResInsight Documentation <https://resinsight.org/releases/>`_. For macOS users, you could try to install it using `brew <https://brew.sh>`_ by executing:
 
     .. code-block:: bash
@@ -18,6 +24,15 @@ For additional examples demonstrating the applicability of **pycopm**, see the `
     
     Then, you should be able to open resinsight by typing in the terminal **resinsight**. If you have issues installing ResInsight, `ParaView <https://www.paraview.org>`_ can be also used. However, you need to add the flag **\-\-enable-vtk-output=true**
     to OPM Flow.
+
+.. tip::
+
+    For the figures in the following examples we show screenshots from ResInsight and PNGs figures from plopm. To generate the results,
+    we add a link to a bash file that can be run from the main pycopm repository as:
+
+    .. code-block:: bash
+
+        . ./tests/scripts/name_of_script.sh
 
 =======================
 Via configuration files
@@ -35,6 +50,9 @@ to perform HM studies in drogon and norne using `ERT <https://ert.readthedocs.io
 The following are the drogon model from `opm-tests <https://github.com/OPM/opm-tests/tree/master/drogon>`_ and coarsened model generated using **pycopm** using ResInsight for the visualization:
 
 .. figure:: figs/drogon_coarser.png
+.. figure:: figs/drogon_coarser_plopm.png
+
+    Initial oil saturation from the input (left) and coarsened (right) models (top figures using ResInsight and bottom figures using plopm, see/run `docs_via_config_drogon.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_config_drogon.sh>`_).
 
 .. note::
 
@@ -69,11 +87,11 @@ For the `HELLO_WORLD.DATA <https://github.com/cssr-tools/pycopm/blob/main/exampl
 
     If the folder to flow is not added to your path, then pass the full path to the flow executable using the flag **-f /path/to/flow**.
 
-Using `ResInsight <https://resinsight.org>`_, then we can visualize the generated files in the output folder:
+Using `plopm <https://github.com/cssr-tools/plopm>`_, then we can visualize the generated files in the output folder:
 
 .. figure:: figs/hello_world_1.png
 
-    Dry run from the input cloned deck (left) and (right) coarsened model. Adding the flag **-p 1** adds the remove pore volume to the neighbouring cells.
+    Dry run from the input cloned deck (left) and (right) coarsened model. Adding the flag **-p 1** would add the remove pore volume to the neighbouring cells (figures using plopm, see/run `docs_via_deck_hello_world.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_hello_world.sh>`_).
 
 As mentioned above, if you do not have ResInsight, then to visualize the results in ParaView run
 
@@ -90,7 +108,7 @@ To make active the coarsened cell where there is only one active cell, this can 
 
 .. figure:: figs/hello_world_2.png
 
-    Dry run from the input cloned deck (left) and (right) coarsened model. The region numbers by default are given by the mode, e.g., use the flag **-n max** to keep the maximum integer.
+    Dry run from the input cloned deck (left) and (right) coarsened model. The region numbers by default are given by the mode, e.g., use the flag **-n max** to keep the maximum integer (figures using plopm, see/run `docs_via_deck_hello_world.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_hello_world.sh>`_).
 
 As described in the :doc:`theory <./theory>`, **pycopm** can be not only used for grid coarsening, but also to apply grid refinements, submodels, and transformations.
 Then, with the following commands first we substract a submodel around the isolated grid cell proyecting the outside pore volume on the boundaries, after 
@@ -106,7 +124,7 @@ we apply a grid refinement on the cells in the middle x and y location, and fina
 
     Extracted region with the projected pore volumes (bottom left), refinement around the center cells (top right), and rotation (bottom right).
     The text in the legends highlight that the pore volume is conserved (35.58) and the number of active cells is reduced from 351 to 25 in the 
-    submodel and after increased to 41 due to the grid refinement.
+    submodel and after increased to 41 due to the grid refinement (figures using plopm, see/run `docs_via_deck_hello_world.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_hello_world.sh>`_).
 
 .. note::
 
@@ -123,27 +141,20 @@ then:
 
     # From the download folders
     cd Simulation_Models/data
-    pycopm -c 5,4,3 -a min -m all -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o .
+    pycopm -c 5,4,1 -a min -m all -i Statoil_Feasibility_sim_model_with_depletion_KROSS_INJ_SECTOR_20.DATA -o .
 
-will generate a coarser model five times in the x direction, four in the y direction, and three in the z direction, where the coarse cell is
+will generate a coarser model five times in the x direction and four in the y direction, where the coarse cell is
 made inactive if at least one cell is inactive (**-a min**).
 
 We use our `plopm <https://github.com/cssr-tools/plopm>`_ friend to generate PNG figures:
 
-.. tip::
-    You can install `plopm <https://github.com/cssr-tools/plopm>`_ by executing in the terminal:
-    
-    .. code-block:: bash
-        
-        pip install git+https://github.com/cssr-tools/plopm.git
-
 .. code-block:: bash
 
-    plopm -i 'STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PREP_PYCOPM_DRYRUN STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM' -s ,,0 -v poro -subfigs 1,2 -save smeaheia -t 'Smeaheia  Coarsened Smeaheia' -delax 1 -xunits km -xformat .0f -yunits km -yformat .0f -d 5,4.5 -suptitle 0 -c cet_rainbow_bgyrm_35_85_c69 -cbsfax 0.2,0.95,0.6,0.02 -cformat .2f
+    plopm -i 'STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PREP_PYCOPM_DRYRUN STATOIL_FEASIBILITY_SIM_MODEL_WITH_DEPLETION_KROSS_INJ_SECTOR_20_PYCOPM' -s ,,1 -v poro -subfigs 1,2 -save smeaheia -t 'Smeaheia  Coarsened Smeaheia' -delax 1 -xunits km -xformat .0f -yunits km -yformat .0f -d 5,4.5 -suptitle 0 -c cet_rainbow_bgyrm_35_85_c69 -cbsfax 0.2,0.95,0.6,0.02 -cformat .2f
 
 .. figure:: figs/smeaheia.png
 
-    Top view of porosity values for the (left) original and (right) coarsened model (note that we also apply the coarsening on the z direction).
+    Top view of porosity values for the (left) original and (right) coarsened model (figures using plopm, see/run `docs_via_deck_smeaheia.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_smeaheia.sh>`_).
 
 .. _drogon:
 
@@ -176,8 +187,9 @@ to the deck, replacing the lines in `DROGON_HIST.DATA <https://github.com/OPM/op
 this would generate the following coarsened model:
 
 .. figure:: figs/drogon_generic.png
+.. figure:: figs/drogon_generic_plopm.png
 
-    Note that the total pore volume is conserved for the coarsened model (right). The properties of the standard model (left) can be visualized using the DROGON_HIST_PREP_PYCOPM_DRYRUN generated files.
+    Note that the total pore volume is conserved for the coarsened model (right). The properties of the standard model (left) can be visualized using the DROGON_HIST_PREP_PYCOPM_DRYRUN generated files (top figures using ResInsight and bottom figures using plopm, see/run `docs_via_deck_drogon.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_drogon.sh>`_).
 
 Here, we first coarse in the z direction, which reduces the number of cells from 31 to 11, and after we coarse in the y direction.
 After trial and error, the jump (**-j**) is set to 2.5 to avoid generated connections across the faults. For geological models with a lot of
@@ -224,17 +236,17 @@ then we can compare the summary vectors. To this end, we use our good old friend
 
     Note that the coarsened models have the same initial field oil in place as the input model. It seems the coarsened properties (e.g., permeabilities)
     are good initial inputs to use in a history matching framework (e.g., to history match saturation function parameters), and the lower simulation 
-    time for the coarsened models allow for more ensemble members and more iterations.
+    time for the coarsened models allow for more ensemble members and more iterations (figures using plopm, see/run `docs_via_deck_drogon.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_drogon.sh>`_).
 
 We can also make a nice GIF by executing:
 
 .. code-block:: bash
 
-    plopm -v sgas -subfigs 1,3 -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -d 16,10.5 -m gif -dpi 300 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.30,0.01,0.4,0.02 -s ,,1 -rotate -30 -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69 -delax 1 -r 0:3
+    plopm -i 'DROGON_HIST DROGON_HIST_PYCOPM_PYCOPM DROGON_2TIMES_COARSER' -v sgas -subfigs 1,3  -d 15,11 -cnum 5 -m gif -xlnum 4 -ylnum 4 -dpi 300 -t "DROGON  DROGON 3XZ COARSER  DROGON 2XYZ COARSER" -f 16 -interval 2000 -loop 1 -cformat .2f -cbsfax 0.15,0.93,0.7,0.02 -s ,,1 -rotate '-30' -xunits km -yunits km -xformat .0f -yformat .0f -c cet_rainbow_bgyrm_35_85_c69 -delax 1 -tunits tstep
 
 .. figure:: figs/sgas.gif
 
-    Top view of the Drogon and the two coarsened models
+    Top view of the Drogon and the two coarsened models (figures using plopm, see/run `docs_via_deck_drogon.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_drogon.sh>`_).
 
 Norne
 -----
@@ -249,6 +261,9 @@ then here we create a coarsened model by removing certain pilars in order to kee
 this would generate the following coarsened model:
 
 .. figure:: figs/norne_vec.png
+.. figure:: figs/norne_plopm.png
+
+    Top view of Norne for the (top) pore volume and (bottom) gas saturation (top figures using ResInsight and bottom figures using plopm, see/run `docs_via_deck_norne.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_norne.sh>`_).
 
 .. _spe10:
 
@@ -265,7 +280,7 @@ generates a coarsened model from ca. 1 million cells to ca. 20 thousands cells.
 
 .. figure:: figs/spe10_model2_coarser.png
 
-    Porosity values for the (left) original and (right) coarsed SPE10 model.
+    Porosity values for the (left) original and (right) coarsened SPE10 model.
 
 To generate a submodel from the coarsened model around the injector 'INJ', this can be achieved by executing:
 
@@ -274,8 +289,9 @@ To generate a submodel from the coarsened model around the injector 'INJ', this 
     pycopm -i SPE10_MODEL2_PYCOPM.DATA -p 1 -v 'INJ diamondxy 5' -m all -w vicinity -l sub -m all
 
 .. figure:: figs/vicinity.png
+.. figure:: figs/spe10_plopm.png
 
-    Pore volume values for the (left) coarsened and (right) vicinity around the well INJ in the SPE10 model.
+    Pore volume values for the coarsened and vicinity around the well INJ in the SPE10 model (top figures using ResInsight and bottom figures using plopm (running pycopm with the flag -p 0 instead of -p 1), see/run `docs_via_deck_spe10.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_spe10.sh>`_).
 
 
 Dual coarsening
@@ -296,6 +312,8 @@ two coarsened grids. For example, using the `MODEL6.DATA <https://github.com/css
 This results in the following figure, where the pressure on the most right cell compares better using the dual coarsening than the standard:
 
 .. figure:: figs/dual_pressure-0pressure_i,1,k_t2.png
+
+    Figures using plopm, see/run `docs_via_deck_dual_coarsening.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_via_deck_dual_coarsening.sh>`_.
 
 ==================
 Graphical abstract 
