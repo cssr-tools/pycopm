@@ -603,7 +603,7 @@ def add_pv_bc(dic):
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pvx)
                 else:
                     pve += pvx
-            elif len(dic["porv"]) < ind + 1:
+            elif ind + 1 < len(dic["porv"]) and dic["porv"][ind + 1] > 0:
                 if dic["porv"][ind + 1] > 0:
                     for i in range(dic["nx"] - 1 - i_0):
                         ins = (
@@ -766,14 +766,26 @@ def add_pv_bc(dic):
                             pva += porvij / (numw + numn)
                     dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + pva)
             if dic["pvcorr"] == 2:
-                dic["porv_c"][0] = str(float(dic["porv_c"][0]) + porv00)
-                dic["porv_c"][dic["nx"] - 1] = str(
-                    float(dic["porv_c"][dic["nx"] - 1]) + porvi0
-                )
-                dic["porv_c"][(dic["ny"] - 1) * dic["nx"]] = str(
-                    float(dic["porv_c"][(dic["ny"] - 1) * dic["nx"]]) + porv0j
-                )
-                dic["porv_c"][-1] = str(float(dic["porv_c"][-1]) + porvij)
+                corner_data = [
+                    (0, 0, porv00),
+                    (dic["nx"] - 1, 0, porvi0),
+                    (0, dic["ny"] - 1, porv0j),
+                    (
+                        dic["nx"] - 1,
+                        dic["ny"] - 1,
+                        porvij,
+                    ),
+                ]
+                for corner_i, corner_j, corner_pv in corner_data:
+                    if corner_pv == 0:
+                        continue
+                    ins = nearest_active_corner(
+                        dic,
+                        k,
+                        corner_i,
+                        corner_j,
+                    )
+                    dic["porv_c"][ins] = str(float(dic["porv_c"][ins]) + corner_pv)
             kpv = 0.0
             for i in range(k * dic["nx"] * dic["ny"], (k + 1) * dic["nx"] * dic["ny"]):
                 kpv += float(dic["porv_c"][i])
@@ -842,6 +854,22 @@ def add_pv_bc(dic):
             corr = (np.sum(dic["porvk"]) + np.sum(dic["porvij"]) - porv) / freq
             for i in range(0, dic["nx"] * dic["ny"] * dic["nz"]):
                 dic["porv_c"][i] = str(float(dic["porv_c"][i]) + corr)
+
+
+def nearest_active_corner(dic, k, corner_i, corner_j):
+    """Return the nearest active cell to a corner in layer k."""
+    layer_start = k * dic["nx"] * dic["ny"]
+    candidates = []
+    for j in range(dic["ny"]):
+        for i in range(dic["nx"]):
+            ind = layer_start + i + j * dic["nx"]
+
+            if int(dic["actnum_c"][ind]) > 0:
+                distance = abs(i - corner_i) + abs(j - corner_j)
+                candidates.append((distance, j, i, ind))
+    if not candidates:
+        raise ValueError(f"No active cells found in submodel layer {k}")
+    return min(candidates)[-1]
 
 
 def handle_pv(dic, clusmin, clusmax, rmv):

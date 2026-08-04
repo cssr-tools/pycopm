@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Configuration file &mdash; pycopm  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -116,7 +116,7 @@ if this is supported in your machine (e.g., flow = “mpirun -np 8 /Users/dmar/G
 <span class="linenos">15</span><span class="n">obs</span> <span class="o">=</span> <span class="s2">&quot;observations_training&quot;</span> <span class="c1"># Name of the observation file for the hm (&#39;observations_training&#39;, &#39;observations_test&#39;, or &#39;observations_complete&#39;)</span>
 <span class="linenos">16</span><span class="n">deck</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Select which coarser deck to use: 0 -&gt; default one or 1 -&gt; LET sat functions</span>
 <span class="linenos">17</span><span class="n">letsatn</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># For norne: for the LET coarser deck, select: 0 -&gt; SATNUM=1, 1 -&gt; SATNUM is computed from Sandve et al 2022, 2 -&gt; #SATNUM=#Cells.</span>
-<span class="linenos">18</span><span class="n">cporv</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># 0 -&gt; no corrections for lost porv, 1 -&gt; correct it on the cell boundaries, 2 -&gt; account it on the porosity on all cells</span>
+<span class="linenos">18</span><span class="n">cporv</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># 0 -&gt; no corrections for lost porv, 1 -&gt; correct it on all cells</span>
 <span class="linenos">19</span><span class="n">initial</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Initialization 0 -&gt; Equil 1-&gt;INIT from fine-scale</span>
 <span class="linenos">20</span><span class="n">error</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]</span> <span class="c1"># Error WWPR, WOPR, and WGPR</span>
 <span class="linenos">21</span><span class="n">minerror</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100000</span><span class="p">]</span> <span class="c1"># Minimum error of WWPR, WOPR, and WGPR</span>
@@ -129,10 +129,13 @@ the terminal is the one from the Flow executable instead of the ERT one. The ert
 executable and the command values are given after in the same input file which are discussed later. The
 files option only writes the needed input files for ERT.</p>
 <p>The X, Y, and Z inputs define which pillars are removed (value 2) in the x, y, and z direction respectively.</p>
-<figure class="align-default" id="id1">
+<figure class="align-default">
 <img alt="_images/index.png" src="_images/index.png" />
+</figure>
+<figure class="align-default" id="id1">
+<img alt="_images/index_plopm.png" src="_images/index_plopm.png" />
 <figcaption>
-<p><span class="caption-text">I, J, and K cell index in the standard Norne data set.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text">I, J, and K cell index in the standard Norne data set (top figures from <a class="reference external" href="https://resinsight.org">ResInsight</a> and bottom figures from <a class="reference external" href="https://github.com/cssr-tools/plopm">plopm</a>, see/run <a class="reference external" href="https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_configs_views.sh">docs_configs_views.sh</a>).</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Values of 0 do not remove the pilar.</p>

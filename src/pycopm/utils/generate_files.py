@@ -73,7 +73,7 @@ def create_deck(dic):
                         break
                     dic["lol"].append(nrwo)
             with open(
-                dic["deck"] + "_PREP_PYCOPM_DRYRUN.DATA",
+                f"{dic['fol']}/{dic["deck"]}" + "_PREP_PYCOPM_DRYRUN.DATA",
                 "w",
                 encoding="utf8",
             ) as file:
@@ -84,9 +84,16 @@ def create_deck(dic):
                 " the initial run to generate the grid (.EGRID), static (.INIT), and initial"
                 " (.UNRST) properties\n"
             )
-            os.system(
-                f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA --output-mode=none "
-                f"--parsing-strictness=low --enable-opm-rst-file=1 --output-dir={dic['fol']}"
+            subprocess.run(
+                [
+                    dic["flow"],
+                    f"{dic['deck']}_PREP_PYCOPM_DRYRUN.DATA",
+                    "--output-mode=none",
+                    "--parsing-strictness=low",
+                    "--enable-opm-rst-file=1",
+                ],
+                cwd=dic["fol"],
+                check=True,
             )
             os.system(f"rm {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
             os.system(f"cp {dic['pth']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
@@ -94,15 +101,22 @@ def create_deck(dic):
                 f"\nCloning {dic['pth']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA \n"
             )
         else:
-            os.system(f"cp {dic['pth']}.DATA {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA")
+            os.system(
+                f"cp {dic['pth']}.DATA {dic['fol']}/{dic['deck']}_PREP_PYCOPM_DRYRUN.DATA"
+            )
             print(
                 f"\nCloning {dic['pth']}.DATA to {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA for"
                 " the initial dry run to generate the grid (.EGRID) and static"
                 " (.INIT) properties\n"
             )
-            os.system(
-                f"{dic['flow']} {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA {dic['flags']} "
-                f"--output-dir={dic['fol']}"
+            subprocess.run(
+                [
+                    dic["flow"],
+                    f"{dic['deck']}_PREP_PYCOPM_DRYRUN.DATA",
+                    *dic["flags"].split(),
+                ],
+                cwd=dic["fol"],
+                check=True,
             )
         if dic["fol"] != os.path.abspath("."):
             os.system(f"mv {dic['deck']}_PREP_PYCOPM_DRYRUN.DATA " + f"{dic['fol']}")
@@ -336,6 +350,11 @@ def create_deck(dic):
             ) as file:
                 for row in dic["lolc"]:
                     file.write(row + "\n")
+            whr = dic["lol"].index("SCHEDULE")
+            dic["deckcorr"] = dic["lol"][: whr + 1] + ["TSTEP"] + ["0.01 /"]
+            whr = dic["deckcorr"].index("RPTRST")
+            tmp = dic["deckcorr"][whr + 1].split("/")[0]
+            dic["deckcorr"][whr + 1] = tmp + " FIP /"
             with open(
                 f"{dic['fol']}/{dic['write']}_CORR.DATA",
                 "w",
@@ -526,19 +545,23 @@ def search_file(dic, path, mults):
     """
     includes, include = [], False
     data = ".DATA" in path
+    base_dir = os.path.dirname(os.path.abspath(path))
     with open(path, "r", encoding=dic["encoding"]) as file:
         for row in csv.reader(file):
             nrwo = str(row)[2:-2].strip()
             if include:
-                path_inc = nrwo.split("/", maxsplit=1)[0].strip().strip("\"'")
-                if path_inc == ".":
-                    path_inc = nrwo.split("/", maxsplit=1)[1].strip().strip("\"'")
+                path_inc = nrwo
+                if "--" in path_inc:
+                    path_inc = path_inc.split("--", maxsplit=1)[0]
                 path_inc = path_inc.replace(" /", "")
-                path_inc = path_inc.replace("'", "")
-                path_inc = path_inc.replace('"', "")
-                inc = os.path.join(os.getcwd(), path_inc)
+                path_inc = path_inc.rstrip("/")
+                path_inc = path_inc.strip()
+                path_inc = path_inc.strip("'\"")
+                inc = os.path.normpath(os.path.join(base_dir, path_inc))
                 if os.path.exists(inc):
                     includes.append(inc)
+                else:
+                    print(f"Include not found: {inc}")
                 include = False
                 continue
             bool_mult(dic, nrwo, mults)

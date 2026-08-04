@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pycopm.utils.generate_files module &mdash; pycopm  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -91,12 +91,19 @@
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.bool_mult">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">bool_mult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mults</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.bool_mult" title="Link to this definition"></a></dt>
 <dd><p>Set to True if the keyword is found</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>nrwo (str): Entry of the deck</p>
-<p>mults (list): Name of MULT* keywords</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>nrwo</strong> (<em>str</em>) – Entry of the deck</p></li>
+<li><p><strong>mults</strong> (<em>list</em>) – Name of MULT* keywords</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -106,11 +113,18 @@
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">check_mult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mults</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.check_mult" title="Link to this definition"></a></dt>
 <dd><p>Check for MULT* to avoid writing them if only MULTFLT is used.
 We look at most for three levels of INCLUDE</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>mults (list): Name of MULT* keywords</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>mults</strong> (<em>list</em>) – Name of MULT* keywords</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -119,10 +133,15 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.compact_format">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">compact_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.compact_format" title="Link to this definition"></a></dt>
 <dd><p>Use the ‘n*x’ notation to write repited values to save storage</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>values (list): List with the variable values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>values</strong> (<em>list</em>) – List with the variable values</p>
 </dd>
-<dt>Returns:</dt><dd><p>values (list): List with the compacted variable values</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List with the compacted variable values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>values (list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -131,11 +150,18 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.compact_perm">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">compact_perm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.compact_perm" title="Link to this definition"></a></dt>
 <dd><p>Use COPY and MULTIPLY is PERMY and PERMZ can be generated from PERMX</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>names (list): Properties to write the .INC</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>names</strong> (<em>list</em>) – Properties to write the .INC</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>names (list): Modified properties to write the .INC</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified properties to write the .INC</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>names (list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -144,10 +170,15 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.create_deck">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">create_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.create_deck" title="Link to this definition"></a></dt>
 <dd><p>Main script to call the diffeent methods to generate the opm files</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -156,10 +187,15 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.handle_nnc_trans">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">handle_nnc_trans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.handle_nnc_trans" title="Link to this definition"></a></dt>
 <dd><p>Map the trans from the non-neighbouring connections</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -168,10 +204,15 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.initialize_variables">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">initialize_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.initialize_variables" title="Link to this definition"></a></dt>
 <dd><p>Use opm to read the dry run</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -180,12 +221,19 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.search_file">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">search_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mults</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.search_file" title="Link to this definition"></a></dt>
 <dd><p>Check the file for the keywords</p>
-<dl>
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
-<p>path (str): Path to the file</p>
-<p>mults (list): Name of MULT* keywords</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Path to the file</p></li>
+<li><p><strong>mults</strong> (<em>list</em>) – Name of MULT* keywords</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>dic (dict): Modified global dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified global dictionary</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -194,10 +242,12 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.write_grid">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">write_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dual</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.write_grid" title="Link to this definition"></a></dt>
 <dd><p>Write the corner-point grid</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>None</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -206,10 +256,12 @@ We look at most for three levels of INCLUDE</p>
 <dt class="sig sig-object py" id="pycopm.utils.generate_files.write_props">
 <span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_files.</span></span><span class="sig-name descname"><span class="pre">write_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.generate_files.write_props" title="Link to this definition"></a></dt>
 <dd><p>Write the modified properties</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>dic (dict): Global dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
 </dd>
-<dt>Returns:</dt><dd><p>None</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

@@ -154,8 +154,6 @@ INCLUDE
  '${dic['fol']}/preprocessing/NORNE_ATW2013_COARSER.GRDECL' /
 
  --
-INCLUDE
- '${dic['fol']}/preprocessing/actnum.inc' /
 
 -- Faults
 INCLUDE
@@ -240,7 +238,8 @@ MINPV
 
 EDIT
 --------------------------------------------------------------------------------
-
+INCLUDE
+ '${dic['fol']}/preprocessing/porv.inc' /
 --------------------------------------------------------------------------------
 
 PROPS

@@ -1,0 +1,55 @@
+-- Copyright (C) 2026 NORCE Research AS
+----------------------------------------------------------------------------
+RUNSPEC
+----------------------------------------------------------------------------
+DIMENS --Number of grid blocks (NX, NY, NZ)
+100 100 1 /
+EQLDIMS --Define the equilibration data dimensions
+/
+TABDIMS --Define the number of tables and the table dimensions
+/
+WATER --Activate the water phase in the model
+WELLDIMS --Define the wells and group dimensions
+/
+UNIFOUT --Activate the unifout file option
+----------------------------------------------------------------------------
+GRID
+----------------------------------------------------------------------------
+INIT --Activate the writing of the INIT file
+DX --Define the size of grid blocks in the x direction [m]
+10000*1 /
+DY --Define the size of grid blocks in the y direction [m]
+10000*1 /
+DZ --Define the size of grid blocks in the z direction [m]
+10000*1 /
+TOPS --Define the depth of the top face for each cell [m]
+10000*0 /
+PORO --Define the porosity values for each cell [m]
+10000*0.15 /
+PERMX --Define the permeability in the x direction [mD]
+10000*10 /
+PERMY --Define the permeability in the y direction [mD]
+10000*10 /
+PERMZ --Define the permeability in the z direction [mD]
+10000*10 /
+----------------------------------------------------------------------------
+PROPS
+----------------------------------------------------------------------------
+ROCK --Define the rock compressibility [1/bar]
+1 1E-6 /
+DENSITY --Define the water density at surface conditions [kg/m3]
+1000 /
+PVTW --Define the water compressibility [1/bar] and viscocity [cP]
+277 1.05 5E-5 0.3 0 /
+----------------------------------------------------------------------------
+SOLUTION
+----------------------------------------------------------------------------
+EQUIL --Define the initial conditions
+0 200 -1 0 0 0 1 1 0 /
+----------------------------------------------------------------------------
+SCHEDULE
+----------------------------------------------------------------------------
+RPTRST --Define data to be written to the restart file
+BASIC=2 /
+TSTEP --Advance simulation by reportig time [days]
+1 /

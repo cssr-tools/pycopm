@@ -43,7 +43,7 @@ The next entries define the following parameters:
     obs = "observations_training" # Name of the observation file for the hm ('observations_training', 'observations_test', or 'observations_complete')
     deck = 0 # Select which coarser deck to use: 0 -> default one or 1 -> LET sat functions
     letsatn = 1 # For norne: for the LET coarser deck, select: 0 -> SATNUM=1, 1 -> SATNUM is computed from Sandve et al 2022, 2 -> #SATNUM=#Cells.
-    cporv = 0 # 0 -> no corrections for lost porv, 1 -> correct it on the cell boundaries, 2 -> account it on the porosity on all cells
+    cporv = 0 # 0 -> no corrections for lost porv, 1 -> correct it on all cells
     initial = 0 # Initialization 0 -> Equil 1->INIT from fine-scale
     error = [0.1,0.1,0.1] # Error WWPR, WOPR, and WGPR
     minerror = [100,100,100000] # Minimum error of WWPR, WOPR, and WGPR
@@ -58,8 +58,9 @@ files option only writes the needed input files for ERT.
 The X, Y, and Z inputs define which pillars are removed (value 2) in the x, y, and z direction respectively. 
 
 .. figure:: figs/index.png
+.. figure:: figs/index_plopm.png
 
-    I, J, and K cell index in the standard Norne data set.
+    I, J, and K cell index in the standard Norne data set (top figures from `ResInsight <https://resinsight.org>`_ and bottom figures from `plopm <https://github.com/cssr-tools/plopm>`_, see/run `docs_configs_views.sh <https://github.com/cssr-tools/pycopm/blob/main/tests/scripts/docs_configs_views.sh>`_).
 
 Values of 0 do not remove the pilar.
 
