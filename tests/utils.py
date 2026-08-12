@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-RTOL = 1e-5
+RTOL = 1e-6
 ATOL = 1e-8
 
 
@@ -345,7 +345,6 @@ def assert_restart_preserved(
     result,
     keyword,
     rstep=0,
-    atol=50,
 ):
     """Check that a summed restart quantity is preserved."""
 
@@ -354,7 +353,8 @@ def assert_restart_preserved(
 
     assert value == pytest.approx(
         ref,
-        abs=atol,
+        rel=RTOL,
+        abs=ATOL,
     ), (
         f"sum({keyword}) = {value}, " f"expected {ref}"
     )

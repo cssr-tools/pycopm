@@ -11,6 +11,7 @@ from opm.io.ecl import EclFile as OpmFile
 from opm.io.ecl import EGrid as OpmGrid
 
 from pycopm.core.pycopm import main
+
 from .utils import assert_grid_and_init
 
 REFINEMENT_CASES = [

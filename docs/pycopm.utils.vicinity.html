@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycopm.utils.vicinity module &mdash; pycopm  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Output folder" href="output_folder.html" />
+    <link rel="prev" title="pycopm.utils.transformation module" href="pycopm.utils.transformation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #aaaaaa" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">pycopm Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_folder.html">Output folder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related.html">Related</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About pycopm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #aaaaaa" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycopm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">pycopm Python API</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.html">pycopm package</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.utils.html">pycopm.utils package</a></li>
+      <li class="breadcrumb-item active">pycopm.utils.vicinity module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pycopm.utils.vicinity.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pycopm.utils.vicinity">
+<span id="pycopm-utils-vicinity-module"></span><h1>pycopm.utils.vicinity module<a class="headerlink" href="#module-pycopm.utils.vicinity" title="Link to this heading"></a></h1>
+<p>Extract submodels and map pore volume from outside their boundaries.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">VicinityMaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">selector:</span> <span class="pre">str,</span> <span class="pre">shape:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None,</span> <span class="pre">cell_mask:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">min_i:</span> <span class="pre">int,</span> <span class="pre">max_i:</span> <span class="pre">int,</span> <span class="pre">min_j:</span> <span class="pre">int,</span> <span class="pre">max_j:</span> <span class="pre">int,</span> <span class="pre">min_k:</span> <span class="pre">int,</span> <span class="pre">max_k:</span> <span class="pre">int,</span> <span class="pre">layer_min_i:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">layer_max_i:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">layer_min_j:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">layer_max_j:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">layer_selected_porv:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">layer_external_porv:</span> <span class="pre">~numpy._typing._array_like.NDArray,</span> <span class="pre">well_cells:</span> <span class="pre">list[list[int]],</span> <span class="pre">well_indices:</span> <span class="pre">list[int]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">active_counts:</span> <span class="pre">~numpy._typing._array_like.NDArray</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">source_indices:</span> <span class="pre">~numpy._typing._array_like.NDArray</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Store a vicinity selection, bounds, and pore-volume mappings.</p>
+<p>Global and per-layer bounds are one-based and inclusive.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.active_counts">
+<span class="sig-name descname"><span class="pre">active_counts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.active_counts" title="Link to this definition"></a></dt>
+<dd><p>Number of selected active cells in each output layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.cell_mask">
+<span class="sig-name descname"><span class="pre">cell_mask</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.cell_mask" title="Link to this definition"></a></dt>
+<dd><p>Boolean mask identifying selected original-grid cells, flattened in
+<code class="docutils literal notranslate"><span class="pre">(z,</span> <span class="pre">y,</span> <span class="pre">x)</span></code> order.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.layer_external_porv">
+<span class="sig-name descname"><span class="pre">layer_external_porv</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.layer_external_porv" title="Link to this definition"></a></dt>
+<dd><p>Total pore volume outside the selection in each original layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.layer_max_i">
+<span class="sig-name descname"><span class="pre">layer_max_i</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.layer_max_i" title="Link to this definition"></a></dt>
+<dd><p>Maximum selected i index in each original layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.layer_max_j">
+<span class="sig-name descname"><span class="pre">layer_max_j</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.layer_max_j" title="Link to this definition"></a></dt>
+<dd><p>Maximum selected j index in each original layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.layer_min_i">
+<span class="sig-name descname"><span class="pre">layer_min_i</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.layer_min_i" title="Link to this definition"></a></dt>
+<dd><p>Minimum selected i index in each original layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.layer_min_j">
+<span class="sig-name descname"><span class="pre">layer_min_j</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.layer_min_j" title="Link to this definition"></a></dt>
+<dd><p>Minimum selected j index in each original layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.layer_selected_porv">
+<span class="sig-name descname"><span class="pre">layer_selected_porv</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.layer_selected_porv" title="Link to this definition"></a></dt>
+<dd><p>Total pore volume of selected active cells in each original layer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.max_i">
+<span class="sig-name descname"><span class="pre">max_i</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.max_i" title="Link to this definition"></a></dt>
+<dd><p>Maximum selected i index across all layers.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.max_j">
+<span class="sig-name descname"><span class="pre">max_j</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.max_j" title="Link to this definition"></a></dt>
+<dd><p>Maximum selected j index across all layers.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.max_k">
+<span class="sig-name descname"><span class="pre">max_k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.max_k" title="Link to this definition"></a></dt>
+<dd><p>Maximum selected k index.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.min_i">
+<span class="sig-name descname"><span class="pre">min_i</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.min_i" title="Link to this definition"></a></dt>
+<dd><p>Minimum selected i index across all layers.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.min_j">
+<span class="sig-name descname"><span class="pre">min_j</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.min_j" title="Link to this definition"></a></dt>
+<dd><p>Minimum selected j index across all layers.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.min_k">
+<span class="sig-name descname"><span class="pre">min_k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.min_k" title="Link to this definition"></a></dt>
+<dd><p>Minimum selected k index.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.selector">
+<span class="sig-name descname"><span class="pre">selector</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.selector" title="Link to this definition"></a></dt>
+<dd><p>Selected well name, or an empty string for polygon and region
+selections.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.shape">
+<span class="sig-name descname"><span class="pre">shape</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.shape" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">box</span></code>, <code class="docutils literal notranslate"><span class="pre">diamond</span></code>, or <code class="docutils literal notranslate"><span class="pre">diamondxy</span></code>. <code class="docutils literal notranslate"><span class="pre">None</span></code> is
+used for polygon and region selections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Well-vicinity shape</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.source_indices">
+<span class="sig-name descname"><span class="pre">source_indices</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.source_indices" title="Link to this definition"></a></dt>
+<dd><p>Original-grid source index assigned to each output boundary cell during
+pore-volume correction. Zero denotes no assigned source.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.well_cells">
+<span class="sig-name descname"><span class="pre">well_cells</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.well_cells" title="Link to this definition"></a></dt>
+<dd><p>Zero-based completion coordinates in <code class="docutils literal notranslate"><span class="pre">[i,</span> <span class="pre">j,</span> <span class="pre">k]</span></code> order for the
+selected well.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.VicinityMaps.well_indices">
+<span class="sig-name descname"><span class="pre">well_indices</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity.VicinityMaps.well_indices" title="Link to this definition"></a></dt>
+<dd><p>Zero-based output-grid indices of selected well cells. These cells are
+excluded from boundary source remapping.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._BoundaryMapping">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_BoundaryMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pore_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.vicinity._BoundaryMapping" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Store pore-volume mapping results for one submodel boundary.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._BoundaryMapping.active_count">
+<span class="sig-name descname"><span class="pre">active_count</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#pycopm.utils.vicinity._BoundaryMapping.active_count" title="Link to this definition"></a></dt>
+<dd><p>Number of active cells receiving pore volume from the boundary.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._BoundaryMapping.offsets">
+<span class="sig-name descname"><span class="pre">offsets</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.vicinity._BoundaryMapping.offsets" title="Link to this definition"></a></dt>
+<dd><p>Distance from the geometric boundary to each receiving cell.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._BoundaryMapping.pore_volume">
+<span class="sig-name descname"><span class="pre">pore_volume</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#pycopm.utils.vicinity._BoundaryMapping.pore_volume" title="Link to this definition"></a></dt>
+<dd><p>Unassigned pore volume collected along the boundary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._add_or_collect_porv">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_add_or_collect_porv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submodel_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pore_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._add_or_collect_porv" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._apply_layer_pore_volume_correction">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_apply_layer_pore_volume_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">south</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">north</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">east</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">west</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_porv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._apply_layer_pore_volume_correction" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._corner_pore_volumes">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_corner_pore_volumes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._corner_pore_volumes" title="Link to this definition"></a></dt>
+<dd><p>Calculate excluded pore volume in the four layer corners.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Corner pore-volume totals for the selected original layer.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>southwest, southeast, northwest, northeast</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._distribute_vertical_pore_volume">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_distribute_vertical_pore_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._distribute_vertical_pore_volume" title="Link to this definition"></a></dt>
+<dd><p>Distribute pore volume excluded above and below the submodel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration whose <code class="docutils literal notranslate"><span class="pre">output_porv</span></code> is updated.</p></li>
+<li><p><strong>vicinity</strong> – Selection bounds and correction settings.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._find_nearest_active_corner_cell">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_find_nearest_active_corner_cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_j</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._find_nearest_active_corner_cell" title="Link to this definition"></a></dt>
+<dd><p>Return the nearest active cell to a corner in a layer.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._get_well_completions_for_vicinity">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_get_well_completions_for_vicinity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optvic</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._get_well_completions_for_vicinity" title="Link to this definition"></a></dt>
+<dd><p>Collect zero-based completions for a selected well.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration identifying the source DATA file.</p></li>
+<li><p><strong>optvic</strong> – Well name from the vicinity specification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Completion coordinates in <code class="docutils literal notranslate"><span class="pre">[i,</span> <span class="pre">j,</span> <span class="pre">k]</span></code> order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._map_east_boundary">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_map_east_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></span><a class="headerlink" href="#pycopm.utils.vicinity._map_east_boundary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._map_north_boundary">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_map_north_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></span><a class="headerlink" href="#pycopm.utils.vicinity._map_north_boundary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._map_south_boundary">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_map_south_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></span><a class="headerlink" href="#pycopm.utils.vicinity._map_south_boundary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._map_west_boundary">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_map_west_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailing_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycopm.utils.vicinity._BoundaryMapping" title="pycopm.utils.vicinity._BoundaryMapping"><span class="pre">_BoundaryMapping</span></a></span></span><a class="headerlink" href="#pycopm.utils.vicinity._map_west_boundary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._original_index">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_original_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._original_index" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity._submodel_index">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">_submodel_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity._submodel_index" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.apply_boundary_pore_volume_correction">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">apply_boundary_pore_volume_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity.apply_boundary_pore_volume_correction" title="Link to this definition"></a></dt>
+<dd><p>Map pore volume excluded from the submodel onto active cells.</p>
+<p>The correction strategy is selected by <code class="docutils literal notranslate"><span class="pre">dck.pore_volume_correction</span></code>. Depending
+on the chosen method, excluded pore volume is assigned to corresponding
+boundary cells, nearest corner cells, all boundary cells, or all active cells.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration whose <code class="docutils literal notranslate"><span class="pre">output_porv</span></code> is updated.</p></li>
+<li><p><strong>vicinity</strong> – Selection bounds and pore-volume mapping arrays.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.create_vicinity_maps">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">create_vicinity_maps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></span><a class="headerlink" href="#pycopm.utils.vicinity.create_vicinity_maps" title="Link to this definition"></a></dt>
+<dd><p>Select submodel cells and calculate their bounds.</p>
+<p>Selections can use region values, an xy polygon, or a well-centred <code class="docutils literal notranslate"><span class="pre">box</span></code>,
+<code class="docutils literal notranslate"><span class="pre">diamond</span></code>, or <code class="docutils literal notranslate"><span class="pre">diamondxy</span></code> neighbourhood.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dck</strong> – Deck configuration containing the vicinity specification and source grid.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Selection mask, bounds, well cells, and per-layer pore-volume totals.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps">VicinityMaps</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.extract_vicinity_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">extract_vicinity_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity.extract_vicinity_grid" title="Link to this definition"></a></dt>
+<dd><p>Extract and write the selected corner-point subgrid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration containing source geometry and axis mappings.</p></li>
+<li><p><strong>vicinity</strong> – Inclusive bounds of the selected submodel.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.vicinity.map_vicinity_properties">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.vicinity.</span></span><span class="sig-name descname"><span class="pre">map_vicinity_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.vicinity.map_vicinity_properties" title="Link to this definition"></a></dt>
+<dd><p>Map reservoir properties into the submodel bounding box.</p>
+<p>Cells inside the bounding box but outside the selection are written as
+inactive. The function updates output pore volume and active cells.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration containing source properties and output dimensions.</p></li>
+<li><p><strong>vicinity</strong> – Selection and bounds created by <a class="reference internal" href="#pycopm.utils.vicinity.create_vicinity_maps" title="pycopm.utils.vicinity.create_vicinity_maps"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_vicinity_maps()</span></code></a>.</p></li>
+<li><p><strong>modified_deck</strong> – Deck lines updated with generated property includes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pycopm.utils.transformation.html" class="btn btn-neutral float-left" title="pycopm.utils.transformation module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="output_folder.html" class="btn btn-neutral float-right" title="Output folder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, NORCE Research AS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

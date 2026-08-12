@@ -1,6 +1,6 @@
 {
-% for j in range(dic["satnum_cmax"]-1):
-"${dic["LET"][i][0]}${j}": <${dic["LET"][i][0]}${j}>,
+% for j in range(number_tables-1):
+"${let_parameters[i][0]}${j}": <${let_parameters[i][0]}${j}>,
 % endfor
-"${dic["LET"][i][0]}${dic["satnum_cmax"]-1}": <${dic["LET"][i][0]}${dic["satnum_cmax"]-1}>
+"${let_parameters[i][0]}${number_tables-1}": <${let_parameters[i][0]}${number_tables-1}>
 }

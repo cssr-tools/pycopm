@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pycopm.utils.mapping_methods module" href="pycopm.utils.mapping_methods.html" />
-    <link rel="prev" title="pycopm.utils.grid_builder module" href="pycopm.utils.grid_builder.html" /> 
+    <link rel="next" title="pycopm.utils.parser_deck module" href="pycopm.utils.parser_deck.html" />
+    <link rel="prev" title="pycopm.utils.generate_decks module" href="pycopm.utils.generate_decks.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -86,77 +86,66 @@
              
   <section id="module-pycopm.utils.input_values">
 <span id="pycopm-utils-input-values-module"></span><h1>pycopm.utils.input_values module<a class="headerlink" href="#module-pycopm.utils.input_values" title="Link to this heading"></a></h1>
-<p>Utiliy functions to set the input values from the toml configuration file.</p>
+<p>Create configuration objects from command-line arguments and TOML files.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.input_values.check_flow">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">check_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.check_flow" title="Link to this definition"></a></dt>
-<dd><p>Check if flow is found</p>
+<dt class="sig sig-object py" id="pycopm.utils.input_values.create_deck_config">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">create_deck_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmdargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ConfigViaDeck</span></span></span><a class="headerlink" href="#pycopm.utils.input_values.create_deck_config" title="Link to this definition"></a></dt>
+<dd><p>Create a deck configuration from parsed command arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cmdargs</strong> – Arguments returned by the command-line parser.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configuration for a deck-based workflow.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ConfigViaDeck</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.input_values.load_toml_config">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">load_toml_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significant_digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ConfigViaTOML</span></span></span><a class="headerlink" href="#pycopm.utils.input_values.load_toml_config" title="Link to this definition"></a></dt>
+<dd><p>Load a TOML configuration and derive reference-grid dimensions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary with required parameters</p></li>
-<li><p><strong>in_file</strong> (<em>str</em>) – Name of the input text file</p></li>
+<li><p><strong>input_file</strong> – TOML configuration path.</p></li>
+<li><p><strong>output_directory</strong> – Generated-project directory.</p></li>
+<li><p><strong>resource_directory</strong> – Directory containing templates and reference simulations.</p></li>
+<li><p><strong>significant_digits</strong> – Precision used when writing floating-point values.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Validated configuration populated with reference-grid metadata.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>ConfigViaTOML</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.input_values.initialize_values">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">initialize_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.initialize_values" title="Link to this definition"></a></dt>
-<dd><p>Function to initialize the dic variables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary with required parameters</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Local dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic1 (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.input_values.process_input">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">process_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.process_input" title="Link to this definition"></a></dt>
-<dd><p>Function to process the input file</p>
+<dt class="sig sig-object py" id="pycopm.utils.input_values.parse_axis_modifications">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">parse_axis_modifications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uniform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">localized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.input_values.parse_axis_modifications" title="Link to this definition"></a></dt>
+<dd><p>Parse uniform or axis-specific grid modifications.</p>
+<p>Uniform input contains one value for each axis. Axis-specific input can contain
+explicit arrays; coarsening also accepts one-based indices and inclusive ranges
+such as <code class="docutils literal notranslate"><span class="pre">2:4,7</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary with required parameters</p></li>
-<li><p><strong>in_file</strong> (<em>str</em>) – Name of the input text file</p></li>
+<li><p><strong>uniform</strong> – Comma-separated x, y, and z modification values.</p></li>
+<li><p><strong>localized</strong> – Axis-specific specifications in x, y, and z order.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Uniform axis values and the three parsed axis-specific arrays. Only one
+representation is populated.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.input_values.read_reference">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.input_values.</span></span><span class="sig-name descname"><span class="pre">read_reference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.input_values.read_reference" title="Link to this definition"></a></dt>
-<dd><p>Function to read the cell quantities from the uncoarsened simulation output.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary with required parameters</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>cijk, axis_values</p>
 </dd>
 </dl>
 </dd></dl>
@@ -167,8 +156,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pycopm.utils.grid_builder.html" class="btn btn-neutral float-left" title="pycopm.utils.grid_builder module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pycopm.utils.mapping_methods.html" class="btn btn-neutral float-right" title="pycopm.utils.mapping_methods module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pycopm.utils.generate_decks.html" class="btn btn-neutral float-left" title="pycopm.utils.generate_decks module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.parser_deck.html" class="btn btn-neutral float-right" title="pycopm.utils.parser_deck module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

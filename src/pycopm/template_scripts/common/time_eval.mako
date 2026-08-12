@@ -2,20 +2,16 @@
 # SPDX-FileCopyrightText: 2024-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
 
-"""
-Script to get the simulation time
-"""
+"""Script to get the simulation time"""
 
 import os
 import csv
 
 
 def get_time_simulation():
-    """
-    Get the simulation time from the debug file
-    """
+    """Get the simulation time from the debug file"""
 
-    dbgName = "${dic['name']}_COARSER.DBG"
+    dbgName = "${name}_COARSER.DBG"
     if os.path.isfile(dbgName) == 1:
         solData = []
         try:

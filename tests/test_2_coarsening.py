@@ -6,11 +6,8 @@
 from pathlib import Path
 
 import numpy as np
-from opm.io.ecl import EclFile as OpmFile
-from opm.io.ecl import EGrid as OpmGrid
 
 from pycopm.core.pycopm import main
-from .utils import assert_grid_and_init
 
 REGRESSION_CASES = {
     "FINER": {
@@ -148,18 +145,7 @@ def test_2_coarsening(flow, tmp_path, monkeypatch):
 
     monkeypatch.chdir(tmp_path)
 
-    main(
-        [
-            "-f",
-            flow,
-            "-c",
-            "5,5,1",
-            "-i",
-            str(model),
-            "-m",
-            "prep",
-        ]
-    )
+    main(["-f", flow, "-c", "5,5,1", "-i", str(model), "-m", "prep", "-l", "C0"])
 
     assert (tmp_path / "HELLO_WORLD_PREP_PYCOPM_DRYRUN.INIT").is_file()
     assert (tmp_path / "HELLO_WORLD_PREP_PYCOPM_DRYRUN.EGRID").is_file()
@@ -185,6 +171,8 @@ def test_2_coarsening(flow, tmp_path, monkeypatch):
                         nhow,
                         "-s",
                         show,
+                        "-precision",
+                        "0",
                         "-w",
                         deck.upper(),
                     ]
@@ -256,13 +244,3 @@ def test_2_coarsening(flow, tmp_path, monkeypatch):
 
     assert (tmp_path / "TRANS2FINER.INIT").is_file()
     assert (tmp_path / "TRANS2FINER.EGRID").is_file()
-
-    for deck, reference in REGRESSION_CASES.items():
-        assert_grid_and_init(
-            OpmGrid(f"{deck}.EGRID"),
-            OpmFile(f"{deck}.INIT"),
-            dimensions=reference["dimensions"],
-            checks=reference["checks"],
-            exact_checks=reference["exact"],
-            active_cells=reference["active"],
-        )

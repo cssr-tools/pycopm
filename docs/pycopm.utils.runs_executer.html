@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Output folder" href="output_folder.html" />
-    <link rel="prev" title="pycopm.utils.properties_builder module" href="pycopm.utils.properties_builder.html" /> 
+    <link rel="next" title="pycopm.utils.transformation module" href="pycopm.utils.transformation.html" />
+    <link rel="prev" title="pycopm.utils.refinement module" href="pycopm.utils.refinement.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -86,37 +86,32 @@
              
   <section id="module-pycopm.utils.runs_executer">
 <span id="pycopm-utils-runs-executer-module"></span><h1>pycopm.utils.runs_executer module<a class="headerlink" href="#module-pycopm.utils.runs_executer" title="Link to this heading"></a></h1>
-<p>Utiliy functions to run the studies from toml configuration files.</p>
+<p>Run TOML-based simulation studies and generate postprocessing plots.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.runs_executer.plotting">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.runs_executer.</span></span><span class="sig-name descname"><span class="pre">plotting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.runs_executer.plotting" title="Link to this definition"></a></dt>
-<dd><p>Generate and run the plotting.py file</p>
+<dt class="sig sig-object py" id="pycopm.utils.runs_executer.generate_postprocessing_plots">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.runs_executer.</span></span><span class="sig-name descname"><span class="pre">generate_postprocessing_plots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.runs_executer.generate_postprocessing_plots" title="Link to this definition"></a></dt>
+<dd><p>Render and execute the postprocessing script.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>time</strong> (<em>float</em>) – Current execution time</p></li>
+<li><p><strong>cfg</strong> – TOML configuration and plotting settings. <code class="docutils literal notranslate"><span class="pre">let_parameters</span></code> is sorted in
+place before rendering.</p></li>
+<li><p><strong>elapsed_seconds</strong> – Elapsed preprocessing and simulation time.</p></li>
+<li><p><strong>number_tables</strong> – Number of generated saturation-function tables.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.runs_executer.simulations">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.runs_executer.</span></span><span class="sig-name descname"><span class="pre">simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.runs_executer.simulations" title="Link to this definition"></a></dt>
-<dd><p>Run OPM Flow or selected ERT functionality</p>
+<dt class="sig sig-object py" id="pycopm.utils.runs_executer.run_simulations">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.runs_executer.</span></span><span class="sig-name descname"><span class="pre">run_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.runs_executer.run_simulations" title="Link to this definition"></a></dt>
+<dd><p>Run the configured OPM Flow or ERT workflow.</p>
+<p>Job scripts are copied to the output project and made executable before a
+single realization or ERT study is started.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-odd"><p><strong>cfg</strong> – TOML configuration containing execution mode and commands.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -127,8 +122,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pycopm.utils.properties_builder.html" class="btn btn-neutral float-left" title="pycopm.utils.properties_builder module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="output_folder.html" class="btn btn-neutral float-right" title="Output folder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pycopm.utils.refinement.html" class="btn btn-neutral float-left" title="pycopm.utils.refinement module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.transformation.html" class="btn btn-neutral float-right" title="pycopm.utils.transformation module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

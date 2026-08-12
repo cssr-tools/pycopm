@@ -6,6 +6,7 @@ country accordingly."""
 
 from pathlib import Path
 from zipfile import ZipFile
+
 from playwright.sync_api import sync_playwright
 
 RESOURCE_URL = (

@@ -3,9 +3,9 @@
 
 """Test the configuration files for Norne."""
 
-from pathlib import Path
 import shutil
 import subprocess
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -13,6 +13,7 @@ from opm.io.ecl import EclFile as OpmFile
 from opm.io.ecl import EGrid as OpmGrid
 
 from pycopm.core.pycopm import main
+
 from .utils import assert_grid_and_init
 
 RTOL = 1e-5
@@ -88,8 +89,8 @@ def test_0_toml(flow, tmp_path, monkeypatch):
 
         text = Path(config).read_text(encoding="utf-8")
         text = text.replace(
-            "cporv = 0",
-            f"cporv = {cporv}",
+            "pore_volume_correction = 0",
+            f"pore_volume_correction = {cporv}",
         )
         text = text.replace(
             '"single-run"',
@@ -98,16 +99,7 @@ def test_0_toml(flow, tmp_path, monkeypatch):
 
         Path(config).write_text(text, encoding="utf-8")
 
-        main(
-            [
-                "-i",
-                config,
-                "-o",
-                f"cporv{cporv}",
-                "-f",
-                flow,
-            ]
-        )
+        main(["-i", config, "-o", f"cporv{cporv}", "-f", flow, "-precision", "8"])
 
         deck = f"cporv{cporv}" "/preprocessing" "/NORNE_ATW2013_COARSER"
 

@@ -7,77 +7,77 @@
 
 -- Layer 8
 EQUALS
---  'MULTZ'  0.005    ${dic['i_f_c'][6]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][1]}  ${dic['j_f_c'][30]}  ${dic['k_f_c'][8]}  ${dic['k_f_c'][8]} /
-'MULTZ'  0.02    ${dic['i_f_c'][6]} ${dic['i_f_c'][13]} ${dic['j_f_c'][30]}  ${dic['j_f_c'][50]} ${dic['k_f_c'][8]}  ${dic['k_f_c'][8]} /
+--  'MULTZ'  0.005    ${original_to_output_i[6]} ${original_to_output_i[18]}  ${original_to_output_j[1]}  ${original_to_output_j[30]}  ${original_to_output_k[8]}  ${original_to_output_k[8]} /
+'MULTZ'  0.02    ${original_to_output_i[6]} ${original_to_output_i[13]} ${original_to_output_j[30]}  ${original_to_output_j[50]} ${original_to_output_k[8]}  ${original_to_output_k[8]} /
 /
 
 -- MZ layer 10
 EQUALS
-  'MULTZ'   0.005  ${dic['i_f_c'][6]} ${dic['i_f_c'][14]}  ${dic['j_f_c'][11]}  ${dic['j_f_c'][18]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C-3H
-  'MULTZ'   0.03  ${dic['i_f_c'][14]} ${dic['i_f_c'][29]}  ${dic['j_f_c'][11]}  ${dic['j_f_c'][25]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C south east
-  'MULTZ'   0.05  ${dic['i_f_c'][14]} ${dic['i_f_c'][25]}  ${dic['j_f_c'][26]}  ${dic['j_f_c'][30]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C-segm mid/B-2H
-  'MULTZ'   0.25   ${dic['i_f_c'][6]} ${dic['i_f_c'][29]}  ${dic['j_f_c'][11]}  ${dic['j_f_c'][37]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C-segm middle
-  'MULTZ'   0.5   ${dic['i_f_c'][17]} ${dic['i_f_c'][17]}  ${dic['j_f_c'][42]}  ${dic['j_f_c'][54]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C north west
-  'MULTZ'   0.5    ${dic['i_f_c'][6]} ${dic['i_f_c'][12]}  ${dic['j_f_c'][38]}  ${dic['j_f_c'][39]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C north west
-  'MULTZ'   0.5    ${dic['i_f_c'][8]} ${dic['i_f_c'][12]}  ${dic['j_f_c'][40]}  ${dic['j_f_c'][40]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C north west
-  'MULTZ'   0.5   ${dic['i_f_c'][10]} ${dic['i_f_c'][12]}  ${dic['j_f_c'][41]}  ${dic['j_f_c'][43]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C north west   
-  'MULTZ'   0.5   ${dic['i_f_c'][18]} ${dic['i_f_c'][33]}  ${dic['j_f_c'][38]}  ${dic['j_f_c'][54]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  C1, D4 & D3
-  'MULTZ'   0.5    ${dic['i_f_c'][6]} ${dic['i_f_c'][13]}  ${dic['j_f_c'][44]}  ${dic['j_f_c'][52]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  B-4AH
-  'MULTZ'   0.01  ${dic['i_f_c'][13]} ${dic['i_f_c'][13]}  ${dic['j_f_c'][48]}  ${dic['j_f_c'][59]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  D-segm mid (B-4BH)
-  'MULTZ'   0.01  ${dic['i_f_c'][14]} ${dic['i_f_c'][14]}  ${dic['j_f_c'][49]}  ${dic['j_f_c'][59]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  D-segm mid (B-4BH)
-  'MULTZ'   0.01  ${dic['i_f_c'][15]} ${dic['i_f_c'][16]}  ${dic['j_f_c'][51]}  ${dic['j_f_c'][59]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  D-segm mid (B-4BH)
-  'MULTZ'   0.05  ${dic['i_f_c'][17]} ${dic['i_f_c'][19]}  ${dic['j_f_c'][55]}  ${dic['j_f_c'][99]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  E1
-  'MULTZ'   0.05  ${dic['i_f_c'][14]} ${dic['i_f_c'][14]}  ${dic['j_f_c'][60]}  ${dic['j_f_c'][62]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  E1
-  'MULTZ'   0.05  ${dic['i_f_c'][15]} ${dic['i_f_c'][15]}  ${dic['j_f_c'][60]}  ${dic['j_f_c'][65]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  E1
-  'MULTZ'   0.05  ${dic['i_f_c'][16]} ${dic['i_f_c'][16]}  ${dic['j_f_c'][60]}  ${dic['j_f_c'][69]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  E1 
-  'MULTZ'   0.005  ${dic['i_f_c'][6]} ${dic['i_f_c'][9]}  ${dic['j_f_c'][52]}  ${dic['j_f_c'][60]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  F-3H/E-2H
-  'MULTZ'   0.005  ${dic['i_f_c'][9]} ${dic['i_f_c'][9]}  ${dic['j_f_c'][53]}  ${dic['j_f_c'][57]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  F-3H/E-2H
-  'MULTZ'   0.005 ${dic['i_f_c'][10]} ${dic['i_f_c'][10]}  ${dic['j_f_c'][54]}  ${dic['j_f_c'][58]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  F-3H/E-2H
-  'MULTZ'   0.005 ${dic['i_f_c'][11]} ${dic['i_f_c'][11]}  ${dic['j_f_c'][55]}  ${dic['j_f_c'][58]}  ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}  /  F-3H/E-2H
+  'MULTZ'   0.005  ${original_to_output_i[6]} ${original_to_output_i[14]}  ${original_to_output_j[11]}  ${original_to_output_j[18]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C-3H
+  'MULTZ'   0.03  ${original_to_output_i[14]} ${original_to_output_i[29]}  ${original_to_output_j[11]}  ${original_to_output_j[25]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C south east
+  'MULTZ'   0.05  ${original_to_output_i[14]} ${original_to_output_i[25]}  ${original_to_output_j[26]}  ${original_to_output_j[30]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C-segm mid/B-2H
+  'MULTZ'   0.25   ${original_to_output_i[6]} ${original_to_output_i[29]}  ${original_to_output_j[11]}  ${original_to_output_j[37]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C-segm middle
+  'MULTZ'   0.5   ${original_to_output_i[17]} ${original_to_output_i[17]}  ${original_to_output_j[42]}  ${original_to_output_j[54]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C north west
+  'MULTZ'   0.5    ${original_to_output_i[6]} ${original_to_output_i[12]}  ${original_to_output_j[38]}  ${original_to_output_j[39]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C north west
+  'MULTZ'   0.5    ${original_to_output_i[8]} ${original_to_output_i[12]}  ${original_to_output_j[40]}  ${original_to_output_j[40]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C north west
+  'MULTZ'   0.5   ${original_to_output_i[10]} ${original_to_output_i[12]}  ${original_to_output_j[41]}  ${original_to_output_j[43]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C north west   
+  'MULTZ'   0.5   ${original_to_output_i[18]} ${original_to_output_i[33]}  ${original_to_output_j[38]}  ${original_to_output_j[54]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  C1, D4 & D3
+  'MULTZ'   0.5    ${original_to_output_i[6]} ${original_to_output_i[13]}  ${original_to_output_j[44]}  ${original_to_output_j[52]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  B-4AH
+  'MULTZ'   0.01  ${original_to_output_i[13]} ${original_to_output_i[13]}  ${original_to_output_j[48]}  ${original_to_output_j[59]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  D-segm mid (B-4BH)
+  'MULTZ'   0.01  ${original_to_output_i[14]} ${original_to_output_i[14]}  ${original_to_output_j[49]}  ${original_to_output_j[59]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  D-segm mid (B-4BH)
+  'MULTZ'   0.01  ${original_to_output_i[15]} ${original_to_output_i[16]}  ${original_to_output_j[51]}  ${original_to_output_j[59]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  D-segm mid (B-4BH)
+  'MULTZ'   0.05  ${original_to_output_i[17]} ${original_to_output_i[19]}  ${original_to_output_j[55]}  ${original_to_output_j[99]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  E1
+  'MULTZ'   0.05  ${original_to_output_i[14]} ${original_to_output_i[14]}  ${original_to_output_j[60]}  ${original_to_output_j[62]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  E1
+  'MULTZ'   0.05  ${original_to_output_i[15]} ${original_to_output_i[15]}  ${original_to_output_j[60]}  ${original_to_output_j[65]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  E1
+  'MULTZ'   0.05  ${original_to_output_i[16]} ${original_to_output_i[16]}  ${original_to_output_j[60]}  ${original_to_output_j[69]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  E1 
+  'MULTZ'   0.005  ${original_to_output_i[6]} ${original_to_output_i[9]}  ${original_to_output_j[52]}  ${original_to_output_j[60]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  F-3H/E-2H
+  'MULTZ'   0.005  ${original_to_output_i[9]} ${original_to_output_i[9]}  ${original_to_output_j[53]}  ${original_to_output_j[57]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  F-3H/E-2H
+  'MULTZ'   0.005 ${original_to_output_i[10]} ${original_to_output_i[10]}  ${original_to_output_j[54]}  ${original_to_output_j[58]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  F-3H/E-2H
+  'MULTZ'   0.005 ${original_to_output_i[11]} ${original_to_output_i[11]}  ${original_to_output_j[55]}  ${original_to_output_j[58]}  ${original_to_output_k[10]}  ${original_to_output_k[10]}  /  F-3H/E-2H
 /
 
 -- MZ layer 15
 EQUALS
-  'MULTZ'   0.00003     ${dic['i_f_c'][6]} ${dic['i_f_c'][29]} ${dic['j_f_c'][11]} ${dic['j_f_c'][21]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / C south
-  'MULTZ'   0.00005   ${dic['i_f_c'][6]} ${dic['i_f_c'][29]}  ${dic['j_f_c'][22]} ${dic['j_f_c'][39]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /  C middle
-  'MULTZ'   0.000001 ${dic['i_f_c'][19]} ${dic['i_f_c'][29]}  ${dic['j_f_c'][39]} ${dic['j_f_c'][49]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /  C-1H
-  'MULTZ'   1.0      ${dic['i_f_c'][19]} ${dic['i_f_c'][29]}  ${dic['j_f_c'][38]} ${dic['j_f_c'][45]}  ${dic['k_f_c'][17]}  ${dic['k_f_c'][17]} /  C-1H
-  'MULTZ'   0.005    ${dic['i_f_c'][16]} ${dic['i_f_c'][19]}  ${dic['j_f_c'][48]} ${dic['j_f_c'][61]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /  E-1H/D-3H
-  'MULTZ'   0.0008    ${dic['i_f_c'][8]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][40]} ${dic['j_f_c'][40]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /  C north
-  'MULTZ'   0.0008    ${dic['i_f_c'][9]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][41]} ${dic['j_f_c'][41]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
-  'MULTZ'   0.0008   ${dic['i_f_c'][10]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][42]} ${dic['j_f_c'][43]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
-  'MULTZ'   0.0008   ${dic['i_f_c'][11]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][44]} ${dic['j_f_c'][44]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
-  'MULTZ'   0.0008   ${dic['i_f_c'][12]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][45]} ${dic['j_f_c'][45]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
-  'MULTZ'   0.0008   ${dic['i_f_c'][13]} ${dic['i_f_c'][18]}  ${dic['j_f_c'][46]} ${dic['j_f_c'][47]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
-  'MULTZ'   0.0008   ${dic['i_f_c'][14]} ${dic['i_f_c'][15]}  ${dic['j_f_c'][48]} ${dic['j_f_c'][48]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
-  'MULTZ'   0.0008   ${dic['i_f_c'][15]} ${dic['i_f_c'][15]}  ${dic['j_f_c'][49]} ${dic['j_f_c'][50]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /
+  'MULTZ'   0.00003     ${original_to_output_i[6]} ${original_to_output_i[29]} ${original_to_output_j[11]} ${original_to_output_j[21]} ${original_to_output_k[15]} ${original_to_output_k[15]} / C south
+  'MULTZ'   0.00005   ${original_to_output_i[6]} ${original_to_output_i[29]}  ${original_to_output_j[22]} ${original_to_output_j[39]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /  C middle
+  'MULTZ'   0.000001 ${original_to_output_i[19]} ${original_to_output_i[29]}  ${original_to_output_j[39]} ${original_to_output_j[49]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /  C-1H
+  'MULTZ'   1.0      ${original_to_output_i[19]} ${original_to_output_i[29]}  ${original_to_output_j[38]} ${original_to_output_j[45]}  ${original_to_output_k[17]}  ${original_to_output_k[17]} /  C-1H
+  'MULTZ'   0.005    ${original_to_output_i[16]} ${original_to_output_i[19]}  ${original_to_output_j[48]} ${original_to_output_j[61]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /  E-1H/D-3H
+  'MULTZ'   0.0008    ${original_to_output_i[8]} ${original_to_output_i[18]}  ${original_to_output_j[40]} ${original_to_output_j[40]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /  C north
+  'MULTZ'   0.0008    ${original_to_output_i[9]} ${original_to_output_i[18]}  ${original_to_output_j[41]} ${original_to_output_j[41]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
+  'MULTZ'   0.0008   ${original_to_output_i[10]} ${original_to_output_i[18]}  ${original_to_output_j[42]} ${original_to_output_j[43]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
+  'MULTZ'   0.0008   ${original_to_output_i[11]} ${original_to_output_i[18]}  ${original_to_output_j[44]} ${original_to_output_j[44]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
+  'MULTZ'   0.0008   ${original_to_output_i[12]} ${original_to_output_i[18]}  ${original_to_output_j[45]} ${original_to_output_j[45]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
+  'MULTZ'   0.0008   ${original_to_output_i[13]} ${original_to_output_i[18]}  ${original_to_output_j[46]} ${original_to_output_j[47]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
+  'MULTZ'   0.0008   ${original_to_output_i[14]} ${original_to_output_i[15]}  ${original_to_output_j[48]} ${original_to_output_j[48]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
+  'MULTZ'   0.0008   ${original_to_output_i[15]} ${original_to_output_i[15]}  ${original_to_output_j[49]} ${original_to_output_j[50]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /
   
-  'MULTZ'   0.01      ${dic['i_f_c'][12]} ${dic['i_f_c'][12]} ${dic['j_f_c'][46]} ${dic['j_f_c'][56]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D-segm
-  'MULTZ'   0.01      ${dic['i_f_c'][13]} ${dic['i_f_c'][13]} ${dic['j_f_c'][48]} ${dic['j_f_c'][59]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D-segm
-  'MULTZ'   0.01      ${dic['i_f_c'][14]} ${dic['i_f_c'][14]} ${dic['j_f_c'][49]} ${dic['j_f_c'][62]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D-segm
-  'MULTZ'   0.01      ${dic['i_f_c'][15]} ${dic['i_f_c'][15]} ${dic['j_f_c'][51]} ${dic['j_f_c'][65]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D-segm
-  'MULTZ'   0.01      ${dic['i_f_c'][16]} ${dic['i_f_c'][19]} ${dic['j_f_c'][62]} ${dic['j_f_c'][69]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D-segm
-  'MULTZ'   0.01      ${dic['i_f_c'][17]} ${dic['i_f_c'][19]} ${dic['j_f_c'][70]} ${dic['j_f_c'][99]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D-segm
-   MULTZ    0.0035      ${dic['i_f_c'][6]}  ${dic['i_f_c'][7]} ${dic['j_f_c'][40]} ${dic['j_f_c'][60]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} / D, E west
-   MULTZ    0.0035      ${dic['i_f_c'][8]}  ${dic['i_f_c'][8]} ${dic['j_f_c'][41]} ${dic['j_f_c'][60]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} /
-   MULTZ    0.0035      ${dic['i_f_c'][9]}  ${dic['i_f_c'][9]} ${dic['j_f_c'][42]} ${dic['j_f_c'][52]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} /
-   MULTZ    0.0035     ${dic['i_f_c'][10]}  ${dic['i_f_c'][10]} ${dic['j_f_c'][44]} ${dic['j_f_c'][49]} ${dic['k_f_c'][15]} ${dic['k_f_c'][15]} /
+  'MULTZ'   0.01      ${original_to_output_i[12]} ${original_to_output_i[12]} ${original_to_output_j[46]} ${original_to_output_j[56]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D-segm
+  'MULTZ'   0.01      ${original_to_output_i[13]} ${original_to_output_i[13]} ${original_to_output_j[48]} ${original_to_output_j[59]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D-segm
+  'MULTZ'   0.01      ${original_to_output_i[14]} ${original_to_output_i[14]} ${original_to_output_j[49]} ${original_to_output_j[62]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D-segm
+  'MULTZ'   0.01      ${original_to_output_i[15]} ${original_to_output_i[15]} ${original_to_output_j[51]} ${original_to_output_j[65]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D-segm
+  'MULTZ'   0.01      ${original_to_output_i[16]} ${original_to_output_i[19]} ${original_to_output_j[62]} ${original_to_output_j[69]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D-segm
+  'MULTZ'   0.01      ${original_to_output_i[17]} ${original_to_output_i[19]} ${original_to_output_j[70]} ${original_to_output_j[99]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D-segm
+   MULTZ    0.0035      ${original_to_output_i[6]}  ${original_to_output_i[7]} ${original_to_output_j[40]} ${original_to_output_j[60]} ${original_to_output_k[15]} ${original_to_output_k[15]} / D, E west
+   MULTZ    0.0035      ${original_to_output_i[8]}  ${original_to_output_i[8]} ${original_to_output_j[41]} ${original_to_output_j[60]} ${original_to_output_k[15]} ${original_to_output_k[15]} /
+   MULTZ    0.0035      ${original_to_output_i[9]}  ${original_to_output_i[9]} ${original_to_output_j[42]} ${original_to_output_j[52]} ${original_to_output_k[15]} ${original_to_output_k[15]} /
+   MULTZ    0.0035     ${original_to_output_i[10]}  ${original_to_output_i[10]} ${original_to_output_j[44]} ${original_to_output_j[49]} ${original_to_output_k[15]} ${original_to_output_k[15]} /
 /
 
 -- D-1H water
 EQUALS
-  'MULTZ'    1.0  ${dic['i_f_c'][22]}  ${dic['i_f_c'][24]}  ${dic['j_f_c'][21]}  ${dic['j_f_c'][22]}  ${dic['k_f_c'][11]}  ${dic['k_f_c'][11]} /  
-  'MULTZ'    0.1  ${dic['i_f_c'][21]}  ${dic['i_f_c'][25]}  ${dic['j_f_c'][17]}  ${dic['j_f_c'][19]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /    
-  'MULTZ'    1.0  ${dic['i_f_c'][22]}  ${dic['i_f_c'][24]}  ${dic['j_f_c'][17]}  ${dic['j_f_c'][19]}  ${dic['k_f_c'][17]}  ${dic['k_f_c'][17]} / 
-  'MULTZ'    1.0  ${dic['i_f_c'][22]}  ${dic['i_f_c'][24]}  ${dic['j_f_c'][15]}  ${dic['j_f_c'][17]}  ${dic['k_f_c'][18]}  ${dic['k_f_c'][18]} /   
+  'MULTZ'    1.0  ${original_to_output_i[22]}  ${original_to_output_i[24]}  ${original_to_output_j[21]}  ${original_to_output_j[22]}  ${original_to_output_k[11]}  ${original_to_output_k[11]} /  
+  'MULTZ'    0.1  ${original_to_output_i[21]}  ${original_to_output_i[25]}  ${original_to_output_j[17]}  ${original_to_output_j[19]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /    
+  'MULTZ'    1.0  ${original_to_output_i[22]}  ${original_to_output_i[24]}  ${original_to_output_j[17]}  ${original_to_output_j[19]}  ${original_to_output_k[17]}  ${original_to_output_k[17]} / 
+  'MULTZ'    1.0  ${original_to_output_i[22]}  ${original_to_output_i[24]}  ${original_to_output_j[15]}  ${original_to_output_j[17]}  ${original_to_output_k[18]}  ${original_to_output_k[18]} /   
 /  
 
 -- B-1 & B-3 water
 EQUALS
-  'MULTZ'    0.1 ${dic['i_f_c'][12]}  ${dic['i_f_c'][13]}  ${dic['j_f_c'][34]}  ${dic['j_f_c'][35]}  ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]} /  
+  'MULTZ'    0.1 ${original_to_output_i[12]}  ${original_to_output_i[13]}  ${original_to_output_j[34]}  ${original_to_output_j[35]}  ${original_to_output_k[15]}  ${original_to_output_k[15]} /  
 / 
 
 -- RFT D_-H
 EQUALS
-  'MULTZ'  0.1     ${dic['i_f_c'][16]} ${dic['i_f_c'][19]} ${dic['j_f_c'][47]} ${dic['j_f_c'][53]} ${dic['k_f_c'][18]} ${dic['k_f_c'][18]} /  D-3H
+  'MULTZ'  0.1     ${original_to_output_i[16]} ${original_to_output_i[19]} ${original_to_output_j[47]} ${original_to_output_j[53]} ${original_to_output_k[18]} ${original_to_output_k[18]} /  D-3H
 /

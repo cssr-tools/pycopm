@@ -86,31 +86,182 @@
              
   <section id="module-pycopm.core.pycopm">
 <span id="pycopm-core-pycopm-module"></span><h1>pycopm.core.pycopm module<a class="headerlink" href="#module-pycopm.core.pycopm" title="Link to this heading"></a></h1>
-<p>Main script for pycopm</p>
+<p>Command-line entry point and top-level workflow coordination for pycopm.</p>
+<p>pycopm supports two input workflows:</p>
+<ul class="simple">
+<li><p>OPM <code class="docutils literal notranslate"><span class="pre">.DATA</span></code> decks can be coarsened, refined, transformed, or reduced to a
+submodel.</p></li>
+<li><p>TOML configurations generate coarsened Norne or Drogon cases and can
+optionally run OPM Flow or ERT studies.</p></li>
+</ul>
+<p>This module parses and validates command-line arguments, selects the appropriate
+workflow, and coordinates its major processing steps. The numerical and
+file-generation details are implemented in the utility modules.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.core.pycopm.check_cmdargs">
-<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">check_cmdargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmdargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.core.pycopm.check_cmdargs" title="Link to this definition"></a></dt>
-<dd><p>Check for invalid combinations of command arguments</p>
+<dt class="sig sig-object py" id="pycopm.core.pycopm._check_cmdargs">
+<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">_check_cmdargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmdargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.core.pycopm._check_cmdargs" title="Link to this definition"></a></dt>
+<dd><p>Validate command-line arguments and incompatible operations.</p>
+<p>The checks cover input type, Flow availability, coarsening and refinement
+syntax, aggregation methods, vicinity selections, transformations, and
+options restricted to particular workflows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cmdargs</strong> (<em>dict</em>) – Command flags</p>
+<dd class="field-odd"><p><strong>cmdargs</strong> – Parsed arguments returned by <a class="reference internal" href="#pycopm.core.pycopm._parse_arguments" title="pycopm.core.pycopm._parse_arguments"><code class="xref py py-func docutils literal notranslate"><span class="pre">_parse_arguments()</span></code></a>.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>SystemExit</strong> – If an argument is invalid or an incompatible combination is requested.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.core.pycopm.load_parser">
-<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">load_parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.core.pycopm.load_parser" title="Link to this definition"></a></dt>
-<dd><p>Argument options</p>
+<dt class="sig sig-object py" id="pycopm.core.pycopm._check_flow">
+<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">_check_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow_cmdargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow_toml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pycopm.core.pycopm._check_flow" title="Link to this definition"></a></dt>
+<dd><p>Select an available OPM Flow command for a TOML workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flow_cmdargs</strong> – Flow command supplied through the command line.</p></li>
+<li><p><strong>flow_toml</strong> – Flow command read from the TOML configuration.</p></li>
+<li><p><strong>input_file</strong> – TOML filename used in validation messages.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The selected Flow command.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>SystemExit</strong> – If neither command identifies a working Flow executable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.core.pycopm._parse_arguments">
+<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">_parse_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.core.pycopm._parse_arguments" title="Link to this definition"></a></dt>
+<dd><p>Parse supported command-line arguments.</p>
+<p>Unknown arguments are left unprocessed for compatibility with external
+launchers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>argv</strong> – Command-line arguments. If omitted, arguments are read from <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Arguments keyed by their destination names.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, str]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycopm.core.pycopm.main">
-<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.core.pycopm.main" title="Link to this definition"></a></dt>
-<dd><p>Main function for the pycopm executable</p>
+<span class="sig-prename descclassname"><span class="pre">pycopm.core.pycopm.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.core.pycopm.main" title="Link to this definition"></a></dt>
+<dd><p>Run the deck-based or TOML-based pycopm workflow.</p>
+<p>OPM <code class="docutils literal notranslate"><span class="pre">.DATA</span></code> decks can be coarsened, refined, transformed, or reduced to
+a submodel. TOML configurations generate coarsened Norne or Drogon cases
+and can optionally run OPM Flow or ERT studies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>argv</strong> – Command-line arguments. If omitted, arguments are read from
+<code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>.</p></li>
+<li><p><strong>-i</strong> – Input <code class="docutils literal notranslate"><span class="pre">.DATA</span></code> deck or TOML configuration file.</p></li>
+<li><p><strong>--input_deck_path</strong> – Input <code class="docutils literal notranslate"><span class="pre">.DATA</span></code> deck or TOML configuration file.</p></li>
+<li><p><strong>-o</strong> – Directory for generated decks, include files, and simulation results.</p></li>
+<li><p><strong>--output_directory</strong> – Directory for generated decks, include files, and simulation results.</p></li>
+<li><p><strong>-f</strong> – Command or path used to run OPM Flow.</p></li>
+<li><p><strong>--flow_command</strong> – Command or path used to run OPM Flow.</p></li>
+<li><p><strong>-m</strong> – Deck-processing stages to run: <code class="docutils literal notranslate"><span class="pre">prep</span></code>, <code class="docutils literal notranslate"><span class="pre">deck</span></code>, <code class="docutils literal notranslate"><span class="pre">dry</span></code>,
+<code class="docutils literal notranslate"><span class="pre">prep_deck</span></code>, <code class="docutils literal notranslate"><span class="pre">deck_dry</span></code>, or <code class="docutils literal notranslate"><span class="pre">all</span></code>.</p></li>
+<li><p><strong>--execution_mode</strong> – Deck-processing stages to run: <code class="docutils literal notranslate"><span class="pre">prep</span></code>, <code class="docutils literal notranslate"><span class="pre">deck</span></code>, <code class="docutils literal notranslate"><span class="pre">dry</span></code>,
+<code class="docutils literal notranslate"><span class="pre">prep_deck</span></code>, <code class="docutils literal notranslate"><span class="pre">deck_dry</span></code>, or <code class="docutils literal notranslate"><span class="pre">all</span></code>.</p></li>
+<li><p><strong>-v</strong> – Submodel selection based on region values, an xy polygon, or a
+well-centred <code class="docutils literal notranslate"><span class="pre">box</span></code>, <code class="docutils literal notranslate"><span class="pre">diamond</span></code>, or <code class="docutils literal notranslate"><span class="pre">diamondxy</span></code> neighbourhood.</p></li>
+<li><p><strong>--vicinity_specification</strong> – Submodel selection based on region values, an xy polygon, or a
+well-centred <code class="docutils literal notranslate"><span class="pre">box</span></code>, <code class="docutils literal notranslate"><span class="pre">diamond</span></code>, or <code class="docutils literal notranslate"><span class="pre">diamondxy</span></code> neighbourhood.</p></li>
+<li><p><strong>-c</strong> – Uniform coarsening factors in the x, y, and z directions.</p></li>
+<li><p><strong>--coarsening</strong> – Uniform coarsening factors in the x, y, and z directions.</p></li>
+<li><p><strong>-x</strong> – Cell-specific coarsening specification along the x axis.</p></li>
+<li><p><strong>--x_coarsening</strong> – Cell-specific coarsening specification along the x axis.</p></li>
+<li><p><strong>-y</strong> – Cell-specific coarsening specification along the y axis.</p></li>
+<li><p><strong>--y_coarsening</strong> – Cell-specific coarsening specification along the y axis.</p></li>
+<li><p><strong>-z</strong> – Cell-specific coarsening specification along the z axis.</p></li>
+<li><p><strong>--z_coarsening</strong> – Cell-specific coarsening specification along the z axis.</p></li>
+<li><p><strong>-g</strong> – Uniform numbers of additional cells along the x, y, and z axes.</p></li>
+<li><p><strong>--refinement</strong> – Uniform numbers of additional cells along the x, y, and z axes.</p></li>
+<li><p><strong>-rx</strong> – Number of additional cells for each original x interval.</p></li>
+<li><p><strong>--x_refinement</strong> – Number of additional cells for each original x interval.</p></li>
+<li><p><strong>-ry</strong> – Number of additional cells for each original y interval.</p></li>
+<li><p><strong>--y_refinement</strong> – Number of additional cells for each original y interval.</p></li>
+<li><p><strong>-rz</strong> – Number of additional cells for each original z interval.</p></li>
+<li><p><strong>--z_refinement</strong> – Number of additional cells for each original z interval.</p></li>
+<li><p><strong>-a</strong> – Aggregation method for active-cell values: <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p></li>
+<li><p><strong>--active_cell_methods</strong> – Aggregation method for active-cell values: <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p></li>
+<li><p><strong>-n</strong> – Aggregation method for discrete properties: <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p></li>
+<li><p><strong>--discrete_aggregation_method</strong> – Aggregation method for discrete properties: <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p></li>
+<li><p><strong>-s</strong> – Aggregation method for continuous properties: <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mean</span></code>, or pore-volume-weighted mean (<code class="docutils literal notranslate"><span class="pre">pvmean</span></code>). If omitted,
+property-specific physical aggregation is used.</p></li>
+<li><p><strong>--continuous_aggregation_method</strong> – Aggregation method for continuous properties: <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mean</span></code>, or pore-volume-weighted mean (<code class="docutils literal notranslate"><span class="pre">pvmean</span></code>). If omitted,
+property-specific physical aggregation is used.</p></li>
+<li><p><strong>-p</strong> – Pore-volume correction method. The available values are <code class="docutils literal notranslate"><span class="pre">0</span></code> through
+<code class="docutils literal notranslate"><span class="pre">4</span></code>; supported methods depend on the selected workflow.</p></li>
+<li><p><strong>--pore_volume_correction</strong> – Pore-volume correction method. The available values are <code class="docutils literal notranslate"><span class="pre">0</span></code> through
+<code class="docutils literal notranslate"><span class="pre">4</span></code>; supported methods depend on the selected workflow.</p></li>
+<li><p><strong>-q</strong> – Set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to adjust pore volume to match the initial oil and gas in
+place of the input model.</p></li>
+<li><p><strong>--correct_fluid_in_place</strong> – Set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to adjust pore volume to match the initial oil and gas in
+place of the input model.</p></li>
+<li><p><strong>-t</strong> – Transmissibility coarsening method: <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, or <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>--transmissibility_coarsening_method</strong> – Transmissibility coarsening method: <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, or <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>-r</strong> – Level of COMPDAT data removed after coarsening: <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>--completion_removal_level</strong> – Level of COMPDAT data removed after coarsening: <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>-j</strong> – Positive depth-jump thresholds used to prevent unwanted connections
+between cells grouped during coarsening.</p></li>
+<li><p><strong>--jump_thresholds</strong> – Positive depth-jump thresholds used to prevent unwanted connections
+between cells grouped during coarsening.</p></li>
+<li><p><strong>-w</strong> – Name of the generated OPM deck.</p></li>
+<li><p><strong>--output_deck_name</strong> – Name of the generated OPM deck.</p></li>
+<li><p><strong>-l</strong> – Prefix added to generated include filenames.</p></li>
+<li><p><strong>--include_prefix</strong> – Prefix added to generated include filenames.</p></li>
+<li><p><strong>-e</strong> – Character encoding used to read the input deck: <code class="docutils literal notranslate"><span class="pre">ISO-8859-1</span></code> or
+<code class="docutils literal notranslate"><span class="pre">utf8</span></code>.</p></li>
+<li><p><strong>--deck_encoding</strong> – Character encoding used to read the input deck: <code class="docutils literal notranslate"><span class="pre">ISO-8859-1</span></code> or
+<code class="docutils literal notranslate"><span class="pre">utf8</span></code>.</p></li>
+<li><p><strong>-ijk</strong> – One-based input-grid <code class="docutils literal notranslate"><span class="pre">i,j,k</span></code> indices to map to the modified grid.</p></li>
+<li><p><strong>--requested_ijk</strong> – One-based input-grid <code class="docutils literal notranslate"><span class="pre">i,j,k</span></code> indices to map to the modified grid.</p></li>
+<li><p><strong>-d</strong> – Coordinate transformation: <code class="docutils literal notranslate"><span class="pre">translate</span> <span class="pre">[x,y,z]</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">[x,y,z]</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">rotatexy</span></code>, <code class="docutils literal notranslate"><span class="pre">rotatexz</span></code>, or <code class="docutils literal notranslate"><span class="pre">rotateyz</span></code> followed by an angle
+in degrees.</p></li>
+<li><p><strong>--grid_transformation</strong> – Coordinate transformation: <code class="docutils literal notranslate"><span class="pre">translate</span> <span class="pre">[x,y,z]</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">[x,y,z]</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">rotatexy</span></code>, <code class="docutils literal notranslate"><span class="pre">rotatexz</span></code>, or <code class="docutils literal notranslate"><span class="pre">rotateyz</span></code> followed by an angle
+in degrees.</p></li>
+<li><p><strong>-explicit</strong> – Set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to write initial solution properties explicitly instead
+of retaining EQUIL initialization.</p></li>
+<li><p><strong>--write_explicit_solution</strong> – Set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to write initial solution properties explicitly instead
+of retaining EQUIL initialization.</p></li>
+<li><p><strong>-dual</strong> – Static-property criterion used to separate matrix and fracture or
+non-net cells during coarsening.</p></li>
+<li><p><strong>--dual_porosity_criterion</strong> – Static-property criterion used to separate matrix and fracture or
+non-net cells during coarsening.</p></li>
+<li><p><strong>-precision</strong> – Number of significant digits used when writing floating-point values.
+Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> to preserve machine precision.</p></li>
+<li><p><strong>--significant_digits</strong> – Number of significant digits used when writing floating-point values.
+Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> to preserve machine precision.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

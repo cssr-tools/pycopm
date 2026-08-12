@@ -37,7 +37,7 @@ VAPOIL
 METRIC
 
 DIMENS
-${dic['nx']} ${dic['ny']} ${dic['nz']}   /
+${output_nx} ${output_ny} ${output_nz}   /
 
 -- Options for equilibration
 EQLOPTS
@@ -50,19 +50,19 @@ TRACERS
 
 TABDIMS
 -- NTSFUN  NTPVT  NSSFUN  NPPVT  NTFIP  NRPVT   
-    ${round(dic['satnum_cmax'])}      2      200     24     6      20    /
+    ${round(number_tables)}      2      200     24     6      20    /
 
 -- Dimension of equilibration tables
 INCLUDE
-  '${dic['fol']}/preprocessing/include/runspec/drogon.eqldims' / -- exported by rms
+  '${output_directory}/preprocessing/include/runspec/drogon.eqldims' / -- exported by rms
 
 -- Regions dimension data
 INCLUDE
-  '${dic['fol']}/preprocessing/include/runspec/drogon.regdims' / -- exported by rms
+  '${output_directory}/preprocessing/include/runspec/drogon.regdims' / -- exported by rms
 
 -- x-,y-,z- and multnum regions
 INCLUDE
-  '${dic['fol']}/preprocessing/include/runspec/drogon.gridopts' / -- exported by rms
+  '${output_directory}/preprocessing/include/runspec/drogon.gridopts' / -- exported by rms
 
 -- Dimensions for fault data
 FAULTDIM
@@ -124,52 +124,52 @@ MAPAXES
 4.5606369E+05 5.9394410E+06 4.5606369E+05 5.9265510E+06 4.6748934E+05 5.9265510E+06 /
 
 INCLUDE
- '${dic['fol']}/preprocessing/DROGON_COARSER.GRDECL' /
+ '${output_directory}/preprocessing/DROGON_COARSER.GRDECL' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/fault.inc' / 
+ '${output_directory}/preprocessing/fault.inc' / 
 
 INCLUDE
- '${dic['fol']}/preprocessing/poro.inc' /
+ '${output_directory}/preprocessing/poro.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/ntg.inc' /
+ '${output_directory}/preprocessing/ntg.inc' /
  
 INCLUDE
-% if dic['rock'][0][1] > 0 and dic['mode'] in ["files","ert"]:
+% if rock_property_settings[0][1] > 0 and execution_mode in ["files","ert"]:
 'permx.inc' /
 % else :
-'${dic['fol']}/preprocessing/permx.inc' /
+'${output_directory}/preprocessing/permx.inc' /
 % endif
 
 INCLUDE
-% if dic['rock'][1][1] > 0 and dic['mode'] in ["files","ert"]:
+% if rock_property_settings[1][1] > 0 and execution_mode in ["files","ert"]:
 'permy.inc' /
 % else :
-'${dic['fol']}/preprocessing/permy.inc' /
+'${output_directory}/preprocessing/permy.inc' /
 % endif
 
 INCLUDE
-% if dic['rock'][2][1] > 0 and dic['mode'] in ["files","ert"]:
+% if rock_property_settings[2][1] > 0 and execution_mode in ["files","ert"]:
 'permz.inc' /
 % else :
-'${dic['fol']}/preprocessing/permz.inc' /
+'${output_directory}/preprocessing/permz.inc' /
 % endif
  
 INCLUDE
- '${dic['fol']}/preprocessing/multnum.inc' /
+ '${output_directory}/preprocessing/multnum.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/include/grid/drogon.multregt' / --from ert template
+ '${output_directory}/preprocessing/include/grid/drogon.multregt' / --from ert template
 
 -- =============================================================================
 EDIT
 -- =============================================================================
 INCLUDE
- '${dic['fol']}/preprocessing/porv.inc' /
+ '${output_directory}/preprocessing/porv.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/trans.inc' /
+ '${output_directory}/preprocessing/trans.inc' /
 
 -- =============================================================================
 PROPS
@@ -178,19 +178,19 @@ PROPS
 FILLEPS
 
 INCLUDE
-% if dic['deck'] == 0:                               
- '${dic['fol']}/preprocessing/include/props/drogon.sattab' / --exported by rms
-% elif dic['indc'] > 0:
+% if saturation_function_method == 0:                               
+ '${output_directory}/preprocessing/include/props/drogon.sattab' / --exported by rms
+% elif use_let_tables:
 'tables.inc' /
 % else :
-'${dic['fol']}/preprocessing/tables.inc' /
+'${output_directory}/preprocessing/tables.inc' /
 % endif
 
 INCLUDE
- '${dic['fol']}/preprocessing/swatinit.inc' /
+ '${output_directory}/preprocessing/swatinit.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/include/props/drogon.pvt' /
+ '${output_directory}/preprocessing/include/props/drogon.pvt' /
 
 -- Set up tracers
 TRACER
@@ -206,53 +206,53 @@ REGIONS
 -- =============================================================================
 
 INCLUDE
- '${dic['fol']}/preprocessing/eqlnum.inc' /
+ '${output_directory}/preprocessing/eqlnum.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/fipnum.inc' /
+ '${output_directory}/preprocessing/fipnum.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/fipzon.inc' /
+ '${output_directory}/preprocessing/fipzon.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/satnum.inc' /
+ '${output_directory}/preprocessing/satnum.inc' /
 
 INCLUDE
- '${dic['fol']}/preprocessing/pvtnum.inc' /
+ '${output_directory}/preprocessing/pvtnum.inc' /
 
 
 -- =============================================================================
 SOLUTION
 -- =============================================================================
 
-% if dic['initial'] == 0:  
+% if initial == 0:
 INCLUDE                                
- '${dic['fol']}/preprocessing/include/solution/drogon.equil' / --exported by rms   
+ '${output_directory}/preprocessing/include/solution/drogon.equil' / --exported by rms
 INCLUDE
- '${dic['fol']}/preprocessing/include/solution/drogon.rxvd' / --!! manually created (7 equil regions)  
+ '${output_directory}/preprocessing/include/solution/drogon.rxvd' / --!! manually created (7 equil regions)
 %else:
 INCLUDE
- '${dic['fol']}/preprocessing/init.inc' / 
+ '${output_directory}/preprocessing/init.inc' /
 % endif
 
 INCLUDE                                
- '${dic['fol']}/preprocessing/include/solution/drogon.thpres' / --exported by rms 
+ '${output_directory}/preprocessing/include/solution/drogon.thpres' / --exported by rms
  
 -- Initial tracer concentration vs depth for tracer WT1
 TVDPFWT1
  1000  0.0 
- 2500  0.0 /   
+ 2500  0.0 /
 
 -- Initial tracer concentration vs depth for tracer WT2
 TVDPFWT2
  1000  0.0 
- 2500  0.0 /   
+ 2500  0.0 /
 
 RPTSOL
  RESTART=2  FIP=2  'THPRES'  'FIPRESV' /
 
 -- ALLPROPS --> fluid densities, viscosities , reciprocal formation volume factors and phase relative permeabilities
--- NORST=1  --> output for visualization only 
+-- NORST=1  --> output for visualization only
 RPTRST
  ALLPROPS RVSAT RSSAT PBPD  NORST=1 RFIP RPORV /
 
@@ -267,7 +267,7 @@ SUMTHIN
  1 /
 
 INCLUDE
- '${dic['fol']}/preprocessing/include/summary/drogon.summary' /
+ '${output_directory}/preprocessing/include/summary/drogon.summary' /
 
 
 -- =============================================================================
@@ -275,5 +275,4 @@ SCHEDULE
 -- =============================================================================
 
 INCLUDE
- '${dic['fol']}/preprocessing/schedule.SCH' / 
-
+ '${output_directory}/preprocessing/schedule.SCH' /

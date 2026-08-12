@@ -1,7 +1,7 @@
-pycopm.utils.generate\_files module
+pycopm.utils.generate\_decks module
 ===================================
 
-.. automodule:: pycopm.utils.generate_files
+.. automodule:: pycopm.utils.generate_decks
    :members:
    :private-members:
    :show-inheritance:
