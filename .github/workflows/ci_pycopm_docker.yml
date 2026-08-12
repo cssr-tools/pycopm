@@ -54,7 +54,7 @@ jobs:
 
       - name: Check if input.toml using ERT run
         run: |
-          file="${{ github.workspace }}/ert/postprocessing/hm_missmatch.png"
+          file="${{ github.workspace }}/ert/postprocessing/hm_mismatch.png"
           if [ -f "$file" ]; then
             echo "pycopm using ERT succeeded"
           else
