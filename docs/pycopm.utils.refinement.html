@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycopm.utils.refinement module &mdash; pycopm  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pycopm.utils.runs_executer module" href="pycopm.utils.runs_executer.html" />
+    <link rel="prev" title="pycopm.utils.parser_deck module" href="pycopm.utils.parser_deck.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #aaaaaa" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">pycopm Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_folder.html">Output folder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related.html">Related</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About pycopm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #aaaaaa" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycopm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">pycopm Python API</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.html">pycopm package</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.utils.html">pycopm.utils package</a></li>
+      <li class="breadcrumb-item active">pycopm.utils.refinement module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pycopm.utils.refinement.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pycopm.utils.refinement">
+<span id="pycopm-utils-refinement-module"></span><h1>pycopm.utils.refinement module<a class="headerlink" href="#module-pycopm.utils.refinement" title="Link to this heading"></a></h1>
+<p>Refine a corner-point grid and its reservoir properties.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.RefinementMaps">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">RefinementMaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refined_cell_counts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.refinement.RefinementMaps" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Store axis refinement values and subdivision counts.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.RefinementMaps.refined_cell_counts">
+<span class="sig-name descname"><span class="pre">refined_cell_counts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.refinement.RefinementMaps.refined_cell_counts" title="Link to this definition"></a></dt>
+<dd><p>Number of refined cells generated from each original cell, flattened in
+<code class="docutils literal notranslate"><span class="pre">(z,</span> <span class="pre">y,</span> <span class="pre">x)</span></code> order.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.RefinementMaps.x">
+<span class="sig-name descname"><span class="pre">x</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.refinement.RefinementMaps.x" title="Link to this definition"></a></dt>
+<dd><p>Number of additional cells created from each original x interval.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.RefinementMaps.y">
+<span class="sig-name descname"><span class="pre">y</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.refinement.RefinementMaps.y" title="Link to this definition"></a></dt>
+<dd><p>Number of additional cells created from each original y interval.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.RefinementMaps.z">
+<span class="sig-name descname"><span class="pre">z</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NDArray</span></span><a class="headerlink" href="#pycopm.utils.refinement.RefinementMaps.z" title="Link to this definition"></a></dt>
+<dd><p>Number of additional cells created from each original z interval.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.create_coord_axis_map">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">create_coord_axis_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refinement_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.refinement.create_coord_axis_map" title="Link to this definition"></a></dt>
+<dd><p>Create interpolation data for one COORD axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>refinement_values</strong> – Number of additional cells in each original interval.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original intervals and relative positions of refined grid points.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps.source_indices" title="pycopm.utils.vicinity.VicinityMaps.source_indices">source_indices</a>, fractions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.create_refinement_maps">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">create_refinement_maps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmdargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycopm.utils.refinement.RefinementMaps" title="pycopm.utils.refinement.RefinementMaps"><span class="pre">RefinementMaps</span></a></span></span><a class="headerlink" href="#pycopm.utils.refinement.create_refinement_maps" title="Link to this definition"></a></dt>
+<dd><p>Create axis refinement maps and update output dimensions.</p>
+<p>A refinement value of <code class="docutils literal notranslate"><span class="pre">n</span></code> divides an original interval into <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">+</span> <span class="pre">1</span></code>
+intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration whose output dimensions are updated.</p></li>
+<li><p><strong>cmdargs</strong> – Command arguments containing <code class="docutils literal notranslate"><span class="pre">refinement</span></code>, <code class="docutils literal notranslate"><span class="pre">x_refinement</span></code>,
+<code class="docutils literal notranslate"><span class="pre">y_refinement</span></code>, and <code class="docutils literal notranslate"><span class="pre">z_refinement</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Axis values and the number of subdivisions per original cell.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pycopm.utils.refinement.RefinementMaps" title="pycopm.utils.refinement.RefinementMaps">RefinementMaps</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.create_zcorn_axis_map">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">create_zcorn_axis_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refinement_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.refinement.create_zcorn_axis_map" title="Link to this definition"></a></dt>
+<dd><p>Create interpolation data for one ZCORN axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>refinement_values</strong> – Number of additional cells in each original interval.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original intervals and relative corner positions in ZCORN order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps.source_indices" title="pycopm.utils.vicinity.VicinityMaps.source_indices">source_indices</a>, fractions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.refine_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">refine_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refinement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.refinement.RefinementMaps" title="pycopm.utils.refinement.RefinementMaps"><span class="pre">RefinementMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.refinement.refine_grid" title="Link to this definition"></a></dt>
+<dd><p>Create and write the refined corner-point grid.</p>
+<p><code class="docutils literal notranslate"><span class="pre">COORD</span></code> and <code class="docutils literal notranslate"><span class="pre">ZCORN</span></code> values are linearly interpolated along the refined
+axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration containing original geometry and grid dimensions.</p></li>
+<li><p><strong>refinement</strong> – Axis refinement maps.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.refine_properties">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">refine_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refinement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.refinement.RefinementMaps" title="pycopm.utils.refinement.RefinementMaps"><span class="pre">RefinementMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.refinement.refine_properties" title="Link to this definition"></a></dt>
+<dd><p>Map reservoir properties onto the refined grid.</p>
+<p>Properties are copied to generated cells. <code class="docutils literal notranslate"><span class="pre">PORV</span></code> is divided equally among
+them to preserve each original cell’s pore volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration containing source properties and output dimensions.</p></li>
+<li><p><strong>refinement</strong> – Refinement maps created by <a class="reference internal" href="#pycopm.utils.refinement.create_refinement_maps" title="pycopm.utils.refinement.create_refinement_maps"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_refinement_maps()</span></code></a>.</p></li>
+<li><p><strong>modified_deck</strong> – Deck lines updated with generated property includes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.refinement.refine_zcorn_surface">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.refinement.</span></span><span class="sig-name descname"><span class="pre">refine_zcorn_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_surface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_surface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_ny</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zcorn_x_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zcorn_y_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zcorn_x_fractions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zcorn_y_fractions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.refinement.refine_zcorn_surface" title="Link to this definition"></a></dt>
+<dd><p>Interpolate one ZCORN surface onto the refined horizontal grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_surface</strong> – Flattened input surface with <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">*</span> <span class="pre">original_nx</span> <span class="pre">*</span> <span class="pre">original_ny</span></code> values.</p></li>
+<li><p><strong>destination_surface</strong> – Preallocated output with <code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">*</span> <span class="pre">output_nx</span> <span class="pre">*</span> <span class="pre">output_ny</span></code> values, modified
+in place.</p></li>
+<li><p><strong>original_nx</strong> – Original horizontal grid dimensions.</p></li>
+<li><p><strong>original_ny</strong> – Original horizontal grid dimensions.</p></li>
+<li><p><strong>output_nx</strong> – Refined horizontal grid dimensions.</p></li>
+<li><p><strong>output_ny</strong> – Refined horizontal grid dimensions.</p></li>
+<li><p><strong>zcorn_x_indices</strong> – Source interval indices for refined corners.</p></li>
+<li><p><strong>zcorn_y_indices</strong> – Source interval indices for refined corners.</p></li>
+<li><p><strong>zcorn_x_fractions</strong> – Relative interpolation positions within source intervals.</p></li>
+<li><p><strong>zcorn_y_fractions</strong> – Relative interpolation positions within source intervals.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pycopm.utils.parser_deck.html" class="btn btn-neutral float-left" title="pycopm.utils.parser_deck module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.runs_executer.html" class="btn btn-neutral float-right" title="pycopm.utils.runs_executer module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, NORCE Research AS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

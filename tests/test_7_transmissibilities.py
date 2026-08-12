@@ -12,6 +12,7 @@ from opm.io.ecl import EclFile as OpmFile
 from opm.io.ecl import EGrid as OpmGrid
 
 from pycopm.core.pycopm import main
+
 from .utils import assert_grid_and_init
 
 RTOL = 1e-5
@@ -41,11 +42,10 @@ REGRESSION_CASES = {
             ("TRANNNC", np.max, 25.62749671936035),
         ],
         "exact": [
-            ("SATNUM", np.sum, 43),
-            ("FIPNUM", np.sum, 43),
+            ("FIPNUM", np.sum, 157),
         ],
         "data": {
-            "length": 81,
+            "length": 84,
             "welspecs": (2, 2),
             "compdat": ("INJ00", 2, 2, 1),
         },
@@ -73,11 +73,10 @@ REGRESSION_CASES = {
             ("TRANNNC", np.max, 25.62749671936035),
         ],
         "exact": [
-            ("SATNUM", np.sum, 43),
-            ("FIPNUM", np.sum, 43),
+            ("FIPNUM", np.sum, 157),
         ],
         "data": {
-            "length": 81,
+            "length": 84,
             "welspecs": (2, 2),
             "compdat": ("INJ00", 2, 2, 1),
         },

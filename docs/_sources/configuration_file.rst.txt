@@ -18,10 +18,10 @@ The first input parameter is:
     :linenos:
 
     # Set mpirun, the full path to the flow executable, and simulator flags (except --output-dir)
-    flow = "flow --newton-min-iterations=1"
+    flow_command = "flow --newton-min-iterations=1"
     
 If **flow** is not in your path, then write the full path to the executable, as well as adding mpirun
-if this is supported in your machine (e.g., flow = "mpirun -np 8 /Users/dmar/Github/opm/build/opm-simulators/bin/flow -\-newton-min-iterations=1").
+if this is supported in your machine (e.g., flow_command = "mpirun -np 8 /Users/dmar/Github/opm/build/opm-simulators/bin/flow -\-newton-min-iterations=1").
 
 The next entries define the following parameters:
 
@@ -30,32 +30,31 @@ The next entries define the following parameters:
     :lineno-start: 4
 
     # Set the model parameters
-    field = "norne"  # Geological model (norne or drogon)
-    mode = "ert" # Mode to run (single-run, files, or ert)
-    X = [0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0] # Array of x-coarsening 
-    Y = [0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0] # Array of y-coarsening 
-    Z = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0] # Array of z-coarsening
-    net = 2 # Number of ensembles
-    mep = 2 # Maximum number of ensembles running in parallel
-    mrt = 600 # Maximum runtime in seconds of a realization. A value of 0 means unlimited runtime. 
-    mrn = 2 # Minimum number of realizations that must have succeeded for the simulation to be regarded as a success.
-    rds = 7 # Set a specific seed for reproducibility. A value of 0 means no seed.  
-    obs = "observations_training" # Name of the observation file for the hm ('observations_training', 'observations_test', or 'observations_complete')
-    deck = 0 # Select which coarser deck to use: 0 -> default one or 1 -> LET sat functions
-    letsatn = 1 # For norne: for the LET coarser deck, select: 0 -> SATNUM=1, 1 -> SATNUM is computed from Sandve et al 2022, 2 -> #SATNUM=#Cells.
-    cporv = 0 # 0 -> no corrections for lost porv, 1 -> correct it on all cells
-    initial = 0 # Initialization 0 -> Equil 1->INIT from fine-scale
-    error = [0.1,0.1,0.1] # Error WWPR, WOPR, and WGPR
-    minerror = [100,100,100000] # Minimum error of WWPR, WOPR, and WGPR
-    date = 2005-03-01 # Last date to HM
-    suffixes = ["PRT"] # Delete files with this suffix to save storage
+    model_name = "norne"  # Geological model (norne or drogon)
+    execution_mode = "single-run" # Mode to run (single-run, files, or ert)
+    x_coarsening = [0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,2,0,2,2,2,2,0] # Array of x-coarsening 
+    y_coarsening = [0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2,2,2,2,2,2,2,2,2,0] # Array of y-coarsening 
+    z_coarsening = [0,0,2,0,0,2,2,2,2,2,0,2,2,2,2,2,0,0,2,0,2,2,0] # Array of z-coarsening
+    ensemble_size = 2 # Number of ensembles
+    max_parallel_realizations = 2 # Maximum number of ensembles running in parallel
+    max_realization_runtime_seconds = 600 # Maximum runtime in seconds of a realization. A value of 0 means unlimited runtime. 
+    min_successful_realizations = 2 # Minimum number of realizations that must have succeeded for the simulation to be regarded as a success.
+    random_seed = 7 # Set a specific seed for reproducibility. A value of 0 means no seed.  
+    saturation_function_method = 0 # Select which coarser deck to use: 0 -> default one or 1 -> LET sat functions
+    satnum_generation_method = 1 # For norne: for the LET coarser deck, select: 0 -> SATNUM=1, 1 -> SATNUM is computed from Sandve et al 2022, 2 -> #SATNUM=#Cells.
+    pore_volume_correction = 0 # 0 -> no corrections for lost porv, 1 -> correct it on all cells
+    initialization_method = 0 # Initialization 0 -> Equil 1->INIT from fine-scale
+    observation_relative_errors = [0.1,0.1,0.1] # Error WWPR, WOPR, and WGPR
+    observation_minimum_errors = [100,100,100000] # Minimum error of WWPR, WOPR, and WGPR
+    history_matching_end_date = 2005-03-01 # Last date to HM
+    cleanup_file_suffixes = ["PRT"] # Delete files with this suffix to save storage
 
 The single-run mode results in Flow running only one simulation and the information shown in
 the terminal is the one from the Flow executable instead of the ERT one. The ert option calls the ERT
 executable and the command values are given after in the same input file which are discussed later. The
 files option only writes the needed input files for ERT. 
 
-The X, Y, and Z inputs define which pillars are removed (value 2) in the x, y, and z direction respectively. 
+The x-, y, and z-coarsening inputs define which pillars are removed (value 2) in the x, y, and z direction respectively. 
 
 .. figure:: figs/index.png
 .. figure:: figs/index_plopm.png
@@ -70,8 +69,7 @@ Values of 0 do not remove the pilar.
 
 The remaining lines define the number of ensembles, maximum number of ensembles running in parallel, the maximum runtime in seconds to stop a realization
 (0 means unlimited time), the minimum number of realizations for the simulation to be regarded as a success,
-the random seed for reproducibility (0 means no seed), the observation file for the hm 
-('observations_training.data', 'observations_test.data', or 'observations_complete.data'), to use the saturation
+the random seed for reproducibility (0 means no seed), to use the saturation
 functions from opm-tests norne or to use the LET saturation functions, defining if each of the coarser cells is
 considered as only one region, regions as in Sandve et al 2022 or as a different SATNUM region, and the cporv entry
 sets if the ntg and poro properties on the cells on the boundary are modified to account for lost PV respect to the
@@ -85,7 +83,7 @@ If the ert option is activated, then the following input:
     :lineno-start: 25
 
     # Set the command line for the ert executable (gui, test_run, ensemble_experiment, ensemble_smoother, iterative_ensemble_smoother, and es_mda) and flags
-    ert = "es_mda --weights 1"
+    ert_arguments = "es_mda --weights 1"
 
 sets the type of ert option and command flags. Currently, the options supported are gui, test_run, ensemble_experiment, ensemble_smoother, iterative_ensemble_smoother, and es_mda.
 Confer to the `ERT <https://ert.readthedocs.io/en/latest/>`_ documentation for a full description of these options.
@@ -97,7 +95,7 @@ The LET saturation function parameters for each of the coarsened cells are given
     :lineno-start: 28
 
     # Properties LET saturation functions: name, value, use dist in hm?, dist, distpara, distpara
-    LET = [["lw", 3, 1, "UNIFORM", 1.1,   5],
+    let_parameters = [["lw", 3, 1, "UNIFORM", 1.1,   5],
     ["ew",        1, 1, "UNIFORM", -1,    2], 
     ["tw",        3, 1, "UNIFORM", 1.1,   5], 
     ["lo",        3, 1, "UNIFORM", 1.1,   5], 
@@ -125,7 +123,7 @@ Finally, we set if the permeabilities will be considered for the hm:
     :lineno-start: 48
 
     # Coarser rock properties: name, use dist in hm?, coarsing approach (max or mean)
-    rock = [["PERMX", 1, "max"],
+    rock_property_settings = [["PERMX", 1, "max"],
     ["PERMY",         0, "max"],
     ["PERMZ",         0, "max"]]
 

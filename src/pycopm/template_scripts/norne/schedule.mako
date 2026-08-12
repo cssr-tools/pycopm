@@ -1,29 +1,29 @@
 WELSPECS
-     'C-4H'    'MANI-C'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}  1*       'OIL'  7* /
-     'B-2H'  'B1-DUMMY'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][31]}  1*       'OIL'  2*      'STOP'  4* /
-     'D-1H'   'MANI-D1'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][22]}  1*       'OIL'  2*      'STOP'  4* /
+     'C-4H'    'MANI-C'   ${original_to_output_i[11]}   ${original_to_output_j[35]}  1*       'OIL'  7* /
+     'B-2H'  'B1-DUMMY'   ${original_to_output_i[15]}   ${original_to_output_j[31]}  1*       'OIL'  2*      'STOP'  4* /
+     'D-1H'   'MANI-D1'   ${original_to_output_i[22]}   ${original_to_output_j[22]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}    ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}      'OPEN'  1*     45.314      0.216   4253.571  2*         'Z'     16.503 /
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}    ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}      'OPEN'  1*     43.674      0.216   4103.809  2*         'Z'     16.588 /
-     'B-2H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][31]}    ${dic['k_f_c'][9]}     ${dic['k_f_c'][9]}      'OPEN'  1*     17.246      0.216   1285.863  2*         'X'      5.865 /
-     'B-2H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][31]}    ${dic['k_f_c'][9]}     ${dic['k_f_c'][9]}      'OPEN'  1*     13.200      0.216    991.575  2*         'X'      6.044 /
-     'B-2H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][31]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}      'OPEN'  1*     36.540      0.216   2804.161  2*         'X'      6.593 /
-     'B-2H'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][31]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     12.052      0.216    921.178  2*         'X'      6.486 /
-     'B-2H'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     67.732      0.216   5174.542  2*         'X'      6.472 /
-     'B-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     42.421      0.216   3232.419  2*         'X'      6.404 /
-     'B-2H'   ${dic['i_f_c'][25]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     29.697      0.216   2261.930  2*         'X'      6.393 /
-     'B-2H'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][33]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     10.490      0.216    807.533  2*         'X'      6.677 /
-     'D-1H'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}      'OPEN'  1*      5.505      0.216    510.312  2*         'Z'     15.511 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}      'OPEN'  1*      0.101      0.216      9.456  2*         'Z'     16.532 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}      'OPEN'  1*      4.938      0.216    452.905  2*         'Z'     14.704 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     19.086      0.216   1745.284  2*         'Z'     14.493 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     50.101      0.216   4655.453  2*         'Z'     15.689 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      8.974      0.216    823.585  2*         'Z'     14.751 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      0.479      0.216     43.304  2*         'Z'     13.707 /
-     'D-1H'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][22]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     12.603      0.216   1152.420  2*         'Z'     14.489 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}    ${original_to_output_k[1]}     ${original_to_output_k[1]}      'OPEN'  1*     45.314      0.216   4253.571  2*         'Z'     16.503 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}    ${original_to_output_k[2]}     ${original_to_output_k[2]}      'OPEN'  1*     43.674      0.216   4103.809  2*         'Z'     16.588 /
+     'B-2H'   ${original_to_output_i[17]}   ${original_to_output_j[31]}    ${original_to_output_k[9]}     ${original_to_output_k[9]}      'OPEN'  1*     17.246      0.216   1285.863  2*         'X'      5.865 /
+     'B-2H'   ${original_to_output_i[19]}   ${original_to_output_j[31]}    ${original_to_output_k[9]}     ${original_to_output_k[9]}      'OPEN'  1*     13.200      0.216    991.575  2*         'X'      6.044 /
+     'B-2H'   ${original_to_output_i[20]}   ${original_to_output_j[31]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}      'OPEN'  1*     36.540      0.216   2804.161  2*         'X'      6.593 /
+     'B-2H'   ${original_to_output_i[21]}   ${original_to_output_j[31]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     12.052      0.216    921.178  2*         'X'      6.486 /
+     'B-2H'   ${original_to_output_i[22]}   ${original_to_output_j[32]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     67.732      0.216   5174.542  2*         'X'      6.472 /
+     'B-2H'   ${original_to_output_i[24]}   ${original_to_output_j[32]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     42.421      0.216   3232.419  2*         'X'      6.404 /
+     'B-2H'   ${original_to_output_i[25]}   ${original_to_output_j[32]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     29.697      0.216   2261.930  2*         'X'      6.393 /
+     'B-2H'   ${original_to_output_i[29]}   ${original_to_output_j[33]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     10.490      0.216    807.533  2*         'X'      6.677 /
+     'D-1H'   ${original_to_output_i[22]}   ${original_to_output_j[22]}   ${original_to_output_k[5]}    ${original_to_output_k[5]}      'OPEN'  1*      5.505      0.216    510.312  2*         'Z'     15.511 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[6]}    ${original_to_output_k[6]}      'OPEN'  1*      0.101      0.216      9.456  2*         'Z'     16.532 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[7]}    ${original_to_output_k[7]}      'OPEN'  1*      4.938      0.216    452.905  2*         'Z'     14.704 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     19.086      0.216   1745.284  2*         'Z'     14.493 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     50.101      0.216   4655.453  2*         'Z'     15.689 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      8.974      0.216    823.585  2*         'Z'     14.751 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      0.479      0.216     43.304  2*         'Z'     13.707 /
+     'D-1H'   ${original_to_output_i[23]}   ${original_to_output_j[22]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     12.603      0.216   1152.420  2*         'Z'     14.489 /
 /
 
 GRUPTREE
@@ -144,20 +144,20 @@ DATES
 --      : D-2H Connection 14 14  9 Perf. Len  69.30 ( 77.1%)
 --      : D-2H Connection 14 13  9 Perf. Len  19.50 ( 20.6%)
 WELSPECS
-     'D-2H'  'D2-DUMMY'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][28]}  1*       'OIL'  2*      'STOP'  4* /
+     'D-2H'  'D2-DUMMY'   ${original_to_output_i[14]}   ${original_to_output_j[28]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][26]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     21.450      0.216   1590.754  2*         'Y'      5.741 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     39.557      0.216   2921.561  2*         'Y'      5.648 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][23]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     10.183      0.216    748.871  2*         'Y'      5.554 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][22]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*    121.842      0.216   8821.805  2*         'Y'      5.225 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][21]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*    140.551      0.216  10196.747  2*         'Y'      5.266 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][20]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     24.486      0.216   1793.318  2*         'Y'      5.465 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][15]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     29.883      0.216   2344.667  2*         'Y'      7.229 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][14]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     82.852      0.216   6372.295  2*         'Y'      6.653 /
-     'D-2H'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     24.664      0.216   1809.697  2*         'Y'      5.504 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[26]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     21.450      0.216   1590.754  2*         'Y'      5.741 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[25]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     39.557      0.216   2921.561  2*         'Y'      5.648 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[23]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     10.183      0.216    748.871  2*         'Y'      5.554 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[22]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*    121.842      0.216   8821.805  2*         'Y'      5.225 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[21]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*    140.551      0.216  10196.747  2*         'Y'      5.266 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[20]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     24.486      0.216   1793.318  2*         'Y'      5.465 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[15]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     29.883      0.216   2344.667  2*         'Y'      7.229 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[14]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     82.852      0.216   6372.295  2*         'Y'      6.653 /
+     'D-2H'   ${original_to_output_i[14]}   ${original_to_output_j[13]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     24.664      0.216   1809.697  2*         'Y'      5.504 /
 /
 
 WCONHIST
@@ -249,31 +249,31 @@ DATES
 --      : WCONPROD >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'B-4H'  'B1-DUMMY'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}  1*       'OIL'  2*      'STOP'  4* /
+     'B-4H'  'B1-DUMMY'   ${original_to_output_i[10]}   ${original_to_output_j[32]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}      'OPEN'  1*    118.457      0.216  12025.229  2*         'Z'     24.860 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}      'OPEN'  1*     88.058      0.216   8892.405  2*         'Z'     24.161 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}      'OPEN'  1*      6.493      0.216    651.729  2*         'Z'     23.389 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}      'OPEN'  1*     37.039      0.216   3688.499  2*         'Z'     22.416 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}      'OPEN'  1*     37.182      0.216   3691.211  2*         'Z'     22.046 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}      'OPEN'  1*     27.449      0.216   2717.094  2*         'Z'     21.709 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}      'OPEN'  1*     27.553      0.216   2719.652  2*         'Z'     21.384 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     55.934      0.216   5504.213  2*         'Z'     21.045 /
-     'B-4H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][32]}    ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    343.826      0.216  33643.313  2*         'Z'     20.427 /
-     'B-4H'   ${dic['i_f_c'][9]}    ${dic['j_f_c'][32]}   ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}      'OPEN'  1*    247.048      0.216  23303.623  2*         'Z'     16.915 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}      'OPEN'  1*    200.684      0.216  18964.795  2*         'Z'     17.072 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}      'OPEN'  1*     60.756      0.216   5750.007  2*         'Z'     17.201 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}      'OPEN'  1*    131.035      0.216  12417.905  2*         'Z'     17.318 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][17]}    ${dic['k_f_c'][17]}      'OPEN'  1*      1.215      0.216    115.284  2*         'Z'     17.399 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}      'OPEN'  1*    122.230      0.216  11601.419  2*         'Z'     17.455 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][19]}    ${dic['k_f_c'][19]}      'OPEN'  1*     50.908      0.216   4838.953  2*         'Z'     17.585 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][20]}    ${dic['k_f_c'][20]}      'OPEN'  1*     84.765      0.216   8082.179  2*         'Z'     17.865 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][31]}   ${dic['k_f_c'][20]}    ${dic['k_f_c'][20]}      'OPEN'  1*     65.987      0.216   6333.601  2*         'Z'     18.482 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][31]}   ${dic['k_f_c'][21]}    ${dic['k_f_c'][21]}      'OPEN'  1*     40.421      0.216   3901.629  2*         'Z'     19.028 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][31]}   ${dic['k_f_c'][22]}    ${dic['k_f_c'][22]}      'OPEN'  1*    440.439      0.216  42866.883  2*         'Z'     19.863 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}      'OPEN'  1*    118.457      0.216  12025.229  2*         'Z'     24.860 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}      'OPEN'  1*     88.058      0.216   8892.405  2*         'Z'     24.161 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}      'OPEN'  1*      6.493      0.216    651.729  2*         'Z'     23.389 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}      'OPEN'  1*     37.039      0.216   3688.499  2*         'Z'     22.416 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}      'OPEN'  1*     37.182      0.216   3691.211  2*         'Z'     22.046 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}      'OPEN'  1*     27.449      0.216   2717.094  2*         'Z'     21.709 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}      'OPEN'  1*     27.553      0.216   2719.652  2*         'Z'     21.384 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     55.934      0.216   5504.213  2*         'Z'     21.045 /
+     'B-4H'   ${original_to_output_i[10]}   ${original_to_output_j[32]}    ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    343.826      0.216  33643.313  2*         'Z'     20.427 /
+     'B-4H'   ${original_to_output_i[9]}    ${original_to_output_j[32]}   ${original_to_output_k[13]}    ${original_to_output_k[13]}      'OPEN'  1*    247.048      0.216  23303.623  2*         'Z'     16.915 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[14]}    ${original_to_output_k[14]}      'OPEN'  1*    200.684      0.216  18964.795  2*         'Z'     17.072 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[15]}    ${original_to_output_k[15]}      'OPEN'  1*     60.756      0.216   5750.007  2*         'Z'     17.201 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[16]}    ${original_to_output_k[16]}      'OPEN'  1*    131.035      0.216  12417.905  2*         'Z'     17.318 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[17]}    ${original_to_output_k[17]}      'OPEN'  1*      1.215      0.216    115.284  2*         'Z'     17.399 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[18]}    ${original_to_output_k[18]}      'OPEN'  1*    122.230      0.216  11601.419  2*         'Z'     17.455 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[19]}    ${original_to_output_k[19]}      'OPEN'  1*     50.908      0.216   4838.953  2*         'Z'     17.585 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[20]}    ${original_to_output_k[20]}      'OPEN'  1*     84.765      0.216   8082.179  2*         'Z'     17.865 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[31]}   ${original_to_output_k[20]}    ${original_to_output_k[20]}      'OPEN'  1*     65.987      0.216   6333.601  2*         'Z'     18.482 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[31]}   ${original_to_output_k[21]}    ${original_to_output_k[21]}      'OPEN'  1*     40.421      0.216   3901.629  2*         'Z'     19.028 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[31]}   ${original_to_output_k[22]}    ${original_to_output_k[22]}      'OPEN'  1*    440.439      0.216  42866.883  2*         'Z'     19.863 /
 /
 
 WCONHIST
@@ -348,9 +348,9 @@ DATES
 --      : B-4H Connection  9 32 15 Perf. Len  12.96 (100.5%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    181.797      0.216  17148.637  2*         'Z'     16.915 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    200.684      0.216  18964.795  2*         'Z'     17.072 /
-     'B-4H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][32]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     60.756      0.216   5750.007  2*         'Z'     17.201 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    181.797      0.216  17148.637  2*         'Z'     16.915 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    200.684      0.216  18964.795  2*         'Z'     17.072 /
+     'B-4H'    ${original_to_output_i[9]}   ${original_to_output_j[32]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     60.756      0.216   5750.007  2*         'Z'     17.201 /
 /
 
 WCONHIST
@@ -420,37 +420,37 @@ DATES
 --      : WCONPROD >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'D-4H'  'D2-DUMMY'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][38]}  1*       'OIL'  2*      'STOP'  4* /
+     'D-4H'  'D2-DUMMY'   ${original_to_output_i[19]}   ${original_to_output_j[38]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][38]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}      'OPEN'  1*     60.526      0.216   5653.468  2*         'Z'     16.099 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][38]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}      'OPEN'  1*     49.828      0.216   4693.611  2*         'Z'     16.796 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}      'OPEN'  1*     21.543      0.216   2035.817  2*         'Z'     17.072 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}      'OPEN'  1*      0.250      0.216     20.523  2*         'Z'      8.712 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}      'OPEN'  1*      4.500      0.216    423.108  2*         'Z'     16.639 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}      'OPEN'  1*      6.732      0.216    633.920  2*         'Z'     16.768 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}      'OPEN'  1*      9.213      0.216    866.258  2*         'Z'     16.644 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}      'OPEN'  1*      9.218      0.216    867.587  2*         'Z'     16.728 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     10.139      0.216    954.302  2*         'Z'     16.728 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     56.214      0.216   5329.133  2*         'Z'     17.348 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     40.444      0.216   3722.832  2*         'Z'     14.970 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     15.490      0.216   1406.637  2*         'Z'     14.010 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      4.053      0.216    369.545  2*         'Z'     14.283 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     81.035      0.216   7311.999  2*         'Z'     13.582 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     61.451      0.216   5535.182  2*         'Z'     13.468 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     37.460      0.216   3372.715  2*         'Z'     13.440 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      0.277      0.216     25.016  2*         'Z'     13.686 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    102.234      0.216   9166.155  2*         'Z'     13.171 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      3.271      0.216    293.466  2*         'Z'     13.208 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     93.337      0.216   8616.407  2*         'Z'     15.185 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     10.950      0.216   1017.169  2*         'Z'     15.660 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     51.137      0.216   4766.863  2*         'Z'     15.938 /
-     'D-4H'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*   2128.276      0.216 198528.359  2*         'Z'     15.992 /
-     'D-4H'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*     33.150      0.216   2906.142  2*         'Z'     11.837 /
-     'D-4H'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    185.163      0.216  16461.330  2*         'Z'     12.648 /
-     'D-4H'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][41]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    290.075      0.216  26112.416  2*         'Z'     13.428 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[38]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}      'OPEN'  1*     60.526      0.216   5653.468  2*         'Z'     16.099 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[38]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}      'OPEN'  1*     49.828      0.216   4693.611  2*         'Z'     16.796 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}      'OPEN'  1*     21.543      0.216   2035.817  2*         'Z'     17.072 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}      'OPEN'  1*      0.250      0.216     20.523  2*         'Z'      8.712 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}      'OPEN'  1*      4.500      0.216    423.108  2*         'Z'     16.639 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}      'OPEN'  1*      6.732      0.216    633.920  2*         'Z'     16.768 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}      'OPEN'  1*      9.213      0.216    866.258  2*         'Z'     16.644 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}      'OPEN'  1*      9.218      0.216    867.587  2*         'Z'     16.728 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     10.139      0.216    954.302  2*         'Z'     16.728 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     56.214      0.216   5329.133  2*         'Z'     17.348 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     40.444      0.216   3722.832  2*         'Z'     14.970 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     15.490      0.216   1406.637  2*         'Z'     14.010 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      4.053      0.216    369.545  2*         'Z'     14.283 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     81.035      0.216   7311.999  2*         'Z'     13.582 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     61.451      0.216   5535.182  2*         'Z'     13.468 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     37.460      0.216   3372.715  2*         'Z'     13.440 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[40]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      0.277      0.216     25.016  2*         'Z'     13.686 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[40]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    102.234      0.216   9166.155  2*         'Z'     13.171 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[40]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      3.271      0.216    293.466  2*         'Z'     13.208 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[40]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     93.337      0.216   8616.407  2*         'Z'     15.185 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[40]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     10.950      0.216   1017.169  2*         'Z'     15.660 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[40]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     51.137      0.216   4766.863  2*         'Z'     15.938 /
+     'D-4H'   ${original_to_output_i[21]}   ${original_to_output_j[40]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*   2128.276      0.216 198528.359  2*         'Z'     15.992 /
+     'D-4H'   ${original_to_output_i[21]}   ${original_to_output_j[40]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*     33.150      0.216   2906.142  2*         'Z'     11.837 /
+     'D-4H'   ${original_to_output_i[21]}   ${original_to_output_j[40]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    185.163      0.216  16461.330  2*         'Z'     12.648 /
+     'D-4H'   ${original_to_output_i[21]}   ${original_to_output_j[41]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    290.075      0.216  26112.416  2*         'Z'     13.428 /
 /
 
 WCONHIST
@@ -541,13 +541,13 @@ DATES
 --      : D-4H Connection 20 39 14 Perf. Len  10.56 ( 86.2%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*      8.764      0.216    824.763  2*         'Z'     16.719 /
-     'D-4H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     56.214      0.216   5329.133  2*         'Z'     17.348 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     40.444      0.216   3722.835  2*         'Z'     14.970 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     15.490      0.216   1406.637  2*         'Z'     14.010 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      4.053      0.216    369.545  2*         'Z'     14.283 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     79.572      0.216   7180.505  2*         'Z'     13.587 /
-     'D-4H'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     39.948      0.216   3599.744  2*         'Z'     13.494 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*      8.764      0.216    824.763  2*         'Z'     16.719 /
+     'D-4H'   ${original_to_output_i[19]}   ${original_to_output_j[39]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     56.214      0.216   5329.133  2*         'Z'     17.348 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     40.444      0.216   3722.835  2*         'Z'     14.970 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     15.490      0.216   1406.637  2*         'Z'     14.010 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      4.053      0.216    369.545  2*         'Z'     14.283 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     79.572      0.216   7180.505  2*         'Z'     13.587 /
+     'D-4H'   ${original_to_output_i[20]}   ${original_to_output_j[39]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     39.948      0.216   3599.744  2*         'Z'     13.494 /
 /
 
 WCONHIST
@@ -598,32 +598,32 @@ DATES
 --      : WCONINJE >> for RFP pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'C-1H'    'MANI-C'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][24]}  1*       'OIL'  7* /
+     'C-1H'    'MANI-C'   ${original_to_output_i[26]}   ${original_to_output_j[24]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}      'OPEN'  1*    150.029      0.216  14140.780  2*         'Z'     16.847 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}      'OPEN'  1*     51.872      0.216   4885.513  2*         'Z'     16.784 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}      'OPEN'  1*      9.251      0.216    850.354  2*         'Z'     14.864 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}      'OPEN'  1*      4.787      0.216    446.775  2*         'Z'     16.040 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}      'OPEN'  1*      4.776      0.216    445.258  2*         'Z'     15.954 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}      'OPEN'  1*      6.538      0.216    609.083  2*         'Z'     15.888 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}      'OPEN'  1*      6.508      0.216    604.654  2*         'Z'     15.677 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*     52.636      0.216   4889.728  2*         'Z'     15.666 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    172.673      0.216  16014.438  2*         'Z'     15.538 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     13.370      0.216   1235.506  2*         'Z'     15.263 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      3.513      0.216    324.351  2*         'Z'     15.199 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    120.425      0.216  11082.737  2*         'Z'     14.955 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     52.350      0.216   4798.579  2*         'Z'     14.664 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     27.134      0.216   2481.492  2*         'Z'     14.501 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*     78.521      0.216   7144.787  2*         'Z'     14.146 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     25.289      0.216   2312.152  2*         'Z'     14.482 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*    198.117      0.216  18096.467  2*         'Z'     14.414 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*    469.240      0.216  42769.410  2*         'Z'     14.263 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*      1.851      0.216    163.927  2*         'Z'     12.411 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*     24.549      0.216   2212.535  2*         'Z'     13.506 /
-     'C-1H'   ${dic['i_f_c'][27]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*     44.948      0.216   4045.308  2*         'Z'     13.413 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}      'OPEN'  1*    150.029      0.216  14140.780  2*         'Z'     16.847 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}      'OPEN'  1*     51.872      0.216   4885.513  2*         'Z'     16.784 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}      'OPEN'  1*      9.251      0.216    850.354  2*         'Z'     14.864 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}      'OPEN'  1*      4.787      0.216    446.775  2*         'Z'     16.040 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}      'OPEN'  1*      4.776      0.216    445.258  2*         'Z'     15.954 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}      'OPEN'  1*      6.538      0.216    609.083  2*         'Z'     15.888 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}      'OPEN'  1*      6.508      0.216    604.654  2*         'Z'     15.677 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*     52.636      0.216   4889.728  2*         'Z'     15.666 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    172.673      0.216  16014.438  2*         'Z'     15.538 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     13.370      0.216   1235.506  2*         'Z'     15.263 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      3.513      0.216    324.351  2*         'Z'     15.199 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    120.425      0.216  11082.737  2*         'Z'     14.955 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     52.350      0.216   4798.579  2*         'Z'     14.664 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     27.134      0.216   2481.492  2*         'Z'     14.501 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*     78.521      0.216   7144.787  2*         'Z'     14.146 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     25.289      0.216   2312.152  2*         'Z'     14.482 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*    198.117      0.216  18096.467  2*         'Z'     14.414 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*    469.240      0.216  42769.410  2*         'Z'     14.263 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*      1.851      0.216    163.927  2*         'Z'     12.411 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*     24.549      0.216   2212.535  2*         'Z'     13.506 /
+     'C-1H'   ${original_to_output_i[27]}   ${original_to_output_j[44]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*     44.948      0.216   4045.308  2*         'Z'     13.413 /
 /
 
 WCONHIST
@@ -714,10 +714,10 @@ DATES
 --      : C-1H Connection 26 44 20 Perf. Len  14.00 ( 80.2%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*     45.862      0.216   4174.805  2*         'Z'     14.174 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     21.971      0.216   2008.825  2*         'Z'     14.483 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*    198.117      0.216  18096.467  2*         'Z'     14.414 /
-     'C-1H'   ${dic['i_f_c'][26]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*    361.866      0.216  32983.109  2*         'Z'     14.264 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*     45.862      0.216   4174.805  2*         'Z'     14.174 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     21.971      0.216   2008.825  2*         'Z'     14.483 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*    198.117      0.216  18096.467  2*         'Z'     14.414 /
+     'C-1H'   ${original_to_output_i[26]}   ${original_to_output_j[44]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*    361.866      0.216  32983.109  2*         'Z'     14.264 /
 /
 
 WCONHIST
@@ -791,31 +791,31 @@ DATES
 --      : WCONPROD >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'E-3H'   'MANI-E1'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}  1*       'OIL'  2*      'STOP'  4* /
+     'E-3H'   'MANI-E1'   ${original_to_output_i[12]}   ${original_to_output_j[72]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}      'OPEN'  1*     30.745      0.216   2985.926  2*         'Z'     19.644 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}      'OPEN'  1*     72.198      0.216   7021.124  2*         'Z'     19.779 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}      'OPEN'  1*      2.271      0.216    220.738  2*         'Z'     19.749 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}      'OPEN'  1*      3.977      0.216    387.204  2*         'Z'     19.886 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}      'OPEN'  1*      5.051      0.216    492.392  2*         'Z'     20.037 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}      'OPEN'  1*      5.205      0.216    506.719  2*         'Z'     19.890 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*      1.823      0.216    177.799  2*         'Z'     20.066 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][10]}  ${dic['k_f_c'][10]}     'OPEN'  1*    159.910      0.216  15594.442  2*         'Z'     20.070 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][11]}  ${dic['k_f_c'][11]}      'OPEN'  1*      3.537      0.216    345.186  2*         'Z'     20.156 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][12]}  ${dic['k_f_c'][12]}      'OPEN'  1*      1.053      0.216    102.745  2*         'Z'     20.123 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][13]}  ${dic['k_f_c'][13]}      'OPEN'  1*    143.967      0.216  14029.928  2*         'Z'     19.997 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][14]}  ${dic['k_f_c'][14]}      'OPEN'  1*     80.552      0.216   7858.883  2*         'Z'     20.115 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][15]}  ${dic['k_f_c'][15]}      'OPEN'  1*     19.681      0.216   1921.077  2*         'Z'     20.169 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][16]}  ${dic['k_f_c'][16]}      'OPEN'  1*     68.904      0.216   6718.886  2*         'Z'     20.060 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][17]}  ${dic['k_f_c'][17]}      'OPEN'  1*     36.578      0.216   3568.139  2*         'Z'     20.100 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][18]}  ${dic['k_f_c'][18]}      'OPEN'  1*      3.837      0.216    375.885  2*         'Z'     20.556 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][19]}  ${dic['k_f_c'][19]}      'OPEN'  1*      0.161      0.216     15.811  2*         'Z'     20.564 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][20]}  ${dic['k_f_c'][20]}      'OPEN'  1*     50.382      0.216   4942.371  2*         'Z'     20.701 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][21]}  ${dic['k_f_c'][21]}      'OPEN'  1*     14.520      0.216   1409.232  2*         'Z'     19.572 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][22]}  ${dic['k_f_c'][22]}      'OPEN'  1*    213.459      0.216  20888.617  2*         'Z'     20.436 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}      'OPEN'  1*     30.745      0.216   2985.926  2*         'Z'     19.644 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}      'OPEN'  1*     72.198      0.216   7021.124  2*         'Z'     19.779 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}      'OPEN'  1*      2.271      0.216    220.738  2*         'Z'     19.749 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}      'OPEN'  1*      3.977      0.216    387.204  2*         'Z'     19.886 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}      'OPEN'  1*      5.051      0.216    492.392  2*         'Z'     20.037 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}      'OPEN'  1*      5.205      0.216    506.719  2*         'Z'     19.890 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*      1.823      0.216    177.799  2*         'Z'     20.066 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[10]}  ${original_to_output_k[10]}     'OPEN'  1*    159.910      0.216  15594.442  2*         'Z'     20.070 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[11]}  ${original_to_output_k[11]}      'OPEN'  1*      3.537      0.216    345.186  2*         'Z'     20.156 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[12]}  ${original_to_output_k[12]}      'OPEN'  1*      1.053      0.216    102.745  2*         'Z'     20.123 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[13]}  ${original_to_output_k[13]}      'OPEN'  1*    143.967      0.216  14029.928  2*         'Z'     19.997 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[14]}  ${original_to_output_k[14]}      'OPEN'  1*     80.552      0.216   7858.883  2*         'Z'     20.115 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[15]}  ${original_to_output_k[15]}      'OPEN'  1*     19.681      0.216   1921.077  2*         'Z'     20.169 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[16]}  ${original_to_output_k[16]}      'OPEN'  1*     68.904      0.216   6718.886  2*         'Z'     20.060 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[17]}  ${original_to_output_k[17]}      'OPEN'  1*     36.578      0.216   3568.139  2*         'Z'     20.100 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[18]}  ${original_to_output_k[18]}      'OPEN'  1*      3.837      0.216    375.885  2*         'Z'     20.556 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[19]}  ${original_to_output_k[19]}      'OPEN'  1*      0.161      0.216     15.811  2*         'Z'     20.564 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[20]}  ${original_to_output_k[20]}      'OPEN'  1*     50.382      0.216   4942.371  2*         'Z'     20.701 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[21]}  ${original_to_output_k[21]}      'OPEN'  1*     14.520      0.216   1409.232  2*         'Z'     19.572 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[22]}  ${original_to_output_k[22]}      'OPEN'  1*    213.459      0.216  20888.617  2*         'Z'     20.436 /
 /
 
 WCONHIST
@@ -920,13 +920,13 @@ DATES
 --      : E-3H Connection 12 72 13 Perf. Len   3.00 ( 27.2%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}      'OPEN'  1*      3.904      0.216    380.345  2*         'Z'     19.975 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}      'OPEN'  1*      2.152      0.216    209.682  2*         'Z'     19.977 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}      'OPEN'  1*      5.210      0.216    507.021  2*         'Z'     19.864 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}      'OPEN'  1*      1.823      0.216    177.799  2*         'Z'     20.066 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    106.181      0.216  10352.801  2*         'Z'     20.049 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      1.625      0.216    158.477  2*         'Z'     20.099 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     37.574      0.216   3659.592  2*         'Z'     19.939 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}      'OPEN'  1*      3.904      0.216    380.345  2*         'Z'     19.975 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}      'OPEN'  1*      2.152      0.216    209.682  2*         'Z'     19.977 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}      'OPEN'  1*      5.210      0.216    507.021  2*         'Z'     19.864 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}      'OPEN'  1*      1.823      0.216    177.799  2*         'Z'     20.066 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    106.181      0.216  10352.801  2*         'Z'     20.049 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      1.625      0.216    158.477  2*         'Z'     20.099 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     37.574      0.216   3659.592  2*         'Z'     19.939 /
 /
 
 WCONHIST
@@ -1025,8 +1025,8 @@ DATES
 --      : C-4H Connection 12 35 20 Perf. Len  20.50 ( 87.9%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     15.596      0.216   1473.801  2*         'Z'     17.070 /
-     'C-4H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*    106.389      0.216  10079.642  2*         'Z'     17.295 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     15.596      0.216   1473.801  2*         'Z'     17.070 /
+     'C-4H'   ${original_to_output_i[12]}   ${original_to_output_j[35]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*    106.389      0.216  10079.642  2*         'Z'     17.295 /
 /
 
 WCONHIST
@@ -1118,11 +1118,11 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*     32.828      0.216   3098.538  2*         'Z'     16.968 /
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      3.567      0.216    336.865  2*         'Z'     17.004 /
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     63.434      0.216   5990.994  2*         'Z'     17.020 /
-     'C-4H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     21.727      0.216   2053.210  2*         'Z'     17.070 /
-     'C-4H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][35]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*    106.389      0.216  10079.642  2*         'Z'     17.295 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*     32.828      0.216   3098.538  2*         'Z'     16.968 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      3.567      0.216    336.865  2*         'Z'     17.004 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     63.434      0.216   5990.994  2*         'Z'     17.020 /
+     'C-4H'   ${original_to_output_i[11]}   ${original_to_output_j[35]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     21.727      0.216   2053.210  2*         'Z'     17.070 /
+     'C-4H'   ${original_to_output_i[12]}   ${original_to_output_j[35]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*    106.389      0.216  10079.642  2*         'Z'     17.295 /
 /
 
 WCONHIST
@@ -1218,14 +1218,14 @@ DATES
 --      : C-2H Connection 24 14 20 Perf. Len   7.99 (  7.5%)
 --      : C-2H Connection 24 13 20 Perf. Len  22.01 ( 20.3%)
 WELSPECS
-     'C-2H'    'MANI-C'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][15]}  1*       'OIL'  7* /
+     'C-2H'    'MANI-C'   ${original_to_output_i[23]}   ${original_to_output_j[15]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     21.685      0.216   2062.169  2*         'Y'     17.624 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     13.821      0.216   1324.988  2*         'Y'     18.371 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     37.344      0.216   3605.704  2*         'Y'     19.058 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     21.685      0.216   2062.169  2*         'Y'     17.624 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     13.821      0.216   1324.988  2*         'Y'     18.371 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[13]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     37.344      0.216   3605.704  2*         'Y'     19.058 /
 /
 
 WCONHIST
@@ -1384,19 +1384,19 @@ DATES
 --      : B-1H Connection 18 49 14 Perf. Len  58.10 ( 65.3%)
 --      : B-1H Connection 18 50 14 Perf. Len  64.58 ( 73.7%)
 WELSPECS
-     'B-1H'   'MANI-B2'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][34]}  1*       'OIL'  2*      'STOP'  4* /
+     'B-1H'   'MANI-B2'   ${original_to_output_i[14]}   ${original_to_output_j[34]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     34.720      0.216   3095.832  2*         'Y'     12.828 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][45]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     19.976      0.216   1779.033  2*         'Y'     12.754 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][47]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     51.570      0.216   4598.853  2*         'Y'     12.835 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*    146.533      0.216  13073.180  2*         'Y'     12.863 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     80.994      0.216   7382.913  2*         'Y'     14.269 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*    101.426      0.216   9266.828  2*         'Y'     14.432 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    305.155      0.216  27750.031  2*         'Y'     14.105 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    425.169      0.216  38596.840  2*         'Y'     13.986 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[44]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     34.720      0.216   3095.832  2*         'Y'     12.828 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[45]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     19.976      0.216   1779.033  2*         'Y'     12.754 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[47]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     51.570      0.216   4598.853  2*         'Y'     12.835 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[48]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*    146.533      0.216  13073.180  2*         'Y'     12.863 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[48]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     80.994      0.216   7382.913  2*         'Y'     14.269 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[49]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*    101.426      0.216   9266.828  2*         'Y'     14.432 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[49]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    305.155      0.216  27750.031  2*         'Y'     14.105 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[50]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    425.169      0.216  38596.840  2*         'Y'     13.986 /
 /
 
 WCONHIST
@@ -1453,20 +1453,20 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-1H'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][38]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     25.620      0.216   2086.842  2*         'Y'      8.486 /
-     'B-1H'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][38]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     65.351      0.216   5227.131  2*         'Y'      7.844 /
-     'B-1H'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][39]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    206.584      0.216  15780.745  2*         'Y'      6.469 /
-     'B-1H'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    139.254      0.216  10698.725  2*         'Y'      6.624 /
-     'B-1H'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][41]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    134.824      0.216  10345.683  2*         'Y'      6.590 /
-     'B-1H'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][42]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     99.806      0.216   7702.339  2*         'Y'      6.747 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     34.720      0.216   3095.832  2*         'Y'     12.828 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][45]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     19.976      0.216   1779.033  2*         'Y'     12.754 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][47]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     51.570      0.216   4598.853  2*         'Y'     12.835 /
-     'B-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*    146.533      0.216  13073.180  2*         'Y'     12.863 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     80.994      0.216   7382.913  2*         'Y'     14.269 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*    101.426      0.216   9266.828  2*         'Y'     14.432 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    305.155      0.216  27750.031  2*         'Y'     14.105 /
-     'B-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    425.169      0.216  38596.840  2*         'Y'     13.986 /
+     'B-1H'   ${original_to_output_i[15]}   ${original_to_output_j[38]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     25.620      0.216   2086.842  2*         'Y'      8.486 /
+     'B-1H'   ${original_to_output_i[16]}   ${original_to_output_j[38]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     65.351      0.216   5227.131  2*         'Y'      7.844 /
+     'B-1H'   ${original_to_output_i[16]}   ${original_to_output_j[39]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    206.584      0.216  15780.745  2*         'Y'      6.469 /
+     'B-1H'   ${original_to_output_i[16]}   ${original_to_output_j[40]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    139.254      0.216  10698.725  2*         'Y'      6.624 /
+     'B-1H'   ${original_to_output_i[16]}   ${original_to_output_j[41]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    134.824      0.216  10345.683  2*         'Y'      6.590 /
+     'B-1H'   ${original_to_output_i[16]}   ${original_to_output_j[42]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     99.806      0.216   7702.339  2*         'Y'      6.747 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[44]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     34.720      0.216   3095.832  2*         'Y'     12.828 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[45]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     19.976      0.216   1779.033  2*         'Y'     12.754 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[47]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     51.570      0.216   4598.853  2*         'Y'     12.835 /
+     'B-1H'   ${original_to_output_i[17]}   ${original_to_output_j[48]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*    146.533      0.216  13073.180  2*         'Y'     12.863 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[48]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     80.994      0.216   7382.913  2*         'Y'     14.269 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[49]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*    101.426      0.216   9266.828  2*         'Y'     14.432 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[49]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    305.155      0.216  27750.031  2*         'Y'     14.105 /
+     'B-1H'   ${original_to_output_i[18]}   ${original_to_output_j[50]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    425.169      0.216  38596.840  2*         'Y'     13.986 /
 /
 
 WCONHIST
@@ -1561,32 +1561,32 @@ DATES
 --      : WCONINJE >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'C-3H'    'MANI-C'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}  1*       'OIL'  7* /
+     'C-3H'    'MANI-C'    ${original_to_output_i[9]}   ${original_to_output_j[13]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     50.989      0.216   4704.962  2*         'Z'     15.152 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     22.165      0.216   2050.343  2*         'Z'     15.338 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      0.232      0.216     21.306  2*         'Z'     14.728 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     15.871      0.216   1474.759  2*         'Z'     15.685 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*     15.768      0.216   1467.264  2*         'Z'     15.796 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      7.937      0.216    736.293  2*         'Z'     15.554 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      7.861      0.216    731.239  2*         'Z'     15.769 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     21.934      0.216   2045.254  2*         'Z'     15.963 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    115.228      0.216  10771.005  2*         'Z'     16.159 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}     'OPEN'  1*     32.211      0.216   3007.082  2*         'Z'     16.056 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      4.942      0.216    463.203  2*         'Z'     16.376 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    205.669      0.216  19273.609  2*         'Z'     16.365 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     33.911      0.216   3181.061  2*         'Z'     16.448 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     17.558      0.216   1649.018  2*         'Z'     16.547 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    144.214      0.216  13588.730  2*         'Z'     16.823 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      0.141      0.216     13.204  2*         'Z'     16.485 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     60.176      0.216   5684.640  2*         'Z'     17.042 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     12.461      0.216   1179.948  2*         'Z'     17.250 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     32.259      0.216   3065.619  2*         'Z'     17.564 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*     24.414      0.216   2299.261  2*         'Z'     16.779 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    114.368      0.216  10931.055  2*         'Z'     18.086 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     50.989      0.216   4704.962  2*         'Z'     15.152 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     22.165      0.216   2050.343  2*         'Z'     15.338 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      0.232      0.216     21.306  2*         'Z'     14.728 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     15.871      0.216   1474.759  2*         'Z'     15.685 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*     15.768      0.216   1467.264  2*         'Z'     15.796 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      7.937      0.216    736.293  2*         'Z'     15.554 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      7.861      0.216    731.239  2*         'Z'     15.769 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     21.934      0.216   2045.254  2*         'Z'     15.963 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    115.228      0.216  10771.005  2*         'Z'     16.159 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}     'OPEN'  1*     32.211      0.216   3007.082  2*         'Z'     16.056 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      4.942      0.216    463.203  2*         'Z'     16.376 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    205.669      0.216  19273.609  2*         'Z'     16.365 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     33.911      0.216   3181.061  2*         'Z'     16.448 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     17.558      0.216   1649.018  2*         'Z'     16.547 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    144.214      0.216  13588.730  2*         'Z'     16.823 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      0.141      0.216     13.204  2*         'Z'     16.485 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     60.176      0.216   5684.640  2*         'Z'     17.042 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     12.461      0.216   1179.948  2*         'Z'     17.250 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     32.259      0.216   3065.619  2*         'Z'     17.564 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*     24.414      0.216   2299.261  2*         'Z'     16.779 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    114.368      0.216  10931.055  2*         'Z'     18.086 /
 /
 
 WCONHIST
@@ -1674,12 +1674,12 @@ DATES
 --  WARN: C-3H Connection  9 13 20 SUPPRESSED, perf percentage too small
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     12.385      0.216   1161.340  2*         'Z'     16.416 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     10.954      0.216   1026.401  2*         'Z'     16.376 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    144.214      0.216  13588.730  2*         'Z'     16.823 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      0.137      0.216     12.855  2*         'Z'     16.451 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     60.006      0.216   5668.627  2*         'Z'     17.041 /
-     'C-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     11.117      0.216   1052.709  2*         'Z'     17.250 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     12.385      0.216   1161.340  2*         'Z'     16.416 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     10.954      0.216   1026.401  2*         'Z'     16.376 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    144.214      0.216  13588.730  2*         'Z'     16.823 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      0.137      0.216     12.855  2*         'Z'     16.451 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     60.006      0.216   5668.627  2*         'Z'     17.041 /
+     'C-3H'    ${original_to_output_i[9]}   ${original_to_output_j[13]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     11.117      0.216   1052.709  2*         'Z'     17.250 /
 /
 
 WCONHIST
@@ -1731,28 +1731,28 @@ DATES
 --      : WCONINJE >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'F-1H'    'MANI-F'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}  1*       'OIL'  7* /
+     'F-1H'    'MANI-F'   ${original_to_output_i[12]}   ${original_to_output_j[85]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      6.285      0.216    610.663  2*         'Z'     19.689 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      0.639      0.216     62.076  2*         'Z'     19.743 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      0.405      0.216     39.522  2*         'Z'     20.137 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      1.270      0.216    124.072  2*         'Z'     20.274 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      1.260      0.216    123.120  2*         'Z'     20.314 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     55.357      0.216   5417.946  2*         'Z'     20.452 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      3.138      0.216    307.235  2*         'Z'     20.492 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}     'OPEN'  1*      0.150      0.216     14.678  2*         'Z'     20.361 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     48.159      0.216   4718.568  2*         'Z'     20.568 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     16.296      0.216   1597.511  2*         'Z'     20.626 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      6.055      0.216    594.483  2*         'Z'     20.787 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*     15.934      0.216   1566.858  2*         'Z'     20.967 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      7.383      0.216    725.661  2*         'Z'     20.920 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*      4.416      0.216    435.032  2*         'Z'     21.158 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     83.184      0.216   8198.755  2*         'Z'     21.222 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*      9.085      0.216    889.964  2*         'Z'     20.545 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    204.396      0.216  20136.275  2*         'Z'     21.169 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      6.285      0.216    610.663  2*         'Z'     19.689 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      0.639      0.216     62.076  2*         'Z'     19.743 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      0.405      0.216     39.522  2*         'Z'     20.137 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      1.270      0.216    124.072  2*         'Z'     20.274 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      1.260      0.216    123.120  2*         'Z'     20.314 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     55.357      0.216   5417.946  2*         'Z'     20.452 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      3.138      0.216    307.235  2*         'Z'     20.492 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}     'OPEN'  1*      0.150      0.216     14.678  2*         'Z'     20.361 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     48.159      0.216   4718.568  2*         'Z'     20.568 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     16.296      0.216   1597.511  2*         'Z'     20.626 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      6.055      0.216    594.483  2*         'Z'     20.787 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*     15.934      0.216   1566.858  2*         'Z'     20.967 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      7.383      0.216    725.661  2*         'Z'     20.920 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*      4.416      0.216    435.032  2*         'Z'     21.158 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     83.184      0.216   8198.755  2*         'Z'     21.222 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*      9.085      0.216    889.964  2*         'Z'     20.545 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    204.396      0.216  20136.275  2*         'Z'     21.169 /
 /
 
 WCONHIST
@@ -1875,23 +1875,23 @@ DATES
 --      : B-3H Connection  9 51 14 Perf. Len  75.59 ( 89.0%)
 --      : B-3H Connection  9 52 14 Perf. Len  54.41 ( 64.4%)
 WELSPECS
-     'B-3H'   'MANI-B2'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][37]}  1*       'OIL'  2*      'STOP'  4* /
+     'B-3H'   'MANI-B2'    ${original_to_output_i[9]}   ${original_to_output_j[37]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-3H'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][41]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     65.711      0.216   5364.312  2*         'Y'      8.569 /
-     'B-3H'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][42]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     50.937      0.216   4118.021  2*         'Y'      8.214 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][43]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      1.671      0.216    143.592  2*         'Y'     10.796 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    258.909      0.216  21331.945  2*         'Y'      8.923 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][45]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    267.815      0.216  21648.221  2*         'Y'      8.208 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][47]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     39.352      0.216   3300.495  2*         'Y'      9.659 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     13.264      0.216   1122.093  2*         'Y'     10.044 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      3.696      0.216    303.121  2*         'Y'      8.748 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    601.800      0.216  56283.734  2*         'Y'     16.203 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    152.800      0.216  14418.372  2*         'Y'     16.945 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    142.942      0.216  13451.440  2*         'Y'     16.713 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    101.075      0.216   9540.154  2*         'Y'     16.968 /
+     'B-3H'    ${original_to_output_i[8]}   ${original_to_output_j[41]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     65.711      0.216   5364.312  2*         'Y'      8.569 /
+     'B-3H'    ${original_to_output_i[8]}   ${original_to_output_j[42]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     50.937      0.216   4118.021  2*         'Y'      8.214 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[43]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      1.671      0.216    143.592  2*         'Y'     10.796 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[44]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    258.909      0.216  21331.945  2*         'Y'      8.923 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[45]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    267.815      0.216  21648.221  2*         'Y'      8.208 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[47]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     39.352      0.216   3300.495  2*         'Y'      9.659 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[48]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     13.264      0.216   1122.093  2*         'Y'     10.044 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[48]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      3.696      0.216    303.121  2*         'Y'      8.748 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[49]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    601.800      0.216  56283.734  2*         'Y'     16.203 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[50]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    152.800      0.216  14418.372  2*         'Y'     16.945 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[51]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    142.942      0.216  13451.440  2*         'Y'     16.713 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[52]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    101.075      0.216   9540.154  2*         'Y'     16.968 /
 /
 
 WCONHIST
@@ -1969,14 +1969,14 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}    ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     22.116      0.216   1988.961  2*         'Y'     13.365 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     25.523      0.216   2296.808  2*         'Y'     13.419 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*     91.014      0.216   8165.169  2*         'Y'     13.209 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      0.357      0.216     31.636  2*         'Y'     12.402 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     76.827      0.216   7207.936  2*         'Y'     16.461 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     22.834      0.216   2171.604  2*         'Y'     17.633 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][14]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     13.821      0.216   1324.988  2*         'Y'     18.371 /
-     'C-2H'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][13]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     37.344      0.216   3605.704  2*         'Y'     19.058 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}    ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     22.116      0.216   1988.961  2*         'Y'     13.365 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     25.523      0.216   2296.808  2*         'Y'     13.419 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*     91.014      0.216   8165.169  2*         'Y'     13.209 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      0.357      0.216     31.636  2*         'Y'     12.402 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     76.827      0.216   7207.936  2*         'Y'     16.461 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     22.834      0.216   2171.604  2*         'Y'     17.633 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[14]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     13.821      0.216   1324.988  2*         'Y'     18.371 /
+     'C-2H'   ${original_to_output_i[24]}   ${original_to_output_j[13]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     37.344      0.216   3605.704  2*         'Y'     19.058 /
 /
 
 WCONHIST
@@ -2036,11 +2036,11 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      3.904      0.216    380.345  2*         'Z'     19.975 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      2.152      0.216    209.682  2*         'Z'     19.977 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      5.210      0.216    507.021  2*         'Z'     19.864 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*      1.823      0.216    177.799  2*         'Z'     20.066 /
-     'E-3H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     91.639      0.216   8935.316  2*         'Z'     20.054 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      3.904      0.216    380.345  2*         'Z'     19.975 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      2.152      0.216    209.682  2*         'Z'     19.977 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      5.210      0.216    507.021  2*         'Z'     19.864 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*      1.823      0.216    177.799  2*         'Z'     20.066 /
+     'E-3H'   ${original_to_output_i[12]}   ${original_to_output_j[72]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     91.639      0.216   8935.316  2*         'Z'     20.054 /
 /
 
 WCONHIST
@@ -2098,15 +2098,15 @@ DATES
 --      : F-1H Connection 12 85 15 Perf. Len  10.59 (100.0%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      0.486      0.216     47.450  2*         'Z'     20.133 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      1.270      0.216    124.072  2*         'Z'     20.274 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      1.260      0.216    123.120  2*         'Z'     20.314 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     54.807      0.216   5364.139  2*         'Z'     20.452 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      3.134      0.216    306.838  2*         'Z'     20.492 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      0.150      0.216     14.678  2*         'Z'     20.361 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     33.695      0.216   3301.656  2*         'Z'     20.578 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     16.296      0.216   1597.511  2*         'Z'     20.626 /
-     'F-1H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][85]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      6.055      0.216    594.483  2*         'Z'     20.787 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      0.486      0.216     47.450  2*         'Z'     20.133 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      1.270      0.216    124.072  2*         'Z'     20.274 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      1.260      0.216    123.120  2*         'Z'     20.314 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     54.807      0.216   5364.139  2*         'Z'     20.452 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      3.134      0.216    306.838  2*         'Z'     20.492 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      0.150      0.216     14.678  2*         'Z'     20.361 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     33.695      0.216   3301.656  2*         'Z'     20.578 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     16.296      0.216   1597.511  2*         'Z'     20.626 /
+     'F-1H'   ${original_to_output_i[12]}   ${original_to_output_j[85]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      6.055      0.216    594.483  2*         'Z'     20.787 /
 /
 
 WCONHIST
@@ -2185,21 +2185,21 @@ DATES
 --      : E-1H Connection 18 57  9 Perf. Len  28.04 ( 31.8%)
 --      : E-1H Connection 18 56  9 Perf. Len  92.46 (104.1%)
 WELSPECS
-     'E-1H'   'MANI-E1'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][68]}  1*       'OIL'  2*      'STOP'  4* /
+     'E-1H'   'MANI-E1'   ${original_to_output_i[18]}   ${original_to_output_j[68]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][66]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      7.079      0.216    591.822  2*         'Y'      9.519 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][65]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     22.320      0.216   1879.950  2*         'Y'      9.845 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][64]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      6.920      0.216    579.273  2*         'Y'      9.579 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][61]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     26.074      0.216   2182.505  2*         'Y'      9.574 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][61]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      5.933      0.216    500.472  2*         'Y'      9.909 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][60]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    106.395      0.216   8558.380  2*         'Y'      8.037 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][59]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    106.322      0.216   8547.521  2*         'Y'      8.017 /
-     'E-1H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     29.092      0.216   2345.736  2*         'Y'      8.120 /
-     'E-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     32.686      0.216   2652.075  2*         'Y'      8.344 /
-     'E-1H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    108.224      0.216   8726.233  2*         'Y'      8.120 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[66]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      7.079      0.216    591.822  2*         'Y'      9.519 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[65]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     22.320      0.216   1879.950  2*         'Y'      9.845 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[64]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      6.920      0.216    579.273  2*         'Y'      9.579 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[61]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     26.074      0.216   2182.505  2*         'Y'      9.574 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[61]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      5.933      0.216    500.472  2*         'Y'      9.909 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[60]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    106.395      0.216   8558.380  2*         'Y'      8.037 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[59]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    106.322      0.216   8547.521  2*         'Y'      8.017 /
+     'E-1H'   ${original_to_output_i[17]}   ${original_to_output_j[57]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     29.092      0.216   2345.736  2*         'Y'      8.120 /
+     'E-1H'   ${original_to_output_i[18]}   ${original_to_output_j[57]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     32.686      0.216   2652.075  2*         'Y'      8.344 /
+     'E-1H'   ${original_to_output_i[18]}   ${original_to_output_j[56]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    108.224      0.216   8726.233  2*         'Y'      8.120 /
 /
 
 WCONHIST
@@ -2334,30 +2334,30 @@ DATES
 --      : WCONINJE >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'F-2H'    'MANI-F'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}  1*       'OIL'  7* /
+     'F-2H'    'MANI-F'   ${original_to_output_i[18]}   ${original_to_output_j[83]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     25.730      0.216   2469.123  2*         'Z'     18.462 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      0.582      0.216     54.591  2*         'Z'     16.376 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      1.043      0.216     99.417  2*         'Z'     17.837 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      0.478      0.216     45.537  2*         'Z'     17.835 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      1.792      0.216    171.623  2*         'Z'     18.286 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      1.786      0.216    170.909  2*         'Z'     18.188 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*      9.474      0.216    903.617  2*         'Z'     17.892 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      2.319      0.216    221.363  2*         'Z'     17.972 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      0.064      0.216      5.858  2*         'Z'     15.103 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     50.443      0.216   4801.932  2*         'Z'     17.719 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     16.761      0.216   1592.538  2*         'Z'     17.551 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      2.716      0.216    257.821  2*         'Z'     17.470 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*      4.245      0.216    394.484  2*         'Z'     15.700 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      6.465      0.216    614.031  2*         'Z'     17.519 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     12.114      0.216   1158.941  2*         'Z'     18.179 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*      8.053      0.216    770.543  2*         'Z'     18.191 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*      1.764      0.216    164.144  2*         'Z'     15.790 /
-     'F-2H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*      0.316      0.216     29.607  2*         'Z'     16.247 /
-     'F-2H'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*     40.107      0.216   3782.455  2*         'Z'     16.896 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     25.730      0.216   2469.123  2*         'Z'     18.462 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      0.582      0.216     54.591  2*         'Z'     16.376 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      1.043      0.216     99.417  2*         'Z'     17.837 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      0.478      0.216     45.537  2*         'Z'     17.835 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      1.792      0.216    171.623  2*         'Z'     18.286 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      1.786      0.216    170.909  2*         'Z'     18.188 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*      9.474      0.216    903.617  2*         'Z'     17.892 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      2.319      0.216    221.363  2*         'Z'     17.972 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      0.064      0.216      5.858  2*         'Z'     15.103 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     50.443      0.216   4801.932  2*         'Z'     17.719 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     16.761      0.216   1592.538  2*         'Z'     17.551 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      2.716      0.216    257.821  2*         'Z'     17.470 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*      4.245      0.216    394.484  2*         'Z'     15.700 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      6.465      0.216    614.031  2*         'Z'     17.519 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     12.114      0.216   1158.941  2*         'Z'     18.179 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*      8.053      0.216    770.543  2*         'Z'     18.191 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*      1.764      0.216    164.144  2*         'Z'     15.790 /
+     'F-2H'   ${original_to_output_i[17]}   ${original_to_output_j[83]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*      0.316      0.216     29.607  2*         'Z'     16.247 /
+     'F-2H'   ${original_to_output_i[17]}   ${original_to_output_j[83]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*     40.107      0.216   3782.455  2*         'Z'     16.896 /
 /
 
 WCONHIST
@@ -2450,15 +2450,15 @@ DATES
 --      : F-2H Connection 18 83 15 Perf. Len  12.08 (107.5%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      1.126      0.216    107.318  2*         'Z'     17.830 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      1.739      0.216    166.572  2*         'Z'     18.290 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      1.786      0.216    170.909  2*         'Z'     18.188 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*      2.893      0.216    276.200  2*         'Z'     17.974 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      2.261      0.216    215.857  2*         'Z'     17.971 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      0.058      0.216      5.315  2*         'Z'     14.752 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     45.542      0.216   4335.485  2*         'Z'     17.720 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     16.761      0.216   1592.538  2*         'Z'     17.551 /
-     'F-2H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][83]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      2.644      0.216    250.980  2*         'Z'     17.468 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      1.126      0.216    107.318  2*         'Z'     17.830 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      1.739      0.216    166.572  2*         'Z'     18.290 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      1.786      0.216    170.909  2*         'Z'     18.188 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*      2.893      0.216    276.200  2*         'Z'     17.974 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      2.261      0.216    215.857  2*         'Z'     17.971 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      0.058      0.216      5.315  2*         'Z'     14.752 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     45.542      0.216   4335.485  2*         'Z'     17.720 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     16.761      0.216   1592.538  2*         'Z'     17.551 /
+     'F-2H'   ${original_to_output_i[18]}   ${original_to_output_j[83]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      2.644      0.216    250.980  2*         'Z'     17.468 /
 /
 
 WCONHIST
@@ -2622,20 +2622,20 @@ DATES
 --      : E-2H Connection 10 55  9 Perf. Len  81.05 ( 97.9%)
 --      : E-2H Connection 10 54  9 Perf. Len  14.61 ( 17.1%)
 WELSPECS
-     'E-2H'   'MANI-E2'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][67]}  1*       'OIL'  2*      'STOP'  4* /
+     'E-2H'   'MANI-E2'   ${original_to_output_i[13]}   ${original_to_output_j[67]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'E-2H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][64]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      3.579      0.216    288.070  2*         'Y'      8.059 /
-     'E-2H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][63]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     30.255      0.216   2436.132  2*         'Y'      8.072 /
-     'E-2H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][62]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     19.754      0.216   1591.188  2*         'Y'      8.085 /
-     'E-2H'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][61]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     40.653      0.216   3160.979  2*         'Y'      6.960 /
-     'E-2H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    154.351      0.216  11915.254  2*         'Y'      6.755 /
-     'E-2H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     37.252      0.216   2883.094  2*         'Y'      6.827 /
-     'E-2H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     53.777      0.216   4191.415  2*         'Y'      7.030 /
-     'E-2H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][55]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    162.617      0.216  12678.107  2*         'Y'      7.038 /
-     'E-2H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     30.378      0.216   2387.271  2*         'Y'      7.278 /
+     'E-2H'   ${original_to_output_i[12]}   ${original_to_output_j[64]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      3.579      0.216    288.070  2*         'Y'      8.059 /
+     'E-2H'   ${original_to_output_i[12]}   ${original_to_output_j[63]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     30.255      0.216   2436.132  2*         'Y'      8.072 /
+     'E-2H'   ${original_to_output_i[12]}   ${original_to_output_j[62]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     19.754      0.216   1591.188  2*         'Y'      8.085 /
+     'E-2H'   ${original_to_output_i[12]}   ${original_to_output_j[61]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     40.653      0.216   3160.979  2*         'Y'      6.960 /
+     'E-2H'   ${original_to_output_i[11]}   ${original_to_output_j[57]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    154.351      0.216  11915.254  2*         'Y'      6.755 /
+     'E-2H'   ${original_to_output_i[11]}   ${original_to_output_j[56]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     37.252      0.216   2883.094  2*         'Y'      6.827 /
+     'E-2H'   ${original_to_output_i[10]}   ${original_to_output_j[56]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     53.777      0.216   4191.415  2*         'Y'      7.030 /
+     'E-2H'   ${original_to_output_i[10]}   ${original_to_output_j[55]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    162.617      0.216  12678.107  2*         'Y'      7.038 /
+     'E-2H'   ${original_to_output_i[10]}   ${original_to_output_j[54]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     30.378      0.216   2387.271  2*         'Y'      7.278 /
 /
 
 WCONHIST
@@ -2791,21 +2791,21 @@ DATES
 --      : WCONPROD >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'E-4H'   'MANI-E2'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][96]}  1*       'OIL'  2*      'STOP'  4* /
+     'E-4H'   'MANI-E2'   ${original_to_output_i[36]}   ${original_to_output_j[96]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'E-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     27.041      0.216   2469.119  2*         'X'     14.390 /
-     'E-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      0.076      0.216      6.649  2*         'X'     11.741 /
-     'E-4H'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      0.070      0.216      6.084  2*         'X'     11.363 /
-     'E-4H'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      0.269      0.216     24.127  2*         'X'     13.145 /
-     'E-4H'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      0.835      0.216     75.177  2*         'X'     13.460 /
-     'E-4H'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      0.825      0.216     74.710  2*         'X'     13.845 /
-     'E-4H'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][96]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*      6.518      0.216    598.541  2*         'X'     14.795 /
-     'E-4H'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][96]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*      5.648      0.216    518.571  2*         'X'     14.785 /
-     'E-4H'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][96]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*      4.738      0.216    435.680  2*         'X'     14.896 /
-     'E-4H'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][96]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      3.612      0.216    332.133  2*         'X'     14.901 /
+     'E-4H'   ${original_to_output_i[36]}   ${original_to_output_j[96]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     27.041      0.216   2469.119  2*         'X'     14.390 /
+     'E-4H'   ${original_to_output_i[36]}   ${original_to_output_j[96]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      0.076      0.216      6.649  2*         'X'     11.741 /
+     'E-4H'   ${original_to_output_i[37]}   ${original_to_output_j[96]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      0.070      0.216      6.084  2*         'X'     11.363 /
+     'E-4H'   ${original_to_output_i[37]}   ${original_to_output_j[96]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      0.269      0.216     24.127  2*         'X'     13.145 /
+     'E-4H'   ${original_to_output_i[37]}   ${original_to_output_j[96]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      0.835      0.216     75.177  2*         'X'     13.460 /
+     'E-4H'   ${original_to_output_i[37]}   ${original_to_output_j[96]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      0.825      0.216     74.710  2*         'X'     13.845 /
+     'E-4H'   ${original_to_output_i[37]}   ${original_to_output_j[96]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*      6.518      0.216    598.541  2*         'X'     14.795 /
+     'E-4H'   ${original_to_output_i[38]}   ${original_to_output_j[96]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*      5.648      0.216    518.571  2*         'X'     14.785 /
+     'E-4H'   ${original_to_output_i[38]}   ${original_to_output_j[96]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*      4.738      0.216    435.680  2*         'X'     14.896 /
+     'E-4H'   ${original_to_output_i[38]}   ${original_to_output_j[96]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      3.612      0.216    332.133  2*         'X'     14.901 /
 /
 
 WCONHIST
@@ -2957,23 +2957,23 @@ DATES
 --      : E-4AH Connection 38 88  2 Perf. Len 106.62 ( 98.0%)
 --      : E-4AH Connection 38 87  2 Perf. Len  38.31 ( 35.2%)
 WELSPECS
-    'E-4AH'   'MANI-E2'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][98]}  1*       'OIL'  2*      'STOP'  4* /
+    'E-4AH'   'MANI-E2'   ${original_to_output_i[38]}   ${original_to_output_j[98]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'E-4AH'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][98]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     48.136      0.216   3456.518  2*         'Y'      5.061 /
-    'E-4AH'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][96]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     27.090      0.216   1873.571  2*         'Y'      4.392 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][95]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      5.588      0.216    365.103  2*         'Y'      3.579 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][94]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     61.619      0.216   4044.573  2*         'Y'      3.637 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][93]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     33.739      0.216   2221.201  2*         'Y'      3.675 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][92]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     31.761      0.216   2062.339  2*         'Y'      3.502 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][91]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     24.382      0.216   1581.888  2*         'Y'      3.492 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][90]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     40.973      0.216   2644.512  2*         'Y'      3.429 /
-    'E-4AH'   ${dic['i_f_c'][37]}   ${dic['j_f_c'][89]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      8.624      0.216    555.999  2*         'Y'      3.416 /
-    'E-4AH'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][89]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     43.531      0.216   2819.912  2*         'Y'      3.473 /
-    'E-4AH'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][88]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     91.578      0.216   5916.204  2*         'Y'      3.440 /
-    'E-4AH'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][87]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     34.257      0.216   2195.543  2*         'Y'      3.347 /
+    'E-4AH'   ${original_to_output_i[38]}   ${original_to_output_j[98]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     48.136      0.216   3456.518  2*         'Y'      5.061 /
+    'E-4AH'   ${original_to_output_i[38]}   ${original_to_output_j[96]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     27.090      0.216   1873.571  2*         'Y'      4.392 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[95]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      5.588      0.216    365.103  2*         'Y'      3.579 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[94]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     61.619      0.216   4044.573  2*         'Y'      3.637 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[93]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     33.739      0.216   2221.201  2*         'Y'      3.675 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[92]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     31.761      0.216   2062.339  2*         'Y'      3.502 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[91]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     24.382      0.216   1581.888  2*         'Y'      3.492 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[90]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     40.973      0.216   2644.512  2*         'Y'      3.429 /
+    'E-4AH'   ${original_to_output_i[37]}   ${original_to_output_j[89]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      8.624      0.216    555.999  2*         'Y'      3.416 /
+    'E-4AH'   ${original_to_output_i[38]}   ${original_to_output_j[89]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     43.531      0.216   2819.912  2*         'Y'      3.473 /
+    'E-4AH'   ${original_to_output_i[38]}   ${original_to_output_j[88]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     91.578      0.216   5916.204  2*         'Y'      3.440 /
+    'E-4AH'   ${original_to_output_i[38]}   ${original_to_output_j[87]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     34.257      0.216   2195.543  2*         'Y'      3.347 /
 /
 
 WCONHIST
@@ -3068,7 +3068,7 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-4H'   ${dic['i_f_c'][10]}  ${dic['j_f_c'][32]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    165.734      0.216  16217.024  2*         'Z'     20.427 /
+     'B-4H'   ${original_to_output_i[10]}  ${original_to_output_j[32]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    165.734      0.216  16217.024  2*         'Z'     20.427 /
 /
 
 WCONHIST
@@ -3182,35 +3182,35 @@ DATES
 --      : WCONPROD >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'D-3H'   'MANI-D1'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}  1*       'OIL'  2*      'STOP'  4* /
+     'D-3H'   'MANI-D1'   ${original_to_output_i[19]}   ${original_to_output_j[54]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     34.780      0.216   3067.401  2*         'X'     12.178 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     48.856      0.216   4297.798  2*         'X'     12.031 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*     19.066      0.216   1673.723  2*         'X'     11.914 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      2.332      0.216    207.989  2*         'X'     12.855 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      2.151      0.216    192.392  2*         'X'     13.008 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][53]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      0.310      0.216     27.418  2*         'X'     12.394 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][53]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      6.293      0.216    557.621  2*         'X'     12.450 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][53]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      6.337      0.216    561.935  2*         'X'     12.494 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][53]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}     'OPEN'  1*     12.171      0.216   1073.892  2*         'X'     12.201 /
-     'D-3H'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     26.304      0.216   2421.198  2*         'Y'     14.968 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     30.366      0.216   2814.573  2*         'X'     15.492 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     52.092      0.216   4808.495  2*         'Y'     15.179 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      6.504      0.216    606.075  2*         'Y'     15.905 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    349.137      0.216  32454.277  2*         'Y'     15.716 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    276.128      0.216  25961.955  2*         'Y'     16.639 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*    170.621      0.216  16096.100  2*         'Z'     16.924 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*     49.703      0.216   4721.156  2*         'Z'     17.523 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      0.935      0.216     88.320  2*         'Z'     17.049 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][53]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     37.363      0.216   3654.414  2*         'Z'     20.382 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*      1.047      0.216    102.241  2*         'Z'     20.235 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     20.046      0.216   1967.351  2*         'Z'     20.752 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     58.608      0.216   5780.557  2*         'Z'     21.300 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*    126.977      0.216  12165.083  2*         'Z'     18.308 /
-     'D-3H'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*     49.121      0.216   4812.923  2*         'Z'     20.572 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[54]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     34.780      0.216   3067.401  2*         'X'     12.178 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[54]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     48.856      0.216   4297.798  2*         'X'     12.031 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[54]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*     19.066      0.216   1673.723  2*         'X'     11.914 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[54]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      2.332      0.216    207.989  2*         'X'     12.855 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[54]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      2.151      0.216    192.392  2*         'X'     13.008 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[53]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      0.310      0.216     27.418  2*         'X'     12.394 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[53]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      6.293      0.216    557.621  2*         'X'     12.450 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[53]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      6.337      0.216    561.935  2*         'X'     12.494 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[53]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}     'OPEN'  1*     12.171      0.216   1073.892  2*         'X'     12.201 /
+     'D-3H'   ${original_to_output_i[19]}   ${original_to_output_j[53]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     26.304      0.216   2421.198  2*         'Y'     14.968 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     30.366      0.216   2814.573  2*         'X'     15.492 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     52.092      0.216   4808.495  2*         'Y'     15.179 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      6.504      0.216    606.075  2*         'Y'     15.905 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    349.137      0.216  32454.277  2*         'Y'     15.716 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    276.128      0.216  25961.955  2*         'Y'     16.639 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*    170.621      0.216  16096.100  2*         'Z'     16.924 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*     49.703      0.216   4721.156  2*         'Z'     17.523 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      0.935      0.216     88.320  2*         'Z'     17.049 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[53]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     37.363      0.216   3654.414  2*         'Z'     20.382 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[52]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*      1.047      0.216    102.241  2*         'Z'     20.235 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[52]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     20.046      0.216   1967.351  2*         'Z'     20.752 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[52]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     58.608      0.216   5780.557  2*         'Z'     21.300 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[52]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*    126.977      0.216  12165.083  2*         'Z'     18.308 /
+     'D-3H'   ${original_to_output_i[18]}   ${original_to_output_j[52]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*     49.121      0.216   4812.923  2*         'Z'     20.572 /
 /
 
 WCONHIST
@@ -3297,23 +3297,23 @@ DATES
 --      : D-3AH Connection 12 44 14 Perf. Len  54.09 ( 66.0%)
 --      : D-3AH Connection 12 43 14 Perf. Len  62.16 ( 74.5%)
 WELSPECS
-    'D-3AH'   'MANI-D1'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}  1*       'OIL'  2*      'STOP'  4* /
+    'D-3AH'   'MANI-D1'   ${original_to_output_i[19]}   ${original_to_output_j[54]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'D-3AH'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     21.157      0.216   1872.053  2*         'Y'     12.369 /
-    'D-3AH'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    465.838      0.216  41191.184  2*         'Y'     12.328 /
-    'D-3AH'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     48.703      0.216   4298.079  2*         'Y'     12.214 /
-    'D-3AH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    120.412      0.216  10618.473  2*         'Y'     12.171 /
-    'D-3AH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][47]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    139.534      0.216  12305.523  2*         'Y'     12.174 /
-    'D-3AH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][47]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    188.636      0.216  16644.504  2*         'Y'     12.204 /
-    'D-3AH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][46]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    338.879      0.216  29782.475  2*         'Y'     11.977 /
-    'D-3AH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][46]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*      2.532      0.216    221.436  2*         'Y'     11.702 /
-    'D-3AH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][45]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    343.373      0.216  30036.158  2*         'Y'     11.716 /
-    'D-3AH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    158.241      0.216  13821.033  2*         'Y'     11.633 /
-    'D-3AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    205.286      0.216  17889.525  2*         'Y'     11.511 /
-    'D-3AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][43]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    251.929      0.216  21988.264  2*         'Y'     11.595 /
+    'D-3AH'   ${original_to_output_i[17]}   ${original_to_output_j[50]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     21.157      0.216   1872.053  2*         'Y'     12.369 /
+    'D-3AH'   ${original_to_output_i[16]}   ${original_to_output_j[50]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    465.838      0.216  41191.184  2*         'Y'     12.328 /
+    'D-3AH'   ${original_to_output_i[16]}   ${original_to_output_j[49]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     48.703      0.216   4298.079  2*         'Y'     12.214 /
+    'D-3AH'   ${original_to_output_i[15]}   ${original_to_output_j[48]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    120.412      0.216  10618.473  2*         'Y'     12.171 /
+    'D-3AH'   ${original_to_output_i[15]}   ${original_to_output_j[47]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    139.534      0.216  12305.523  2*         'Y'     12.174 /
+    'D-3AH'   ${original_to_output_i[14]}   ${original_to_output_j[47]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    188.636      0.216  16644.504  2*         'Y'     12.204 /
+    'D-3AH'   ${original_to_output_i[14]}   ${original_to_output_j[46]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    338.879      0.216  29782.475  2*         'Y'     11.977 /
+    'D-3AH'   ${original_to_output_i[13]}   ${original_to_output_j[46]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*      2.532      0.216    221.436  2*         'Y'     11.702 /
+    'D-3AH'   ${original_to_output_i[13]}   ${original_to_output_j[45]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    343.373      0.216  30036.158  2*         'Y'     11.716 /
+    'D-3AH'   ${original_to_output_i[13]}   ${original_to_output_j[44]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    158.241      0.216  13821.033  2*         'Y'     11.633 /
+    'D-3AH'   ${original_to_output_i[12]}   ${original_to_output_j[44]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    205.286      0.216  17889.525  2*         'Y'     11.511 /
+    'D-3AH'   ${original_to_output_i[12]}   ${original_to_output_j[43]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    251.929      0.216  21988.264  2*         'Y'     11.595 /
 /
 
 WCONHIST
@@ -3463,34 +3463,34 @@ DATES
 --      : WCONINJE >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'F-3H'    'MANI-F'    ${dic['i_f_c'][6]}   ${dic['j_f_c'][57]}  1*       'OIL'  7* /
+     'F-3H'    'MANI-F'    ${original_to_output_i[6]}   ${original_to_output_j[57]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-3H'    ${dic['i_f_c'][6]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*      2.002      0.216    192.770  2*         'Z'     18.774 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*      6.339      0.216    600.681  2*         'Z'     17.305 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     15.462      0.216   1475.990  2*         'Z'     17.971 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      0.665      0.216     62.355  2*         'Z'     16.468 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      3.427      0.216    328.264  2*         'Z'     18.296 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      3.391      0.216    325.229  2*         'Z'     18.420 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      4.284      0.216    410.644  2*         'Z'     18.352 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      4.241      0.216    407.082  2*         'Z'     18.498 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*      9.387      0.216    902.750  2*         'Z'     18.667 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    101.082      0.216   9741.795  2*         'Z'     18.876 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      4.716      0.216    454.519  2*         'Z'     18.880 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      1.659      0.216    160.153  2*         'Z'     19.011 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    123.532      0.216  11909.055  2*         'Z'     18.905 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     23.785      0.216   2299.001  2*         'Z'     19.163 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      9.266      0.216    897.482  2*         'Z'     19.375 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      2.873      0.216    278.581  2*         'Z'     19.470 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    213.422      0.216  20730.869  2*         'Z'     19.660 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*     22.442      0.216   2174.958  2*         'Z'     19.427 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     22.435      0.216   2194.387  2*         'Z'     20.384 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     16.226      0.216   1590.031  2*         'Z'     20.581 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     85.791      0.216   8439.256  2*         'Z'     21.005 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*     42.255      0.216   4130.474  2*         'Z'     20.320 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    300.194      0.216  29777.980  2*         'Z'     21.955 /
+     'F-3H'    ${original_to_output_i[6]}   ${original_to_output_j[57]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*      2.002      0.216    192.770  2*         'Z'     18.774 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*      6.339      0.216    600.681  2*         'Z'     17.305 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     15.462      0.216   1475.990  2*         'Z'     17.971 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      0.665      0.216     62.355  2*         'Z'     16.468 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      3.427      0.216    328.264  2*         'Z'     18.296 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      3.391      0.216    325.229  2*         'Z'     18.420 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      4.284      0.216    410.644  2*         'Z'     18.352 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      4.241      0.216    407.082  2*         'Z'     18.498 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*      9.387      0.216    902.750  2*         'Z'     18.667 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    101.082      0.216   9741.795  2*         'Z'     18.876 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      4.716      0.216    454.519  2*         'Z'     18.880 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      1.659      0.216    160.153  2*         'Z'     19.011 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    123.532      0.216  11909.055  2*         'Z'     18.905 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     23.785      0.216   2299.001  2*         'Z'     19.163 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      9.266      0.216    897.482  2*         'Z'     19.375 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      2.873      0.216    278.581  2*         'Z'     19.470 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    213.422      0.216  20730.869  2*         'Z'     19.660 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*     22.442      0.216   2174.958  2*         'Z'     19.427 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     22.435      0.216   2194.387  2*         'Z'     20.384 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     16.226      0.216   1590.031  2*         'Z'     20.581 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     85.791      0.216   8439.256  2*         'Z'     21.005 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*     42.255      0.216   4130.474  2*         'Z'     20.320 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    300.194      0.216  29777.980  2*         'Z'     21.955 /
 /
 
 WCONHIST
@@ -3568,7 +3568,7 @@ DATES
 --  WARN: F-3H Connection  7 56 21 SUPPRESSED, perf percentage too small
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     80.517      0.216   7920.504  2*         'Z'     21.006 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     80.517      0.216   7920.504  2*         'Z'     21.006 /
 /
 
 WCONHIST
@@ -3615,11 +3615,11 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}       'OPEN'  1*     75.707      0.216   7300.654  2*         'Z'     18.934 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     23.785      0.216   2299.001  2*         'Z'     19.163 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      8.837      0.216    855.976  2*         'Z'     19.378 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    179.326      0.216  17418.883  2*         'Z'     19.660 /
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     80.517      0.216   7920.504  2*         'Z'     21.006 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[13]}   ${original_to_output_k[13]}       'OPEN'  1*     75.707      0.216   7300.654  2*         'Z'     18.934 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     23.785      0.216   2299.001  2*         'Z'     19.163 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[57]}    ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      8.837      0.216    855.976  2*         'Z'     19.378 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}    ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    179.326      0.216  17418.883  2*         'Z'     19.660 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}    ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     80.517      0.216   7920.504  2*         'Z'     21.006 /
 /
 
 WCONHIST
@@ -3724,18 +3724,18 @@ DATES
 --      : E-3AH Connection 10 71  1 Perf. Len   6.22 (  7.2%)
 --      : E-3AH Connection 11 71  1 Perf. Len  22.87 ( 27.1%)
 WELSPECS
-    'E-3AH'   'MANI-E1'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][64]}  1*       'OIL'  2*      'STOP'  4* /
+    'E-3AH'   'MANI-E1'    ${original_to_output_i[7]}   ${original_to_output_j[64]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'E-3AH'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][65]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     14.740      0.216   1070.479  2*         'Y'      5.287 /
-    'E-3AH'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][66]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     33.983      0.216   2467.537  2*         'Y'      5.284 /
-    'E-3AH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][66]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     26.299      0.216   1919.028  2*         'Y'      5.386 /
-    'E-3AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][69]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     53.632      0.216   4407.631  2*         'Y'      8.824 /
-    'E-3AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][70]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}       'OPEN'  1*    273.486      0.216  22423.428  2*         'Y'      8.734 /
-    'E-3AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][71]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}       'OPEN'  1*     16.622      0.216   1357.625  2*         'Y'      8.587 /
-    'E-3AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][71]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}       'OPEN'  1*     63.822      0.216   5300.814  2*         'Y'      9.247 /
+    'E-3AH'    ${original_to_output_i[7]}   ${original_to_output_j[65]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     14.740      0.216   1070.479  2*         'Y'      5.287 /
+    'E-3AH'    ${original_to_output_i[7]}   ${original_to_output_j[66]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     33.983      0.216   2467.537  2*         'Y'      5.284 /
+    'E-3AH'    ${original_to_output_i[8]}   ${original_to_output_j[66]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     26.299      0.216   1919.028  2*         'Y'      5.386 /
+    'E-3AH'   ${original_to_output_i[10]}   ${original_to_output_j[69]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     53.632      0.216   4407.631  2*         'Y'      8.824 /
+    'E-3AH'   ${original_to_output_i[10]}   ${original_to_output_j[70]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}       'OPEN'  1*    273.486      0.216  22423.428  2*         'Y'      8.734 /
+    'E-3AH'   ${original_to_output_i[10]}   ${original_to_output_j[71]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}       'OPEN'  1*     16.622      0.216   1357.625  2*         'Y'      8.587 /
+    'E-3AH'   ${original_to_output_i[11]}   ${original_to_output_j[71]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}       'OPEN'  1*     63.822      0.216   5300.814  2*         'Y'      9.247 /
 /
 
 WCONHIST
@@ -4000,40 +4000,40 @@ DATES
 --      : WCONPROD >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-    'B-4AH'  'B1-DUMMY'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][46]}  1*       'OIL'  2*      'STOP'  4* /
+    'B-4AH'  'B1-DUMMY'    ${original_to_output_i[9]}   ${original_to_output_j[46]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'B-4AH'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][46]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}       'OPEN'  1*     43.174      0.216   3847.677  2*         'Y'     12.796 /
-    'B-4AH'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][46]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}       'OPEN'  1*     16.178      0.216   1348.356  2*         'Y'      9.390 /
-    'B-4AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][46]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      6.486      0.216    527.232  2*         'Y'      8.413 /
-    'B-4AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][46]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      0.051      0.216      4.420  2*         'Y'     11.296 /
-    'B-4AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][47]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      2.700      0.216    231.891  2*         'Y'     10.769 /
-    'B-4AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][48]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     19.124      0.216   1562.674  2*         'Y'      8.604 /
-    'B-4AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][48]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      0.913      0.216     74.510  2*         'Y'      8.565 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][48]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*     15.663      0.216   1276.560  2*         'Y'      8.507 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][49]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      6.078      0.216    505.713  2*         'Y'      9.323 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][49]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     10.401      0.216    872.823  2*         'Y'      9.682 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][49]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      8.182      0.216    690.751  2*         'Y'      9.951 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][49]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     53.628      0.216   4509.478  2*         'Y'      9.772 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     42.143      0.216   3611.530  2*         'Y'     10.652 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    151.410      0.216  13223.584  2*         'Y'     11.630 /
-    'B-4AH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      8.462      0.216    738.768  2*         'Y'     11.607 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      4.443      0.216    394.341  2*         'Y'     12.548 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      1.939      0.216    171.939  2*         'Y'     12.499 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    283.341      0.216  25970.746  2*         'Y'     14.661 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     90.400      0.216   8319.386  2*         'Y'     14.954 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     55.785      0.216   5120.815  2*         'Y'     14.769 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     19.354      0.216   1778.115  2*         'Y'     14.830 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    238.799      0.216  21860.707  2*         'Y'     14.571 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      3.313      0.216    297.650  2*         'Y'     13.306 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*     46.104      0.216   4345.378  2*         'Y'     16.846 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][51]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*     19.082      0.216   1817.143  2*         'Y'     17.752 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*      4.699      0.216    447.717  2*         'Y'     17.806 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     89.797      0.216   8607.997  2*         'Y'     18.362 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*     92.056      0.216   8406.571  2*         'Y'     14.397 /
-    'B-4AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    377.405      0.216  34531.738  2*         'Y'     14.535 /
+    'B-4AH'    ${original_to_output_i[9]}   ${original_to_output_j[46]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}       'OPEN'  1*     43.174      0.216   3847.677  2*         'Y'     12.796 /
+    'B-4AH'    ${original_to_output_i[9]}   ${original_to_output_j[46]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}       'OPEN'  1*     16.178      0.216   1348.356  2*         'Y'      9.390 /
+    'B-4AH'   ${original_to_output_i[10]}   ${original_to_output_j[46]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      6.486      0.216    527.232  2*         'Y'      8.413 /
+    'B-4AH'   ${original_to_output_i[10]}   ${original_to_output_j[46]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      0.051      0.216      4.420  2*         'Y'     11.296 /
+    'B-4AH'   ${original_to_output_i[10]}   ${original_to_output_j[47]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      2.700      0.216    231.891  2*         'Y'     10.769 /
+    'B-4AH'   ${original_to_output_i[10]}   ${original_to_output_j[48]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     19.124      0.216   1562.674  2*         'Y'      8.604 /
+    'B-4AH'   ${original_to_output_i[10]}   ${original_to_output_j[48]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      0.913      0.216     74.510  2*         'Y'      8.565 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[48]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*     15.663      0.216   1276.560  2*         'Y'      8.507 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[49]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      6.078      0.216    505.713  2*         'Y'      9.323 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[49]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     10.401      0.216    872.823  2*         'Y'      9.682 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[49]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      8.182      0.216    690.751  2*         'Y'      9.951 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[49]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     53.628      0.216   4509.478  2*         'Y'      9.772 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[49]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     42.143      0.216   3611.530  2*         'Y'     10.652 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[50]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    151.410      0.216  13223.584  2*         'Y'     11.630 /
+    'B-4AH'   ${original_to_output_i[11]}   ${original_to_output_j[50]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      8.462      0.216    738.768  2*         'Y'     11.607 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[50]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      4.443      0.216    394.341  2*         'Y'     12.548 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[50]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      1.939      0.216    171.939  2*         'Y'     12.499 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[50]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    283.341      0.216  25970.746  2*         'Y'     14.661 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     90.400      0.216   8319.386  2*         'Y'     14.954 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     55.785      0.216   5120.815  2*         'Y'     14.769 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     19.354      0.216   1778.115  2*         'Y'     14.830 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    238.799      0.216  21860.707  2*         'Y'     14.571 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      3.313      0.216    297.650  2*         'Y'     13.306 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*     46.104      0.216   4345.378  2*         'Y'     16.846 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[51]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*     19.082      0.216   1817.143  2*         'Y'     17.752 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[52]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*      4.699      0.216    447.717  2*         'Y'     17.806 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[52]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     89.797      0.216   8607.997  2*         'Y'     18.362 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[52]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*     92.056      0.216   8406.571  2*         'Y'     14.397 /
+    'B-4AH'   ${original_to_output_i[12]}   ${original_to_output_j[52]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    377.405      0.216  34531.738  2*         'Y'     14.535 /
 /
 
 WCONHIST
@@ -4219,29 +4219,29 @@ DATES
 --      : WCONINJE >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-     'F-4H'    'MANI-F'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}  1*       'OIL'  7* /
+     'F-4H'    'MANI-F'   ${original_to_output_i[36]}   ${original_to_output_j[68]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     32.805      0.216   3039.230  2*         'Z'     15.456 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     44.641      0.216   4162.395  2*         'Z'     15.958 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      6.151      0.216    567.604  2*         'Z'     15.154 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      0.592      0.216     54.422  2*         'Z'     14.903 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      0.897      0.216     83.561  2*         'Z'     15.859 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      6.442      0.216    602.612  2*         'Z'     16.217 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      6.483      0.216    609.591  2*         'Z'     16.648 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}     'OPEN'  1*     26.257      0.216   2459.854  2*         'Z'     16.342 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     16.463      0.216   1552.593  2*         'Z'     16.899 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     10.035      0.216    936.996  2*         'Z'     16.069 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      0.885      0.216     82.507  2*         'Z'     15.961 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     90.481      0.216   8489.395  2*         'Z'     16.465 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*     19.381      0.216   1818.877  2*         'Z'     16.487 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     20.774      0.216   1951.563  2*         'Z'     16.569 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*      5.960      0.216    552.313  2*         'Z'     15.478 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*      2.100      0.216    183.044  2*         'Z'     11.518 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*      2.640      0.216    251.296  2*         'Z'     17.720 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*     84.581      0.216   7891.694  2*         'Z'     16.011 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     32.805      0.216   3039.230  2*         'Z'     15.456 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     44.641      0.216   4162.395  2*         'Z'     15.958 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      6.151      0.216    567.604  2*         'Z'     15.154 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      0.592      0.216     54.422  2*         'Z'     14.903 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      0.897      0.216     83.561  2*         'Z'     15.859 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      6.442      0.216    602.612  2*         'Z'     16.217 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      6.483      0.216    609.591  2*         'Z'     16.648 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}     'OPEN'  1*     26.257      0.216   2459.854  2*         'Z'     16.342 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     16.463      0.216   1552.593  2*         'Z'     16.899 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     10.035      0.216    936.996  2*         'Z'     16.069 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      0.885      0.216     82.507  2*         'Z'     15.961 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     90.481      0.216   8489.395  2*         'Z'     16.465 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*     19.381      0.216   1818.877  2*         'Z'     16.487 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     20.774      0.216   1951.563  2*         'Z'     16.569 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*      5.960      0.216    552.313  2*         'Z'     15.478 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*      2.100      0.216    183.044  2*         'Z'     11.518 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*      2.640      0.216    251.296  2*         'Z'     17.720 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*     84.581      0.216   7891.694  2*         'Z'     16.011 /
 /
 
 WCONHIST
@@ -4382,21 +4382,21 @@ DATES
 --      : B-4BH Connection 15 57  9 Perf. Len  72.22 ( 81.9%)
 --      : B-4BH Connection 15 58  9 Perf. Len  18.78 ( 21.7%)
 WELSPECS
-    'B-4BH'  'B1-DUMMY'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][46]}  1*       'OIL'  2*      'STOP'  4* /
+    'B-4BH'  'B1-DUMMY'    ${original_to_output_i[9]}   ${original_to_output_j[46]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'B-4BH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     31.039      0.216   2432.255  2*         'Y'      7.190 /
-    'B-4BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     90.528      0.216   7115.854  2*         'Y'      7.284 /
-    'B-4BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][53]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    182.685      0.216  14326.053  2*         'Y'      7.213 /
-    'B-4BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     51.831      0.216   4082.198  2*         'Y'      7.345 /
-    'B-4BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][54]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    104.276      0.216   8214.242  2*         'Y'      7.351 /
-    'B-4BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][55]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    122.117      0.216   9643.336  2*         'Y'      7.428 /
-    'B-4BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     65.860      0.216   5220.651  2*         'Y'      7.549 /
-    'B-4BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][56]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     72.632      0.216   5762.971  2*         'Y'      7.579 /
-    'B-4BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    109.175      0.216   8600.285  2*         'Y'      7.352 /
-    'B-4BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][58]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     28.179      0.216   2211.981  2*         'Y'      7.243 /
+    'B-4BH'   ${original_to_output_i[12]}   ${original_to_output_j[52]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     31.039      0.216   2432.255  2*         'Y'      7.190 /
+    'B-4BH'   ${original_to_output_i[13]}   ${original_to_output_j[52]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     90.528      0.216   7115.854  2*         'Y'      7.284 /
+    'B-4BH'   ${original_to_output_i[13]}   ${original_to_output_j[53]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    182.685      0.216  14326.053  2*         'Y'      7.213 /
+    'B-4BH'   ${original_to_output_i[13]}   ${original_to_output_j[54]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     51.831      0.216   4082.198  2*         'Y'      7.345 /
+    'B-4BH'   ${original_to_output_i[14]}   ${original_to_output_j[54]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    104.276      0.216   8214.242  2*         'Y'      7.351 /
+    'B-4BH'   ${original_to_output_i[14]}   ${original_to_output_j[55]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    122.117      0.216   9643.336  2*         'Y'      7.428 /
+    'B-4BH'   ${original_to_output_i[14]}   ${original_to_output_j[56]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     65.860      0.216   5220.651  2*         'Y'      7.549 /
+    'B-4BH'   ${original_to_output_i[15]}   ${original_to_output_j[56]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     72.632      0.216   5762.971  2*         'Y'      7.579 /
+    'B-4BH'   ${original_to_output_i[15]}   ${original_to_output_j[57]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    109.175      0.216   8600.285  2*         'Y'      7.352 /
+    'B-4BH'   ${original_to_output_i[15]}   ${original_to_output_j[58]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     28.179      0.216   2211.981  2*         'Y'      7.243 /
 /
 
 WCONHIST
@@ -4470,9 +4470,9 @@ DATES
 --      : F-4H Connection 36 68  3 Perf. Len   9.87 (116.9%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     60.291      0.216   5576.047  2*         'Z'     15.325 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     22.803      0.216   2128.744  2*         'Z'     16.054 /
-     'F-4H'   ${dic['i_f_c'][36]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      6.931      0.216    639.261  2*         'Z'     15.123 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     60.291      0.216   5576.047  2*         'Z'     15.325 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     22.803      0.216   2128.744  2*         'Z'     16.054 /
+     'F-4H'   ${original_to_output_i[36]}   ${original_to_output_j[68]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      6.931      0.216    639.261  2*         'Z'     15.123 /
 /
 
 WCONHIST
@@ -5006,16 +5006,16 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-3H'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][41]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     65.711      0.216   5364.312  2*         'Y'      8.569 /
-     'B-3H'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][42]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     50.937      0.216   4118.021  2*         'Y'      8.214 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][43]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}     'OPEN'  1*      1.671      0.216    143.592  2*         'Y'     10.796 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][44]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    258.909      0.216  21331.945  2*         'Y'      8.923 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][45]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    267.815      0.216  21648.221  2*         'Y'      8.208 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][47]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     39.352      0.216   3300.495  2*         'Y'      9.659 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*     13.264      0.216   1122.093  2*         'Y'     10.044 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][48]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      3.696      0.216    303.121  2*         'Y'      8.748 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][49]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    601.800      0.216  56283.734  2*         'Y'     16.203 /
-     'B-3H'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][50]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    146.461      0.216  13820.293  2*         'Y'     16.944 /
+     'B-3H'    ${original_to_output_i[8]}   ${original_to_output_j[41]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     65.711      0.216   5364.312  2*         'Y'      8.569 /
+     'B-3H'    ${original_to_output_i[8]}   ${original_to_output_j[42]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     50.937      0.216   4118.021  2*         'Y'      8.214 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[43]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}     'OPEN'  1*      1.671      0.216    143.592  2*         'Y'     10.796 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[44]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    258.909      0.216  21331.945  2*         'Y'      8.923 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[45]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    267.815      0.216  21648.221  2*         'Y'      8.208 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[47]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     39.352      0.216   3300.495  2*         'Y'      9.659 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[48]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*     13.264      0.216   1122.093  2*         'Y'     10.044 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[48]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      3.696      0.216    303.121  2*         'Y'      8.748 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[49]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    601.800      0.216  56283.734  2*         'Y'     16.203 /
+     'B-3H'    ${original_to_output_i[9]}   ${original_to_output_j[50]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    146.461      0.216  13820.293  2*         'Y'     16.944 /
 /
 
 WCONHIST
@@ -5251,7 +5251,7 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'F-3H'    ${dic['i_f_c'][7]}   ${dic['j_f_c'][56]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     80.517      0.216   7920.504  2*         'Z'     21.006 /
+     'F-3H'    ${original_to_output_i[7]}   ${original_to_output_j[56]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     80.517      0.216   7920.504  2*         'Z'     21.006 /
 /
 
 WCONHIST
@@ -5738,8 +5738,8 @@ DATES
 --      : B-3H Connection  8 40 13 Perf. Len  19.38 ( 24.5%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-3H'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      1.879      0.216    148.474  2*         'Y'      7.444 /
-     'B-3H'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][40]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    302.749      0.216  26777.176  2*         'Y'     12.343 /
+     'B-3H'    ${original_to_output_i[8]}   ${original_to_output_j[40]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      1.879      0.216    148.474  2*         'Y'      7.444 /
+     'B-3H'    ${original_to_output_i[8]}   ${original_to_output_j[40]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    302.749      0.216  26777.176  2*         'Y'     12.343 /
 /
 
 WCONHIST
@@ -5871,17 +5871,17 @@ DATES
 --      : D-4AH Connection 18 79  1 Perf. Len  53.53 ( 61.6%)
 --      : D-4AH Connection 18 80  1 Perf. Len  68.59 ( 79.8%)
 WELSPECS
-    'D-4AH'  'D2-DUMMY'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][66]}  1*       'OIL'  2*      'STOP'  4* /
+    'D-4AH'  'D2-DUMMY'   ${original_to_output_i[16]}   ${original_to_output_j[66]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'D-4AH'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][75]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      9.931      0.216    734.755  2*         'Y'      5.687 /
-    'D-4AH'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][76]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     27.106      0.216   2004.161  2*         'Y'      5.673 /
-    'D-4AH'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][76]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     11.598      0.216    856.594  2*         'Y'      5.648 /
-    'D-4AH'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][77]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     15.852      0.216   1168.451  2*         'Y'      5.604 /
-    'D-4AH'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][79]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*    110.061      0.216   9263.623  2*         'Y'      9.814 /
-    'D-4AH'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][80]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*    131.888      0.216  11040.175  2*         'Y'      9.576 /
+    'D-4AH'   ${original_to_output_i[17]}   ${original_to_output_j[75]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      9.931      0.216    734.755  2*         'Y'      5.687 /
+    'D-4AH'   ${original_to_output_i[17]}   ${original_to_output_j[76]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     27.106      0.216   2004.161  2*         'Y'      5.673 /
+    'D-4AH'   ${original_to_output_i[18]}   ${original_to_output_j[76]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     11.598      0.216    856.594  2*         'Y'      5.648 /
+    'D-4AH'   ${original_to_output_i[18]}   ${original_to_output_j[77]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     15.852      0.216   1168.451  2*         'Y'      5.604 /
+    'D-4AH'   ${original_to_output_i[18]}   ${original_to_output_j[79]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*    110.061      0.216   9263.623  2*         'Y'      9.814 /
+    'D-4AH'   ${original_to_output_i[18]}   ${original_to_output_j[80]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*    131.888      0.216  11040.175  2*         'Y'      9.576 /
 /
 
 WCONHIST
@@ -6160,7 +6160,7 @@ DATES
 --      : B-1H Connection 15 37  7 Perf. Len  31.73 ( 36.1%)
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-1H'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][37]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     32.414      0.216   2564.617  2*         'Y'      7.489 /
+     'B-1H'   ${original_to_output_i[15]}   ${original_to_output_j[37]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     32.414      0.216   2564.617  2*         'Y'      7.489 /
 /
 
 WCONHIST
@@ -6203,8 +6203,8 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-1H'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][36]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     51.932      0.216   4231.565  2*         'Y'      8.499 /
-     'B-1H'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][37]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     32.414      0.216   2564.617  2*         'Y'      7.489 /
+     'B-1H'   ${original_to_output_i[15]}   ${original_to_output_j[36]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     51.932      0.216   4231.565  2*         'Y'      8.499 /
+     'B-1H'   ${original_to_output_i[15]}   ${original_to_output_j[37]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     32.414      0.216   2564.617  2*         'Y'      7.489 /
 /
 
 WCONHIST
@@ -6247,8 +6247,8 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'B-1H'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][36]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     51.932      0.216   4231.565  2*         'Y'      8.499 /
-     'B-1H'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][37]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     32.414      0.216   2564.617  2*         'Y'      7.489 /
+     'B-1H'   ${original_to_output_i[15]}   ${original_to_output_j[36]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     51.932      0.216   4231.565  2*         'Y'      8.499 /
+     'B-1H'   ${original_to_output_i[15]}   ${original_to_output_j[37]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     32.414      0.216   2564.617  2*         'Y'      7.489 /
 /
 
 WCONHIST
@@ -6347,26 +6347,26 @@ DATES
 --      : D-1CH Connection 21 23  7 Perf. Len   6.59 (  7.3%)
 --      : D-1CH Connection 21 22  7 Perf. Len  77.91 ( 88.3%)
 WELSPECS
-    'D-1CH'   'MANI-D1'   ${dic['i_f_c'][25]}   ${dic['j_f_c'][37]}  1*       'OIL'  2*      'STOP'  4* /
+    'D-1CH'   'MANI-D1'   ${original_to_output_i[25]}   ${original_to_output_j[37]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'D-1CH'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][31]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     19.917      0.216   1441.266  2*         'Y'      5.215 /
-    'D-1CH'   ${dic['i_f_c'][24]}   ${dic['j_f_c'][30]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     14.238      0.216   1021.922  2*         'Y'      5.052 /
-    'D-1CH'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][30]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     16.976      0.216   1219.509  2*         'Y'      5.069 /
-    'D-1CH'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][29]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     11.916      0.216    861.151  2*         'Y'      5.188 /
-    'D-1CH'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][29]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     73.196      0.216   5215.255  2*         'Y'      4.912 /
-    'D-1CH'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][28]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     68.299      0.216   4862.940  2*         'Y'      4.899 /
-    'D-1CH'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][27]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     66.326      0.216   4732.528  2*         'Y'      4.939 /
-    'D-1CH'   ${dic['i_f_c'][23]}   ${dic['j_f_c'][26]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      7.330      0.216    518.770  2*         'Y'      4.788 /
-    'D-1CH'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][26]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     10.485      0.216    765.307  2*         'Y'      5.391 /
-    'D-1CH'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][26]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     27.436      0.216   2000.367  2*         'Y'      5.369 /
-    'D-1CH'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     50.384      0.216   3765.310  2*         'Y'      5.920 /
-    'D-1CH'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     50.321      0.216   3774.040  2*         'Y'      6.005 /
-    'D-1CH'   ${dic['i_f_c'][22]}   ${dic['j_f_c'][23]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     40.979      0.216   3072.773  2*         'Y'      6.000 /
-    'D-1CH'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][23]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      3.734      0.216    279.692  2*         'Y'      5.976 /
-    'D-1CH'   ${dic['i_f_c'][21]}   ${dic['j_f_c'][22]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     41.777      0.216   3146.139  2*         'Y'      6.105 /
+    'D-1CH'   ${original_to_output_i[24]}   ${original_to_output_j[31]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     19.917      0.216   1441.266  2*         'Y'      5.215 /
+    'D-1CH'   ${original_to_output_i[24]}   ${original_to_output_j[30]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     14.238      0.216   1021.922  2*         'Y'      5.052 /
+    'D-1CH'   ${original_to_output_i[23]}   ${original_to_output_j[30]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     16.976      0.216   1219.509  2*         'Y'      5.069 /
+    'D-1CH'   ${original_to_output_i[23]}   ${original_to_output_j[29]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     11.916      0.216    861.151  2*         'Y'      5.188 /
+    'D-1CH'   ${original_to_output_i[23]}   ${original_to_output_j[29]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     73.196      0.216   5215.255  2*         'Y'      4.912 /
+    'D-1CH'   ${original_to_output_i[23]}   ${original_to_output_j[28]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     68.299      0.216   4862.940  2*         'Y'      4.899 /
+    'D-1CH'   ${original_to_output_i[23]}   ${original_to_output_j[27]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     66.326      0.216   4732.528  2*         'Y'      4.939 /
+    'D-1CH'   ${original_to_output_i[23]}   ${original_to_output_j[26]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      7.330      0.216    518.770  2*         'Y'      4.788 /
+    'D-1CH'   ${original_to_output_i[22]}   ${original_to_output_j[26]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     10.485      0.216    765.307  2*         'Y'      5.391 /
+    'D-1CH'   ${original_to_output_i[22]}   ${original_to_output_j[26]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     27.436      0.216   2000.367  2*         'Y'      5.369 /
+    'D-1CH'   ${original_to_output_i[22]}   ${original_to_output_j[25]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     50.384      0.216   3765.310  2*         'Y'      5.920 /
+    'D-1CH'   ${original_to_output_i[22]}   ${original_to_output_j[24]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     50.321      0.216   3774.040  2*         'Y'      6.005 /
+    'D-1CH'   ${original_to_output_i[22]}   ${original_to_output_j[23]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     40.979      0.216   3072.773  2*         'Y'      6.000 /
+    'D-1CH'   ${original_to_output_i[21]}   ${original_to_output_j[23]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      3.734      0.216    279.692  2*         'Y'      5.976 /
+    'D-1CH'   ${original_to_output_i[21]}   ${original_to_output_j[22]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     41.777      0.216   3146.139  2*         'Y'      6.105 /
 /
 
 WCONHIST
@@ -6511,26 +6511,26 @@ DATES
 --      : WCONINJE >> for RFT pressure points
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-    'C-4AH'    'MANI-C'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][51]}  1*       'OIL'  7* /
+    'C-4AH'    'MANI-C'   ${original_to_output_i[29]}   ${original_to_output_j[51]}  1*       'OIL'  7* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][51]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     23.332      0.216   2235.565  2*         'Z'     18.317 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][51]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      6.052      0.216    575.515  2*         'Z'     17.628 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][51]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*     13.822      0.216   1229.859  2*         'Z'     12.701 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      2.148      0.216    192.252  2*         'Z'     13.066 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      7.123      0.216    676.723  2*         'Z'     17.544 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      7.162      0.216    682.067  2*         'Z'     17.756 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      8.904      0.216    851.095  2*         'Z'     18.096 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      8.905      0.216    851.926  2*         'Z'     18.173 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*      0.322      0.216     30.878  2*         'Z'     18.377 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     24.591      0.216   2370.923  2*         'Z'     18.915 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      9.994      0.216    961.288  2*         'Z'     18.683 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      1.631      0.216    157.349  2*         'Z'     18.968 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*     68.015      0.216   6527.337  2*         'Z'     18.469 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*      6.636      0.216    637.537  2*         'Z'     18.567 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      1.969      0.216    189.710  2*         'Z'     18.864 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[51]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     23.332      0.216   2235.565  2*         'Z'     18.317 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[51]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      6.052      0.216    575.515  2*         'Z'     17.628 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[51]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*     13.822      0.216   1229.859  2*         'Z'     12.701 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      2.148      0.216    192.252  2*         'Z'     13.066 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      7.123      0.216    676.723  2*         'Z'     17.544 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      7.162      0.216    682.067  2*         'Z'     17.756 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      8.904      0.216    851.095  2*         'Z'     18.096 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      8.905      0.216    851.926  2*         'Z'     18.173 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*      0.322      0.216     30.878  2*         'Z'     18.377 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     24.591      0.216   2370.923  2*         'Z'     18.915 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      9.994      0.216    961.288  2*         'Z'     18.683 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      1.631      0.216    157.349  2*         'Z'     18.968 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*     68.015      0.216   6527.337  2*         'Z'     18.469 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*      6.636      0.216    637.537  2*         'Z'     18.567 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      1.969      0.216    189.710  2*         'Z'     18.864 /
 /
 
 WCONHIST
@@ -6719,12 +6719,12 @@ DATES
 --      : GECON >> C-4AH switches from water to gas injection
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      7.123      0.216    676.723  2*         'Z'     17.544 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      1.703      0.216    162.180  2*         'Z'     17.743 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      8.904      0.216    851.095  2*         'Z'     18.096 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      8.905      0.216    851.926  2*         'Z'     18.173 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*      0.322      0.216     30.878  2*         'Z'     18.377 /
-    'C-4AH'   ${dic['i_f_c'][29]}   ${dic['j_f_c'][52]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     20.273      0.216   1954.730  2*         'Z'     18.919 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      7.123      0.216    676.723  2*         'Z'     17.544 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      1.703      0.216    162.180  2*         'Z'     17.743 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      8.904      0.216    851.095  2*         'Z'     18.096 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      8.905      0.216    851.926  2*         'Z'     18.173 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*      0.322      0.216     30.878  2*         'Z'     18.377 /
+    'C-4AH'   ${original_to_output_i[29]}   ${original_to_output_j[52]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     20.273      0.216   1954.730  2*         'Z'     18.919 /
 /
 
 WCONHIST
@@ -6965,22 +6965,22 @@ DATES
 --      : B-4DH Connection 19 24  5 Perf. Len  23.38 ( 26.7%)
 --      : B-4DH Connection 20 24  5 Perf. Len  15.98 ( 21.8%)
 WELSPECS
-    'B-4DH'  'B1-DUMMY'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][29]}  1*       'OIL'  2*      'STOP'  4* /
+    'B-4DH'  'B1-DUMMY'   ${original_to_output_i[10]}   ${original_to_output_j[29]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'B-4DH'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     15.881      0.216   1261.727  2*         'X'      7.622 /
-    'B-4DH'   ${dic['i_f_c'][16]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     87.421      0.216   6660.474  2*         'X'      6.400 /
-    'B-4DH'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*    107.811      0.216   8028.364  2*         'X'      5.836 /
-    'B-4DH'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*     18.763      0.216   1409.099  2*         'X'      6.037 /
-    'B-4DH'   ${dic['i_f_c'][17]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      2.488      0.216    192.408  2*         'X'      6.810 /
-    'B-4DH'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     67.237      0.216   5205.294  2*         'X'      6.836 /
-    'B-4DH'   ${dic['i_f_c'][18]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      5.564      0.216    436.127  2*         'X'      7.198 /
-    'B-4DH'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     27.154      0.216   2134.574  2*         'X'      7.287 /
-    'B-4DH'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*     14.478      0.216   1144.535  2*         'X'      7.461 /
-    'B-4DH'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     18.023      0.216   1421.043  2*         'X'      7.379 /
-    'B-4DH'   ${dic['i_f_c'][20]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     11.634      0.216    900.185  2*         'X'      6.820 /
+    'B-4DH'   ${original_to_output_i[16]}   ${original_to_output_j[25]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     15.881      0.216   1261.727  2*         'X'      7.622 /
+    'B-4DH'   ${original_to_output_i[16]}   ${original_to_output_j[25]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     87.421      0.216   6660.474  2*         'X'      6.400 /
+    'B-4DH'   ${original_to_output_i[17]}   ${original_to_output_j[25]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*    107.811      0.216   8028.364  2*         'X'      5.836 /
+    'B-4DH'   ${original_to_output_i[17]}   ${original_to_output_j[24]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*     18.763      0.216   1409.099  2*         'X'      6.037 /
+    'B-4DH'   ${original_to_output_i[17]}   ${original_to_output_j[24]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      2.488      0.216    192.408  2*         'X'      6.810 /
+    'B-4DH'   ${original_to_output_i[18]}   ${original_to_output_j[24]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     67.237      0.216   5205.294  2*         'X'      6.836 /
+    'B-4DH'   ${original_to_output_i[18]}   ${original_to_output_j[24]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      5.564      0.216    436.127  2*         'X'      7.198 /
+    'B-4DH'   ${original_to_output_i[19]}   ${original_to_output_j[24]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     27.154      0.216   2134.574  2*         'X'      7.287 /
+    'B-4DH'   ${original_to_output_i[19]}   ${original_to_output_j[24]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*     14.478      0.216   1144.535  2*         'X'      7.461 /
+    'B-4DH'   ${original_to_output_i[19]}   ${original_to_output_j[24]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     18.023      0.216   1421.043  2*         'X'      7.379 /
+    'B-4DH'   ${original_to_output_i[20]}   ${original_to_output_j[24]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     11.634      0.216    900.185  2*         'X'      6.820 /
 /
 
 WCONHIST
@@ -7493,37 +7493,37 @@ DATES
 --      : E-3BH Connection 13 69 22 Perf. Len  35.28 (139.1%)
 --      : WRFTPLT >> RFT recorded only once
 WELSPECS
-    'E-3BH'   'MANI-E1'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][74]}  1*       'OIL'  2*      'STOP'  4* /
+    'E-3BH'   'MANI-E1'   ${original_to_output_i[15]}   ${original_to_output_j[74]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'E-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][74]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     72.602      0.216   6469.182  2*         'Y'     12.786 /
-    'E-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][74]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*      9.222      0.216    798.702  2*         'Y'     11.183 /
-    'E-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][73]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}       'OPEN'  1*     58.179      0.216   5009.146  2*         'Y'     10.884 /
-    'E-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][73]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}       'OPEN'  1*      6.202      0.216    540.747  2*         'Y'     11.541 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}       'OPEN'  1*      5.253      0.216    454.866  2*         'Y'     11.176 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][6]}   ${dic['k_f_c'][6]}      'OPEN'  1*      5.052      0.216    442.108  2*         'Y'     11.743 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      7.318      0.216    642.427  2*         'Y'     11.911 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      7.048      0.216    623.356  2*         'Y'     12.338 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][72]}    ${dic['k_f_c'][9]}   ${dic['k_f_c'][9]}      'OPEN'  1*      3.056      0.216    273.526  2*         'Y'     13.062 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][72]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*    104.732      0.216   9415.676  2*         'Y'     13.344 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][71]}   ${dic['k_f_c'][10]}   ${dic['k_f_c'][10]}      'OPEN'  1*     33.740      0.216   3071.740  2*         'Y'     14.183 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][71]}   ${dic['k_f_c'][11]}   ${dic['k_f_c'][11]}      'OPEN'  1*      5.907      0.216    533.345  2*         'Y'     13.628 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][71]}   ${dic['k_f_c'][12]}   ${dic['k_f_c'][12]}      'OPEN'  1*      1.423      0.216    128.359  2*         'Y'     13.547 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][71]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    256.563      0.216  23744.156  2*         'Y'     15.375 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][71]}   ${dic['k_f_c'][14]}   ${dic['k_f_c'][14]}      'OPEN'  1*    131.335      0.216  12193.771  2*         'Y'     15.622 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][71]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*     19.581      0.216   1820.504  2*         'Y'     15.731 /
-    'E-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      1.593      0.216    148.353  2*         'Y'     15.848 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][15]}   ${dic['k_f_c'][15]}      'OPEN'  1*      9.602      0.216    896.528  2*         'Y'     16.066 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][16]}   ${dic['k_f_c'][16]}      'OPEN'  1*    140.456      0.216  13076.664  2*         'Y'     15.839 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][17]}   ${dic['k_f_c'][17]}      'OPEN'  1*     29.301      0.216   2742.680  2*         'Y'     16.271 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][18]}   ${dic['k_f_c'][18]}      'OPEN'  1*      3.458      0.216    332.166  2*         'Y'     18.562 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][19]}   ${dic['k_f_c'][19]}      'OPEN'  1*      0.184      0.216     17.651  2*         'Z'     18.501 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][20]}   ${dic['k_f_c'][20]}      'OPEN'  1*     57.160      0.216   5606.009  2*         'Z'     20.676 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*     37.673      0.216   3608.930  2*         'Z'     18.299 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][69]}   ${dic['k_f_c'][21]}   ${dic['k_f_c'][21]}      'OPEN'  1*      7.997      0.216    767.171  2*         'Y'     18.429 /
-    'E-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][69]}   ${dic['k_f_c'][22]}   ${dic['k_f_c'][22]}      'OPEN'  1*    384.977      0.216  37246.680  2*         'Z'     19.259 /
+    'E-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[74]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     72.602      0.216   6469.182  2*         'Y'     12.786 /
+    'E-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[74]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*      9.222      0.216    798.702  2*         'Y'     11.183 /
+    'E-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[73]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}       'OPEN'  1*     58.179      0.216   5009.146  2*         'Y'     10.884 /
+    'E-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[73]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}       'OPEN'  1*      6.202      0.216    540.747  2*         'Y'     11.541 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[72]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}       'OPEN'  1*      5.253      0.216    454.866  2*         'Y'     11.176 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[72]}    ${original_to_output_k[6]}   ${original_to_output_k[6]}      'OPEN'  1*      5.052      0.216    442.108  2*         'Y'     11.743 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[72]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      7.318      0.216    642.427  2*         'Y'     11.911 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[72]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      7.048      0.216    623.356  2*         'Y'     12.338 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[72]}    ${original_to_output_k[9]}   ${original_to_output_k[9]}      'OPEN'  1*      3.056      0.216    273.526  2*         'Y'     13.062 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[72]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*    104.732      0.216   9415.676  2*         'Y'     13.344 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[71]}   ${original_to_output_k[10]}   ${original_to_output_k[10]}      'OPEN'  1*     33.740      0.216   3071.740  2*         'Y'     14.183 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[71]}   ${original_to_output_k[11]}   ${original_to_output_k[11]}      'OPEN'  1*      5.907      0.216    533.345  2*         'Y'     13.628 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[71]}   ${original_to_output_k[12]}   ${original_to_output_k[12]}      'OPEN'  1*      1.423      0.216    128.359  2*         'Y'     13.547 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[71]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    256.563      0.216  23744.156  2*         'Y'     15.375 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[71]}   ${original_to_output_k[14]}   ${original_to_output_k[14]}      'OPEN'  1*    131.335      0.216  12193.771  2*         'Y'     15.622 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[71]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*     19.581      0.216   1820.504  2*         'Y'     15.731 /
+    'E-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[70]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      1.593      0.216    148.353  2*         'Y'     15.848 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[15]}   ${original_to_output_k[15]}      'OPEN'  1*      9.602      0.216    896.528  2*         'Y'     16.066 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[16]}   ${original_to_output_k[16]}      'OPEN'  1*    140.456      0.216  13076.664  2*         'Y'     15.839 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[17]}   ${original_to_output_k[17]}      'OPEN'  1*     29.301      0.216   2742.680  2*         'Y'     16.271 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[18]}   ${original_to_output_k[18]}      'OPEN'  1*      3.458      0.216    332.166  2*         'Y'     18.562 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[19]}   ${original_to_output_k[19]}      'OPEN'  1*      0.184      0.216     17.651  2*         'Z'     18.501 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[20]}   ${original_to_output_k[20]}      'OPEN'  1*     57.160      0.216   5606.009  2*         'Z'     20.676 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*     37.673      0.216   3608.930  2*         'Z'     18.299 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[69]}   ${original_to_output_k[21]}   ${original_to_output_k[21]}      'OPEN'  1*      7.997      0.216    767.171  2*         'Y'     18.429 /
+    'E-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[69]}   ${original_to_output_k[22]}   ${original_to_output_k[22]}      'OPEN'  1*    384.977      0.216  37246.680  2*         'Z'     19.259 /
 /
 
 WCONHIST
@@ -7650,19 +7650,19 @@ DATES
 --      : E-3CH Connection 10 62  5 Perf. Len   3.15 (  3.8%)
 --      : E-3CH Connection 10 61  5 Perf. Len  18.73 ( 21.9%)
 WELSPECS
-    'E-3CH'   'MANI-E1'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][74]}  1*       'OIL'  2*      'STOP'  4* /
+    'E-3CH'   'MANI-E1'   ${original_to_output_i[15]}   ${original_to_output_j[74]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'E-3CH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][70]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      4.798      0.216    387.734  2*         'Y'      8.197 /
-    'E-3CH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][69]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     31.679      0.216   2558.741  2*         'Y'      8.181 /
-    'E-3CH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      7.111      0.216    571.629  2*         'Y'      8.014 /
-    'E-3CH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][68]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      7.211      0.216    578.668  2*         'Y'      7.954 /
-    'E-3CH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][64]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     17.745      0.216   1420.044  2*         'Y'      7.861 /
-    'E-3CH'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][63]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      1.181      0.216     94.262  2*         'Y'      7.776 /
-    'E-3CH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][62]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      0.721      0.216     57.593  2*         'Y'      7.812 /
-    'E-3CH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][61]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      4.384      0.216    350.687  2*         'Y'      7.848 /
+    'E-3CH'   ${original_to_output_i[13]}   ${original_to_output_j[70]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      4.798      0.216    387.734  2*         'Y'      8.197 /
+    'E-3CH'   ${original_to_output_i[13]}   ${original_to_output_j[69]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     31.679      0.216   2558.741  2*         'Y'      8.181 /
+    'E-3CH'   ${original_to_output_i[13]}   ${original_to_output_j[68]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      7.111      0.216    571.629  2*         'Y'      8.014 /
+    'E-3CH'   ${original_to_output_i[12]}   ${original_to_output_j[68]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      7.211      0.216    578.668  2*         'Y'      7.954 /
+    'E-3CH'   ${original_to_output_i[11]}   ${original_to_output_j[64]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     17.745      0.216   1420.044  2*         'Y'      7.861 /
+    'E-3CH'   ${original_to_output_i[11]}   ${original_to_output_j[63]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      1.181      0.216     94.262  2*         'Y'      7.776 /
+    'E-3CH'   ${original_to_output_i[10]}   ${original_to_output_j[62]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      0.721      0.216     57.593  2*         'Y'      7.812 /
+    'E-3CH'   ${original_to_output_i[10]}   ${original_to_output_j[61]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      4.384      0.216    350.687  2*         'Y'      7.848 /
 /
 
 WCONHIST
@@ -7894,7 +7894,7 @@ WELOPEN
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'E-4AH'   ${dic['i_f_c'][38]}   ${dic['j_f_c'][98]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     48.136      0.216   3456.518  2*         'Y'      5.061 /
+    'E-4AH'   ${original_to_output_i[38]}   ${original_to_output_j[98]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     48.136      0.216   3456.518  2*         'Y'      5.061 /
 /
 
 WCONHIST
@@ -7994,18 +7994,18 @@ DATES
 --      : E-2AH Connection 12 58  5 Perf. Len  83.49 ( 98.1%)
 --      : E-2AH Connection 12 57  5 Perf. Len  21.75 ( 25.8%)
 WELSPECS
-    'E-2AH'   'MANI-E2'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][67]}  1*       'OIL'  2*      'STOP'  4* /
+    'E-2AH'   'MANI-E2'   ${original_to_output_i[13]}   ${original_to_output_j[67]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][63]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      2.814      0.146    248.610  2*         'Y'      8.306 /
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][62]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     16.504      0.146   1441.225  2*         'Y'      7.859 /
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][61]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     17.389      0.146   1516.852  2*         'Y'      7.819 /
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][60]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     17.893      0.146   1550.080  2*         'Y'      7.573 /
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][59]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     18.674      0.146   1609.909  2*         'Y'      7.404 /
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][58]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     19.772      0.146   1719.284  2*         'Y'      7.705 /
-    'E-2AH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][57]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      5.345      0.146    470.937  2*         'Y'      8.192 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[63]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      2.814      0.146    248.610  2*         'Y'      8.306 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[62]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     16.504      0.146   1441.225  2*         'Y'      7.859 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[61]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     17.389      0.146   1516.852  2*         'Y'      7.819 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[60]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     17.893      0.146   1550.080  2*         'Y'      7.573 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[59]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     18.674      0.146   1609.909  2*         'Y'      7.404 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[58]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     19.772      0.146   1719.284  2*         'Y'      7.705 /
+    'E-2AH'   ${original_to_output_i[12]}   ${original_to_output_j[57]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      5.345      0.146    470.937  2*         'Y'      8.192 /
 /
 
 WCONHIST
@@ -8054,24 +8054,24 @@ DATES
 --      : D-3BH Connection 12 40  8 Perf. Len  80.37 ( 95.9%)
 --      : D-3BH Connection 12 39  8 Perf. Len  14.77 ( 17.5%)
 WELSPECS
-    'D-3BH'   'MANI-D1'   ${dic['i_f_c'][19]}   ${dic['j_f_c'][54]}  1*       'OIL'  2*      'STOP'  4* /
+    'D-3BH'   'MANI-D1'   ${original_to_output_i[19]}   ${original_to_output_j[54]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'D-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][48]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*      2.300      0.216    178.019  2*         'Y'      6.825 /
-    'D-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][47]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     28.866      0.216   2240.595  2*         'Y'      6.911 /
-    'D-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][47]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     13.994      0.216   1091.152  2*         'Y'      7.042 /
-    'D-3BH'   ${dic['i_f_c'][15]}   ${dic['j_f_c'][46]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     15.162      0.216   1200.026  2*         'Y'      7.500 /
-    'D-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][44]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     43.852      0.216   3421.184  2*         'Y'      7.058 /
-    'D-3BH'   ${dic['i_f_c'][14]}   ${dic['j_f_c'][43]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     33.279      0.216   2613.848  2*         'Y'      7.261 /
-    'D-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][43]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     19.907      0.216   1528.747  2*         'Y'      6.611 /
-    'D-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][42]}    ${dic['k_f_c'][7]}   ${dic['k_f_c'][7]}      'OPEN'  1*     13.334      0.216   1029.724  2*         'Y'      6.766 /
-    'D-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][42]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     42.376      0.216   3278.559  2*         'Y'      6.817 /
-    'D-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][41]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     61.850      0.216   4789.974  2*         'Y'      6.846 /
-    'D-3BH'   ${dic['i_f_c'][13]}   ${dic['j_f_c'][40]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*      1.730      0.216    134.272  2*         'Y'      6.914 /
-    'D-3BH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][40]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     63.807      0.216   4944.563  2*         'Y'      6.863 /
-    'D-3BH'   ${dic['i_f_c'][12]}   ${dic['j_f_c'][39]}    ${dic['k_f_c'][8]}   ${dic['k_f_c'][8]}      'OPEN'  1*     12.763      0.216    988.058  2*         'Y'      6.835 /
+    'D-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[48]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*      2.300      0.216    178.019  2*         'Y'      6.825 /
+    'D-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[47]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     28.866      0.216   2240.595  2*         'Y'      6.911 /
+    'D-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[47]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     13.994      0.216   1091.152  2*         'Y'      7.042 /
+    'D-3BH'   ${original_to_output_i[15]}   ${original_to_output_j[46]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     15.162      0.216   1200.026  2*         'Y'      7.500 /
+    'D-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[44]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     43.852      0.216   3421.184  2*         'Y'      7.058 /
+    'D-3BH'   ${original_to_output_i[14]}   ${original_to_output_j[43]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     33.279      0.216   2613.848  2*         'Y'      7.261 /
+    'D-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[43]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     19.907      0.216   1528.747  2*         'Y'      6.611 /
+    'D-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[42]}    ${original_to_output_k[7]}   ${original_to_output_k[7]}      'OPEN'  1*     13.334      0.216   1029.724  2*         'Y'      6.766 /
+    'D-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[42]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     42.376      0.216   3278.559  2*         'Y'      6.817 /
+    'D-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[41]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     61.850      0.216   4789.974  2*         'Y'      6.846 /
+    'D-3BH'   ${original_to_output_i[13]}   ${original_to_output_j[40]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*      1.730      0.216    134.272  2*         'Y'      6.914 /
+    'D-3BH'   ${original_to_output_i[12]}   ${original_to_output_j[40]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     63.807      0.216   4944.563  2*         'Y'      6.863 /
+    'D-3BH'   ${original_to_output_i[12]}   ${original_to_output_j[39]}    ${original_to_output_k[8]}   ${original_to_output_k[8]}      'OPEN'  1*     12.763      0.216    988.058  2*         'Y'      6.835 /
 /
 
 WCONHIST
@@ -8239,16 +8239,16 @@ DATES
 --      : B-1AH Connection  9 25  2 Perf. Len   4.41 (  5.3%)
 --      : B-1AH Connection  9 25  3 Perf. Len  24.93 ( 30.1%)
 WELSPECS
-    'B-1AH'   'MANI-B2'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][24]}  1*       'OIL'  2*      'STOP'  4* /
+    'B-1AH'   'MANI-B2'   ${original_to_output_i[10]}   ${original_to_output_j[24]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'B-1AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][1]}   ${dic['k_f_c'][1]}      'OPEN'  1*     73.447      0.216   6088.146  2*         'Y'      9.166 /
-    'B-1AH'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     18.326      0.216   1563.065  2*         'Y'     10.423 /
-    'B-1AH'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     34.389      0.216   2922.668  2*         'Y'     10.256 /
-    'B-1AH'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][2]}   ${dic['k_f_c'][2]}      'OPEN'  1*     11.633      0.216    990.024  2*         'Y'     10.320 /
-    'B-1AH'    ${dic['i_f_c'][9]}   ${dic['j_f_c'][25]}    ${dic['k_f_c'][3]}   ${dic['k_f_c'][3]}      'OPEN'  1*      6.676      0.216    540.569  2*         'Y'      8.269 /
+    'B-1AH'   ${original_to_output_i[10]}   ${original_to_output_j[24]}    ${original_to_output_k[1]}   ${original_to_output_k[1]}      'OPEN'  1*     73.447      0.216   6088.146  2*         'Y'      9.166 /
+    'B-1AH'   ${original_to_output_i[10]}   ${original_to_output_j[24]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     18.326      0.216   1563.065  2*         'Y'     10.423 /
+    'B-1AH'    ${original_to_output_i[9]}   ${original_to_output_j[24]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     34.389      0.216   2922.668  2*         'Y'     10.256 /
+    'B-1AH'    ${original_to_output_i[9]}   ${original_to_output_j[25]}    ${original_to_output_k[2]}   ${original_to_output_k[2]}      'OPEN'  1*     11.633      0.216    990.024  2*         'Y'     10.320 /
+    'B-1AH'    ${original_to_output_i[9]}   ${original_to_output_j[25]}    ${original_to_output_k[3]}   ${original_to_output_k[3]}      'OPEN'  1*      6.676      0.216    540.569  2*         'Y'      8.269 /
 /
 
 WCONHIST
@@ -8338,17 +8338,17 @@ DATES
 --      : B-1BH Connection  8 30 13 Perf. Len  53.43 ( 64.4%)
 --      : B-1BH Connection  8 31 13 Perf. Len  83.96 ( 99.8%)
 WELSPECS
-    'B-1BH'   'MANI-B2'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][24]}  1*       'OIL'  2*      'STOP'  4* /
+    'B-1BH'   'MANI-B2'   ${original_to_output_i[10]}   ${original_to_output_j[24]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-    'B-1BH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][26]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    498.936      0.216  42212.508  2*         'Y'     10.047 /
-    'B-1BH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][27]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*   1421.913      0.216 120431.148  2*         'Y'     10.096 /
-    'B-1BH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][28]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*   1463.870      0.216 125311.945  2*         'Y'     10.599 /
-    'B-1BH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][29]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*   1424.647      0.216 122987.359  2*         'Y'     11.018 /
-    'B-1BH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][30]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*    949.802      0.216  82308.109  2*         'Y'     11.215 /
-    'B-1BH'    ${dic['i_f_c'][8]}   ${dic['j_f_c'][31]}   ${dic['k_f_c'][13]}   ${dic['k_f_c'][13]}      'OPEN'  1*   1537.515      0.216 134230.813  2*         'Y'     11.610 /
+    'B-1BH'    ${original_to_output_i[8]}   ${original_to_output_j[26]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    498.936      0.216  42212.508  2*         'Y'     10.047 /
+    'B-1BH'    ${original_to_output_i[8]}   ${original_to_output_j[27]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*   1421.913      0.216 120431.148  2*         'Y'     10.096 /
+    'B-1BH'    ${original_to_output_i[8]}   ${original_to_output_j[28]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*   1463.870      0.216 125311.945  2*         'Y'     10.599 /
+    'B-1BH'    ${original_to_output_i[8]}   ${original_to_output_j[29]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*   1424.647      0.216 122987.359  2*         'Y'     11.018 /
+    'B-1BH'    ${original_to_output_i[8]}   ${original_to_output_j[30]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*    949.802      0.216  82308.109  2*         'Y'     11.215 /
+    'B-1BH'    ${original_to_output_i[8]}   ${original_to_output_j[31]}   ${original_to_output_k[13]}   ${original_to_output_k[13]}      'OPEN'  1*   1537.515      0.216 134230.813  2*         'Y'     11.610 /
 /
 
 WCONHIST
@@ -8787,22 +8787,22 @@ DATES
 --      : K-3H Connection 11 16  5 Perf. Len   5.69 (  6.5%)
 --      : WRFTPLT >> Pressure data in connection with drilling
 WELSPECS
-     'K-3H'   'MANI-K2'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][28]}  1*       'OIL'  2*      'STOP'  4* /
+     'K-3H'   'MANI-K2'   ${original_to_output_i[11]}   ${original_to_output_j[28]}  1*       'OIL'  2*      'STOP'  4* /
 /
 
 COMPDAT
 -- WELL        I    J    K1  K2            Sat.        CF       DIAM        KH SKIN ND        DIR   Ro
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][24]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     64.799      0.216   4558.657  2*         'Y'      4.681 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][23]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     10.405      0.216    732.714  2*         'Y'      4.699 /
-     'K-3H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][23]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*    157.439      0.216  11212.515  2*         'Y'      4.904 /
-     'K-3H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][22]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*    143.999      0.216  10504.572  2*         'Y'      5.380 /
-     'K-3H'   ${dic['i_f_c'][10]}   ${dic['j_f_c'][21]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     76.727      0.216   5566.416  2*         'Y'      5.266 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][21]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*     55.811      0.216   4085.587  2*         'Y'      5.454 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][20]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*    127.658      0.216   9149.834  2*         'Y'      5.025 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][19]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*    126.628      0.216   9037.191  2*         'Y'      4.943 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][18]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*    123.704      0.216   8854.442  2*         'Y'      4.999 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][17]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*    119.860      0.216   8704.711  2*         'Y'      5.288 /
-     'K-3H'   ${dic['i_f_c'][11]}   ${dic['j_f_c'][16]}    ${dic['k_f_c'][5]}   ${dic['k_f_c'][5]}      'OPEN'  1*      7.253      0.216    534.921  2*         'Y'      5.615 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[24]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     64.799      0.216   4558.657  2*         'Y'      4.681 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[23]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     10.405      0.216    732.714  2*         'Y'      4.699 /
+     'K-3H'   ${original_to_output_i[10]}   ${original_to_output_j[23]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*    157.439      0.216  11212.515  2*         'Y'      4.904 /
+     'K-3H'   ${original_to_output_i[10]}   ${original_to_output_j[22]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*    143.999      0.216  10504.572  2*         'Y'      5.380 /
+     'K-3H'   ${original_to_output_i[10]}   ${original_to_output_j[21]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     76.727      0.216   5566.416  2*         'Y'      5.266 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[21]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*     55.811      0.216   4085.587  2*         'Y'      5.454 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[20]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*    127.658      0.216   9149.834  2*         'Y'      5.025 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[19]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*    126.628      0.216   9037.191  2*         'Y'      4.943 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[18]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*    123.704      0.216   8854.442  2*         'Y'      4.999 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[17]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*    119.860      0.216   8704.711  2*         'Y'      5.288 /
+     'K-3H'   ${original_to_output_i[11]}   ${original_to_output_j[16]}    ${original_to_output_k[5]}   ${original_to_output_k[5]}      'OPEN'  1*      7.253      0.216    534.921  2*         'Y'      5.615 /
 /
 
 WCONHIST

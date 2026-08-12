@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycopm.utils.generate_decks module &mdash; pycopm  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pycopm.utils.input_values module" href="pycopm.utils.input_values.html" />
+    <link rel="prev" title="pycopm.utils.files_writer module" href="pycopm.utils.files_writer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #aaaaaa" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">pycopm Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_folder.html">Output folder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related.html">Related</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About pycopm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #aaaaaa" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycopm</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">pycopm Python API</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.html">pycopm package</a></li>
+          <li class="breadcrumb-item"><a href="pycopm.utils.html">pycopm.utils package</a></li>
+      <li class="breadcrumb-item active">pycopm.utils.generate_decks module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pycopm.utils.generate_decks.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pycopm.utils.generate_decks">
+<span id="pycopm-utils-generate-decks-module"></span><h1>pycopm.utils.generate_decks module<a class="headerlink" href="#module-pycopm.utils.generate_decks" title="Link to this heading"></a></h1>
+<p>Coordinate coarsening, refinement, submodel extraction, and grid transformations.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_decks._correct_fluid_in_place">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_decks.</span></span><span class="sig-name descname"><span class="pre">_correct_fluid_in_place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.generate_decks._correct_fluid_in_place" title="Link to this definition"></a></dt>
+<dd><p>Adjust output pore volume to match input oil and gas in place.</p>
+<p>Short Flow runs provide the fluid-in-place values used for two successive pore
+volume corrections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration whose <code class="docutils literal notranslate"><span class="pre">output_porv</span></code> is updated.</p></li>
+<li><p><strong>modified_deck</strong> – Generated deck lines used to create the correction case.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_decks._create_index_mappings">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_decks.</span></span><span class="sig-name descname"><span class="pre">_create_index_mappings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">refinement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.refinement.html#pycopm.utils.refinement.RefinementMaps" title="pycopm.utils.refinement.RefinementMaps"><span class="pre">RefinementMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarsening</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.coarsening.html#pycopm.utils.coarsening.CoarseningMaps" title="pycopm.utils.coarsening.CoarseningMaps"><span class="pre">CoarseningMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.generate_decks._create_index_mappings" title="Link to this definition"></a></dt>
+<dd><p>Create original-to-output mappings for each grid axis.</p>
+<p>Depending on the selected workflow, the mappings represent coarse cells,
+submodel indices, or the first and last cells created by refinement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration updated with the index mappings.</p></li>
+<li><p><strong>vicinity</strong> – Vicinity bounds for submodel extraction.</p></li>
+<li><p><strong>refinement</strong> – Per-axis refinement values.</p></li>
+<li><p><strong>coarsening</strong> – Per-axis coarsening values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_decks._initialize_deck_data">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_decks.</span></span><span class="sig-name descname"><span class="pre">_initialize_deck_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.generate_decks._initialize_deck_data" title="Link to this definition"></a></dt>
+<dd><p>Load dry-run grid and property data into the deck configuration.</p>
+<p>The function opens EGRID, INIT, and optional restart files, determines grid
+dimensions, and collects available property keywords.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dck</strong> – Deck configuration updated with OPM files, dimensions, and keyword lists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.generate_decks.create_deck">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.generate_decks.</span></span><span class="sig-name descname"><span class="pre">create_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmdargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.generate_decks.create_deck" title="Link to this definition"></a></dt>
+<dd><p>Generate a modified OPM deck and its include files.</p>
+<p>The selected workflow can preprocess the input deck, coarsen or refine the
+grid, extract a vicinity submodel, transform coordinates, and optionally run
+a validation dry run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration populated from command-line arguments.</p></li>
+<li><p><strong>cmdargs</strong> – Parsed command arguments used to build coarsening or refinement maps.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pycopm.utils.files_writer.html" class="btn btn-neutral float-left" title="pycopm.utils.files_writer module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.input_values.html" class="btn btn-neutral float-right" title="pycopm.utils.input_values module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, NORCE Research AS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

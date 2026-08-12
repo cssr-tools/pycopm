@@ -1,209 +1,174 @@
 # SPDX-FileCopyrightText: 2024-2026 NORCE Research AS
 # SPDX-License-Identifier: GPL-3.0
+# pylint: disable=R1702
 
-"""
-Utiliy functions to set the input values from the toml configuration file.
-"""
+"""Create configuration objects from command-line arguments and TOML files."""
 
-import csv
-import sys
 import tomllib
-import shlex
-import subprocess
-from itertools import islice
+from pathlib import Path
+
 import numpy as np
-from opm.io.ecl import EclFile as OpmFile
+from numpy.typing import NDArray
 from opm.io.ecl import EGrid as OpmGrid
-from opm.io.ecl import ERst as OpmRestart
+
+from pycopm.config.config import ConfigViaDeck, ConfigViaTOML
 
 
-def process_input(dic, in_file):
-    """
-    Function to process the input file
+def create_deck_config(cmdargs: dict[str, str]) -> ConfigViaDeck:
+    """Create a deck configuration from parsed command arguments.
 
-    Args:
-        dic (dict): Global dictionary with required parameters\n
-        in_file (str): Name of the input text file
+    Parameters
+    ----------
+    cmdargs
+        Arguments returned by the command-line parser.
 
-    Returns:
-        dic (dict): Modified global dictionary
-    """
-    dic["letsatn"] = 0
-    dic["suffixes"] = ""
-    dic["flowflag"] = dic["flow"]
-    with open(in_file, "rb") as file:
-        dic.update(tomllib.load(file))
-    if dic["field"] == "norne":
-        dic["name"] = "NORNE_ATW2013"
+    Returns
+    -------
+    ConfigViaDeck
+        Configuration for a deck-based workflow."""
+    input_path = Path(cmdargs["input_deck_path"])
+
+    return ConfigViaDeck(
+        output_directory=str(Path(cmdargs["output_directory"]).expanduser().resolve()),
+        flow_command=cmdargs["flow_command"],
+        input_deck_name=input_path.stem,
+        input_deck_path=str(input_path.with_suffix("")),
+        active_cell_methods=cmdargs["active_cell_methods"].split(","),
+        discrete_aggregation_method=cmdargs["discrete_aggregation_method"].split(","),
+        continuous_aggregation_method=cmdargs["continuous_aggregation_method"].split(
+            ","
+        ),
+        jump_thresholds=cmdargs["jump_thresholds"].split(","),
+        output_deck_name=cmdargs["output_deck_name"],
+        execution_mode=cmdargs["execution_mode"],
+        include_prefix=cmdargs["include_prefix"],
+        requested_ijk=[cmdargs["requested_ijk"]],
+        completion_removal_level=int(cmdargs["completion_removal_level"]),
+        deck_encoding=cmdargs["deck_encoding"],
+        pore_volume_correction=int(cmdargs["pore_volume_correction"]),
+        correct_fluid_in_place=int(cmdargs["correct_fluid_in_place"]),
+        transmissibility_coarsening_method=int(
+            cmdargs["transmissibility_coarsening_method"]
+        ),
+        vicinity_specification=cmdargs["vicinity_specification"],
+        grid_transformation=cmdargs["grid_transformation"],
+        write_explicit_solution=int(cmdargs["write_explicit_solution"]) == 1,
+        dual_porosity_criterion=cmdargs["dual_porosity_criterion"],
+        significant_digits=int(cmdargs["significant_digits"]),
+        refinement_enabled=bool(
+            cmdargs["x_refinement"]
+            or cmdargs["y_refinement"]
+            or cmdargs["z_refinement"]
+            or cmdargs["refinement"]
+        ),
+        coarsening_enabled=bool(
+            cmdargs["x_coarsening"]
+            or cmdargs["y_coarsening"]
+            or cmdargs["z_coarsening"]
+            or cmdargs["coarsening"]
+        ),
+    )
+
+
+def parse_axis_modifications(uniform: str, localized: list) -> tuple[NDArray, list]:
+    """Parse uniform or axis-specific grid modifications.
+
+    Uniform input contains one value for each axis. Axis-specific input can contain
+    explicit arrays; coarsening also accepts one-based indices and inclusive ranges
+    such as ``2:4,7``.
+
+    Parameters
+    ----------
+    uniform
+        Comma-separated x, y, and z modification values.
+    localized
+        Axis-specific specifications in x, y, and z order.
+
+    Returns
+    -------
+    cijk, axis_values
+        Uniform axis values and the three parsed axis-specific arrays. Only one
+        representation is populated."""
+    if uniform:
+        cijk = np.fromstring(uniform, sep=",", dtype=int)
+        refs: list = [[], [], []]
     else:
-        dic["name"] = "DROGON"
-    for val in ["X", "Y", "Z"]:
-        dic[val] = np.array(dic[val])
-    dic["suffixes"] = ",".join(["'" + val + "'" for val in dic["suffixes"]])
-    check_flow(dic, in_file)
+        cijk = np.array([])
+        refs = []
+        for i in range(3):
+            argument = localized[i]
+            if argument:
+                if ":" in argument:
+                    values = [0]
+                    index = 1
+                    for value in argument.split(","):
+                        entry = value.split(":")
+                        start_index = int(entry[0])
+                        values.extend([0] * max(0, start_index - index))
+                        if len(entry) == 2:
+                            end_index = int(entry[1])
+                            values.extend([2] * max(0, end_index - start_index))
+                            index = end_index
+                        else:
+                            index = start_index
+                    values.append(0)
+                    refs.append(values)
+                else:
+                    refs.append(
+                        list(np.fromstring(argument, sep=",", dtype=int).tolist())
+                    )
+            else:
+                refs.append([])
+    return cijk, refs
 
 
-def check_flow(dic, in_file):
-    """
-    Check if flow is found
+def load_toml_config(
+    input_file: str,
+    output_directory: str,
+    resource_directory: str,
+    significant_digits: int,
+) -> ConfigViaTOML:
+    """Load a TOML configuration and derive reference-grid dimensions.
 
-    Args:
-        dic (dict): Global dictionary with required parameters\n
-        in_file (str): Name of the input text file
+    Parameters
+    ----------
+    input_file
+        TOML configuration path.
+    output_directory
+        Generated-project directory.
+    resource_directory
+        Directory containing templates and reference simulations.
+    significant_digits
+        Precision used when writing floating-point values.
 
-    Returns:
-        dic (dict): Modified global dictionary
-    """
-    dic["flowpth"] = False
-    for value in dic["flow"].split():
-        if "flow" in value:
-            dic["flowpth"] = value
-            break
-    if not dic["flowpth"]:
-        print(
-            f"\nflow is not included in the configuration file {in_file}.\n"
-            "See the pycopm documentation.\n"
-        )
-        sys.exit()
-
-    cmd1 = shlex.split(dic["flowpth"].strip()) + ["-h"]
-    cmd2 = shlex.split(dic["flowflag"]) + ["-h"]
-
-    def run(cmd):
-        try:
-            return subprocess.run(
-                cmd, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, check=False
-            ).returncode
-        except FileNotFoundError:
-            return 0
-
-    flowtoml = run(cmd1)
-    flowflag = run(cmd2)
-
-    if not (flowtoml == 0 or flowflag == 0):
-        print(
-            f"\nThe OPM flow executable '{dic['flowpth'].strip()}' is not found; "
-            "try to install it following the pycopm documentation.\nIf it was "
-            "built from source, then either add the folder location to your path, "
-            "or write the path\nto flow in the toml configuration file "
-            "(e.g., flow = '/home/pycopm/build/opm-simulators/bin/flow'),\n"
-            "or using the command flag -f or --flow.\n"
-        )
-        sys.exit(1)
-
-    if flowtoml == 0:
-        parts = shlex.split(dic["flow"])
-        for i, value in enumerate(parts):
-            if "flow" in value:
-                parts[i] = dic["flowflag"]
-                break
-        dic["flow"] = " ".join(parts)
-
-
-def read_reference(dic):
-    """
-    Function to read the cell quantities from the uncoarsened simulation output.
-
-    Args:
-        dic (dict): Global dictionary with required parameters
-
-    Returns:
-        dic (dict): Modified global dictionary
-
-    """
-    initialize_values(dic)
-    if dic["field"] == "norne":
-        dic["multz"] = np.load(
-            f"{dic['pat']}/reference_simulation/{dic['field']}/multz.npy"
-        )
-        dic["satnum"] = np.load(
-            f"{dic['pat']}/reference_simulation/{dic['field']}/satnum.npy"
-        )
-    if dic["field"] == "drogon" and dic["letsatn"] > 0:
-        if dic["letsatn"] == 1:
-            lol = []
-            with open(
-                f"{dic['pat']}/reference_simulation/{dic['field']}/satnum_5.out",
-                "r",
-                encoding="utf8",
-            ) as file:
-                for row in csv.reader(file, delimiter="#"):
-                    lol.append(int(row[0]))
-        elif dic["letsatn"] == 3:
-            lol = []
-            with open(
-                f"{dic['pat']}/reference_simulation/{dic['field']}/satnum_60.out",
-                "r",
-                encoding="utf8",
-            ) as file:
-                for row in csv.reader(file, delimiter="#"):
-                    lol.append(int(row[0]))
-        dic["satnum"] = np.array(lol)
-    faults = []
-    if dic["field"] == "drogon":
-        with open(
-            f"{dic['pat']}/reference_simulation/{dic['field']}/include/grid/drogon.faults",
-            "r",
-            encoding="utf8",
-        ) as file:
-            for row in islice(
-                csv.reader(file, skipinitialspace=True, delimiter=" "), 19, 170
-            ):
-                faults.append(row[1:8])
-    dic["fault"] = faults
-
-
-def initialize_values(dic):
-    """
-    Function to initialize the dic variables.
-
-    Args:
-        dic (dict): Global dictionary with required parameters
-
-    Returns:
-        dic1 (dict): Local dictionary
-
-    """
-    dic["case"] = dic["pat"] + f"/reference_simulation/{dic['field']}/{dic['name']}"
-    gri, ini = dic["case"] + ".EGRID", dic["case"] + ".INIT"
-    rst = dic["case"] + ".UNRST"
-    grid, gridf, ini, rst = OpmGrid(gri), OpmFile(gri), OpmFile(ini), OpmRestart(rst)
-    if dic["field"] == "norne":
-        values = ["PORO", "NTG", "SWL", "SGU", "SWCR", "FLUXNUM", "FIPNUM"]
-    else:
-        values = [
-            "PORO",
-            "NTG",
-            "SWL",
-            "SGU",
-            "SWCR",
-            "FIPNUM",
-            "MULTNUM",
-            "PVTNUM",
-        ]
-    values += ["EQLNUM", "PERMX", "PERMY", "PERMZ", "SATNUM"]
-    dic["nc"] = grid.dimension[0] * grid.dimension[1] * grid.dimension[2]
-    dic["nd"] = [grid.dimension[0], grid.dimension[1], grid.dimension[2]]
-    dic["i_f_c"] = np.array([0 for _ in range(dic["nd"][0] + 1)])
-    dic["j_f_c"] = np.array([0 for _ in range(dic["nd"][1] + 1)])
-    dic["k_f_c"] = np.array([0 for _ in range(dic["nd"][2] + 1)])
-    for name in ["vol", "poro", "permx", "permy", "permz", "ntg", "swl"]:
-        dic[f"{name}"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["sgu"] = np.array([0.0 for _ in range(dic["nc"])])
-    dic["swcr"] = np.array([0.0 for _ in range(dic["nc"])])
-    for name in ["con", "fluxnum", "multnum", "fipnum"]:
-        dic[f"{name}"] = np.array([0 for _ in range(dic["nc"])])
-    dic["eqlnum"] = np.array([0 for _ in range(dic["nc"])])
-    dic["multz"] = np.array([1.0 for _ in range(dic["nc"])])
-    dic["satnum"] = np.array([1 for _ in range(dic["nc"])])
-    dic["pvtnum"] = np.array([1 for _ in range(dic["nc"])])
-    dic["fipzon"] = np.array([1 for _ in range(dic["nc"])])
-    dic["zc"], dic["cr"] = gridf["ZCORN"], gridf["COORD"]
-    dic["vol"] = np.array(grid.cellvolumes()) + 1e-10
-    dic["porv"] = np.array(ini["PORV"])
-    dic["actnum"] = dic["porv"] > 0
-    for name in ["swat", "sgas", "pressure", "rs", "rv"]:
-        dic[name] = np.array([0.0 for _ in range(dic["nc"])])
-        dic[name][dic["actnum"]] = rst[name.upper(), 0]
-    for name in values:
-        dic[name.lower()][dic["actnum"]] = ini[name]
+    Returns
+    -------
+    ConfigViaTOML
+        Validated configuration populated with reference-grid metadata."""
+    with open(input_file, "rb") as f:
+        cfg_file = tomllib.load(f)
+    suffixes = cfg_file["cleanup_file_suffixes"]
+    cfg_file["cleanup_file_suffixes"] = ",".join(f"'{suffix}'" for suffix in suffixes)
+    cfg_file["x_coarsening"] = np.array(cfg_file["x_coarsening"])
+    cfg_file["y_coarsening"] = np.array(cfg_file["y_coarsening"])
+    cfg_file["z_coarsening"] = np.array(cfg_file["z_coarsening"])
+    name = "NORNE_ATW2013" if cfg_file["model_name"] == "norne" else "DROGON"
+    case_path = (
+        Path(resource_directory)
+        / "reference_simulation"
+        / cfg_file["model_name"]
+        / name
+    )
+    grid = OpmGrid(f"{case_path}.EGRID")
+    cfg = ConfigViaTOML(
+        output_directory=output_directory,
+        resource_directory=resource_directory,
+        significant_digits=significant_digits,
+        reference_case_name=name,
+        original_nx=grid.dimension[0],
+        original_ny=grid.dimension[1],
+        original_nz=grid.dimension[2],
+        original_cell_count=int(np.prod(grid.dimension)),
+        **cfg_file,
+    )
+    return cfg

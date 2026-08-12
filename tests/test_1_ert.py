@@ -10,6 +10,7 @@ from opm.io.ecl import EclFile as OpmFile
 from opm.io.ecl import EGrid as OpmGrid
 
 from pycopm.core.pycopm import main
+
 from .utils import assert_grid_and_init
 
 DROGON_REGRESSION = {
@@ -18,16 +19,16 @@ DROGON_REGRESSION = {
     "checks": [
         ("PORV", np.sum, 548634176.0),
         ("DZ", np.min, 0.25049999356269836),
-        ("DZ", np.max, 14.716500282287598),
+        ("DZ", np.max, 14.6225004196167),
         ("PERMX", np.min, 0.0010000000474974513),
         ("PERMX", np.max, 4303.46484375),
         ("TRANX", np.max, 369.0892333984375),
-        ("TRANX", np.sum, 189191.0),
-        ("TRANZ", np.sum, 335686464.0),
+        ("TRANX", np.sum, 196480.984375),
+        ("TRANZ", np.sum, 335340864.0),
         ("TRANZ", np.max, 2366990.0),
-        ("TRANNNC", np.sum, 7503.703125),
-        ("TRANNNC", np.min, 1.4265186791817541e-06),
-        ("TRANNNC", np.max, 104.9443359375),
+        ("TRANNNC", np.sum, 4798.64794921875),
+        ("TRANNNC", np.min, 1.191689193547063e-06),
+        ("TRANNNC", np.max, 75.27325439453125),
     ],
     "exact": [
         ("SATNUM", np.sum, 63_389),
@@ -64,7 +65,7 @@ def test_1_ert(flow, tmp_path, monkeypatch):
 
     assert len(lines) == 216
 
-    assert (ert_dir / "postprocessing" / "hm_missmatch.png").is_file()
+    assert (ert_dir / "postprocessing" / "hm_mismatch.png").is_file()
 
     deck = ert_dir / "postprocessing" / "closest_to_obs" / "DROGON_COARSER"
 

@@ -7,14 +7,15 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   pycopm.utils.coarsening
    pycopm.utils.files_writer
-   pycopm.utils.generate_files
-   pycopm.utils.grid_builder
+   pycopm.utils.generate_decks
    pycopm.utils.input_values
-   pycopm.utils.mapping_methods
    pycopm.utils.parser_deck
-   pycopm.utils.properties_builder
+   pycopm.utils.refinement
    pycopm.utils.runs_executer
+   pycopm.utils.transformation
+   pycopm.utils.vicinity
 
 Module contents
 ---------------

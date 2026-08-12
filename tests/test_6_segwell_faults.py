@@ -19,8 +19,8 @@ EQUALS
 OPERNUM 2 30 38 47 52 2* /
 /"""
 
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
 import numpy as np
 from opm.io.ecl import EclFile as OpmFile
@@ -28,6 +28,7 @@ from opm.io.ecl import EGrid as OpmGrid
 from opm.io.ecl import ERst as OpmRestart
 
 from pycopm.core.pycopm import main
+
 from .utils import assert_grid_and_init, assert_restart_preserved
 
 REGRESSION_CASES = {

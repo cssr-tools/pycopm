@@ -85,7 +85,7 @@ Looking ahead to increase the research impact, the plan for `pycopm`'s future de
 
 # AI usage disclosure
 
-No generative AI tools were used in the development of this software. Microsoft M365 Copilot (powered by a GPT‑5–class large language model developed by Microsoft) was used to check and improve the writing of this manuscript.
+No generative AI tools were used in the original development of the software submitted to JOSS. Microsoft M365 Copilot, based on a GPT-5 reasoning model, was used to review and improve the writing of the manuscript. During the JOSS review, Copilot was also used to assist with expanding the API documentation, modernizing the code, optimizing performance, extending the test suite, and increasing test coverage of command-line argument validation. All AI-assisted suggestions and changes were reviewed, edited, and validated by the author, who takes full responsibility for the resulting manuscript and software.
 
 # Acknowledgements
 

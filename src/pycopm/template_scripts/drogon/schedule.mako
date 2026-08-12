@@ -15,11 +15,11 @@
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'R_A2' 'RFT'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]} 1643.93762   OIL         1*    1*  SHUT    NO    1*    1* /
- 'R_A3' 'RFT'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}  1604.4718   OIL         1*    1*  SHUT    NO    1*    1* /
- 'R_A4' 'RFT'      ${dic['i_f_c'][30]}    ${dic['j_f_c'][52]}  1628.1826   OIL         1*    1*  SHUT    NO    1*    1* /
- 'R_A5' 'RFT'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]} 1682.35291   OIL         1*    1*  SHUT    NO    1*    1* /
- 'R_A6' 'RFT'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]} 1693.90759   OIL         1*    1*  SHUT    NO    1*    1* /
+ 'R_A2' 'RFT'      ${original_to_output_i[22]}    ${original_to_output_j[30]} 1643.93762   OIL         1*    1*  SHUT    NO    1*    1* /
+ 'R_A3' 'RFT'      ${original_to_output_i[28]}    ${original_to_output_j[41]}  1604.4718   OIL         1*    1*  SHUT    NO    1*    1* /
+ 'R_A4' 'RFT'      ${original_to_output_i[30]}    ${original_to_output_j[52]}  1628.1826   OIL         1*    1*  SHUT    NO    1*    1* /
+ 'R_A5' 'RFT'      ${original_to_output_i[31]}    ${original_to_output_j[20]} 1682.35291   OIL         1*    1*  SHUT    NO    1*    1* /
+ 'R_A6' 'RFT'      ${original_to_output_i[17]}    ${original_to_output_j[42]} 1693.90759   OIL         1*    1*  SHUT    NO    1*    1* /
 /
 
 COMPORD
@@ -39,124 +39,124 @@ GRUPTREE
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][1 ]}    ${dic['k_f_c'][1]}  OPEN    1*  12.517932     0.2413 1248.20825          0    1*     Z  25.215975 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][2 ]}    ${dic['k_f_c'][2]}  OPEN    1* 10.8109074     0.2413 1086.25943          0    1*     Z 26.2702297 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][3 ]}    ${dic['k_f_c'][3]}  OPEN    1* 14.8771661     0.2413 1494.63636          0    1*     Z 26.2519763 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][4 ]}    ${dic['k_f_c'][4]}  OPEN    1*  13.440333     0.2413 1351.00743          0    1*     Z 26.3277125 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][5 ]}    ${dic['k_f_c'][5]}  OPEN    1* 11.5022732     0.2413 1155.42128          0    1*     Z 26.2329014 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][6 ]}    ${dic['k_f_c'][6]}  OPEN    1* 12.5972394     0.2413 1263.94908          0    1*     Z 26.0701531 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][7 ]}    ${dic['k_f_c'][7]}  OPEN    1* 4.82349768     0.2413 485.806887          0    1*     Z 26.6082457 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][8 ]}    ${dic['k_f_c'][8]}  OPEN    1* 3.22072839     0.2413 263.573764          0    1*     Z 9.67639109 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][9 ]}    ${dic['k_f_c'][9]}  OPEN    1* 10.8499312     0.2413 1089.71828          0    1*     Z 26.2103437 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 3.21018406     0.2413 257.689244          0    1*     Z 8.89847734 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 33.9782117     0.2413 3399.39982          0    1*     Z 25.6696803 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 20.3459915     0.2413 1592.12115          0    1*     Z 7.98567984 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.41498688     0.2413 41.5347586          0    1*     Z 25.7253847 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.29513238     0.2413 29.5255551          0    1*     Z 25.6631815 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.13746282     0.2413 13.5230054          0    1*     Z 23.4717669 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.03488387     0.2413  3.4697887          0    1*     Z 24.8847953 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][17]}    ${dic['k_f_c'][17]}  OPEN    1* 0.04092216     0.2413  4.0661791          0    1*     Z 24.7477197 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}    ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}  OPEN    1* 0.02119965     0.2413 2.10733706          0    1*     Z 24.8015514 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}  OPEN    1* 0.01580371     0.2413 1.57166305          0    1*     Z 24.8609703 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][19]}    ${dic['k_f_c'][19]}  OPEN    1* 0.00027726     0.2413 0.02778274          0    1*     Z 25.8895393 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1* 7.27007258     0.2413 313.259309          0    1*     Z 1.21373722 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 1.4382e-05     0.2413 0.00139097          0    1*     Z 21.4778337 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 1.4399e-05     0.2413 0.00139194          0    1*     Z 21.4174484 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 1.4416e-05     0.2413  0.0013928          0    1*     Z 21.3568566 /
- 'R_A2'    ${dic['i_f_c'][22]}    ${dic['j_f_c'][29]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 1.4431e-05     0.2413 0.00139351          0    1*     Z 21.2962344 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[1 ]}    ${original_to_output_k[1]}  OPEN    1*  12.517932     0.2413 1248.20825          0    1*     Z  25.215975 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[2 ]}    ${original_to_output_k[2]}  OPEN    1* 10.8109074     0.2413 1086.25943          0    1*     Z 26.2702297 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[3 ]}    ${original_to_output_k[3]}  OPEN    1* 14.8771661     0.2413 1494.63636          0    1*     Z 26.2519763 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[4 ]}    ${original_to_output_k[4]}  OPEN    1*  13.440333     0.2413 1351.00743          0    1*     Z 26.3277125 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[5 ]}    ${original_to_output_k[5]}  OPEN    1* 11.5022732     0.2413 1155.42128          0    1*     Z 26.2329014 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[6 ]}    ${original_to_output_k[6]}  OPEN    1* 12.5972394     0.2413 1263.94908          0    1*     Z 26.0701531 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[7 ]}    ${original_to_output_k[7]}  OPEN    1* 4.82349768     0.2413 485.806887          0    1*     Z 26.6082457 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[8 ]}    ${original_to_output_k[8]}  OPEN    1* 3.22072839     0.2413 263.573764          0    1*     Z 9.67639109 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[9 ]}    ${original_to_output_k[9]}  OPEN    1* 10.8499312     0.2413 1089.71828          0    1*     Z 26.2103437 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 3.21018406     0.2413 257.689244          0    1*     Z 8.89847734 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 33.9782117     0.2413 3399.39982          0    1*     Z 25.6696803 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 20.3459915     0.2413 1592.12115          0    1*     Z 7.98567984 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.41498688     0.2413 41.5347586          0    1*     Z 25.7253847 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.29513238     0.2413 29.5255551          0    1*     Z 25.6631815 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.13746282     0.2413 13.5230054          0    1*     Z 23.4717669 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.03488387     0.2413  3.4697887          0    1*     Z 24.8847953 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[17]}    ${original_to_output_k[17]}  OPEN    1* 0.04092216     0.2413  4.0661791          0    1*     Z 24.7477197 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[30]}    ${original_to_output_k[18]}    ${original_to_output_k[18]}  OPEN    1* 0.02119965     0.2413 2.10733706          0    1*     Z 24.8015514 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[18]}    ${original_to_output_k[18]}  OPEN    1* 0.01580371     0.2413 1.57166305          0    1*     Z 24.8609703 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[19]}    ${original_to_output_k[19]}  OPEN    1* 0.00027726     0.2413 0.02778274          0    1*     Z 25.8895393 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1* 7.27007258     0.2413 313.259309          0    1*     Z 1.21373722 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 1.4382e-05     0.2413 0.00139097          0    1*     Z 21.4778337 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 1.4399e-05     0.2413 0.00139194          0    1*     Z 21.4174484 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 1.4416e-05     0.2413  0.0013928          0    1*     Z 21.3568566 /
+ 'R_A2'    ${original_to_output_i[22]}    ${original_to_output_j[29]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 1.4431e-05     0.2413 0.00139351          0    1*     Z 21.2962344 /
 ---------------------------------------------------------------------------------------------------------------
- 'R_A3'    ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}  OPEN    1* 5.59568061     0.2413 554.786676          0    1*     Z 24.4600483 /
- 'R_A3'    ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}  OPEN    1* 7.89903588     0.2413 789.751793          0    1*     Z 25.5795126 /
- 'R_A3'    ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1* 8.68428901     0.2413 867.445486          0    1*     Z 25.4509798 /
- 'R_A3'    ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 2.37633475     0.2413   229.0516          0    1*     Z 21.1012953 /
- 'R_A3'    ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}  OPEN    1* 2.94507947     0.2413 295.672408          0    1*     Z 26.1540796 /
- 'R_A3'    ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}  OPEN    1* 0.11753806     0.2413 11.3084428          0    1*     Z 20.9013434 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}  OPEN    1* 0.64827073     0.2413 53.8632608          0    1*     Z 10.3471252 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}  OPEN    1* 1.30601265     0.2413 127.817752          0    1*     Z 22.8427246 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}  OPEN    1* 1.34835529     0.2413 131.940908          0    1*     Z  22.823797 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}  OPEN    1* 0.22616032     0.2413 19.9422176          0    1*     Z 13.5909111 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 0.00804628     0.2413 0.63919641          0    1*     Z 8.51034241 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 14.9873332     0.2413 1474.37955          0    1*     Z 23.4708987 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 15.1562127     0.2413 1499.98837          0    1*     Z 24.2292218 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1*   0.236635     0.2413 23.4804363          0    1*     Z 24.5662499 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.03423181     0.2413 2.70209597          0    1*     Z 8.28327511 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.19707831     0.2413 18.7444455          0    1*     Z 19.7059319 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.00980567     0.2413  0.9676862          0    1*     Z   23.86574 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1* 7.36257665     0.2413 581.366161          0    1*     Z 8.29530222 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 98.4233828     0.2413  9740.7272          0    1*     Z 24.2280068 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 49.2913645     0.2413  4820.9739          0    1*     Z 22.7656985 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 2.5485e-05     0.2413 0.00242606          0    1*     Z  19.792728 /
- 'R_A3'    ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 30.2869892     0.2413  2996.4518          0    1*     Z 24.1860757 /
+ 'R_A3'    ${original_to_output_i[28]}    ${original_to_output_j[41]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}  OPEN    1* 5.59568061     0.2413 554.786676          0    1*     Z 24.4600483 /
+ 'R_A3'    ${original_to_output_i[28]}    ${original_to_output_j[41]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}  OPEN    1* 7.89903588     0.2413 789.751793          0    1*     Z 25.5795126 /
+ 'R_A3'    ${original_to_output_i[28]}    ${original_to_output_j[41]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1* 8.68428901     0.2413 867.445486          0    1*     Z 25.4509798 /
+ 'R_A3'    ${original_to_output_i[28]}    ${original_to_output_j[41]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 2.37633475     0.2413   229.0516          0    1*     Z 21.1012953 /
+ 'R_A3'    ${original_to_output_i[28]}    ${original_to_output_j[41]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}  OPEN    1* 2.94507947     0.2413 295.672408          0    1*     Z 26.1540796 /
+ 'R_A3'    ${original_to_output_i[28]}    ${original_to_output_j[41]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}  OPEN    1* 0.11753806     0.2413 11.3084428          0    1*     Z 20.9013434 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}  OPEN    1* 0.64827073     0.2413 53.8632608          0    1*     Z 10.3471252 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}  OPEN    1* 1.30601265     0.2413 127.817752          0    1*     Z 22.8427246 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}  OPEN    1* 1.34835529     0.2413 131.940908          0    1*     Z  22.823797 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}  OPEN    1* 0.22616032     0.2413 19.9422176          0    1*     Z 13.5909111 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 0.00804628     0.2413 0.63919641          0    1*     Z 8.51034241 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 14.9873332     0.2413 1474.37955          0    1*     Z 23.4708987 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 15.1562127     0.2413 1499.98837          0    1*     Z 24.2292218 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1*   0.236635     0.2413 23.4804363          0    1*     Z 24.5662499 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.03423181     0.2413 2.70209597          0    1*     Z 8.28327511 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.19707831     0.2413 18.7444455          0    1*     Z 19.7059319 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.00980567     0.2413  0.9676862          0    1*     Z   23.86574 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1* 7.36257665     0.2413 581.366161          0    1*     Z 8.29530222 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 98.4233828     0.2413  9740.7272          0    1*     Z 24.2280068 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 49.2913645     0.2413  4820.9739          0    1*     Z 22.7656985 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 2.5485e-05     0.2413 0.00242606          0    1*     Z  19.792728 /
+ 'R_A3'    ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 30.2869892     0.2413  2996.4518          0    1*     Z 24.1860757 /
 ---------------------------------------------------------------------------------------------------------------
- 'R_A4'    ${dic['i_f_c'][30]}    ${dic['j_f_c'][52]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}  OPEN    1* 209.854455     0.2413 19594.6772          0    1*     X 17.9528997 /
- 'R_A4'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}  OPEN    1* 297.066415     0.2413 27751.4311          0    1*     X 17.9967861 /
- 'R_A4'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}  OPEN    1* 636.046083     0.2413 59401.0533          0    1*     X 17.9706211 /
- 'R_A4'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1* 484.764798     0.2413 45287.3911          0    1*     X 17.9997729 /
- 'R_A4'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 116.324094     0.2413 10867.4688          0    1*     X 18.0023655 /
- 'R_A4'    ${dic['i_f_c'][32]}    ${dic['j_f_c'][52]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 507.695033     0.2413 47277.9102          0    1*     X 17.7139962 /
- 'R_A4'    ${dic['i_f_c'][32]}    ${dic['j_f_c'][51]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 602.017198     0.2413 55473.6646          0    1*     X  16.811205 /
- 'R_A4'    ${dic['i_f_c'][33]}    ${dic['j_f_c'][51]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 444.007304     0.2413 40862.9561          0    1*     X 16.7087129 /
- 'R_A4'    ${dic['i_f_c'][33]}    ${dic['j_f_c'][51]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1* 720.668955     0.2413 66383.5833          0    1*     X 16.7819812 /
- 'R_A4'    ${dic['i_f_c'][33]}    ${dic['j_f_c'][50]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 20.6209082     0.2413 1807.63954          0    1*     X 13.2197398 /
- 'R_A4'    ${dic['i_f_c'][34]}    ${dic['j_f_c'][50]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 3.08519376     0.2413 133.131812          0    1*     X 1.21783859 /
- 'R_A4'    ${dic['i_f_c'][34]}    ${dic['j_f_c'][50]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1* 362.212838     0.2413 31899.8746          0    1*     X 13.5125474 /
- 'R_A4'    ${dic['i_f_c'][35]}    ${dic['j_f_c'][50]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1*   102.6429     0.2413 8490.49521          0    1*     X 10.1446678 /
- 'R_A4'    ${dic['i_f_c'][35]}    ${dic['j_f_c'][50]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}  OPEN    1* 8.79656512     0.2413 772.479631          0    1*     X 13.3303595 /
- 'R_A4'    ${dic['i_f_c'][35]}    ${dic['j_f_c'][49]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}  OPEN    1* 74.2033779     0.2413 6521.66401          0    1*     X 13.3825921 /
- 'R_A4'    ${dic['i_f_c'][36]}    ${dic['j_f_c'][49]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 914.546089     0.2413 84959.5812          0    1*     X 17.5021423 /
- 'R_A4'    ${dic['i_f_c'][36]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 7.40581837     0.2413 459.310861          0    1*     X  3.3467439 /
- 'R_A4'    ${dic['i_f_c'][37]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 0.01331685     0.2413 0.68569687          0    1*     X 1.90381202 /
- 'R_A4'    ${dic['i_f_c'][38]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 23.2018032     0.2413 1151.26499          0    1*     X 1.72219758 /
- 'R_A4'    ${dic['i_f_c'][38]}    ${dic['j_f_c'][47]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 134.277822     0.2413 12444.3783          0    1*     X 17.2954472 /
+ 'R_A4'    ${original_to_output_i[30]}    ${original_to_output_j[52]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}  OPEN    1* 209.854455     0.2413 19594.6772          0    1*     X 17.9528997 /
+ 'R_A4'    ${original_to_output_i[31]}    ${original_to_output_j[52]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}  OPEN    1* 297.066415     0.2413 27751.4311          0    1*     X 17.9967861 /
+ 'R_A4'    ${original_to_output_i[31]}    ${original_to_output_j[52]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}  OPEN    1* 636.046083     0.2413 59401.0533          0    1*     X 17.9706211 /
+ 'R_A4'    ${original_to_output_i[31]}    ${original_to_output_j[52]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1* 484.764798     0.2413 45287.3911          0    1*     X 17.9997729 /
+ 'R_A4'    ${original_to_output_i[31]}    ${original_to_output_j[52]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 116.324094     0.2413 10867.4688          0    1*     X 18.0023655 /
+ 'R_A4'    ${original_to_output_i[32]}    ${original_to_output_j[52]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 507.695033     0.2413 47277.9102          0    1*     X 17.7139962 /
+ 'R_A4'    ${original_to_output_i[32]}    ${original_to_output_j[51]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 602.017198     0.2413 55473.6646          0    1*     X  16.811205 /
+ 'R_A4'    ${original_to_output_i[33]}    ${original_to_output_j[51]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 444.007304     0.2413 40862.9561          0    1*     X 16.7087129 /
+ 'R_A4'    ${original_to_output_i[33]}    ${original_to_output_j[51]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1* 720.668955     0.2413 66383.5833          0    1*     X 16.7819812 /
+ 'R_A4'    ${original_to_output_i[33]}    ${original_to_output_j[50]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 20.6209082     0.2413 1807.63954          0    1*     X 13.2197398 /
+ 'R_A4'    ${original_to_output_i[34]}    ${original_to_output_j[50]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 3.08519376     0.2413 133.131812          0    1*     X 1.21783859 /
+ 'R_A4'    ${original_to_output_i[34]}    ${original_to_output_j[50]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1* 362.212838     0.2413 31899.8746          0    1*     X 13.5125474 /
+ 'R_A4'    ${original_to_output_i[35]}    ${original_to_output_j[50]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1*   102.6429     0.2413 8490.49521          0    1*     X 10.1446678 /
+ 'R_A4'    ${original_to_output_i[35]}    ${original_to_output_j[50]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}  OPEN    1* 8.79656512     0.2413 772.479631          0    1*     X 13.3303595 /
+ 'R_A4'    ${original_to_output_i[35]}    ${original_to_output_j[49]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}  OPEN    1* 74.2033779     0.2413 6521.66401          0    1*     X 13.3825921 /
+ 'R_A4'    ${original_to_output_i[36]}    ${original_to_output_j[49]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 914.546089     0.2413 84959.5812          0    1*     X 17.5021423 /
+ 'R_A4'    ${original_to_output_i[36]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 7.40581837     0.2413 459.310861          0    1*     X  3.3467439 /
+ 'R_A4'    ${original_to_output_i[37]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 0.01331685     0.2413 0.68569687          0    1*     X 1.90381202 /
+ 'R_A4'    ${original_to_output_i[38]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 23.2018032     0.2413 1151.26499          0    1*     X 1.72219758 /
+ 'R_A4'    ${original_to_output_i[38]}    ${original_to_output_j[47]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 134.277822     0.2413 12444.3783          0    1*     X 17.2954472 /
 ---------------------------------------------------------------------------------------------------------------
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}  OPEN    1* 19.2607084     0.2413 1892.23738          0    1*     Z 23.3059335 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}  OPEN    1*  24.218004     0.2413 2381.27741          0    1*     Z 23.4102374 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1* 24.8561797     0.2413 2445.46384          0    1*     Z 23.4828454 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 23.9360935     0.2413 2356.69212          0    1*     Z  23.575038 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}  OPEN    1* 19.5647816     0.2413 1928.04265          0    1*     Z 23.6876214 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}  OPEN    1* 15.8990963     0.2413 1568.25392          0    1*     Z 23.8038138 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}  OPEN    1* 0.01010179     0.2413 0.94951119          0    1*     Z 18.5609261 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}  OPEN    1* 1.7468e-05     0.2413 0.00165483          0    1*     Z 19.3104098 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}  OPEN    1* 1.7518e-05     0.2413 0.00166076          0    1*     Z 19.3857256 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 1.7571e-05     0.2413 0.00166713          0    1*     Z 19.4613055 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 23.1415292     0.2413 2289.67844          0    1*     Z 24.1953016 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 36.0971765     0.2413 3606.92143          0    1*     Z 25.4998116 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.69367581     0.2413 69.5286785          0    1*     Z 25.9264547 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1*  1.1396842     0.2413 114.355474          0    1*     Z 26.0760383 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.12014859     0.2413 9.60323342          0    1*     Z 8.73576877 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.15020521     0.2413 13.9935787          0    1*     Z 17.7523929 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][17]}    ${dic['k_f_c'][17]}  OPEN    1* 0.01656793     0.2413 1.65727184          0    1*     Z  25.645563 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}  OPEN    1* 0.02608084     0.2413 2.60946218          0    1*     Z 25.6784683 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][19]}    ${dic['k_f_c'][19]}  OPEN    1* 0.00246333     0.2413 0.24649358          0    1*     Z 25.6951953 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1*  12.512748     0.2413 1058.95462          0    1*     Z 11.2385371 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 16.3339643     0.2413 1632.79724          0    1*     Z 25.5555857 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 1.6367e-05     0.2413 0.00157989          0    1*     Z 21.2612763 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 0.00325987     0.2413 0.25448289          0    1*     Z 7.90604433 /
- 'R_A5'    ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 1.6523e-05     0.2413 0.00159741          0    1*     Z 21.4325569 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}  OPEN    1* 19.2607084     0.2413 1892.23738          0    1*     Z 23.3059335 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}  OPEN    1*  24.218004     0.2413 2381.27741          0    1*     Z 23.4102374 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1* 24.8561797     0.2413 2445.46384          0    1*     Z 23.4828454 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 23.9360935     0.2413 2356.69212          0    1*     Z  23.575038 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}  OPEN    1* 19.5647816     0.2413 1928.04265          0    1*     Z 23.6876214 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}  OPEN    1* 15.8990963     0.2413 1568.25392          0    1*     Z 23.8038138 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}  OPEN    1* 0.01010179     0.2413 0.94951119          0    1*     Z 18.5609261 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}  OPEN    1* 1.7468e-05     0.2413 0.00165483          0    1*     Z 19.3104098 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}  OPEN    1* 1.7518e-05     0.2413 0.00166076          0    1*     Z 19.3857256 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 1.7571e-05     0.2413 0.00166713          0    1*     Z 19.4613055 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 23.1415292     0.2413 2289.67844          0    1*     Z 24.1953016 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 36.0971765     0.2413 3606.92143          0    1*     Z 25.4998116 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.69367581     0.2413 69.5286785          0    1*     Z 25.9264547 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1*  1.1396842     0.2413 114.355474          0    1*     Z 26.0760383 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.12014859     0.2413 9.60323342          0    1*     Z 8.73576877 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.15020521     0.2413 13.9935787          0    1*     Z 17.7523929 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[17]}    ${original_to_output_k[17]}  OPEN    1* 0.01656793     0.2413 1.65727184          0    1*     Z  25.645563 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[18]}    ${original_to_output_k[18]}  OPEN    1* 0.02608084     0.2413 2.60946218          0    1*     Z 25.6784683 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[19]}    ${original_to_output_k[19]}  OPEN    1* 0.00246333     0.2413 0.24649358          0    1*     Z 25.6951953 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1*  12.512748     0.2413 1058.95462          0    1*     Z 11.2385371 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 16.3339643     0.2413 1632.79724          0    1*     Z 25.5555857 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 1.6367e-05     0.2413 0.00157989          0    1*     Z 21.2612763 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 0.00325987     0.2413 0.25448289          0    1*     Z 7.90604433 /
+ 'R_A5'    ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 1.6523e-05     0.2413 0.00159741          0    1*     Z 21.4325569 /
 ---------------------------------------------------------------------------------------------------------------
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][1]}    ${dic['k_f_c'][1]}  OPEN    1* 0.01903859     0.2413 1.94428742          0    1*     Z 28.6912207 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][2]}    ${dic['k_f_c'][2]}  OPEN    1* 0.01186326     0.2413 1.21109159          0    1*     Z  28.636096 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][3]}    ${dic['k_f_c'][3]}  OPEN    1* 0.00824181     0.2413 0.84139991          0    1*     Z 28.6385994 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][4]}    ${dic['k_f_c'][4]}  OPEN    1* 0.00668067     0.2413 0.68191225          0    1*     Z 28.6127722 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][5]}    ${dic['k_f_c'][5]}  OPEN    1* 0.01077911     0.2413 1.09976157          0    1*     Z 28.5435029 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][6]}    ${dic['k_f_c'][6]}  OPEN    1* 0.57253504     0.2413 57.1080953          0    1*     Z 25.2597999 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][7]}    ${dic['k_f_c'][7]}  OPEN    1* 1.26938513     0.2413 129.921741          0    1*     Z 29.0417415 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][8]}    ${dic['k_f_c'][8]}  OPEN    1* 0.74620114     0.2413 74.5970849          0    1*     Z 25.5635594 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][9]}    ${dic['k_f_c'][9]}  OPEN    1* 0.02403426     0.2413 2.45102257          0    1*     Z 28.4720618 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 9.39464234     0.2413 860.547112          0    1*     Z 16.3260801 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 25.4909309     0.2413 2610.65129          0    1*     Z 29.1426961 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 5.18079899     0.2413 530.191566          0    1*     Z 29.0225521 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.90439365     0.2413 92.5986263          0    1*     Z  29.099974 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.51994606     0.2413 53.2112044          0    1*     Z 29.0257478 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.10795719     0.2413 11.0242541          0    1*     Z 28.6810932 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.01406008     0.2413 1.43845501          0    1*     Z 28.9758099 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][17]}    ${dic['k_f_c'][17]}  OPEN    1* 0.06587638     0.2413 6.73371095          0    1*     Z 28.8359017 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}  OPEN    1*  0.0331498     0.2413 3.38704569          0    1*     Z 28.7688733 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1* 26.0696692     0.2413 2458.29297          0    1*     Z 18.8643802 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 12.3386791     0.2413 1105.57151          0    1*     Z 14.6689731 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 1.6394e-05     0.2413 0.00166744          0    1*     Z 28.0591632 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 1.6398e-05     0.2413 0.00166743          0    1*     Z 28.0289957 /
- 'R_A6'    ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 4.13367175     0.2413 422.688526          0    1*     Z 28.8940603 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[1]}    ${original_to_output_k[1]}  OPEN    1* 0.01903859     0.2413 1.94428742          0    1*     Z 28.6912207 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[2]}    ${original_to_output_k[2]}  OPEN    1* 0.01186326     0.2413 1.21109159          0    1*     Z  28.636096 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[3]}    ${original_to_output_k[3]}  OPEN    1* 0.00824181     0.2413 0.84139991          0    1*     Z 28.6385994 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[4]}    ${original_to_output_k[4]}  OPEN    1* 0.00668067     0.2413 0.68191225          0    1*     Z 28.6127722 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[5]}    ${original_to_output_k[5]}  OPEN    1* 0.01077911     0.2413 1.09976157          0    1*     Z 28.5435029 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[6]}    ${original_to_output_k[6]}  OPEN    1* 0.57253504     0.2413 57.1080953          0    1*     Z 25.2597999 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[7]}    ${original_to_output_k[7]}  OPEN    1* 1.26938513     0.2413 129.921741          0    1*     Z 29.0417415 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[8]}    ${original_to_output_k[8]}  OPEN    1* 0.74620114     0.2413 74.5970849          0    1*     Z 25.5635594 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[9]}    ${original_to_output_k[9]}  OPEN    1* 0.02403426     0.2413 2.45102257          0    1*     Z 28.4720618 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 9.39464234     0.2413 860.547112          0    1*     Z 16.3260801 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 25.4909309     0.2413 2610.65129          0    1*     Z 29.1426961 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 5.18079899     0.2413 530.191566          0    1*     Z 29.0225521 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.90439365     0.2413 92.5986263          0    1*     Z  29.099974 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.51994606     0.2413 53.2112044          0    1*     Z 29.0257478 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.10795719     0.2413 11.0242541          0    1*     Z 28.6810932 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.01406008     0.2413 1.43845501          0    1*     Z 28.9758099 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[17]}    ${original_to_output_k[17]}  OPEN    1* 0.06587638     0.2413 6.73371095          0    1*     Z 28.8359017 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[18]}    ${original_to_output_k[18]}  OPEN    1*  0.0331498     0.2413 3.38704569          0    1*     Z 28.7688733 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1* 26.0696692     0.2413 2458.29297          0    1*     Z 18.8643802 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 12.3386791     0.2413 1105.57151          0    1*     Z 14.6689731 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 1.6394e-05     0.2413 0.00166744          0    1*     Z 28.0591632 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 1.6398e-05     0.2413 0.00166743          0    1*     Z 28.0289957 /
+ 'R_A6'    ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 4.13367175     0.2413 422.688526          0    1*     Z 28.8940603 /
 ---------------------------------------------------------------------------------------------------------------
 /
 
@@ -195,7 +195,7 @@ DATES
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'A1'   'OP'       ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]} 1595.91846   OIL         1*    1*  SHUT    1*    1*    1* /
+ 'A1'   'OP'       ${original_to_output_i[32]}    ${original_to_output_j[33]} 1595.91846   OIL         1*    1*  SHUT    1*    1*    1* /
 /
 
 COMPORD
@@ -205,27 +205,27 @@ COMPORD
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 2.58978084     0.2413 501.600332          5    1*     Z 26.1052937 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 2.75206098     0.2413 533.128773          5    1*     Z 26.1547893 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 7.07735762     0.2413 1363.98352          5    1*     Z 24.7972049 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 6.34600261     0.2413 1227.74063          5    1*     Z 25.8025777 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][5]}     ${dic['k_f_c'][5]}  OPEN    1* 8.69236081     0.2413 1683.57776          5    1*     Z 26.1056879 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][6]}     ${dic['k_f_c'][6]}  OPEN    1* 7.81758616     0.2413 1514.99302          5    1*     Z 26.2574469 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][7]}     ${dic['k_f_c'][7]}  OPEN    1* 10.6061545     0.2413 2056.48754          5    1*     Z 26.4023768 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][8]}     ${dic['k_f_c'][8]}  OPEN    1* 10.2663741     0.2413 1991.68249          5    1*     Z 26.5511753 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}     ${dic['k_f_c'][9]}     ${dic['k_f_c'][9]}  OPEN    1* 11.0975661     0.2413 2154.02446          5    1*     Z 26.6912965 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 6.77945453     0.2413 1188.94942          5    1*     Z 9.78837161 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 14.9807007     0.2413 2908.14579          5    1*     Z 26.7304134 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1*  10.579356     0.2413  2056.0751          5    1*     Z 27.0498062 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.14888883     0.2413 28.9799442          5    1*     Z 27.4787244 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.11995159     0.2413 23.3544829          5    1*     Z 27.5638785 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.09152863     0.2413 17.8116269          5    1*     Z 27.4202231 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.03039513     0.2413 5.89535006          5    1*     Z 26.4893113 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1* 11.0799543     0.2413 2019.24183          5    1*     Z 14.1417209 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 10.1677107     0.2413 1981.96524          5    1*     Z  27.902867 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 2.81601419     0.2413 517.156336          5    1*     Z 15.2477833 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 5.17128121     0.2413  1013.3023          5    1*     Z 29.4711483 /
- 'A1'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][33]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 18.3996233     0.2413 3590.62876          5    1*     Z 28.2329127 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 2.58978084     0.2413 501.600332          5    1*     Z 26.1052937 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 2.75206098     0.2413 533.128773          5    1*     Z 26.1547893 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 7.07735762     0.2413 1363.98352          5    1*     Z 24.7972049 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 6.34600261     0.2413 1227.74063          5    1*     Z 25.8025777 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[5]}     ${original_to_output_k[5]}  OPEN    1* 8.69236081     0.2413 1683.57776          5    1*     Z 26.1056879 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[6]}     ${original_to_output_k[6]}  OPEN    1* 7.81758616     0.2413 1514.99302          5    1*     Z 26.2574469 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[7]}     ${original_to_output_k[7]}  OPEN    1* 10.6061545     0.2413 2056.48754          5    1*     Z 26.4023768 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[8]}     ${original_to_output_k[8]}  OPEN    1* 10.2663741     0.2413 1991.68249          5    1*     Z 26.5511753 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}     ${original_to_output_k[9]}     ${original_to_output_k[9]}  OPEN    1* 11.0975661     0.2413 2154.02446          5    1*     Z 26.6912965 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 6.77945453     0.2413 1188.94942          5    1*     Z 9.78837161 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 14.9807007     0.2413 2908.14579          5    1*     Z 26.7304134 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1*  10.579356     0.2413  2056.0751          5    1*     Z 27.0498062 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.14888883     0.2413 28.9799442          5    1*     Z 27.4787244 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.11995159     0.2413 23.3544829          5    1*     Z 27.5638785 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.09152863     0.2413 17.8116269          5    1*     Z 27.4202231 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.03039513     0.2413 5.89535006          5    1*     Z 26.4893113 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1* 11.0799543     0.2413 2019.24183          5    1*     Z 14.1417209 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 10.1677107     0.2413 1981.96524          5    1*     Z  27.902867 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 2.81601419     0.2413 517.156336          5    1*     Z 15.2477833 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 5.17128121     0.2413  1013.3023          5    1*     Z 29.4711483 /
+ 'A1'      ${original_to_output_i[32]}    ${original_to_output_j[33]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 18.3996233     0.2413 3590.62876          5    1*     Z 28.2329127 /
 ---------------------------------------------------------------------------------------------------------------
 /
 
@@ -267,7 +267,7 @@ DATES
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'A2'   'OP'       ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]} 1643.93762   OIL         1*    1*  SHUT    1*    1*    1* /
+ 'A2'   'OP'       ${original_to_output_i[22]}    ${original_to_output_j[30]} 1643.93762   OIL         1*    1*  SHUT    1*    1*    1* /
 /
 
 COMPORD
@@ -277,14 +277,14 @@ COMPORD
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 6.46614249     0.2413 1248.20825          5    1*     Z  25.215975 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 5.60499521     0.2413 1086.25943          5    1*     Z 26.2702297 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 7.71269759     0.2413 1494.63636          5    1*     Z 26.2519763 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 6.96960253     0.2413 1351.00743          5    1*     Z 26.3277125 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][5]}     ${dic['k_f_c'][5]}  OPEN    1* 5.96268032     0.2413 1155.42128          5    1*     Z 26.2329014 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][6]}     ${dic['k_f_c'][6]}  OPEN    1* 6.52666248     0.2413 1263.94908          5    1*     Z 26.0701531 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][7]}     ${dic['k_f_c'][7]}  OPEN    1* 2.50363459     0.2413 485.806887          5    1*     Z 26.6082457 /
- 'A2'      ${dic['i_f_c'][22]}    ${dic['j_f_c'][30]}     ${dic['k_f_c'][8]}     ${dic['k_f_c'][8]}  OPEN    1* 0.48510767     0.2413 84.9717615          5    1*     Z 9.67639109 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 6.46614249     0.2413 1248.20825          5    1*     Z  25.215975 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 5.60499521     0.2413 1086.25943          5    1*     Z 26.2702297 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 7.71269759     0.2413 1494.63636          5    1*     Z 26.2519763 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 6.96960253     0.2413 1351.00743          5    1*     Z 26.3277125 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[5]}     ${original_to_output_k[5]}  OPEN    1* 5.96268032     0.2413 1155.42128          5    1*     Z 26.2329014 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[6]}     ${original_to_output_k[6]}  OPEN    1* 6.52666248     0.2413 1263.94908          5    1*     Z 26.0701531 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[7]}     ${original_to_output_k[7]}  OPEN    1* 2.50363459     0.2413 485.806887          5    1*     Z 26.6082457 /
+ 'A2'      ${original_to_output_i[22]}    ${original_to_output_j[30]}     ${original_to_output_k[8]}     ${original_to_output_k[8]}  OPEN    1* 0.48510767     0.2413 84.9717615          5    1*     Z 9.67639109 /
 ---------------------------------------------------------------------------------------------------------------
 /
 
@@ -349,7 +349,7 @@ DATES
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'A5'   'WI'       ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    1682.71 WATER         1*    1*  SHUT    1*    1*    1* /
+ 'A5'   'WI'       ${original_to_output_i[31]}    ${original_to_output_j[20]}    1682.71 WATER         1*    1*  SHUT    1*    1*    1* /
 /
 
 COMPORD
@@ -359,30 +359,30 @@ COMPORD
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 8.23362636     0.2413 1577.29375          5    1*     Z 23.3059335 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 12.4250932     0.2413 2381.27741          5    1*     Z 23.4102374 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 12.7561597     0.2413 2445.46384          5    1*     Z 23.4828454 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 12.2884161     0.2413 2356.69212          5    1*     Z  23.575038 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][5]}     ${dic['k_f_c'][5]}  OPEN    1* 10.0486651     0.2413 1928.04265          5    1*     Z 23.6876214 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][6]}     ${dic['k_f_c'][6]}  OPEN    1* 8.16961222     0.2413 1568.25392          5    1*     Z 23.8038138 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][7]}     ${dic['k_f_c'][7]}  OPEN    1* 0.00506897     0.2413 0.94951119          5    1*     Z 18.5609261 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][8]}     ${dic['k_f_c'][8]}  OPEN    1* 8.7996e-06     0.2413 0.00165483          5    1*     Z 19.3104098 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}     ${dic['k_f_c'][9]}     ${dic['k_f_c'][9]}  OPEN    1* 8.8278e-06     0.2413 0.00166076          5    1*     Z 19.3857256 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 8.8582e-06     0.2413 0.00166713          5    1*     Z 19.4613055 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][20]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 11.9088895     0.2413 2289.67844          5    1*     Z 24.1953016 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 18.6648768     0.2413 3606.92143          5    1*     Z 25.4998116 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.35921707     0.2413 69.5286785          5    1*     Z 25.9264547 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.59048529     0.2413 114.355474          5    1*     Z 26.0760383 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.05542931     0.2413 9.60323342          5    1*     Z 8.73576877 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.07503783     0.2413 13.9935787          5    1*     Z 17.7523929 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][17]}    ${dic['k_f_c'][17]}  OPEN    1* 0.00857123     0.2413 1.65727184          5    1*     Z  25.645563 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}  OPEN    1* 0.01349419     0.2413 2.60946218          5    1*     Z 25.6784683 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][19]}    ${dic['k_f_c'][19]}  OPEN    1*  0.0012746     0.2413 0.24649358          5    1*     Z 25.6951953 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1*  5.9507215     0.2413 1058.95462          5    1*     Z 11.2385371 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 8.44751683     0.2413 1632.79724          5    1*     Z 25.5555857 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 8.3216e-06     0.2413 0.00157989          5    1*     Z 21.2612763 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 0.00148482     0.2413 0.25448289          5    1*     Z 7.90604433 /
- 'A5'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][21]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 7.8401e-06     0.2413 0.00148965          5    1*     Z 21.4325569 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 8.23362636     0.2413 1577.29375          5    1*     Z 23.3059335 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 12.4250932     0.2413 2381.27741          5    1*     Z 23.4102374 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 12.7561597     0.2413 2445.46384          5    1*     Z 23.4828454 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 12.2884161     0.2413 2356.69212          5    1*     Z  23.575038 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[5]}     ${original_to_output_k[5]}  OPEN    1* 10.0486651     0.2413 1928.04265          5    1*     Z 23.6876214 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[6]}     ${original_to_output_k[6]}  OPEN    1* 8.16961222     0.2413 1568.25392          5    1*     Z 23.8038138 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[7]}     ${original_to_output_k[7]}  OPEN    1* 0.00506897     0.2413 0.94951119          5    1*     Z 18.5609261 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[8]}     ${original_to_output_k[8]}  OPEN    1* 8.7996e-06     0.2413 0.00165483          5    1*     Z 19.3104098 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}     ${original_to_output_k[9]}     ${original_to_output_k[9]}  OPEN    1* 8.8278e-06     0.2413 0.00166076          5    1*     Z 19.3857256 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 8.8582e-06     0.2413 0.00166713          5    1*     Z 19.4613055 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[20]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 11.9088895     0.2413 2289.67844          5    1*     Z 24.1953016 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 18.6648768     0.2413 3606.92143          5    1*     Z 25.4998116 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.35921707     0.2413 69.5286785          5    1*     Z 25.9264547 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.59048529     0.2413 114.355474          5    1*     Z 26.0760383 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.05542931     0.2413 9.60323342          5    1*     Z 8.73576877 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.07503783     0.2413 13.9935787          5    1*     Z 17.7523929 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[17]}    ${original_to_output_k[17]}  OPEN    1* 0.00857123     0.2413 1.65727184          5    1*     Z  25.645563 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[18]}    ${original_to_output_k[18]}  OPEN    1* 0.01349419     0.2413 2.60946218          5    1*     Z 25.6784683 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[19]}    ${original_to_output_k[19]}  OPEN    1*  0.0012746     0.2413 0.24649358          5    1*     Z 25.6951953 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1*  5.9507215     0.2413 1058.95462          5    1*     Z 11.2385371 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 8.44751683     0.2413 1632.79724          5    1*     Z 25.5555857 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 8.3216e-06     0.2413 0.00157989          5    1*     Z 21.2612763 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 0.00148482     0.2413 0.25448289          5    1*     Z 7.90604433 /
+ 'A5'      ${original_to_output_i[31]}    ${original_to_output_j[21]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 7.8401e-06     0.2413 0.00148965          5    1*     Z 21.4325569 /
 ---------------------------------------------------------------------------------------------------------------
 /
 
@@ -511,7 +511,7 @@ DATES
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'A3'   'OP'       ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}  1604.4718   OIL         1*    1*  SHUT    1*    1*    1* /
+ 'A3'   'OP'       ${original_to_output_i[28]}    ${original_to_output_j[41]}  1604.4718   OIL         1*    1*  SHUT    1*    1*    1* /
 /
 
 COMPORD
@@ -521,28 +521,28 @@ COMPORD
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'A3'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 2.88246617     0.2413 554.786676          5    1*     Z 24.4600483 /
- 'A3'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 4.08552793     0.2413 789.751793          5    1*     Z 25.5795126 /
- 'A3'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 4.48963513     0.2413 867.445486          5    1*     Z 25.4509798 /
- 'A3'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 1.20736144     0.2413   229.0516          5    1*     Z 21.1012953 /
- 'A3'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][5]}     ${dic['k_f_c'][5]}  OPEN    1* 1.52629283     0.2413 295.672408          5    1*     Z 26.1540796 /
- 'A3'      ${dic['i_f_c'][28]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][6]}     ${dic['k_f_c'][6]}  OPEN    1* 0.05966419     0.2413 11.3084428          5    1*     Z 20.9013434 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][6]}     ${dic['k_f_c'][6]}  OPEN    1* 0.30532733     0.2413 53.8632608          5    1*     Z 10.3471252 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][7]}     ${dic['k_f_c'][7]}  OPEN    1* 0.66852869     0.2413 127.817752          5    1*     Z 22.8427246 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][8]}     ${dic['k_f_c'][8]}  OPEN    1*    0.69015     0.2413 131.940908          5    1*     Z  22.823797 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}     ${dic['k_f_c'][9]}     ${dic['k_f_c'][9]}  OPEN    1*  0.1098737     0.2413 19.9422176          5    1*     Z 13.5909111 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 0.00369983     0.2413 0.63919641          5    1*     Z 8.51034241 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 7.69111878     0.2413 1474.37955          5    1*     Z 23.4708987 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 7.80055678     0.2413 1499.98837          5    1*     Z 24.2292218 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.12194442     0.2413 23.4804363          5    1*     Z 24.5662499 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.01568622     0.2413 2.70209597          5    1*     Z 8.28327511 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.09947402     0.2413 18.7444455          5    1*     Z 19.7059319 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.00503976     0.2413  0.9676862          5    1*     Z   23.86574 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1* 3.37441994     0.2413 581.366161          5    1*     Z 8.29530222 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 50.6560363     0.2413  9740.7272          5    1*     Z 24.2280068 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 25.2235891     0.2413  4820.9739          5    1*     Z 22.7656985 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 1.2869e-05     0.2413 0.00242606          5    1*     Z  19.792728 /
- 'A3'      ${dic['i_f_c'][29]}    ${dic['j_f_c'][41]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 12.6330556     0.2413 2428.82128          5    1*     Z 24.1860757 /
+ 'A3'      ${original_to_output_i[28]}    ${original_to_output_j[41]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 2.88246617     0.2413 554.786676          5    1*     Z 24.4600483 /
+ 'A3'      ${original_to_output_i[28]}    ${original_to_output_j[41]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 4.08552793     0.2413 789.751793          5    1*     Z 25.5795126 /
+ 'A3'      ${original_to_output_i[28]}    ${original_to_output_j[41]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 4.48963513     0.2413 867.445486          5    1*     Z 25.4509798 /
+ 'A3'      ${original_to_output_i[28]}    ${original_to_output_j[41]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 1.20736144     0.2413   229.0516          5    1*     Z 21.1012953 /
+ 'A3'      ${original_to_output_i[28]}    ${original_to_output_j[41]}     ${original_to_output_k[5]}     ${original_to_output_k[5]}  OPEN    1* 1.52629283     0.2413 295.672408          5    1*     Z 26.1540796 /
+ 'A3'      ${original_to_output_i[28]}    ${original_to_output_j[41]}     ${original_to_output_k[6]}     ${original_to_output_k[6]}  OPEN    1* 0.05966419     0.2413 11.3084428          5    1*     Z 20.9013434 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}     ${original_to_output_k[6]}     ${original_to_output_k[6]}  OPEN    1* 0.30532733     0.2413 53.8632608          5    1*     Z 10.3471252 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}     ${original_to_output_k[7]}     ${original_to_output_k[7]}  OPEN    1* 0.66852869     0.2413 127.817752          5    1*     Z 22.8427246 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}     ${original_to_output_k[8]}     ${original_to_output_k[8]}  OPEN    1*    0.69015     0.2413 131.940908          5    1*     Z  22.823797 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}     ${original_to_output_k[9]}     ${original_to_output_k[9]}  OPEN    1*  0.1098737     0.2413 19.9422176          5    1*     Z 13.5909111 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 0.00369983     0.2413 0.63919641          5    1*     Z 8.51034241 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 7.69111878     0.2413 1474.37955          5    1*     Z 23.4708987 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 7.80055678     0.2413 1499.98837          5    1*     Z 24.2292218 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.12194442     0.2413 23.4804363          5    1*     Z 24.5662499 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.01568622     0.2413 2.70209597          5    1*     Z 8.28327511 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.09947402     0.2413 18.7444455          5    1*     Z 19.7059319 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.00503976     0.2413  0.9676862          5    1*     Z   23.86574 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1* 3.37441994     0.2413 581.366161          5    1*     Z 8.29530222 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 50.6560363     0.2413  9740.7272          5    1*     Z 24.2280068 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 25.2235891     0.2413  4820.9739          5    1*     Z 22.7656985 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 1.2869e-05     0.2413 0.00242606          5    1*     Z  19.792728 /
+ 'A3'      ${original_to_output_i[29]}    ${original_to_output_j[41]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 12.6330556     0.2413 2428.82128          5    1*     Z 24.1860757 /
 ---------------------------------------------------------------------------------------------------------------
 /
 
@@ -623,7 +623,7 @@ DATES
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'A4'   'OP'       ${dic['i_f_c'][30]}    ${dic['j_f_c'][52]} 1628.54517   OIL         1*    1*  SHUT    1*    1*    1* /
+ 'A4'   'OP'       ${original_to_output_i[30]}    ${original_to_output_j[52]} 1628.54517   OIL         1*    1*  SHUT    1*    1*    1* /
 /
 
 COMPORD
@@ -633,26 +633,26 @@ COMPORD
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'A4'      ${dic['i_f_c'][30]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 14.3761836     0.2413 2683.96226          5    1*     X 17.9513788 /
- 'A4'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 148.608248     0.2413 27751.4311          5    1*     X 17.9967861 /
- 'A4'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1*  318.13748     0.2413 59401.0533          5    1*     X 17.9706211 /
- 'A4'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 242.508872     0.2413 45287.3911          5    1*     X 17.9997729 /
- 'A4'      ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 58.1932323     0.2413 10867.4688          5    1*     X 18.0023655 /
- 'A4'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 253.573486     0.2413 47277.9102          5    1*     X 17.7139962 /
- 'A4'      ${dic['i_f_c'][32]}    ${dic['j_f_c'][51]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 299.097391     0.2413 55473.6646          5    1*     X  16.811205 /
- 'A4'      ${dic['i_f_c'][33]}    ${dic['j_f_c'][51]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 220.456497     0.2413 40862.9561          5    1*     X 16.7087129 /
- 'A4'      ${dic['i_f_c'][33]}    ${dic['j_f_c'][51]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 357.983086     0.2413 66383.5833          5    1*     X 16.7819812 /
- 'A4'      ${dic['i_f_c'][33]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1*   9.987817     0.2413 1807.63954          5    1*     X 13.2197398 /
- 'A4'      ${dic['i_f_c'][34]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 0.97549775     0.2413 133.131812          5    1*     X 1.21783859 /
- 'A4'      ${dic['i_f_c'][34]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 175.860224     0.2413 31899.8746          5    1*     X 13.5125474 /
- 'A4'      ${dic['i_f_c'][35]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 48.2297476     0.2413 8490.49521          5    1*     X 10.1446678 /
- 'A4'      ${dic['i_f_c'][35]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 4.26454518     0.2413 772.479631          5    1*     X 13.3303595 /
- 'A4'      ${dic['i_f_c'][35]}    ${dic['j_f_c'][49]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 35.9889468     0.2413 6521.66401          5    1*     X 13.3825921 /
- 'A4'      ${dic['i_f_c'][36]}    ${dic['j_f_c'][49]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1*  456.22738     0.2413 84959.5812          5    1*     X 17.5021423 /
- 'A4'      ${dic['i_f_c'][36]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 2.95673007     0.2413 459.310861          5    1*     X  3.3467439 /
- 'A4'      ${dic['i_f_c'][37]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 0.00473499     0.2413 0.68569687          5    1*     X 1.90381202 /
- 'A4'      ${dic['i_f_c'][38]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 8.05398284     0.2413 1151.26499          5    1*     X 1.72219758 /
- 'A4'      ${dic['i_f_c'][38]}    ${dic['j_f_c'][47]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 66.9045486     0.2413 12444.2645          5    1*     X 17.2954472 /
+ 'A4'      ${original_to_output_i[30]}    ${original_to_output_j[52]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 14.3761836     0.2413 2683.96226          5    1*     X 17.9513788 /
+ 'A4'      ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 148.608248     0.2413 27751.4311          5    1*     X 17.9967861 /
+ 'A4'      ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1*  318.13748     0.2413 59401.0533          5    1*     X 17.9706211 /
+ 'A4'      ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 242.508872     0.2413 45287.3911          5    1*     X 17.9997729 /
+ 'A4'      ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 58.1932323     0.2413 10867.4688          5    1*     X 18.0023655 /
+ 'A4'      ${original_to_output_i[32]}    ${original_to_output_j[52]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 253.573486     0.2413 47277.9102          5    1*     X 17.7139962 /
+ 'A4'      ${original_to_output_i[32]}    ${original_to_output_j[51]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 299.097391     0.2413 55473.6646          5    1*     X  16.811205 /
+ 'A4'      ${original_to_output_i[33]}    ${original_to_output_j[51]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 220.456497     0.2413 40862.9561          5    1*     X 16.7087129 /
+ 'A4'      ${original_to_output_i[33]}    ${original_to_output_j[51]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 357.983086     0.2413 66383.5833          5    1*     X 16.7819812 /
+ 'A4'      ${original_to_output_i[33]}    ${original_to_output_j[50]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1*   9.987817     0.2413 1807.63954          5    1*     X 13.2197398 /
+ 'A4'      ${original_to_output_i[34]}    ${original_to_output_j[50]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 0.97549775     0.2413 133.131812          5    1*     X 1.21783859 /
+ 'A4'      ${original_to_output_i[34]}    ${original_to_output_j[50]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 175.860224     0.2413 31899.8746          5    1*     X 13.5125474 /
+ 'A4'      ${original_to_output_i[35]}    ${original_to_output_j[50]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 48.2297476     0.2413 8490.49521          5    1*     X 10.1446678 /
+ 'A4'      ${original_to_output_i[35]}    ${original_to_output_j[50]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 4.26454518     0.2413 772.479631          5    1*     X 13.3303595 /
+ 'A4'      ${original_to_output_i[35]}    ${original_to_output_j[49]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 35.9889468     0.2413 6521.66401          5    1*     X 13.3825921 /
+ 'A4'      ${original_to_output_i[36]}    ${original_to_output_j[49]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1*  456.22738     0.2413 84959.5812          5    1*     X 17.5021423 /
+ 'A4'      ${original_to_output_i[36]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 2.95673007     0.2413 459.310861          5    1*     X  3.3467439 /
+ 'A4'      ${original_to_output_i[37]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 0.00473499     0.2413 0.68569687          5    1*     X 1.90381202 /
+ 'A4'      ${original_to_output_i[38]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 8.05398284     0.2413 1151.26499          5    1*     X 1.72219758 /
+ 'A4'      ${original_to_output_i[38]}    ${original_to_output_j[47]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 66.9045486     0.2413 12444.2645          5    1*     X 17.2954472 /
 ---------------------------------------------------------------------------------------------------------------
 /
 
@@ -728,26 +728,26 @@ WSEGVALV
 COMPSEGS
  'A4' /
 --   I     J     K BRNCH       MD_S       MD_E   DIR IJK_E       CDEP  CLEN SEGNO
-    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][1]}     2 2252.28884 2280.54552    1*    1* 1628.88637    1*    22 /
-    ${dic['i_f_c'][30]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][1]}     2 2233.24329 2252.28884    1*    1* 1628.57307    1*    22 /
-    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][2]}     3 2280.54552 2344.79271    1*    1* 1629.70476    1*    23 /
-    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][3]}     4 2344.79271 2403.88624    1*    1* 1630.65874    1*    24 /
-    ${dic['i_f_c'][31]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][4]}     5 2403.88624 2421.14496    1*    1* 1631.20514    1*    25 /
-    ${dic['i_f_c'][32]}    ${dic['j_f_c'][52]}     ${dic['k_f_c'][4]}     6 2421.14496 2498.07855    1*    1* 1631.98396    1*    26 /
-    ${dic['i_f_c'][32]}    ${dic['j_f_c'][51]}     ${dic['k_f_c'][4]}     7 2498.07855 2586.12304    1*    1* 1633.68521    1*    27 /
-    ${dic['i_f_c'][33]}    ${dic['j_f_c'][51]}     ${dic['k_f_c'][4]}    8 2586.12304 2648.46138    1*    1* 1636.53921    1*    28 /
-    ${dic['i_f_c'][33]}    ${dic['j_f_c'][51]}     ${dic['k_f_c'][3]}     8 2648.46138 2738.88698    1*    1* 1636.62818    1*    28 /
-    ${dic['i_f_c'][33]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][4]}     9 2738.88698 2746.19983    1*    1* 1638.39705    1*    29 /
-    ${dic['i_f_c'][34]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][4]}    10 2746.19983 2778.59811    1*    1*  1638.6287    1*    30 /
-    ${dic['i_f_c'][34]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][3]}    11 2778.59811 2911.19111    1*    1* 1639.28726    1*    31 /
-    ${dic['i_f_c'][35]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][3]}    12 2911.19111 2970.17732    1*    1* 1640.06077    1*    32 /
-    ${dic['i_f_c'][35]}    ${dic['j_f_c'][50]}     ${dic['k_f_c'][2]}    13 2970.17732 2984.00538    1*    1* 1640.43245    1*    33 /
-    ${dic['i_f_c'][35]}    ${dic['j_f_c'][49]}     ${dic['k_f_c'][2]}    14 2984.00538 3080.90915    1*    1* 1641.11947    1*    34 /
-    ${dic['i_f_c'][36]}    ${dic['j_f_c'][49]}    ${dic['k_f_c'][30]}   15 3081.05919 3247.91824    1*    1* 1643.22774    1*    35 /
-    ${dic['i_f_c'][36]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    16 3247.91824 3259.35808    1*    1* 1644.85593    1*    36 /
-    ${dic['i_f_c'][37]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}   17 3259.35808 3441.81536    1*    1* 1647.85801    1*    37 /
-    ${dic['i_f_c'][38]}    ${dic['j_f_c'][48]}    ${dic['k_f_c'][30]}    18 3441.81536 3534.58589    1*    1* 1652.80943    1*    38 /
-    ${dic['i_f_c'][38]}    ${dic['j_f_c'][47]}    ${dic['k_f_c'][30]}   19 3534.58589  3578.5004    1*    1* 1655.93922    1*    39 /
+    ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[1]}     2 2252.28884 2280.54552    1*    1* 1628.88637    1*    22 /
+    ${original_to_output_i[30]}    ${original_to_output_j[52]}     ${original_to_output_k[1]}     2 2233.24329 2252.28884    1*    1* 1628.57307    1*    22 /
+    ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[2]}     3 2280.54552 2344.79271    1*    1* 1629.70476    1*    23 /
+    ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[3]}     4 2344.79271 2403.88624    1*    1* 1630.65874    1*    24 /
+    ${original_to_output_i[31]}    ${original_to_output_j[52]}     ${original_to_output_k[4]}     5 2403.88624 2421.14496    1*    1* 1631.20514    1*    25 /
+    ${original_to_output_i[32]}    ${original_to_output_j[52]}     ${original_to_output_k[4]}     6 2421.14496 2498.07855    1*    1* 1631.98396    1*    26 /
+    ${original_to_output_i[32]}    ${original_to_output_j[51]}     ${original_to_output_k[4]}     7 2498.07855 2586.12304    1*    1* 1633.68521    1*    27 /
+    ${original_to_output_i[33]}    ${original_to_output_j[51]}     ${original_to_output_k[4]}    8 2586.12304 2648.46138    1*    1* 1636.53921    1*    28 /
+    ${original_to_output_i[33]}    ${original_to_output_j[51]}     ${original_to_output_k[3]}     8 2648.46138 2738.88698    1*    1* 1636.62818    1*    28 /
+    ${original_to_output_i[33]}    ${original_to_output_j[50]}     ${original_to_output_k[4]}     9 2738.88698 2746.19983    1*    1* 1638.39705    1*    29 /
+    ${original_to_output_i[34]}    ${original_to_output_j[50]}     ${original_to_output_k[4]}    10 2746.19983 2778.59811    1*    1*  1638.6287    1*    30 /
+    ${original_to_output_i[34]}    ${original_to_output_j[50]}     ${original_to_output_k[3]}    11 2778.59811 2911.19111    1*    1* 1639.28726    1*    31 /
+    ${original_to_output_i[35]}    ${original_to_output_j[50]}     ${original_to_output_k[3]}    12 2911.19111 2970.17732    1*    1* 1640.06077    1*    32 /
+    ${original_to_output_i[35]}    ${original_to_output_j[50]}     ${original_to_output_k[2]}    13 2970.17732 2984.00538    1*    1* 1640.43245    1*    33 /
+    ${original_to_output_i[35]}    ${original_to_output_j[49]}     ${original_to_output_k[2]}    14 2984.00538 3080.90915    1*    1* 1641.11947    1*    34 /
+    ${original_to_output_i[36]}    ${original_to_output_j[49]}    ${original_to_output_k[30]}   15 3081.05919 3247.91824    1*    1* 1643.22774    1*    35 /
+    ${original_to_output_i[36]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    16 3247.91824 3259.35808    1*    1* 1644.85593    1*    36 /
+    ${original_to_output_i[37]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}   17 3259.35808 3441.81536    1*    1* 1647.85801    1*    37 /
+    ${original_to_output_i[38]}    ${original_to_output_j[48]}    ${original_to_output_k[30]}    18 3441.81536 3534.58589    1*    1* 1652.80943    1*    38 /
+    ${original_to_output_i[38]}    ${original_to_output_j[47]}    ${original_to_output_k[30]}   19 3534.58589  3578.5004    1*    1* 1655.93922    1*    39 /
 /
 
 WCONHIST
@@ -821,7 +821,7 @@ DATES
 
 WELSPECS
 --WELL   GROUP  IHEEL JHEEL       DREF PHASE       DRAD INFEQ SIINS XFLOW PRTAB  DENS
- 'A6'   'WI'       ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    1693.99 WATER         1*    1*  SHUT    1*    1*    1* /
+ 'A6'   'WI'       ${original_to_output_i[17]}    ${original_to_output_j[42]}    1693.99 WATER         1*    1*  SHUT    1*    1*    1* /
 /
 
 COMPORD
@@ -831,29 +831,29 @@ COMPORD
 COMPDAT
 --WELL      I     J    K1    K2 OP/SH  SATN       TRAN      WBDIA         KH       SKIN DFACT   DIR      PEQVR
 ---------------------------------------------------------------------------------------------------------------
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][1]}     ${dic['k_f_c'][1]}  OPEN    1* 0.00941692     0.2413 1.84051242          5    1*     Z 28.6912207 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][2]}     ${dic['k_f_c'][2]}  OPEN    1* 0.00619765     0.2413 1.21109159          5    1*     Z  28.636096 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][3]}     ${dic['k_f_c'][3]}  OPEN    1* 0.00430575     0.2413 0.84139991          5    1*     Z 28.6385994 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][4]}     ${dic['k_f_c'][4]}  OPEN    1* 0.00348989     0.2413 0.68191225          5    1*     Z 28.6127722 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][5]}     ${dic['k_f_c'][5]}  OPEN    1* 0.00562967     0.2413 1.09976157          5    1*     Z 28.5435029 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][6]}     ${dic['k_f_c'][6]}  OPEN    1* 0.29578966     0.2413 57.1080953          5    1*     Z 25.2597999 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][7]}     ${dic['k_f_c'][7]}  OPEN    1* 0.66397017     0.2413 129.921741          5    1*     Z 29.0417415 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][8]}     ${dic['k_f_c'][8]}  OPEN    1* 0.38592737     0.2413 74.5970849          5    1*     Z 25.5635594 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}     ${dic['k_f_c'][9]}     ${dic['k_f_c'][9]}  OPEN    1* 0.01254976     0.2413 2.45102257          5    1*     Z 28.4720618 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][10]}    ${dic['k_f_c'][10]}  OPEN    1* 4.65352526     0.2413 860.547112          5    1*     Z 16.3260801 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][11]}    ${dic['k_f_c'][11]}  OPEN    1* 13.3374213     0.2413 2610.65129          5    1*     Z 29.1426961 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][12]}    ${dic['k_f_c'][12]}  OPEN    1* 2.70973571     0.2413 530.191566          5    1*     Z 29.0225521 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][13]}    ${dic['k_f_c'][13]}  OPEN    1* 0.47313852     0.2413 92.5986263          5    1*     Z  29.099974 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][14]}    ${dic['k_f_c'][14]}  OPEN    1* 0.27195224     0.2413 53.2112044          5    1*     Z 29.0257478 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][15]}    ${dic['k_f_c'][15]}  OPEN    1* 0.05640712     0.2413 11.0242541          5    1*     Z 28.6810932 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][16]}    ${dic['k_f_c'][16]}  OPEN    1* 0.00735288     0.2413 1.43845501          5    1*     Z 28.9758099 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][17]}    ${dic['k_f_c'][17]}  OPEN    1* 0.03443626     0.2413 6.73371095          5    1*     Z 28.8359017 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][18]}    ${dic['k_f_c'][18]}  OPEN    1* 0.01732523     0.2413 3.38704569          5    1*     Z 28.7688733 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][27]}    ${dic['k_f_c'][27]}  OPEN    1* 13.1024418     0.2413 2458.29297          5    1*     Z 18.8643802 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][28]}    ${dic['k_f_c'][28]}  OPEN    1* 6.04381756     0.2413 1105.57151          5    1*     Z 14.6689731 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][29]}    ${dic['k_f_c'][29]}  OPEN    1* 8.5496e-06     0.2413 0.00166744          5    1*     Z 28.0591632 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][30]}    ${dic['k_f_c'][30]}  OPEN    1* 8.5504e-06     0.2413 0.00166743          5    1*     Z 28.0289957 /
- 'A6'      ${dic['i_f_c'][17]}    ${dic['j_f_c'][42]}    ${dic['k_f_c'][31]}    ${dic['k_f_c'][31]}  OPEN    1* 2.05522534     0.2413 401.958728          5    1*     Z 28.8940603 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[1]}     ${original_to_output_k[1]}  OPEN    1* 0.00941692     0.2413 1.84051242          5    1*     Z 28.6912207 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[2]}     ${original_to_output_k[2]}  OPEN    1* 0.00619765     0.2413 1.21109159          5    1*     Z  28.636096 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[3]}     ${original_to_output_k[3]}  OPEN    1* 0.00430575     0.2413 0.84139991          5    1*     Z 28.6385994 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[4]}     ${original_to_output_k[4]}  OPEN    1* 0.00348989     0.2413 0.68191225          5    1*     Z 28.6127722 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[5]}     ${original_to_output_k[5]}  OPEN    1* 0.00562967     0.2413 1.09976157          5    1*     Z 28.5435029 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[6]}     ${original_to_output_k[6]}  OPEN    1* 0.29578966     0.2413 57.1080953          5    1*     Z 25.2597999 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[7]}     ${original_to_output_k[7]}  OPEN    1* 0.66397017     0.2413 129.921741          5    1*     Z 29.0417415 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[8]}     ${original_to_output_k[8]}  OPEN    1* 0.38592737     0.2413 74.5970849          5    1*     Z 25.5635594 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}     ${original_to_output_k[9]}     ${original_to_output_k[9]}  OPEN    1* 0.01254976     0.2413 2.45102257          5    1*     Z 28.4720618 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[10]}    ${original_to_output_k[10]}  OPEN    1* 4.65352526     0.2413 860.547112          5    1*     Z 16.3260801 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[11]}    ${original_to_output_k[11]}  OPEN    1* 13.3374213     0.2413 2610.65129          5    1*     Z 29.1426961 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[12]}    ${original_to_output_k[12]}  OPEN    1* 2.70973571     0.2413 530.191566          5    1*     Z 29.0225521 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[13]}    ${original_to_output_k[13]}  OPEN    1* 0.47313852     0.2413 92.5986263          5    1*     Z  29.099974 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[14]}    ${original_to_output_k[14]}  OPEN    1* 0.27195224     0.2413 53.2112044          5    1*     Z 29.0257478 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[15]}    ${original_to_output_k[15]}  OPEN    1* 0.05640712     0.2413 11.0242541          5    1*     Z 28.6810932 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[16]}    ${original_to_output_k[16]}  OPEN    1* 0.00735288     0.2413 1.43845501          5    1*     Z 28.9758099 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[17]}    ${original_to_output_k[17]}  OPEN    1* 0.03443626     0.2413 6.73371095          5    1*     Z 28.8359017 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[18]}    ${original_to_output_k[18]}  OPEN    1* 0.01732523     0.2413 3.38704569          5    1*     Z 28.7688733 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[27]}    ${original_to_output_k[27]}  OPEN    1* 13.1024418     0.2413 2458.29297          5    1*     Z 18.8643802 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[28]}    ${original_to_output_k[28]}  OPEN    1* 6.04381756     0.2413 1105.57151          5    1*     Z 14.6689731 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[29]}    ${original_to_output_k[29]}  OPEN    1* 8.5496e-06     0.2413 0.00166744          5    1*     Z 28.0591632 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[30]}    ${original_to_output_k[30]}  OPEN    1* 8.5504e-06     0.2413 0.00166743          5    1*     Z 28.0289957 /
+ 'A6'      ${original_to_output_i[17]}    ${original_to_output_j[42]}    ${original_to_output_k[31]}    ${original_to_output_k[31]}  OPEN    1* 2.05522534     0.2413 401.958728          5    1*     Z 28.8940603 /
 ---------------------------------------------------------------------------------------------------------------
 /
 

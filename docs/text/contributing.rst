@@ -11,7 +11,7 @@ Ground Rules
 ============
 
 - We use Black code formatting
-- We use Pylint
+- We use Pylint and Ruff code analysis tools
 - We document our code
 
 ==========================
@@ -24,6 +24,7 @@ Contribute to the software
     #. **pip install -r dev-requirements.txt** (this installs the `dev-requirements.txt <https://github.com/cssr-tools/pycopm/blob/main/dev-requirements.txt>`_)
     #. **black \-\-target-version py314 src/ tests/** (this formats the code)
     #. **pylint src/ tests/** (this analyses the code, and might rise issues that need to be fixed before the pull request)
+    #. **ruff check src/ tests/** (this also analyses the code, and might rise issues that need to be fixed before the pull request)
     #. **mypy \-\-ignore-missing-imports src/ tests/** (this is a static checker, and might rise issues that need to be fixed before the pull request)
     #. **pytest \-\-cov=pycopm \-\-cov-report term-missing \-\-basetemp=test_outputs tests/ -n auto** (this runs locally the tests, and might rise issues that need to be fixed before the pull request)
     #. **pycopm -i examples/decks/HELLO_WORLD.DATA -c 5,5,1 -m all -o output** (this runs the hello world example, which succeeds if the file output/HELLO_WORLD_PYCOPM.EGRID is created)

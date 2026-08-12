@@ -4,7 +4,7 @@ Installation
 
 The following steps work installing the dependencies in Ubuntu via apt-get or in macOS using `brew <https://brew.sh>`_ or `macports <https://www.macports.org>`_.
 While using package managers such as Anaconda, Miniforge, or Mamba might work, these are not tested.
-The supported Python versions are 3.11 to 3.14.
+The supported Python versions are 3.12 to 3.14.
 
 .. note::
 

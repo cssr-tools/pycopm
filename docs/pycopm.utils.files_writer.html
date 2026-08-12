@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pycopm.utils.generate_files module" href="pycopm.utils.generate_files.html" />
-    <link rel="prev" title="pycopm.utils package" href="pycopm.utils.html" /> 
+    <link rel="next" title="pycopm.utils.generate_decks module" href="pycopm.utils.generate_decks.html" />
+    <link rel="prev" title="pycopm.utils.coarsening module" href="pycopm.utils.coarsening.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -86,82 +86,217 @@
              
   <section id="module-pycopm.utils.files_writer">
 <span id="pycopm-utils-files-writer-module"></span><h1>pycopm.utils.files_writer module<a class="headerlink" href="#module-pycopm.utils.files_writer" title="Link to this heading"></a></h1>
-<p>Utiliy functions for necessary files and variables to run OPM Flow and ERT.</p>
+<p>Write OPM Flow decks, corner-point grids, properties, and ERT files.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.files_writer.coarser_files">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">coarser_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.files_writer.coarser_files" title="Link to this definition"></a></dt>
-<dd><p>Method to write files by running mako templates</p>
+<dt class="sig sig-object py" id="pycopm.utils.files_writer._identify_removed_pillars">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">_identify_removed_pillars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">NDArray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.files_writer._identify_removed_pillars" title="Link to this definition"></a></dt>
+<dd><p>Find COORD and ZCORN indices removed by TOML coarsening.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
+<dd class="field-odd"><p><strong>cfg</strong> – TOML configuration containing axis coarsening arrays.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.files_writer.ert_files">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">ert_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.files_writer.ert_files" title="Link to this definition"></a></dt>
-<dd><p>Method to write the ERT deck</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Indices to remove from the reference grid arrays.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>coord_indices, zcorn_indices</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.files_writer.grid_features">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">grid_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.files_writer.grid_features" title="Link to this definition"></a></dt>
-<dd><p>Method to write OPM grid related files</p>
+<dt class="sig sig-object py" id="pycopm.utils.files_writer._render_template">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">_render_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer._render_template" title="Link to this definition"></a></dt>
+<dd><p>Render a Mako template to a UTF-8 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>template_path</strong> – Source template path.</p></li>
+<li><p><strong>output_path</strong> – Destination path.</p></li>
+<li><p><strong>**variables</strong> – Values passed to the template.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer._write_ert_files">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">_write_ert_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer._write_ert_files" title="Link to this definition"></a></dt>
+<dd><p>Write the ERT configuration, parameter, job, and observation files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer._write_grid_files">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">_write_grid_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer._write_grid_files" title="Link to this definition"></a></dt>
+<dd><p>Write the OPM grid-related files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer._write_let_tables">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">_write_let_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer._write_let_tables" title="Link to this definition"></a></dt>
+<dd><p>Write the LET saturation-function tables.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.format_opm_compact_values">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">format_opm_compact_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.format_opm_compact_values" title="Link to this definition"></a></dt>
+<dd><p>Convert values to OPM repeated-value notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> – One-dimensional values to compact.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Values formatted as <code class="docutils literal notranslate"><span class="pre">n*value</span></code> where consecutive values repeat.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>list[str]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.files_writer.opm_properties">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">opm_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.files_writer.opm_properties" title="Link to this definition"></a></dt>
-<dd><p>Method to write OPM property files</p>
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.round_like_e">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">round_like_e</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significant_digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NDArray</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.round_like_e" title="Link to this definition"></a></dt>
+<dd><p>Round values to a number of significant digits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Values to round.</p></li>
+<li><p><strong>significant_digits</strong> – Number of significant digits, or zero to preserve machine precision.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Rounded values with the original shape.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>NDArray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_let_tables">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_let_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.files_writer.write_let_tables" title="Link to this definition"></a></dt>
-<dd><p>Method to write the LET saturation function tables</p>
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_coarsened_model_files">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_coarsened_model_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaTOML</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_tables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_coarsened_model_files" title="Link to this definition"></a></dt>
+<dd><p>Write grid, deck, schedule, job, observation, and ERT files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cfg</strong> – TOML configuration for the generated project.</p></li>
+<li><p><strong>number_tables</strong> – Number of saturation-function tables to generate.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_compact_property_file">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_compact_property_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preprocessing_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_dig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_compact_property_file" title="Link to this definition"></a></dt>
+<dd><p>Write one compacted OPM property to a file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_dual_properties">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_dual_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarsening</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_dual_properties" title="Link to this definition"></a></dt>
+<dd><p>Finalize property files for a dual-porosity grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration and generated property names.</p></li>
+<li><p><strong>coarsening</strong> – Coarsening data containing matrix and fracture transmissibilities.</p></li>
+<li><p><strong>number_values</strong> – Number of cells in the extended dual grid.</p></li>
+<li><p><strong>modified_deck</strong> – Deck lines that may receive inlined properties.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_grid">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ConfigViaTOML</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_grid" title="Link to this definition"></a></dt>
+<dd><p>Write a corner-point grid in GRDECL syntax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cfg</strong> – Deck or TOML configuration containing output dimensions and precision.</p></li>
+<li><p><strong>cr</strong> – Flattened <code class="docutils literal notranslate"><span class="pre">COORD</span></code> and <code class="docutils literal notranslate"><span class="pre">ZCORN</span></code> arrays.</p></li>
+<li><p><strong>zc</strong> – Flattened <code class="docutils literal notranslate"><span class="pre">COORD</span></code> and <code class="docutils literal notranslate"><span class="pre">ZCORN</span></code> arrays.</p></li>
+<li><p><strong>dual</strong> – Extend the j dimension for a dual-porosity grid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_include">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_include</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_include" title="Link to this definition"></a></dt>
+<dd><p>Write text to an OPM include file with the pycopm header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> – Destination include path.</p></li>
+<li><p><strong>text</strong> – OPM deck text written after the header.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_porv">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_porv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_porv" title="Link to this definition"></a></dt>
+<dd><p>Write the OPM grid-related files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_property">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_dig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_property" title="Link to this definition"></a></dt>
+<dd><p>Write one compact OPM property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> – Destination include path.</p></li>
+<li><p><strong>keyword</strong> – OPM property keyword.</p></li>
+<li><p><strong>values</strong> – Property values in global-cell order.</p></li>
+<li><p><strong>num_dig</strong> – Number of significant digits.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_property_inc">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_property_inc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_inline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_property_inc" title="Link to this definition"></a></dt>
+<dd><p>Write a property include or inline a constant property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration controlling paths, prefixes, and precision.</p></li>
+<li><p><strong>property_name</strong> – OPM property name.</p></li>
+<li><p><strong>property_values</strong> – Values in output-grid order.</p></li>
+<li><p><strong>number_values</strong> – Expected number of output values.</p></li>
+<li><p><strong>modified_deck</strong> – Deck lines in which a constant property may be inlined.</p></li>
+<li><p><strong>allow_inline</strong> – Inline a property when all values are equal.</p></li>
+<li><p><strong>file_suffix</strong> – Optional suffix added before <code class="docutils literal notranslate"><span class="pre">.INC</span></code>.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> when the property was inlined, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.files_writer.write_reference_to_coarse_map">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.files_writer.</span></span><span class="sig-name descname"><span class="pre">write_reference_to_coarse_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reftocoa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.files_writer.write_reference_to_coarse_map" title="Link to this definition"></a></dt>
+<dd><p>Write the reference-to-coarse mapping as OPERNUM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dck</strong> – Deck configuration controlling the output path and precision.</p></li>
+<li><p><strong>reftocoa</strong> – Coarse-cell identifier for every reference-grid cell.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -172,8 +307,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pycopm.utils.html" class="btn btn-neutral float-left" title="pycopm.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pycopm.utils.generate_files.html" class="btn btn-neutral float-right" title="pycopm.utils.generate_files module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pycopm.utils.coarsening.html" class="btn btn-neutral float-left" title="pycopm.utils.coarsening module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.generate_decks.html" class="btn btn-neutral float-right" title="pycopm.utils.generate_decks module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

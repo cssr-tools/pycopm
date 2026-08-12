@@ -34,6 +34,7 @@ jobs:
       run: |
         black --target-version py314 src/ tests/ --check
         pylint src/ tests/
+        ruff check src/ tests/
         mypy --ignore-missing-imports src/ tests/
       
     - name: Run tests

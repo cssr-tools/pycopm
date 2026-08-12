@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pycopm.utils.properties_builder module" href="pycopm.utils.properties_builder.html" />
-    <link rel="prev" title="pycopm.utils.mapping_methods module" href="pycopm.utils.mapping_methods.html" /> 
+    <link rel="next" title="pycopm.utils.refinement module" href="pycopm.utils.refinement.html" />
+    <link rel="prev" title="pycopm.utils.input_values module" href="pycopm.utils.input_values.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -86,617 +86,430 @@
              
   <section id="module-pycopm.utils.parser_deck">
 <span id="pycopm-utils-parser-deck-module"></span><h1>pycopm.utils.parser_deck module<a class="headerlink" href="#module-pycopm.utils.parser_deck" title="Link to this heading"></a></h1>
-<p>Methods to parser the input OPM deck.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.comment_endbox">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">comment_endbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.comment_endbox" title="Link to this definition"></a></dt>
-<dd><p>Do not include the file if ENDBOX (this is handleded from the .INIT)</p>
+<p>Parse an OPM deck and update records for the modified grid.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_ParserState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">welspecs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">welsegs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complump</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compdat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compsegs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapaxes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multregt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_edit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">editnnc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiply</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">props</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equil</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faults</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multflt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">welldims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aqucon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aqunum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aquancon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bccon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bwpr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pinch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_edit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous_completion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compsegs_wells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retained_wells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">completion_wells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segmented_wells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule_keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Store temporary state while parsing an OPM deck.</p>
+<p>The Boolean fields indicate active keyword blocks. The list fields track wells,
+completions, and segmented-well records retained in the generated deck.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.aquancon">
+<span class="sig-name descname"><span class="pre">aquancon</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.aquancon" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.aqucon">
+<span class="sig-name descname"><span class="pre">aqucon</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.aqucon" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.aqunum">
+<span class="sig-name descname"><span class="pre">aqunum</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.aqunum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.bccon">
+<span class="sig-name descname"><span class="pre">bccon</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.bccon" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.bwpr">
+<span class="sig-name descname"><span class="pre">bwpr</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.bwpr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.compdat">
+<span class="sig-name descname"><span class="pre">compdat</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.compdat" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.completion_wells">
+<span class="sig-name descname"><span class="pre">completion_wells</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.completion_wells" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.complump">
+<span class="sig-name descname"><span class="pre">complump</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.complump" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.compsegs">
+<span class="sig-name descname"><span class="pre">compsegs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.compsegs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.compsegs_wells">
+<span class="sig-name descname"><span class="pre">compsegs_wells</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.compsegs_wells" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.dimens">
+<span class="sig-name descname"><span class="pre">dimens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.dimens" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.editnnc">
+<span class="sig-name descname"><span class="pre">editnnc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.editnnc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.equil">
+<span class="sig-name descname"><span class="pre">equil</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.equil" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.faults">
+<span class="sig-name descname"><span class="pre">faults</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.faults" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.grid">
+<span class="sig-name descname"><span class="pre">grid</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.grid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.has_edit">
+<span class="sig-name descname"><span class="pre">has_edit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.has_edit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.mapaxes">
+<span class="sig-name descname"><span class="pre">mapaxes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.mapaxes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.multflt">
+<span class="sig-name descname"><span class="pre">multflt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.multflt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.multiply">
+<span class="sig-name descname"><span class="pre">multiply</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.multiply" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.multregt">
+<span class="sig-name descname"><span class="pre">multregt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.multregt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.operation">
+<span class="sig-name descname"><span class="pre">operation</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.operation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.pinch">
+<span class="sig-name descname"><span class="pre">pinch</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.pinch" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.previous_completion">
+<span class="sig-name descname"><span class="pre">previous_completion</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.previous_completion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.process_edit">
+<span class="sig-name descname"><span class="pre">process_edit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.process_edit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.props">
+<span class="sig-name descname"><span class="pre">props</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.props" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.regions">
+<span class="sig-name descname"><span class="pre">regions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.regions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.retained_wells">
+<span class="sig-name descname"><span class="pre">retained_wells</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.retained_wells" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.schedule_keyword">
+<span class="sig-name descname"><span class="pre">schedule_keyword</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.schedule_keyword" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.segmented_wells">
+<span class="sig-name descname"><span class="pre">segmented_wells</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.segmented_wells" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.separator">
+<span class="sig-name descname"><span class="pre">separator</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.separator" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.skip_block">
+<span class="sig-name descname"><span class="pre">skip_block</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.skip_block" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.source">
+<span class="sig-name descname"><span class="pre">source</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.welldims">
+<span class="sig-name descname"><span class="pre">welldims</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.welldims" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.welsegs">
+<span class="sig-name descname"><span class="pre">welsegs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.welsegs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._ParserState.welspecs">
+<span class="sig-name descname"><span class="pre">welspecs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#pycopm.utils.parser_deck._ParserState.welspecs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.get_wells_for_vicinity">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">get_wells_for_vicinity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.get_wells_for_vicinity" title="Link to this definition"></a></dt>
-<dd><p>Get the names and i,j,k indices for the wells</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck.__handle_schedule_keyword">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">__handle_schedule_keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck.__handle_schedule_keyword" title="Link to this definition"></a></dt>
+<dd><p>Filter supported schedule records by wells retained in the submodel.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_aquancon">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_aquancon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_aquancon" title="Link to this definition"></a></dt>
-<dd><p>Handle the modified i,j,k aquancon indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._append_explicit_solution_includes">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_append_explicit_solution_includes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._append_explicit_solution_includes" title="Link to this definition"></a></dt>
+<dd><p>Append include statements for the explicit solution properties.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_aqucon">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_aqucon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_aqucon" title="Link to this definition"></a></dt>
-<dd><p>Handle the modified i,j,k aquifer indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._collect_segmented_well_names">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_collect_segmented_well_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._collect_segmented_well_names" title="Link to this definition"></a></dt>
+<dd><p>Identify wells requiring segmented-well completion handling.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_aqunum">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_aqunum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_aqunum" title="Link to this definition"></a></dt>
-<dd><p>Handle the i,j,k aquifer numbers</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._collect_vicinity_well_names">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_collect_vicinity_well_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._collect_vicinity_well_names" title="Link to this definition"></a></dt>
+<dd><p>Identify wells and segmented wells retained in the vicinity model.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_bccon">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_bccon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_bccon" title="Link to this definition"></a></dt>
-<dd><p>Handle the modified i,j,k bccon indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_aquancon">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_aquancon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_aquancon" title="Link to this definition"></a></dt>
+<dd><p>Update AQUANCON grid-index ranges for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_bwpr">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_bwpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_bwpr" title="Link to this definition"></a></dt>
-<dd><p>Handle the block pressure</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_aqucon">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_aqucon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_aqucon" title="Link to this definition"></a></dt>
+<dd><p>Update AQUCON grid-index ranges for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_compsegs">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_compsegs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_compsegs" title="Link to this definition"></a></dt>
-<dd><p>Handle the compsegs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_aqunum">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_aqunum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_aqunum" title="Link to this definition"></a></dt>
+<dd><p>Update AQUNUM grid indices for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_dimens">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_dimens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_dimens" title="Link to this definition"></a></dt>
-<dd><p>Handle the grid dimensions</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_bccon">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_bccon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_bccon" title="Link to this definition"></a></dt>
+<dd><p>Update BCCON grid-index ranges for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_editnnc">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_editnnc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_editnnc" title="Link to this definition"></a></dt>
-<dd><p>Handle the modified i,j,k nnc indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_bwpr">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_bwpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_bwpr" title="Link to this definition"></a></dt>
+<dd><p>Update BWPR grid indices for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_equil">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_equil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_equil" title="Link to this definition"></a></dt>
-<dd><p>Handle the solution sections</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_compsegs">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_compsegs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_compsegs" title="Link to this definition"></a></dt>
+<dd><p>Filter COMPSEGS records by wells retained in the submodel.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_fault">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_fault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_fault" title="Link to this definition"></a></dt>
-<dd><p>Handle the modified i,j,k fault indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_dimens">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_dimens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_dimens" title="Link to this definition"></a></dt>
+<dd><p>Replace the original DIMENS values with the modified grid dimensions.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_grid_props">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_grid_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_grid_props" title="Link to this definition"></a></dt>
-<dd><p>Handle the grid and props sections</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_editnnc">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_editnnc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_editnnc" title="Link to this definition"></a></dt>
+<dd><p>Update EDITNNC grid indices for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_mapaxes">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_mapaxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_mapaxes" title="Link to this definition"></a></dt>
-<dd><p>Keep the mapping so the grids have the same view</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_equil">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_equil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_equil" title="Link to this definition"></a></dt>
+<dd><p>Replace EQUIL with explicit initialization include files.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_multflt">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_multflt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_multflt" title="Link to this definition"></a></dt>
-<dd><p>Handle the fault multipliers</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_fault">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_fault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_fault" title="Link to this definition"></a></dt>
+<dd><p>Update FAULTS grid-index ranges for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_multiply">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_multiply" title="Link to this definition"></a></dt>
-<dd><p>Handle the modified i,j,k multiply indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_grid_props">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_grid_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_grid_props" title="Link to this definition"></a></dt>
+<dd><p>Replace GRID properties and preserve supported GRID-section keywords.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_multregt">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_multregt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_multregt" title="Link to this definition"></a></dt>
-<dd><p>Copy if MULTREGT is on the GRID section</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_mapaxes">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_mapaxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_mapaxes" title="Link to this definition"></a></dt>
+<dd><p>Preserve MAPAXES so the generated grids retain the same map view.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_oper">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_oper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_oper" title="Link to this definition"></a></dt>
-<dd><p>We also support operations</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_multflt">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_multflt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_multflt" title="Link to this definition"></a></dt>
+<dd><p>Preserve fault multiplier records from the input deck.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_pinch">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_pinch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_pinch" title="Link to this definition"></a></dt>
-<dd><p>Keep pinch from the input model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_multiply">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_multiply" title="Link to this definition"></a></dt>
+<dd><p>Update MULTIPLY grid-index ranges for the modified grid.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_props">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_props" title="Link to this definition"></a></dt>
-<dd><p>Handle the props sections</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_multregt">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_multregt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_multregt" title="Link to this definition"></a></dt>
+<dd><p>Preserve MULTREGT records from the GRID section.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_regions">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_regions" title="Link to this definition"></a></dt>
-<dd><p>Handle the regions sections</p>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_oper">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_oper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_oper" title="Link to this definition"></a></dt>
+<dd><p>Update supported operation records for the modified grid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_pinch">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_pinch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_pinch" title="Link to this definition"></a></dt>
+<dd><p>Preserve PINCH records from the input deck.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_props">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_props</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_props" title="Link to this definition"></a></dt>
+<dd><p>Handle the PROPS section and its supported operations.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_regions">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_regions" title="Link to this definition"></a></dt>
+<dd><p>Replace the REGIONS content with generated include files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_segmented_wells">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_segmented_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wellcind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_segmented_wells" title="Link to this definition"></a></dt>
+<dd><p>Update COMPDAT, COMPSEGS, and COMPLUMP records for the modified grid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_source">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_source" title="Link to this definition"></a></dt>
+<dd><p>Update SOURCE grid indices for the modified grid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_welldims">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_welldims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_welldims" title="Link to this definition"></a></dt>
+<dd><p>Update WELLDIMS for a refined grid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_wells">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_wells" title="Link to this definition"></a></dt>
+<dd><p>Update well-head grid indices and activate completion handlers.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._handle_welsegs">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_handle_welsegs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycopm.utils.parser_deck._ParserState" title="pycopm.utils.parser_deck._ParserState"><span class="pre">_ParserState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified_deck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._handle_welsegs" title="Link to this definition"></a></dt>
+<dd><p>Filter WELSEGS records by wells retained in the submodel.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._include_contains_endbox">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_include_contains_endbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._include_contains_endbox" title="Link to this definition"></a></dt>
+<dd><p>Return whether an included file contains ENDBOX.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._mark_multiplier_keyword">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_mark_multiplier_keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deck_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mults</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NDArray</span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._mark_multiplier_keyword" title="Link to this definition"></a></dt>
+<dd><p>Set the corresponding flag if a multiplier keyword is found.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck._scan_deck_file">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">_scan_deck_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck._scan_deck_file" title="Link to this definition"></a></dt>
+<dd><p>Scan a deck file for includes and directional multipliers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
+<li><p><strong>dck</strong> – Deck configuration providing the file encoding.</p></li>
+<li><p><strong>file_path</strong> – DATA or include file to scan.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Resolved include paths, whether the main deck contains <code class="docutils literal notranslate"><span class="pre">MULTFLT</span></code>, and
+flags for <code class="docutils literal notranslate"><span class="pre">MULTX</span></code>, <code class="docutils literal notranslate"><span class="pre">MULTX-</span></code>, <code class="docutils literal notranslate"><span class="pre">MULTY</span></code>, <code class="docutils literal notranslate"><span class="pre">MULTY-</span></code>, <code class="docutils literal notranslate"><span class="pre">MULTZ</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">MULTZ-</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>includes, has_main_multflt, multipliers</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_schedule">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_schedule" title="Link to this definition"></a></dt>
-<dd><p>Handle the schedule sections</p>
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck.find_multiplier_keywords">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">find_multiplier_keywords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NDArray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck.find_multiplier_keywords" title="Link to this definition"></a></dt>
+<dd><p>Find directional multiplier keywords in nested includes.</p>
+<p>At most three levels of included files are scanned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dck</strong> – Deck configuration identifying the input deck and encoding.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the main deck contains <code class="docutils literal notranslate"><span class="pre">MULTFLT</span></code> and directional multiplier
+flags in x, x-, y, y-, z, and z- order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>has_main_multflt, multipliers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycopm.utils.parser_deck.process_deck">
+<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">process_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dck</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigViaDeck</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vicinity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pycopm.utils.vicinity.html#pycopm.utils.vicinity.VicinityMaps" title="pycopm.utils.vicinity.VicinityMaps"><span class="pre">VicinityMaps</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycopm.utils.parser_deck.process_deck" title="Link to this definition"></a></dt>
+<dd><p>Rewrite deck records for the modified grid.</p>
+<p>The parser updates dimensions, properties, grid-index ranges, wells, aquifers,
+faults, and selected schedule records.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
+<li><p><strong>dck</strong> – Deck configuration and axis index mappings.</p></li>
+<li><p><strong>vicinity</strong> – Vicinity selection used when extracting a submodel.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
+<dd class="field-even"><p>Rewritten deck lines and coarse cells containing well completions.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_schedulekw">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_schedulekw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_schedulekw" title="Link to this definition"></a></dt>
-<dd><p>Handle special keywords in the schedule for wells in submodels</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_segmented_wells">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_segmented_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_segmented_wells" title="Link to this definition"></a></dt>
-<dd><p>We also support segmented wells</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_source">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_source" title="Link to this definition"></a></dt>
-<dd><p>Add the source keyword</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_welldims">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_welldims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_welldims" title="Link to this definition"></a></dt>
-<dd><p>Handle the  well dimensions</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_wells">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_wells" title="Link to this definition"></a></dt>
-<dd><p>Add the necessary keywords and modified i,j,k well indices</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.handle_welsegs">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">handle_welsegs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrwo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.handle_welsegs" title="Link to this definition"></a></dt>
-<dd><p>Handle the welsegs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.names_segwells">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">names_segwells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.names_segwells" title="Link to this definition"></a></dt>
-<dd><p>Get the names of segmented wells</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.names_wells">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">names_wells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.names_wells" title="Link to this definition"></a></dt>
-<dd><p>Get the names of the wells in the submodel</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.process_the_deck">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">process_the_deck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.process_the_deck" title="Link to this definition"></a></dt>
-<dd><p>Identify and modified the required keywords</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pycopm.utils.parser_deck.write_explicit">
-<span class="sig-prename descclassname"><span class="pre">pycopm.utils.parser_deck.</span></span><span class="sig-name descname"><span class="pre">write_explicit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dic</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycopm.utils.parser_deck.write_explicit" title="Link to this definition"></a></dt>
-<dd><p>Write the explicit solution</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dic</strong> (<em>dict</em>) – Global dictionary</p></li>
-<li><p><strong>nrwo</strong> (<em>list</em>) – Splited row from the input deck</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modified global dictionary</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dic (dict)</p>
+<dd class="field-odd"><p>modified_deck, well_cell_indices</p>
 </dd>
 </dl>
 </dd></dl>
@@ -707,8 +520,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pycopm.utils.mapping_methods.html" class="btn btn-neutral float-left" title="pycopm.utils.mapping_methods module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pycopm.utils.properties_builder.html" class="btn btn-neutral float-right" title="pycopm.utils.properties_builder module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pycopm.utils.input_values.html" class="btn btn-neutral float-left" title="pycopm.utils.input_values module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pycopm.utils.refinement.html" class="btn btn-neutral float-right" title="pycopm.utils.refinement module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -3,5 +3,6 @@ mypy
 pylint
 pytest-cov
 pytest-xdist
+ruff
 sphinx
 sphinx-rtd-theme
