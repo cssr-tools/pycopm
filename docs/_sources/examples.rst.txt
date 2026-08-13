@@ -116,7 +116,7 @@ we apply a grid refinement on the cells in the middle x and y location, and fina
 
 .. code-block:: bash
 
-    pycopm -i HELLO_WORLD.DATA -v 'xypolygon [4,8.5] [4,16.5] [11.5,16.5] [11.5,8.5]' -p 1 -m all
+    pycopm -i HELLO_WORLD.DATA -v 'xypolygon [4,8.5] [4,16.5] [11.5,16.5] [11.5,8.5] [4,8.5]' -p 1 -m all
     pycopm -i HELLO_WORLD_PYCOPM.DATA -rx 0,0,0,2,0,0,0 -ry 0,0,0,2,0,0,0 -m all
     pycopm -i HELLO_WORLD_PYCOPM_PYCOPM.DATA -d 'rotatexy 45' -m all
 
