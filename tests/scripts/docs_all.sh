@@ -23,3 +23,5 @@ wait
 . tests/scripts/docs_via_deck_smeaheia.sh &
 . tests/scripts/docs_via_deck_spe10.sh &
 wait
+
+. tests/scripts/docs_check_outputs.sh
