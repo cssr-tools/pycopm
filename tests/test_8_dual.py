@@ -129,7 +129,6 @@ def test_8_dual(flow, tmp_path, monkeypatch, deck, z_range, dual_expr, expected)
             "DUAL",
             "-dual",
             dual_expr,
-            "D",
             "-t",
             "1" if z_range == "1:2,3:4" and dual_expr == "poro <= 0.1" else "2",
             "-m",

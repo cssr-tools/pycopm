@@ -4,6 +4,7 @@
 
 """Create configuration objects from command-line arguments and TOML files."""
 
+import argparse
 import tomllib
 from pathlib import Path
 
@@ -14,7 +15,7 @@ from opm.io.ecl import EGrid as OpmGrid
 from pycopm.config.config import ConfigViaDeck, ConfigViaTOML
 
 
-def create_deck_config(cmdargs: dict[str, str]) -> ConfigViaDeck:
+def create_deck_config(cmdargs: argparse.Namespace) -> ConfigViaDeck:
     """Create a deck configuration from parsed command arguments.
 
     Parameters
@@ -26,46 +27,42 @@ def create_deck_config(cmdargs: dict[str, str]) -> ConfigViaDeck:
     -------
     ConfigViaDeck
         Configuration for a deck-based workflow."""
-    input_path = Path(cmdargs["input_deck_path"])
-
     return ConfigViaDeck(
-        output_directory=str(Path(cmdargs["output_directory"]).expanduser().resolve()),
-        flow_command=cmdargs["flow_command"],
-        input_deck_name=input_path.stem,
-        input_deck_path=str(input_path.with_suffix("")),
-        active_cell_methods=cmdargs["active_cell_methods"].split(","),
-        discrete_aggregation_method=cmdargs["discrete_aggregation_method"].split(","),
-        continuous_aggregation_method=cmdargs["continuous_aggregation_method"].split(
-            ","
-        ),
-        jump_thresholds=cmdargs["jump_thresholds"].split(","),
-        output_deck_name=cmdargs["output_deck_name"],
-        execution_mode=cmdargs["execution_mode"],
-        include_prefix=cmdargs["include_prefix"],
-        requested_ijk=[cmdargs["requested_ijk"]],
-        completion_removal_level=int(cmdargs["completion_removal_level"]),
-        deck_encoding=cmdargs["deck_encoding"],
-        pore_volume_correction=int(cmdargs["pore_volume_correction"]),
-        correct_fluid_in_place=int(cmdargs["correct_fluid_in_place"]),
+        output_directory=str(Path(cmdargs.output_directory).expanduser().resolve()),
+        flow_command=cmdargs.flow_command,
+        input_deck_name=Path(cmdargs.input_deck_path).stem,
+        input_deck_path=str(Path(cmdargs.input_deck_path).with_suffix("")),
+        active_cell_methods=cmdargs.active_cell_methods.split(","),
+        discrete_aggregation_method=cmdargs.discrete_aggregation_method.split(","),
+        continuous_aggregation_method=cmdargs.continuous_aggregation_method.split(","),
+        jump_thresholds=cmdargs.jump_thresholds.split(","),
+        output_deck_name=cmdargs.output_deck_name,
+        execution_mode=cmdargs.execution_mode,
+        include_prefix=cmdargs.include_prefix,
+        requested_ijk=[cmdargs.requested_ijk],
+        completion_removal_level=int(cmdargs.completion_removal_level),
+        deck_encoding=cmdargs.deck_encoding,
+        pore_volume_correction=int(cmdargs.pore_volume_correction),
+        correct_fluid_in_place=int(cmdargs.correct_fluid_in_place),
         transmissibility_coarsening_method=int(
-            cmdargs["transmissibility_coarsening_method"]
+            cmdargs.transmissibility_coarsening_method
         ),
-        vicinity_specification=cmdargs["vicinity_specification"],
-        grid_transformation=cmdargs["grid_transformation"],
-        write_explicit_solution=int(cmdargs["write_explicit_solution"]) == 1,
-        dual_porosity_criterion=cmdargs["dual_porosity_criterion"],
-        significant_digits=int(cmdargs["significant_digits"]),
+        vicinity_specification=cmdargs.vicinity_specification,
+        grid_transformation=cmdargs.grid_transformation,
+        write_explicit_solution=int(cmdargs.write_explicit_solution) == 1,
+        dual_porosity_criterion=cmdargs.dual_porosity_criterion,
+        significant_digits=int(cmdargs.significant_digits),
         refinement_enabled=bool(
-            cmdargs["x_refinement"]
-            or cmdargs["y_refinement"]
-            or cmdargs["z_refinement"]
-            or cmdargs["refinement"]
+            cmdargs.x_refinement
+            or cmdargs.y_refinement
+            or cmdargs.z_refinement
+            or cmdargs.refinement
         ),
         coarsening_enabled=bool(
-            cmdargs["x_coarsening"]
-            or cmdargs["y_coarsening"]
-            or cmdargs["z_coarsening"]
-            or cmdargs["coarsening"]
+            cmdargs.x_coarsening
+            or cmdargs.y_coarsening
+            or cmdargs.z_coarsening
+            or cmdargs.coarsening
         ),
     )
 
