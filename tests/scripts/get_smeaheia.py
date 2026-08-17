@@ -20,7 +20,7 @@ outdir.mkdir(parents=True, exist_ok=True)
 zipfile = outdir / "simulation_models.zip"
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False)
+    browser = p.chromium.launch(headless=True)
     page = browser.new_page()
 
     page.goto(RESOURCE_URL)
