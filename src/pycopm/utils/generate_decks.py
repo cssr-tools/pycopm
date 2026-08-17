@@ -4,6 +4,7 @@
 
 """Coordinate coarsening, refinement, submodel extraction, and grid transformations."""
 
+import argparse
 import csv
 import subprocess
 import sys
@@ -51,7 +52,7 @@ from pycopm.utils.vicinity import (
 )
 
 
-def create_deck(dck: ConfigViaDeck, cmdargs) -> None:
+def create_deck(dck: ConfigViaDeck, cmdargs: argparse.Namespace) -> None:
     """Generate a modified OPM deck and its include files.
 
     The selected workflow can preprocess the input deck, coarsen or refine the

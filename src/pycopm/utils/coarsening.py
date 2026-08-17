@@ -7,6 +7,7 @@
 The module supports deck-based coarsening and the TOML workflows used to
 generate reduced Norne and Drogon models."""
 
+import argparse
 import csv
 import re
 import sys
@@ -98,7 +99,9 @@ class CoarseningMaps:
     dual_defaults: dict[str, float] = field(default_factory=dict)
 
 
-def create_coarsening_maps(dck: ConfigViaDeck, cmdargs) -> CoarseningMaps:
+def create_coarsening_maps(
+    dck: ConfigViaDeck, cmdargs: argparse.Namespace
+) -> CoarseningMaps:
     """Create axis mappings and assign original cells to coarse cells.
 
     Parameters
@@ -114,11 +117,11 @@ def create_coarsening_maps(dck: ConfigViaDeck, cmdargs) -> CoarseningMaps:
     CoarseningMaps
         Axis mappings, cell groups, and dual-porosity masks."""
     cijk, refs = parse_axis_modifications(
-        cmdargs["coarsening"],
+        cmdargs.coarsening,
         [
-            cmdargs["x_coarsening"],
-            cmdargs["y_coarsening"],
-            cmdargs["z_coarsening"],
+            cmdargs.x_coarsening,
+            cmdargs.y_coarsening,
+            cmdargs.z_coarsening,
         ],
     )
     matrix_mask = np.ones(dck.original_porv.size)

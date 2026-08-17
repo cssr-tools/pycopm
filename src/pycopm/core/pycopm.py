@@ -22,7 +22,6 @@ import shlex
 import shutil
 import subprocess
 import time
-from collections.abc import Sequence
 from pathlib import Path
 
 from pycopm.utils.coarsening import coarsen_and_write_properties, create_coarsening_map
@@ -32,7 +31,7 @@ from pycopm.utils.input_values import create_deck_config, load_toml_config
 from pycopm.utils.runs_executer import generate_postprocessing_plots, run_simulations
 
 
-def main(argv: Sequence[str] | None = None) -> None:
+def main(argv: list[str] | None = None) -> None:
     """Run the deck-based or TOML-based pycopm workflow.
 
     OPM ``.DATA`` decks can be coarsened, refined, transformed, or reduced to
@@ -125,8 +124,8 @@ def main(argv: Sequence[str] | None = None) -> None:
     start_time = time.monotonic()
     cmdargs = _parse_arguments(argv)
     _check_cmdargs(cmdargs)
-    output_folder = Path(cmdargs["output_directory"]).expanduser().resolve()
-    input_file = cmdargs["input_deck_path"]
+    output_folder = Path(cmdargs.output_directory).expanduser().resolve()
+    input_file = cmdargs.input_deck_path
     output_folder.mkdir(parents=True, exist_ok=True)
 
     # Process a DATA deck by coarsening, refining, extracting, or transforming it
@@ -143,11 +142,9 @@ def main(argv: Sequence[str] | None = None) -> None:
         input_file,
         str(output_folder),
         resource_directory,
-        int(cmdargs["significant_digits"]),
+        int(cmdargs.significant_digits),
     )
-    cfg.flow_command = _check_flow(
-        cmdargs["flow_command"], cfg.flow_command, input_file
-    )
+    cfg.flow_command = _check_flow(cmdargs.flow_command, cfg.flow_command, input_file)
     print(f"\npycopm is generating the input files for {cfg.model_name}, please wait.")
 
     for folder in ["preprocessing", "parameters", "jobs", "observations"]:
@@ -182,7 +179,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         generate_postprocessing_plots(cfg, time.monotonic() - start_time, number_tables)
 
 
-def _parse_arguments(argv: Sequence[str] | None = None) -> dict[str, str]:
+def _parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
     """Parse supported command-line arguments.
 
     Unknown arguments are left unprocessed for compatibility with external
@@ -429,10 +426,10 @@ def _parse_arguments(argv: Sequence[str] | None = None) -> dict[str, str]:
         help="Set the number of significant digits used when writing floating-point values, or 0 "
         "to use machine precision",
     )
-    return vars(parser.parse_known_args(argv)[0])
+    return parser.parse_args(argv)
 
 
-def _check_cmdargs(cmdargs: dict[str, str]) -> None:
+def _check_cmdargs(cmdargs: argparse.Namespace) -> None:
     """Validate command-line arguments and incompatible operations.
 
     The checks cover input type, Flow availability, coarsening and refinement
@@ -448,7 +445,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
     ------
     SystemExit
         If an argument is invalid or an incompatible combination is requested."""
-    input_file = cmdargs["input_deck_path"]
+    input_file = cmdargs.input_deck_path
     # Select the workflow from the input filename extension
     if not input_file.endswith((".DATA", ".toml")):
         print(
@@ -456,7 +453,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
             "valid extensions are .DATA or .toml\n"
         )
         raise SystemExit(1)
-    if not cmdargs["output_directory"]:
+    if not cmdargs.output_directory:
         print("\nInvalid value for '-o', the output folder cannot be empty.\n")
         raise SystemExit(1)
     # Only -i, -o, -f, and -precision apply to TOML configuration files
@@ -491,7 +488,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
         invalid_options = [
             option
             for option, (name, default) in data_options.items()
-            if cmdargs[name] != default
+            if getattr(cmdargs, name) != default
         ]
         if invalid_options:
             print(
@@ -503,11 +500,11 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
         return
     # Verify the complete Flow command, including any launcher and arguments
     try:
-        flow_arguments = shlex.split(cmdargs["flow_command"])
+        flow_arguments = shlex.split(cmdargs.flow_command)
     except ValueError:
         flow_arguments = []
     if not flow_arguments:
-        print(f"\nInvalid OPM flow command '-f {cmdargs['flow_command']}'.\n")
+        print(f"\nInvalid OPM flow command '-f {cmdargs.flow_command}'.\n")
         raise SystemExit(1)
     try:
         flow_result = subprocess.run(
@@ -520,20 +517,20 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
         flow_result = None
     if flow_result is None or flow_result.returncode != 0:
         print(
-            f"\nThe OPM flow executable '-f {cmdargs['flow_command']}' "
+            f"\nThe OPM flow executable '-f {cmdargs.flow_command}' "
             "is not available or not working.\n"
         )
         raise SystemExit(1)
-    coarsening = cmdargs["coarsening"]
-    x_coarsening = cmdargs["x_coarsening"]
-    y_coarsening = cmdargs["y_coarsening"]
-    z_coarsening = cmdargs["z_coarsening"]
-    refinement = cmdargs["refinement"]
-    x_refinement = cmdargs["x_refinement"]
-    y_refinement = cmdargs["y_refinement"]
-    z_refinement = cmdargs["z_refinement"]
-    vicinity = cmdargs["vicinity_specification"]
-    transformation = cmdargs["grid_transformation"]
+    coarsening = cmdargs.coarsening
+    x_coarsening = cmdargs.x_coarsening
+    y_coarsening = cmdargs.y_coarsening
+    z_coarsening = cmdargs.z_coarsening
+    refinement = cmdargs.refinement
+    x_refinement = cmdargs.x_refinement
+    y_refinement = cmdargs.y_refinement
+    z_refinement = cmdargs.z_refinement
+    vicinity = cmdargs.vicinity_specification
+    transformation = cmdargs.grid_transformation
     directional_coarsening = any([x_coarsening, y_coarsening, z_coarsening])
     directional_refinement = any([x_refinement, y_refinement, z_refinement])
     has_coarsening = bool(coarsening or directional_coarsening)
@@ -636,7 +633,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
     ]
     z_groups = z_coarsening.split(",") if ":" in z_coarsening else []
     for option, name, valid_methods in aggregation_options:
-        value = cmdargs[name].strip()
+        value = getattr(cmdargs, name).strip()
         methods = value.split(",") if value else []
         if any(method not in valid_methods for method in methods):
             print(
@@ -658,30 +655,30 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
             raise SystemExit(1)
     # Options controlling property aggregation require coarsening
     if not has_coarsening:
-        if cmdargs["active_cell_methods"] != "mode":
+        if cmdargs.active_cell_methods != "mode":
             print("\nInvalid combination, '-a' can only be used with coarsening.\n")
             raise SystemExit(1)
-        if cmdargs["discrete_aggregation_method"] != "mode":
+        if cmdargs.discrete_aggregation_method != "mode":
             print("\nInvalid combination, '-n' can only be used with coarsening.\n")
             raise SystemExit(1)
-        if cmdargs["continuous_aggregation_method"]:
+        if cmdargs.continuous_aggregation_method:
             print("\nInvalid combination, '-s' can only be used with coarsening.\n")
             raise SystemExit(1)
-        if cmdargs["transmissibility_coarsening_method"] != "0":
+        if cmdargs.transmissibility_coarsening_method != "0":
             print("\nInvalid combination, '-t' can only be used with coarsening.\n")
             raise SystemExit(1)
-        if cmdargs["jump_thresholds"]:
+        if cmdargs.jump_thresholds:
             print("\nInvalid combination, '-j' can only be used with coarsening.\n")
             raise SystemExit(1)
-        if cmdargs["dual_porosity_criterion"]:
+        if cmdargs.dual_porosity_criterion:
             print("\nInvalid combination, '-dual' can only be used with coarsening.\n")
             raise SystemExit(1)
     # Fluid-in-place correction is not supported for extracted submodels
-    if vicinity and cmdargs["correct_fluid_in_place"] == "1":
+    if vicinity and cmdargs.correct_fluid_in_place == "1":
         print("\nInvalid combination, '-q' cannot be used with '-v'.\n")
         raise SystemExit(1)
     # Validate pore-volume correction combinations
-    pore_volume_correction = cmdargs["pore_volume_correction"]
+    pore_volume_correction = cmdargs.pore_volume_correction
     if pore_volume_correction == "1" and not (has_coarsening or vicinity):
         print("\nInvalid combination, '-p 1' requires coarsening or '-v'.\n")
         raise SystemExit(1)
@@ -692,7 +689,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
         )
         raise SystemExit(1)
     # Validate the jump thresholds
-    jump_thresholds = cmdargs["jump_thresholds"]
+    jump_thresholds = cmdargs.jump_thresholds
     if jump_thresholds:
         try:
             jump_values = [float(value.strip()) for value in jump_thresholds.split(",")]
@@ -705,7 +702,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
             )
             raise SystemExit(1)
     # Validate requested input-model indices
-    requested_ijk = cmdargs["requested_ijk"]
+    requested_ijk = cmdargs.requested_ijk
     if requested_ijk and not re.fullmatch(
         r"[1-9]\d*\s*,\s*[1-9]\d*\s*,\s*[1-9]\d*",
         requested_ijk,
@@ -789,7 +786,7 @@ def _check_cmdargs(cmdargs: dict[str, str]) -> None:
             )
             raise SystemExit(1)
     # Validate the dual-porosity criterion
-    dual_porosity_criterion = cmdargs["dual_porosity_criterion"]
+    dual_porosity_criterion = cmdargs.dual_porosity_criterion
     dual_criterion_pattern = re.compile(
         rf"[A-Za-z][A-Za-z0-9_]*\s*(?:<=|>=|==|!=|<|>)\s*{number}"
         r"(?:\s*,\s*vertical\s+TF\s*=\s*0)?",

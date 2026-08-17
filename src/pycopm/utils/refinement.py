@@ -4,6 +4,7 @@
 
 """Refine a corner-point grid and its reservoir properties."""
 
+import argparse
 import sys
 from contextlib import nullcontext
 from dataclasses import dataclass
@@ -35,7 +36,9 @@ class RefinementMaps:
     refined_cell_counts: NDArray
 
 
-def create_refinement_maps(dck: ConfigViaDeck, cmdargs) -> RefinementMaps:
+def create_refinement_maps(
+    dck: ConfigViaDeck, cmdargs: argparse.Namespace
+) -> RefinementMaps:
     """Create axis refinement maps and update output dimensions.
 
     A refinement value of ``n`` divides an original interval into ``n + 1``
@@ -54,11 +57,11 @@ def create_refinement_maps(dck: ConfigViaDeck, cmdargs) -> RefinementMaps:
     RefinementMaps
         Axis values and the number of subdivisions per original cell."""
     cijk, refs = parse_axis_modifications(
-        cmdargs["refinement"],
+        cmdargs.refinement,
         [
-            cmdargs["x_refinement"],
-            cmdargs["y_refinement"],
-            cmdargs["z_refinement"],
+            cmdargs.x_refinement,
+            cmdargs.y_refinement,
+            cmdargs.z_refinement,
         ],
     )
     values = []
