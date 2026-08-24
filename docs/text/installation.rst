@@ -25,7 +25,7 @@ To install the **pycopm** executable from the development version:
 
     pip install git+https://github.com/cssr-tools/pycopm.git
 
-If you are interested in a specific version (e.g., v2025.04) or in modifying the source code, then you can clone the repository and 
+If you are interested in a specific version (e.g., v2026.04) or in modifying the source code, then you can clone the repository and 
 install the Python requirements in a virtual environment with the following commands:
 
 .. code-block:: console
@@ -34,8 +34,8 @@ install the Python requirements in a virtual environment with the following comm
     git clone https://github.com/cssr-tools/pycopm.git
     # Get inside the folder
     cd pycopm
-    # For a specific version (e.g., v2025.04), or skip this step (i.e., edge version)
-    git checkout v2025.04
+    # For a specific version (e.g., v2026.04), or skip this step (i.e., edge version)
+    git checkout v2026.04
     # Create virtual environment (to specific Python, python3.12 -m venv vpycopm)
     python3 -m venv vpycopm
     # Activate virtual environment

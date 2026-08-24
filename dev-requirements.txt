@@ -1,8 +1,8 @@
-black
-mypy
-pylint
-pytest-cov
-pytest-xdist
-ruff
-sphinx
-sphinx-rtd-theme
+black<=26.5.1
+mypy<=2.3.1
+pylint<=4.0.7
+pytest-cov<=7.1.0
+pytest-xdist<=3.8.0
+ruff<=0.16.4
+sphinx<=9.1.0
+sphinx-rtd-theme<=3.1.0
