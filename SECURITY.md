@@ -4,7 +4,7 @@
 
 We only provide security updates for the following versions:
 
-*   **Version 2025.04** (Current Stable)
+*   **Version 2026.04** (Current Stable)
 
 ## Reporting a Vulnerability
 

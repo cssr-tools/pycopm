@@ -1,5 +1,3 @@
-"""
-Code version.
-"""
+"""Code version"""
 
-__version__ = "2025.10-pre"
+__version__ = "2026.04"
