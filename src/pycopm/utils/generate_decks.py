@@ -6,10 +6,11 @@
 
 import argparse
 import csv
+import os
+import re
 import subprocess
 import sys
 from pathlib import Path
-from shutil import copy2
 from typing import cast
 
 import numpy as np
@@ -102,7 +103,11 @@ def create_deck(dck: ConfigViaDeck, cmdargs: argparse.Namespace) -> None:
                         break
                     modified_deck.append(deck_line)
             dry_run_deck.write_text(
-                "".join(f"{deck_line}\n" for deck_line in modified_deck),
+                _resolve_include_paths(
+                    "".join(f"{deck_line}\n" for deck_line in modified_deck),
+                    source_deck.parent,
+                    output_directory,
+                ),
                 encoding="utf8",
             )
             pycopm_info(
@@ -122,13 +127,13 @@ def create_deck(dck: ConfigViaDeck, cmdargs: argparse.Namespace) -> None:
                 check=True,
             )
             dry_run_deck.unlink(missing_ok=True)
-            copy2(source_deck, dry_run_deck)
+            _copy_deck(source_deck, dry_run_deck, dck.deck_encoding)
             pycopm_info(
                 f"cloning {cli_info_value(str(source_deck))} to "
                 f"{cli_info_value(dry_run_deck.name)}."
             )
         else:
-            copy2(source_deck, dry_run_deck)
+            _copy_deck(source_deck, dry_run_deck, dck.deck_encoding)
             pycopm_info(
                 f"cloning {cli_info_value(str(source_deck))} to "
                 f"{cli_info_value(dry_run_deck.name)} for the initial dry run that "
@@ -361,6 +366,76 @@ def create_deck(dck: ConfigViaDeck, cmdargs: argparse.Namespace) -> None:
                 str(output_directory),
                 [],
             )
+
+
+def _copy_deck(source_deck: Path, target_deck: Path, encoding: str) -> None:
+    """Copy a deck so that its relative INCLUDE paths still resolve from the copy.
+
+    The copy is read back as the input deck by the later steps, so the generated deck
+    inherits the rewritten paths too.
+
+    Parameters
+    ----------
+    source_deck
+        DATA file to copy.
+    target_deck
+        DATA file to write, possibly in another folder.
+    encoding
+        Encoding of the deck, kept in the copy."""
+    with source_deck.open("r", encoding=encoding, newline="") as file_handle:
+        deck_text = file_handle.read()
+    with target_deck.open("w", encoding=encoding, newline="") as file_handle:
+        file_handle.write(
+            _resolve_include_paths(deck_text, source_deck.parent, target_deck.parent)
+        )
+
+
+def _resolve_include_paths(
+    deck_text: str, source_folder: Path, target_folder: Path
+) -> str:
+    """Rewrite relative INCLUDE paths of a deck moved from one folder to another.
+
+    OPM Flow resolves relative INCLUDE paths from the deck's folder. Absolute paths and
+    paths starting with a PATHS alias (``$``) are kept, and the text is unchanged when
+    both folders are the same. Only the deck itself is rewritten, so relative INCLUDE
+    paths inside included files, which Flow also resolves from the deck's folder, still
+    break.
+
+    Parameters
+    ----------
+    deck_text
+        Content of the deck.
+    source_folder
+        Folder the INCLUDE paths are relative to.
+    target_folder
+        Folder the deck is written to.
+
+    Returns
+    -------
+    deck_text
+        Content of the deck with the INCLUDE paths relative to ``target_folder``."""
+    deck_lines = deck_text.splitlines(keepends=True)
+    include_pending = False
+    for index, deck_line in enumerate(deck_lines):
+        record = deck_line.split("--", maxsplit=1)[0].strip()
+        if not include_pending:
+            include_pending = record.upper() == "INCLUDE"
+            continue
+        if not record:
+            continue
+        include_pending = False
+        match = re.match(r"(['\"])(.+?)\1|[^\s/]+", record)
+        if not match:
+            continue
+        include_path = match.group(2) or match.group(0)
+        if include_path.startswith("$") or Path(include_path).is_absolute():
+            continue
+        new_path = os.path.relpath(
+            Path(source_folder).resolve() / include_path, Path(target_folder).resolve()
+        )
+        if new_path != include_path:
+            deck_lines[index] = deck_line.replace(match.group(0), f"'{new_path}'", 1)
+    return "".join(deck_lines)
 
 
 def _correct_fluid_in_place(dck: ConfigViaDeck, modified_deck: list[str]) -> None:
