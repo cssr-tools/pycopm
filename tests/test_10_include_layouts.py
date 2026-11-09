@@ -7,7 +7,11 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from pycopm.core.pycopm import main
-from pycopm.utils.parser_deck import _scan_deck_file, find_multiplier_keywords
+from pycopm.utils.parser_deck import (
+    _include_contains_endbox,
+    _scan_deck_file,
+    find_multiplier_keywords,
+)
 
 TABLE = "SGWFN\n0 0\t1 0\n1 1 0 0 /\n"
 
@@ -45,15 +49,22 @@ def test_10_include_layouts(flow, tmp_path, monkeypatch):
 
 
 def test_10_include_layouts_scan(tmp_path):
-    """Comments and remarks around the path must not hide or replace the include."""
+    """Comments, remarks, directories and quoting must not hide or replace the include."""
 
+    (tmp_path / "sub").mkdir()
     (tmp_path / "A.INC").write_text("MULTZ\n1*0.5 /\n", encoding="utf8")
     (tmp_path / "B.INC").write_text("", encoding="utf8")
     (tmp_path / "C.INC").write_text("", encoding="utf8")
+    (tmp_path / "sub" / "D.INC").write_text("MULTX\n1*0.5 /\n", encoding="utf8")
+    (tmp_path / "E F.INC").write_text("MULTY\n1*0.5 /\n", encoding="utf8")
+    (tmp_path / "G.INC").write_text("", encoding="utf8")
     (tmp_path / "DECK.DATA").write_text(
         "INCLUDE\n\n'A.INC' / Remark.\n"
         "INCLUDE -- Comment.\n-- Comment.\n'B.INC'\t/\n"
         "INCLUDE\nC.INC /\n"
+        "INCLUDE\nsub/D.INC /\n"
+        'INCLUDE\n"E F.INC" /\n'
+        f"INCLUDE\n{tmp_path / 'G.INC'} /\n"
         "INCLUDE\n'MISSING.INC' /\n",
         encoding="utf8",
     )
@@ -62,5 +73,20 @@ def test_10_include_layouts_scan(tmp_path):
     includes, _, _ = _scan_deck_file(dck, tmp_path / "DECK.DATA")
     _, mults = find_multiplier_keywords(dck)
 
-    assert includes == [str(tmp_path / name) for name in ("A.INC", "B.INC", "C.INC")]
-    assert mults.tolist() == [False, False, False, False, True, False]
+    names = ("A.INC", "B.INC", "C.INC", "sub/D.INC", "E F.INC", "G.INC")
+    assert includes == [str(tmp_path / name) for name in names]
+    assert mults.tolist() == [True, False, True, False, True, False]
+
+
+def test_10_include_layouts_endbox(tmp_path):
+    """The ENDBOX check must find includes in subdirectories and with spaces in their name."""
+
+    (tmp_path / "sub").mkdir()
+    box = "BOX\n1 1 1 1 1 1 /\nENDBOX\n"
+    (tmp_path / "sub" / "BOX.INC").write_text(box, encoding="utf8")
+    (tmp_path / "MY BOX.INC").write_text(box, encoding="utf8")
+    dck = SimpleNamespace(deck_encoding="utf8", input_deck_name=str(tmp_path / "DECK"))
+
+    assert _include_contains_endbox(dck, "sub/BOX.INC /")
+    # The csv reader has already stripped the double quotes of `"MY BOX.INC" /`.
+    assert _include_contains_endbox(dck, "MY BOX.INC /")

@@ -1706,12 +1706,14 @@ def _scan_deck_file(
 def _include_record_path(record: str) -> str:
     """Return the path of an INCLUDE record, ignoring anything after its slash.
 
-    The path is the first quoted string of the record, or its first token when unquoted;
-    an empty string is returned when the record has no path."""
-    match = re.match(r"(['\"])(.+?)\1|[^\s/]+", record)
-    if not match:
-        return ""
-    return match.group(2) or match.group(0)
+    The path is the first quoted string of the record or, when unquoted, everything
+    before the slash that ends the record, so it can hold directories and the spaces of
+    paths whose double quotes the csv reader strips. An empty string is returned when
+    the record has no path."""
+    match = re.match(r"(['\"])(.+?)\1", record)
+    if match:
+        return match.group(2)
+    return re.split(r"/(?=\s|$)", record, maxsplit=1)[0].strip()
 
 
 def _mark_multiplier_keyword(deck_line: str, mults: NDArray) -> NDArray:
