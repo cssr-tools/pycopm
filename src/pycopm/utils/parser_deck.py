@@ -6,6 +6,7 @@
 
 import csv
 import os
+import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -178,14 +179,10 @@ def process_deck(
 
 def _include_contains_endbox(dck: ConfigViaDeck, nrwo: str) -> bool:
     """Return whether an included file contains ENDBOX."""
-    include_text = nrwo
-    if "--" in include_text:
-        include_text = include_text.split("--", maxsplit=1)[0]
-    include_text = include_text.replace(" /", "")
-    include_text = include_text.rstrip("/").strip().strip("'\"")
+    include_text = _include_record_path(nrwo.split("--", maxsplit=1)[0].strip())
     deck_path = Path(f"{dck.input_deck_name}.DATA").absolute()
     include_path = (deck_path.parent / include_text).absolute()
-    if not include_path.exists():
+    if not include_text or not include_path.is_file():
         return False
     with include_path.open("r", encoding=dck.deck_encoding) as include_file:
         for row in csv.reader(include_file):
@@ -1687,22 +1684,36 @@ def _scan_deck_file(
     base_directory = path.resolve().parent
     with path.open("r", encoding=dck.deck_encoding) as file_handle:
         for csv_row in csv.reader(file_handle):
-            deck_line = str(csv_row)[2:-2].strip()
+            deck_line = str(csv_row)[2:-2].replace("\\t", " ").strip()
+            record = deck_line.split("--", maxsplit=1)[0].strip()
             if include_pending:
-                include_path = deck_line.split("--", maxsplit=1)[0]
-                include_path = include_path.replace(" /", "").rstrip("/").strip()
-                include_path = include_path.strip("'\"")
+                if not record:
+                    continue
+                include_path = _include_record_path(record)
                 resolved_include = Path(os.path.normpath(base_directory / include_path))
-                if resolved_include.exists():
+                if include_path and resolved_include.is_file():
                     includes.append(str(resolved_include))
                 include_pending = False
                 continue
             mults = _mark_multiplier_keyword(deck_line, mults)
-            if deck_line == "INCLUDE":
+            if record == "INCLUDE":
                 include_pending = True
             if is_main_deck and deck_line == "MULTFLT":
                 maindeckmultflt = True
     return includes, maindeckmultflt, mults
+
+
+def _include_record_path(record: str) -> str:
+    """Return the path of an INCLUDE record, ignoring anything after its slash.
+
+    The path is the first quoted string of the record or, when unquoted, everything
+    before the slash that ends the record, so it can hold directories and the spaces of
+    paths whose double quotes the csv reader strips. An empty string is returned when
+    the record has no path."""
+    match = re.match(r"(['\"])(.+?)\1", record)
+    if match:
+        return match.group(2)
+    return re.split(r"/(?=\s|$)", record, maxsplit=1)[0].strip()
 
 
 def _mark_multiplier_keyword(deck_line: str, mults: NDArray) -> NDArray:
