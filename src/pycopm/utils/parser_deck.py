@@ -15,7 +15,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from pycopm.config.config import ConfigViaDeck
-from pycopm.utils.terminal import pycopm_warning
+from pycopm.utils.terminal import pycopm_error, pycopm_warning
 from pycopm.utils.vicinity import VicinityMaps
 
 csv.field_size_limit(sys.maxsize)
@@ -65,6 +65,9 @@ class _ParserState:
 
     separator: str = ""
     schedule_keyword: str = ""
+    tracer_keyword: str = ""
+    tracer_values: dict[float | str, str] = field(default_factory=dict)
+    tracer_copies: dict[Path, str] = field(default_factory=dict)
 
 
 _SCHEDULE_KEYWORDS = frozenset(
@@ -127,6 +130,8 @@ def process_deck(
                 kwr.separator = parsed_line
             if _handle_dimens(dck, kwr, modified_deck, parsed_line):
                 continue
+            if _handle_tracer_blocks(dck, kwr, modified_deck, parsed_line):
+                continue
             if _handle_welldims(dck, kwr, modified_deck, parsed_line):
                 continue
             if _handle_grid_props(dck, kwr, modified_deck, parsed_line):
@@ -156,6 +161,13 @@ def process_deck(
                 ):
                     continue
             include_index = _include_keyword_index(modified_deck, parsed_line)
+            if include_index is not None:
+                resized_line = _resize_tracer_include(
+                    dck, parsed_line, kwr.tracer_copies
+                )
+                if resized_line != parsed_line:
+                    modified_deck.append(resized_line)
+                    continue
             special_names = (
                 _special_include_names(dck, include_index is not None, parsed_line)
                 if modified_deck
@@ -435,6 +447,106 @@ def _handle_dimens(
     ):
         kwr.dimens = False
     return True
+
+
+def _handle_tracer_blocks(
+    dck: ConfigViaDeck, kwr: _ParserState, modified_deck: list[str], nrwo: str
+) -> bool:
+    """Resize the per-cell tracer concentrations TBLKF and TBLKS to the modified grid.
+
+    Their values are not mapped like the other properties, so only an array with a
+    single value can be resized; any other array stops pycopm with an error."""
+    tokens = nrwo.split("--", maxsplit=1)[0].split()
+    if not kwr.tracer_keyword:
+        if len(tokens) != 1 or not tokens[0].startswith(("TBLKF", "TBLKS")):
+            return False
+        kwr.tracer_keyword = tokens[0]
+        kwr.tracer_values = {}
+        modified_deck.append(tokens[0])
+        return True
+    for token in tokens:
+        value_text = token.split("/", maxsplit=1)[0].split("*")[-1]
+        if value_text:
+            try:
+                kwr.tracer_values.setdefault(float(value_text), value_text)
+            except ValueError:
+                kwr.tracer_values.setdefault(value_text, value_text)
+        if "/" in token:
+            break
+    else:
+        return True
+    if len(kwr.tracer_values) != 1:
+        pycopm_error(
+            f"{kwr.tracer_keyword} sets different values per cell, which can't be "
+            "mapped to the modified grid; set them by depth with TVDPF or TVDPS instead."
+        )
+    number_values = dck.output_nx * dck.output_ny * dck.output_nz
+    modified_deck.append(f"{number_values}*{next(iter(kwr.tracer_values.values()))} /")
+    kwr.tracer_keyword = ""
+    return True
+
+
+def _resize_tracer_include(
+    dck: ConfigViaDeck, nrwo: str, copies: dict[Path, str]
+) -> str:
+    """Return the INCLUDE path record nrwo, pointing to a resized copy of its file if
+    the file sets TBLKF or TBLKS, or includes files that do.
+
+    The copy is written to the output folder with the other generated files, and
+    keeps every other line of the file. copies maps each source file to its copy, so
+    a file included several times is copied once, and files sharing a name get
+    different copies."""
+    include_path = _include_path(dck, nrwo)
+    if include_path and include_path.resolve() in copies:
+        return f"'{copies[include_path.resolve()]}' /"
+    if not include_path or not any(
+        keyword == "include" or keyword.startswith(("tblkf", "tblks"))
+        for keyword in _file_keywords(include_path, dck.deck_encoding)
+    ):
+        return nrwo
+    kwr = _ParserState()
+    lines: list[str] = []
+    include_pending = False
+    changed = False
+    with include_path.open("r", encoding=dck.deck_encoding) as include_file:
+        for line in include_file:
+            record = line.strip()
+            if _handle_tracer_blocks(dck, kwr, lines, record):
+                changed = True
+                continue
+            code = record.split("--", maxsplit=1)[0].strip()
+            if include_pending and code:
+                include_pending = False
+                resized_record = _resize_tracer_include(dck, record, copies)
+                if resized_record != record:
+                    lines.append(resized_record)
+                    changed = True
+                    continue
+            include_pending = include_pending or code == "INCLUDE"
+            lines.append(line.rstrip("\n"))
+    if not changed:
+        return nrwo
+    copy_name = _tracer_copy_name(dck, include_path, copies)
+    copies[include_path.resolve()] = copy_name
+    (Path(dck.output_directory) / copy_name).write_text(
+        "\n".join(lines) + "\n", encoding=dck.deck_encoding
+    )
+    return f"'{copy_name}' /"
+
+
+def _tracer_copy_name(
+    dck: ConfigViaDeck, include_path: Path, copies: dict[Path, str]
+) -> str:
+    """Return a name for the resized copy of include_path not used by other copies.
+
+    ``TRACERS_`` keeps it apart from the generated keyword files."""
+    stem = f"{dck.include_prefix}TRACERS_{include_path.stem}"
+    copy_name = f"{stem}{include_path.suffix}"
+    number = 1
+    while copy_name in copies.values():
+        number += 1
+        copy_name = f"{stem}_{number}{include_path.suffix}"
+    return copy_name
 
 
 def _handle_welldims(
