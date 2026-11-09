@@ -15,6 +15,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from pycopm.config.config import ConfigViaDeck
+from pycopm.utils.terminal import pycopm_warning
 from pycopm.utils.vicinity import VicinityMaps
 
 csv.field_size_limit(sys.maxsize)
@@ -154,35 +155,109 @@ def process_deck(
                     dck, kwr, modified_deck, parsed_line, wellcind
                 ):
                     continue
-            if modified_deck:
-                for special_name in dck.special_keywords:
-                    if (
-                        f"{special_name}." in parsed_line.lower()
-                        or f".{special_name}" in parsed_line.lower()
-                    ) or (
-                        modified_deck[-1] == "INCLUDE"
-                        and special_name in parsed_line.lower()
-                    ):
-                        parsed_line = (
-                            f"{dck.include_prefix}{special_name.upper()}.INC /"
-                        )
+            include_index = _include_keyword_index(modified_deck, parsed_line)
+            special_names = (
+                _special_include_names(dck, include_index is not None, parsed_line)
+                if modified_deck
+                else []
+            )
+            if special_names and include_index is not None:
+                _replace_include(dck, modified_deck, include_index, special_names)
+                continue
+            if special_names:
+                parsed_line = f"{dck.include_prefix}{special_names[-1].upper()}.INC /"
             modified_deck.append(parsed_line)
-            if (
-                len(modified_deck) > 1
-                and modified_deck[-2] == "INCLUDE"
-                and _include_contains_endbox(dck, parsed_line)
-            ):
-                modified_deck[-2] = "--" + modified_deck[-2]
+            if include_index is not None and _include_contains_endbox(dck, parsed_line):
+                modified_deck[include_index] = "--" + modified_deck[include_index]
                 modified_deck[-1] = "--" + modified_deck[-1]
     return modified_deck, wellcind
 
 
-def _include_contains_endbox(dck: ConfigViaDeck, nrwo: str) -> bool:
-    """Return whether an included file contains ENDBOX."""
+def _include_keyword_index(modified_deck: list[str], nrwo: str) -> int | None:
+    """Return the index of the INCLUDE keyword whose path record is nrwo, if any.
+
+    Blank and comment lines may sit between the keyword and its record."""
+    if not nrwo.split("--", maxsplit=1)[0].strip():
+        return None
+    for index in range(len(modified_deck) - 1, -1, -1):
+        record = modified_deck[index].split("--", maxsplit=1)[0].strip()
+        if record:
+            return index if record == "INCLUDE" else None
+    return None
+
+
+def _special_include_names(
+    dck: ConfigViaDeck, after_include: bool, nrwo: str
+) -> list[str]:
+    """Return the special keywords whose generated files replace the record nrwo.
+
+    An include is replaced only when all its keywords are special keywords. The
+    filename is only used to guess the keyword when the line is not the path of an
+    existing include. An empty list keeps the record unchanged."""
+    include_path = _include_path(dck, nrwo) if after_include else None
+    if include_path:
+        keywords = _file_keywords(include_path, dck.deck_encoding)
+        special_names = [name for name in dck.special_keywords if name in keywords]
+        if len(special_names) < len(keywords) and special_names:
+            pycopm_warning(
+                f"'{include_path}' mixes {', '.join(special_names).upper()} with other "
+                "keywords, so it is kept unchanged; move them to their own include."
+            )
+            return []
+        return special_names
+    matches = [
+        name
+        for name in dck.special_keywords
+        if f"{name}." in nrwo.lower()
+        or f".{name}" in nrwo.lower()
+        or (after_include and name in nrwo.lower())
+    ]
+    return matches[-1:]
+
+
+def _replace_include(
+    dck: ConfigViaDeck,
+    modified_deck: list[str],
+    include_index: int,
+    special_names: list[str],
+) -> None:
+    """Replace the INCLUDE at include_index with those of the generated files.
+
+    Each INCLUDE is written right before its path, in the form write_property_inc
+    looks for when inlining a constant property. Lines between the original INCLUDE
+    and its path are kept before them."""
+    modified_deck[include_index:] = modified_deck[include_index + 1 :]
+    for name in special_names:
+        modified_deck.append("INCLUDE")
+        modified_deck.append(f"'{dck.include_prefix}{name.upper()}.INC' /\n")
+
+
+def _include_path(dck: ConfigViaDeck, nrwo: str) -> Path | None:
+    """Return the file an INCLUDE path record points to, or None if there is none."""
     include_text = _include_record_path(nrwo.split("--", maxsplit=1)[0].strip())
     deck_path = Path(f"{dck.input_deck_name}.DATA").absolute()
     include_path = (deck_path.parent / include_text).absolute()
-    if not include_text or not include_path.is_file():
+    return include_path if include_text and include_path.is_file() else None
+
+
+def _file_keywords(path: Path, encoding: str) -> set[str]:
+    """Return the lower-case keywords of a deck file.
+
+    A keyword is a line whose first token is an upper-case word; data records start
+    with a number, a quote or a repeat count instead."""
+    keywords = set()
+    with path.open("r", encoding=encoding) as file_handle:
+        for line in file_handle:
+            tokens = line.split("--", maxsplit=1)[0].split(maxsplit=1)
+            if tokens and re.fullmatch(r"[A-Z][A-Z0-9_+-]*", tokens[0]):
+                keywords.add(tokens[0].lower())
+    return keywords
+
+
+def _include_contains_endbox(dck: ConfigViaDeck, nrwo: str) -> bool:
+    """Return whether an included file contains ENDBOX."""
+    include_path = _include_path(dck, nrwo)
+    if not include_path:
         return False
     with include_path.open("r", encoding=dck.deck_encoding) as include_file:
         for row in csv.reader(include_file):
