@@ -11,6 +11,7 @@ import pytest
 
 RTOL = 1e-6
 ATOL = 1e-8
+SGWFN_TABLE = "SGWFN\n0 0\t1 0\n1 1 0 0 /\n"
 
 
 def assert_init_checks(
@@ -358,3 +359,12 @@ def assert_restart_preserved(
     ), (
         f"sum({keyword}) = {value}, " f"expected {ref}"
     )
+
+
+def hello_world_deck(props_records):
+    """Return HELLO_WORLD.DATA with its SGWFN table replaced by props_records."""
+
+    deck_path = Path(__file__).parents[1] / "examples" / "decks" / "HELLO_WORLD.DATA"
+    deck_text = deck_path.read_text(encoding="utf8")
+    assert SGWFN_TABLE in deck_text
+    return deck_text.replace(SGWFN_TABLE, props_records)
